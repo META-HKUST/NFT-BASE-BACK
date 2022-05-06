@@ -1,0 +1,545 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact: {}
+  description: HKUST-NFT Server API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: HKUST-NFT
+  version: "1.0"
+paths:
+  /{id}:
+    get:
+      consumes:
+      - application/json
+      description: get user
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/Anna
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/change-profile:
+    post:
+      consumes:
+      - application/json
+      description: change profile
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: user name
+        in: query
+        name: username
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/Anna/change-profile
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/collected:
+    get:
+      consumes:
+      - application/json
+      description: collected
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/Anna/collected
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/create-collection:
+    post:
+      consumes:
+      - application/json
+      description: create-collection
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: collection name
+        in: query
+        name: collection-name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/Anna/create-collection
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/create-item:
+    post:
+      consumes:
+      - application/json
+      description: create-item
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: item name
+        in: query
+        name: item-name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/Anna/create-item
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/creation:
+    get:
+      consumes:
+      - application/json
+      description: creation
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/Anna/creation
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/edit-collection:
+    post:
+      consumes:
+      - application/json
+      description: edit-collection
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: collection name
+        in: query
+        name: collection-name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/Anna/edit-collection
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/edit-item:
+    post:
+      consumes:
+      - application/json
+      description: edit-item
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: item name
+        in: query
+        name: item-name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/Anna/edit-item
+          schema:
+            type: string
+      tags:
+      - account
+  /{id}/favorites:
+    get:
+      consumes:
+      - application/json
+      description: favorites
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/Anna/favorites
+          schema:
+            type: string
+      tags:
+      - account
+  /collections:
+    get:
+      consumes:
+      - application/json
+      description: all collections
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/collections
+          schema:
+            type: string
+      tags:
+      - collection
+  /collections/{collection-id}:
+    get:
+      consumes:
+      - application/json
+      description: single collection
+      parameters:
+      - description: collection id
+        in: path
+        name: collection-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/collections/hahahah
+          schema:
+            type: string
+      tags:
+      - collection
+  /collections/{collection-id}/items:
+    get:
+      consumes:
+      - application/json
+      description: all items in collection
+      parameters:
+      - description: collection id
+        in: path
+        name: collection-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/collections/hahahah/items
+          schema:
+            type: string
+      tags:
+      - collection
+  /event-banner:
+    get:
+      consumes:
+      - application/json
+      description: event-banner
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/event-banner
+          schema:
+            type: string
+      tags:
+      - tour
+  /events:
+    get:
+      consumes:
+      - application/json
+      description: all events
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/events
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}:
+    get:
+      consumes:
+      - application/json
+      description: single event
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/events/balala
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}/items:
+    get:
+      consumes:
+      - application/json
+      description: items in event
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/events/balala/items
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}/join:
+    post:
+      consumes:
+      - application/json
+      description: user join event
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/events/balala/join
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}/likes:
+    get:
+      consumes:
+      - application/json
+      description: item likes in event
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/events/balala/likes
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}/ranks:
+    get:
+      consumes:
+      - application/json
+      description: item ranks in event
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/events/balala/ranks
+          schema:
+            type: string
+      tags:
+      - event
+  /events/{event-id}/submit-item:
+    post:
+      consumes:
+      - application/json
+      description: user submit item
+      parameters:
+      - description: event id
+        in: path
+        name: event-id
+        required: true
+        type: string
+      - description: item id
+        in: query
+        name: item-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/events/balala/submit-item
+          schema:
+            type: string
+      tags:
+      - event
+  /items:
+    get:
+      consumes:
+      - application/json
+      description: all items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/items
+          schema:
+            type: string
+      tags:
+      - item
+  /items/{item-id}:
+    get:
+      consumes:
+      - application/json
+      description: single item
+      parameters:
+      - description: collection id
+        in: path
+        name: item-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/items/yiiiiiii
+          schema:
+            type: string
+      tags:
+      - item
+  /tour:
+    get:
+      consumes:
+      - application/json
+      description: tour
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/tour
+          schema:
+            type: string
+      tags:
+      - tour
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: user enroll
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/users
+          schema:
+            type: string
+      tags:
+      - user
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: user login
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/users
+          schema:
+            type: string
+      tags:
+      - user
+  /web-tutorial:
+    get:
+      consumes:
+      - application/json
+      description: web tutorial
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/web-tutorial
+          schema:
+            type: string
+      tags:
+      - tour
+  /what-is-nft:
+    get:
+      consumes:
+      - application/json
+      description: what is nft
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/what-is-nft
+          schema:
+            type: string
+      tags:
+      - tour
+swagger: "2.0"
