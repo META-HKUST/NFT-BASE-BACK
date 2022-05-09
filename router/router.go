@@ -23,8 +23,8 @@ func InitRouter() *gin.Engine {
 	{
 		userRouter := routerV1.Group("/users")
 		{
-			userRouter.POST("/", v1.Name21)
-			userRouter.POST("/login", v1.Name22)
+			userRouter.POST("/register", v1.Register)
+			userRouter.POST("/login", v1.Login)
 		}
 
 		accountRouter := routerV1.Group("/:id").Use(mw.AuthMiddleware)
@@ -32,34 +32,35 @@ func InitRouter() *gin.Engine {
 			// getUser
 			// if username == id, return all information includes password
 			// else return
-			accountRouter.GET("/", v1.Name1)
+			accountRouter.GET("/", v1.GetUser)
 
 			// // changeProfile
-			accountRouter.POST("/change-profile", v1.Name5)
+			accountRouter.POST("/change-profile", v1.ChangeProfile)
 
 			// // collected
-			accountRouter.GET("/collected", v1.Name2)
+			accountRouter.GET("/collected", v1.Collected)
 
 			// // favorites
-			accountRouter.GET("/favorites", v1.Name3)
+			accountRouter.GET("/favorites", v1.Favorites)
 
 			// creation
 			// tab = item or collection
-			accountRouter.GET("/creation", v1.Name4)
+			accountRouter.GET("/creation", v1.Creation)
 
 			// // createItem
-			accountRouter.POST("/create-item", v1.Name15_1)
+			accountRouter.POST("/create-item", v1.CreateItem)
 
 			// // editItem
-			accountRouter.POST("/edit-item", v1.Name15_2)
+			accountRouter.POST("/edit-item", v1.EditItem)
 
-			// // delete  ？？
+			// // editItem
+			accountRouter.POST("/delete-item", v1.DeleteItem)
 
 			// // createCollection
-			accountRouter.POST("/create-collection", v1.Name9_1)
+			accountRouter.POST("/create-collection", v1.CreateCollectionByAccount)
 
 			// // editCollection
-			accountRouter.POST("/edit-collection", v1.Name9_2)
+			accountRouter.POST("/edit-collection", v1.EditCollection)
 
 		}
 

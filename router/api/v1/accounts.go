@@ -6,14 +6,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Description  get user
+//// 输出数据结构体
+//type P struct {
+//	// HTTP 状态码 & 自定义状态码
+//	Code int
+//	// 输出消息
+//	Message string
+//	// 输出自定义数据
+//	Params gin.H
+//}
+
+// @Description  get user:if username == id, return all information includes password
 // @Tags         account
 // @param 		 id   path   string    true    "user id"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "GET/api/v1/Anna"
 // @Router       /{id} [GET]
-func Name1(ctx *gin.Context) {
+func GetUser(ctx *gin.Context) {
+
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -24,7 +35,7 @@ func Name1(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "GET/api/v1/Anna/collected"
 // @Router       /{id}/collected [GET]
-func Name2(ctx *gin.Context) {
+func Collected(ctx *gin.Context) {
 	//
 
 	//
@@ -40,7 +51,7 @@ func Name2(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "GET/api/v1/Anna/favorites"
 // @Router       /{id}/favorites [GET]
-func Name3(ctx *gin.Context) {
+func Favorites(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -51,7 +62,7 @@ func Name3(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "GET/api/v1/Anna/creation"
 // @Router       /{id}/creation [GET]
-func Name4(ctx *gin.Context) {
+func Creation(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -63,7 +74,7 @@ func Name4(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/Anna/change-profile"
 // @Router       /{id}/change-profile [POST]
-func Name5(ctx *gin.Context) {
+func CreateItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -75,7 +86,7 @@ func Name5(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/Anna/create-collection"
 // @Router       /{id}/create-collection [POST]
-func Name9_1(ctx *gin.Context) {
+func DeleteItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -87,7 +98,7 @@ func Name9_1(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/Anna/edit-collection"
 // @Router       /{id}/edit-collection [POST]
-func Name9_2(ctx *gin.Context) {
+func CreateCollectionByAccount(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -99,7 +110,7 @@ func Name9_2(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/Anna/create-item"
 // @Router       /{id}/create-item [POST]
-func Name15_1(ctx *gin.Context) {
+func EditCollection(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
@@ -111,6 +122,19 @@ func Name15_1(ctx *gin.Context) {
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/Anna/edit-item"
 // @Router       /{id}/edit-item [POST]
-func Name15_2(ctx *gin.Context) {
+
+func EditItem(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
+}
+
+// @Description  edit-item
+// @Tags         account
+// @param 		 id   path   string    true    "user id"
+// @param 		 item-Name   query   string   false   "item Name"
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string "POST/api/v1/Anna/edit-item"
+// @Router       /{id}/edit-item [POST]
+func ChangeProfile(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
