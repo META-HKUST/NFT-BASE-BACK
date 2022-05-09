@@ -142,7 +142,19 @@ const docTemplate = `{
                     "200": {
                         "description": "GET/api/v1/events",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.EventsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -173,7 +185,19 @@ const docTemplate = `{
                     "200": {
                         "description": "GET/api/v1/events/balala",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.EventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -204,7 +228,19 @@ const docTemplate = `{
                     "200": {
                         "description": "GET/api/v1/events/balala/items",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.EventItemsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -235,15 +271,27 @@ const docTemplate = `{
                     "200": {
                         "description": "POST/api/v1/events/balala/join",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.JoinEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
             }
         },
         "/events/{event-id}/likes": {
-            "get": {
-                "description": "item likes in event",
+            "post": {
+                "description": "user join event",
                 "consumes": [
                     "application/json"
                 ],
@@ -255,18 +303,37 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "event id",
                         "name": "event-id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "item id",
+                        "name": "item-id",
+                        "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/events/balala/likes",
+                        "description": "POST/api/v1/events/balala/likes",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.JoinEventResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -297,7 +364,19 @@ const docTemplate = `{
                     "200": {
                         "description": "GET/api/v1/events/balala/ranks",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.EventItemsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -337,6 +416,18 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
                     }
                 }
             }
@@ -353,11 +444,37 @@ const docTemplate = `{
                 "tags": [
                     "item"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "favorites,popular,newest",
+                        "name": "sort-by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "image,video,audio",
+                        "name": "filter",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "GET/api/v1/items",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.AllItemsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -388,7 +505,19 @@ const docTemplate = `{
                     "200": {
                         "description": "GET/api/v1/items/yiiiiiii",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/v1.Item"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
                         }
                     }
                 }
@@ -589,8 +718,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "user name",
-                        "name": "username",
+                        "description": "user Name",
+                        "name": "userName",
                         "in": "query"
                     }
                 ],
@@ -657,8 +786,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "collection name",
-                        "name": "collection-name",
+                        "description": "collection Name",
+                        "name": "collection-Name",
                         "in": "query"
                     }
                 ],
@@ -694,8 +823,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "item name",
-                        "name": "item-name",
+                        "description": "item Name",
+                        "name": "item-Name",
                         "in": "query"
                     }
                 ],
@@ -762,8 +891,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "collection name",
-                        "name": "collection-name",
+                        "description": "collection Name",
+                        "name": "collection-Name",
                         "in": "query"
                     }
                 ],
@@ -799,8 +928,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "item name",
-                        "name": "item-name",
+                        "description": "item Name",
+                        "name": "item-Name",
                         "in": "query"
                     }
                 ],
@@ -842,6 +971,169 @@ const docTemplate = `{
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "utils.Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "USER_NAME_EXIST"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "user name exist"
+                }
+            }
+        },
+        "v1.AllItemsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "success"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1.Item"
+                    }
+                },
+                "total": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "v1.Event": {
+            "type": "object",
+            "properties": {
+                "event_description": {
+                    "type": "string"
+                },
+                "event_id": {
+                    "type": "integer"
+                },
+                "event_name": {
+                    "type": "string",
+                    "example": "helloworld"
+                },
+                "start_time": {
+                    "type": "string"
+                },
+                "time_duration": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.EventItem": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "image": {
+                    "type": "string"
+                },
+                "item_id": {
+                    "type": "integer",
+                    "example": 123455
+                },
+                "localFavorites": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "ownerId": {
+                    "type": "string",
+                    "example": "mazhengwang-ust-hk"
+                }
+            }
+        },
+        "v1.EventItemsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "SUCCESS"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1.EventItem"
+                    }
+                },
+                "totel": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "v1.EventResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "event": {
+                    "$ref": "#/definitions/v1.Event"
+                }
+            }
+        },
+        "v1.EventsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "events": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/v1.Event"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.Item": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "createrId": {
+                    "type": "string",
+                    "example": "mazhengwang-ust-hk"
+                },
+                "favorites": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "image": {
+                    "type": "string"
+                },
+                "item_id": {
+                    "type": "integer",
+                    "example": 123455
+                },
+                "ownerId": {
+                    "type": "string",
+                    "example": "mazhengwang-ust-hk"
+                }
+            }
+        },
+        "v1.JoinEventResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "SUCCESS,USER_JOINED"
                 }
             }
         }

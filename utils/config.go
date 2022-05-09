@@ -1,4 +1,4 @@
-package util
+package utils
 
 type Config struct {
 	DBDriver string `mapstructure:"DB_DRIVER"`

@@ -1,4 +1,115 @@
 basePath: /api/v1
+definitions:
+  utils.Error:
+    properties:
+      code:
+        example: USER_NAME_EXIST
+        type: string
+      message:
+        example: user name exist
+        type: string
+    type: object
+  v1.AllItemsResponse:
+    properties:
+      code:
+        example: success
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/v1.Item'
+        type: array
+      total:
+        example: 10
+        type: integer
+    type: object
+  v1.Event:
+    properties:
+      event_description:
+        type: string
+      event_id:
+        type: integer
+      event_name:
+        example: helloworld
+        type: string
+      start_time:
+        type: string
+      time_duration:
+        type: integer
+    type: object
+  v1.EventItem:
+    properties:
+      collection_id:
+        example: 5
+        type: integer
+      image:
+        type: string
+      item_id:
+        example: 123455
+        type: integer
+      localFavorites:
+        example: 1
+        type: integer
+      ownerId:
+        example: mazhengwang-ust-hk
+        type: string
+    type: object
+  v1.EventItemsResponse:
+    properties:
+      code:
+        example: SUCCESS
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/v1.EventItem'
+        type: array
+      totel:
+        example: 1
+        type: integer
+    type: object
+  v1.EventResponse:
+    properties:
+      code:
+        type: string
+      event:
+        $ref: '#/definitions/v1.Event'
+    type: object
+  v1.EventsResponse:
+    properties:
+      code:
+        type: string
+      events:
+        items:
+          $ref: '#/definitions/v1.Event'
+        type: array
+      total:
+        type: integer
+    type: object
+  v1.Item:
+    properties:
+      collection_id:
+        example: 5
+        type: integer
+      createrId:
+        example: mazhengwang-ust-hk
+        type: string
+      favorites:
+        example: 1
+        type: integer
+      image:
+        type: string
+      item_id:
+        example: 123455
+        type: integer
+      ownerId:
+        example: mazhengwang-ust-hk
+        type: string
+    type: object
+  v1.JoinEventResponse:
+    properties:
+      code:
+        example: SUCCESS,USER_JOINED
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -40,9 +151,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: user name
+      - description: user Name
         in: query
-        name: username
+        name: userName
         type: string
       produces:
       - application/json
@@ -84,9 +195,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: collection name
+      - description: collection Name
         in: query
-        name: collection-name
+        name: collection-Name
         type: string
       produces:
       - application/json
@@ -108,9 +219,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: item name
+      - description: item Name
         in: query
-        name: item-name
+        name: item-Name
         type: string
       produces:
       - application/json
@@ -152,9 +263,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: collection name
+      - description: collection Name
         in: query
-        name: collection-name
+        name: collection-Name
         type: string
       produces:
       - application/json
@@ -176,9 +287,9 @@ paths:
         name: id
         required: true
         type: string
-      - description: item name
+      - description: item Name
         in: query
-        name: item-name
+        name: item-Name
         type: string
       produces:
       - application/json
@@ -288,7 +399,15 @@ paths:
         "200":
           description: GET/api/v1/events
           schema:
-            type: string
+            $ref: '#/definitions/v1.EventsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}:
@@ -308,7 +427,15 @@ paths:
         "200":
           description: GET/api/v1/events/balala
           schema:
-            type: string
+            $ref: '#/definitions/v1.EventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}/items:
@@ -328,7 +455,15 @@ paths:
         "200":
           description: GET/api/v1/events/balala/items
           schema:
-            type: string
+            $ref: '#/definitions/v1.EventItemsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}/join:
@@ -348,27 +483,48 @@ paths:
         "200":
           description: POST/api/v1/events/balala/join
           schema:
-            type: string
+            $ref: '#/definitions/v1.JoinEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}/likes:
-    get:
+    post:
       consumes:
       - application/json
-      description: item likes in event
+      description: user join event
       parameters:
       - description: event id
         in: path
         name: event-id
         required: true
-        type: string
+        type: integer
+      - description: item id
+        in: query
+        name: item-id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/events/balala/likes
+          description: POST/api/v1/events/balala/likes
           schema:
-            type: string
+            $ref: '#/definitions/v1.JoinEventResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}/ranks:
@@ -388,7 +544,15 @@ paths:
         "200":
           description: GET/api/v1/events/balala/ranks
           schema:
-            type: string
+            $ref: '#/definitions/v1.EventItemsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /events/{event-id}/submit-item:
@@ -414,6 +578,14 @@ paths:
           description: POST/api/v1/events/balala/submit-item
           schema:
             type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - event
   /items:
@@ -421,13 +593,30 @@ paths:
       consumes:
       - application/json
       description: all items
+      parameters:
+      - description: favorites,popular,newest
+        in: query
+        name: sort-by
+        type: string
+      - description: image,video,audio
+        in: query
+        name: filter
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: GET/api/v1/items
           schema:
-            type: string
+            $ref: '#/definitions/v1.AllItemsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - item
   /items/{item-id}:
@@ -447,7 +636,15 @@ paths:
         "200":
           description: GET/api/v1/items/yiiiiiii
           schema:
-            type: string
+            $ref: '#/definitions/v1.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
       tags:
       - item
   /tour:
