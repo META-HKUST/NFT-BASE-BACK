@@ -6,33 +6,41 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Tutorials struct {
+	Articles 		[]Article
+}
+
+type Article struct {
+	ArticleId 		int		`json:"article_id"`
+}
+
 // @Description  tour
 // @Tags         tour
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "GET/api/tour"
 // @Router       /tour [GET]
-func Name16(ctx *gin.Context) {
+func GetAllTutorials(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
-// @Description  what is nft
+// @Description  tutorials
 // @Tags         tour
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "GET/api/what-is-nft"
-// @Router       /what-is-nft [GET]
-func Name17(ctx *gin.Context) {
+// @Success      200  {string}  string "GET/api/tr/articles"
+// @Router       /tr/articles [GET]
+func GetAllArticles(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 
-// @Description  web tutorial
+// @Description  view articles by title
 // @Tags         tour
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "GET/api/web-tutorial"
-// @Router       /web-tutorial [GET]
-func Name18(ctx *gin.Context) {
+// @Success      200  {string}  string "GET/api/tr/articles/XXXXXX"
+// @Router      /tr/articles/:articles-id [POST]
+func GetArticleByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
 }
 

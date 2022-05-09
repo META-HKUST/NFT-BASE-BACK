@@ -65,14 +65,17 @@ func InitRouter() *gin.Engine {
 
 		collectionRouter := routerV1.Group("/collections")
 		{
-			// all collections
-			collectionRouter.GET("/", v1.Name10_1)
+			// get all collections
+			collectionRouter.GET("/", v1.GetAllCollectionsByID)
 
-			// one collection
-			collectionRouter.GET("/:collection-id", v1.Name10_2)
+			//create collection
+			collectionRouter.POST("/create", v1.CreateCollection)
+
+			// check one collection
+			collectionRouter.GET("/:collection-id", v1.GetCollectionByID)
 
 			// items
-			collectionRouter.GET("/:collection-id/items", v1.Name10_3)
+			collectionRouter.GET("/:collection-id/items", v1.GetAllItems)
 
 		}
 
@@ -110,11 +113,11 @@ func InitRouter() *gin.Engine {
 
 		tourRouter := routerV1.Group("/tour")
 		{
-			tourRouter.GET("/", v1.Name16)
+			tourRouter.GET("/", v1.GetAllTutorials)
 
-			tourRouter.GET("/what-is-nft", v1.Name17)
+			tourRouter.GET("/tr/articles", v1.GetAllArticles)
 
-			tourRouter.GET("/web-tutorial", v1.Name18)
+			tourRouter.POST("/tr/articles/:articles-id", v1.GetArticleByID)
 
 			tourRouter.GET("/event-banner", v1.Name19)
 		}
