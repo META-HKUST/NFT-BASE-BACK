@@ -22,7 +22,7 @@ const docTemplate = `{
     "paths": {
         "/collections": {
             "get": {
-                "description": "all collections",
+                "description": "get all collections under the current account",
                 "consumes": [
                     "application/json"
                 ],
@@ -44,7 +44,7 @@ const docTemplate = `{
         },
         "/collections/{collection-id}": {
             "get": {
-                "description": "single collection",
+                "description": "get single collection by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -65,7 +65,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/collections/hahahah",
+                        "description": "GET/api/v1/collections/XXXX",
                         "schema": {
                             "type": "string"
                         }
@@ -96,7 +96,29 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/collections/hahahah/items",
+                        "description": "GET/api/v1/collections/XXXXX/items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/create": {
+            "post": {
+                "description": "create new collection",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST /api/v1/collections/create",
                         "schema": {
                             "type": "string"
                         }
@@ -545,9 +567,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/users": {
-            "post": {
-                "description": "user enroll",
+        "/tr/articles": {
+            "get": {
+                "description": "tutorials",
                 "consumes": [
                     "application/json"
                 ],
@@ -555,27 +577,33 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "user"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "email",
-                        "name": "email",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "password",
-                        "name": "password",
-                        "in": "query",
-                        "required": true
-                    }
+                    "tour"
                 ],
                 "responses": {
                     "200": {
-                        "description": "POST/api/v1/users",
+                        "description": "GET/api/tr/articles",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/tr/articles/:articles-id": {
+            "post": {
+                "description": "view articles by title",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tour"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET/api/tr/articles/XXXXXX",
                         "schema": {
                             "type": "string"
                         }
@@ -585,7 +613,6 @@ const docTemplate = `{
         },
         "/users/login": {
             "post": {
-                "description": "user login",
                 "consumes": [
                     "application/json"
                 ],
@@ -621,9 +648,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/web-tutorial": {
-            "get": {
-                "description": "web tutorial",
+        "/users/register": {
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
@@ -631,33 +657,55 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "tour"
+                    "user"
                 ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/web-tutorial",
-                        "schema": {
-                            "type": "string"
-                        }
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "campus",
+                        "name": "Campus",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "Email",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "passwd",
+                        "name": "Passwd",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "bannerimage",
+                        "name": "BannerImage",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "avatarimage",
+                        "name": "AvatarImage",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "UserName",
+                        "in": "query",
+                        "required": true
                     }
-                }
-            }
-        },
-        "/what-is-nft": {
-            "get": {
-                "description": "what is nft",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tour"
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/what-is-nft",
+                        "description": "POST/api/v1/users",
                         "schema": {
                             "type": "string"
                         }
@@ -667,7 +715,7 @@ const docTemplate = `{
         },
         "/{id}": {
             "get": {
-                "description": "get user",
+                "description": "get user:if username == id, return all information includes password",
                 "consumes": [
                     "application/json"
                 ],

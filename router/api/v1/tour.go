@@ -7,11 +7,11 @@ import (
 )
 
 type Tutorials struct {
-	Articles 		[]Article
+	Articles []Article
 }
 
 type Article struct {
-	ArticleId 		int		`json:"article_id"`
+	ArticleId int `json:"article_id"`
 }
 
 // @Description  tour
