@@ -17,7 +17,7 @@ type Item struct {
 	ItemCollection int    `json:"collection_id" example:"5"`
 	OwnerId        string `josn:"owner_id" example:"mazhengwang-ust-hk"`
 	CreaterId      string `josn:"creater_id" example:"mazhengwang-ust-hk"`
-	Image          string `json:"image" exmaple:"http://www.iamge.com/123455"`
+	Image          string `json:"image" exmaple:"nftclient://www.iamge.com/123455"`
 	Favorites      int    `josn:"favorites" example:"1"`
 }
 

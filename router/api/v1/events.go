@@ -78,7 +78,7 @@ type EventItem struct {
 	ItemID         int    `json:"item_id" example:"123455"`
 	ItemCollection int    `json:"collection_id" example:"5"`
 	OwnerId        string `josn:"owner_id" example:"mazhengwang-ust-hk"`
-	Image          string `json:"image" exmaple:"http://www.iamge.com/123455"`
+	Image          string `json:"image" exmaple:"nftclient://www.iamge.com/123455"`
 	LocalFavorites int    `josn:"local_favorites" example:"1"`
 }
 
