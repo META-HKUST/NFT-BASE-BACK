@@ -124,7 +124,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: get user
+      description: get user:if username == id, return all information includes password
       parameters:
       - description: user id
         in: path
@@ -324,7 +324,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: all collections
+      description: get all collections under the current account
       produces:
       - application/json
       responses:
@@ -338,7 +338,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: single collection
+      description: get single collection by id
       parameters:
       - description: collection id
         in: path
@@ -349,7 +349,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/collections/hahahah
+          description: GET/api/v1/collections/XXXX
           schema:
             type: string
       tags:
@@ -369,7 +369,21 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/collections/hahahah/items
+          description: GET/api/v1/collections/XXXXX/items
+          schema:
+            type: string
+      tags:
+      - collection
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: create new collection
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST /api/v1/collections/create
           schema:
             type: string
       tags:
@@ -661,36 +675,38 @@ paths:
             type: string
       tags:
       - tour
-  /users:
-    post:
+  /tr/articles:
+    get:
       consumes:
       - application/json
-      description: user enroll
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      - description: password
-        in: query
-        name: password
-        required: true
-        type: string
+      description: tutorials
       produces:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: GET/api/tr/articles
           schema:
             type: string
       tags:
-      - user
+      - tour
+  /tr/articles/:articles-id:
+    post:
+      consumes:
+      - application/json
+      description: view articles by title
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/tr/articles/XXXXXX
+          schema:
+            type: string
+      tags:
+      - tour
   /users/login:
     post:
       consumes:
       - application/json
-      description: user login
       parameters:
       - description: email
         in: query
@@ -711,32 +727,48 @@ paths:
             type: string
       tags:
       - user
-  /web-tutorial:
-    get:
+  /users/register:
+    post:
       consumes:
       - application/json
-      description: web tutorial
+      parameters:
+      - description: campus
+        in: query
+        name: Campus
+        required: true
+        type: integer
+      - description: email
+        in: query
+        name: Email
+        required: true
+        type: string
+      - description: passwd
+        in: query
+        name: Passwd
+        required: true
+        type: string
+      - description: bannerimage
+        in: query
+        name: BannerImage
+        required: true
+        type: string
+      - description: avatarimage
+        in: query
+        name: AvatarImage
+        required: true
+        type: string
+      - description: username
+        in: query
+        name: UserName
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/web-tutorial
+          description: POST/api/v1/users
           schema:
             type: string
       tags:
-      - tour
-  /what-is-nft:
-    get:
-      consumes:
-      - application/json
-      description: what is nft
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: GET/api/what-is-nft
-          schema:
-            type: string
-      tags:
-      - tour
+      - user
 swagger: "2.0"
