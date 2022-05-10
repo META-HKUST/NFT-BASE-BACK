@@ -67,7 +67,7 @@ func InitRouter() *gin.Engine {
 		collectionRouter := routerV1.Group("/collections")
 		{
 			// get all collections
-			collectionRouter.GET("/", v1.GetAllCollectionsByID)
+			collectionRouter.GET("/", v1.GetAllCollections)
 
 			//create collection
 			collectionRouter.POST("/create", v1.CreateCollection)

@@ -22,8 +22,8 @@ type User struct {
 // @param 		 Campus        query   int       true    "campus"
 // @param 		 Email         query   string    true    "email"
 // @param 		 Passwd        query   string    true    "passwd"
-// @param 		 BannerImage   query   file      true    "bannerimage"
-// @param 		 AvatarImage   query   file      true    "avatarimage"
+// @param 		 BannerImage   query   string      true    "bannerimage"
+// @param 		 AvatarImage   query   string      true    "avatarimage"
 // @param 		 UserName      query   string    true    "username"
 // @Accept       json
 // @Produce      json
