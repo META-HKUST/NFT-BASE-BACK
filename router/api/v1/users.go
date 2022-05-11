@@ -1,39 +1,40 @@
 package v1
 
 import (
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/model"
+	"NFT-BASE-BACK/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type User struct {
-	Campus      int    `json:"campus" example:"1 mean CWB and 2 mean GZ"`
-	Email       string `json:"email" example:"Sam@ust.hk"`
-	Passwd      string `json:"passwd" example:"123"`
-	BannerImage string `json:"bannerimage" example:"/home/yezzi/bannerimage"`
-	AvatarImage string `json:"avatarimage" example:"/home/yezzi/bannerimage"`
-	UserName    string `json:"username" example:"Sam"`
-	Id          string `json:"id" example:"1001"`
-	Certificate string `json:"certificate" example:"/home/yezzi/certificate_yezzi"`
-}
-
 // Register @Description  user register: upload all the parameters needed and get a success feedback
 // @Tags         user
-// @param 		 Campus        query   int       true    "campus"
 // @param 		 Email         query   string    true    "email"
 // @param 		 Passwd        query   string    true    "passwd"
-// @param 		 BannerImage   query   string      true    "bannerimage"
-// @param 		 AvatarImage   query   string      true    "avatarimage"
-// @param 		 UserName      query   string    true    "username"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
 // @Router       /users/register [POST]
 func Register(ctx *gin.Context) {
-	// TODO (@mingzhe): store user info into db and complete related login function
-	// TODO (@mingzhe): store pictures
 	// TODO (@mingzhe): associate the certificate with user info
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
+	p := model.Person{
+		ctx.Query("email"),
+		ctx.Query("passwd"),
+	}
+	if err := p.Register(); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": base.AccountExistError,
+			"msg":  base.AccountExistError.String(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": base.Success,
+		"msg":  base.Success.String(),
+	})
 }
 
 // Login @Description  user login
@@ -45,6 +46,58 @@ func Register(ctx *gin.Context) {
 // @Success      200  {string}  string "POST/api/v1/users"
 // @Router       /users/login [POST]
 func Login(ctx *gin.Context) {
-	// TODO (@mingzhe): verify the user info using db
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
+	p := model.Person{
+		ctx.Query("email"),
+		ctx.Query("passwd"),
+	}
+	if err := p.Login(); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
+	token, err := utils.GenToken(p)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": base.GenTokenError,
+			"msg":  err,
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": base.Success,
+		"msg":  base.Success.String(),
+		"data": gin.H{"token": token},
+	})
+}
+
+// Update @Description  user password update
+// @Tags         user
+// @param 		 email      query   string    true    "email"
+// @param 		 password   query   string    true    "password"
+// @param 		 newpassword   query   string    true    "newpassword"
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string "POST/api/v1/users"
+// @Router       /users/login [POST]
+func Update(ctx *gin.Context) {
+
+	p := model.Person{
+		ctx.Query("email"),
+		ctx.Query("passwd"),
+	}
+	newpasswd := ctx.Query("newpasswd")
+	if err := p.Update(newpasswd); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": base.Success,
+		"msg":  base.Success.String(),
+	})
 }

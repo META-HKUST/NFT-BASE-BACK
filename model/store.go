@@ -1,9 +1,5 @@
 package model
 
-import (
-	"NFT-BASE-BACK/utils"
-)
-
 // type service struct {
 // 	db *sql.DB
 // }
@@ -18,9 +14,9 @@ import (
 // 	}
 // 	db.Ping()
 // }
-
-var db int
-
-func InitDB(config utils.Config) {
-	db += 1
-}
+//
+//var db int
+//
+//func InitDB(config utils.Config) {
+//	db += 1
+//}

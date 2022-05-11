@@ -1,4 +1,4 @@
-package utils
+package config
 
 type Config struct {
 	DBDriver string `mapstructure:"DB_DRIVER"`
@@ -7,8 +7,8 @@ type Config struct {
 
 func newConfig() (config *Config) {
 	return &Config{
-		DBDriver: "11111",
-		DBSource: "22222",
+		DBDriver: "mysql",
+		DBSource: "yezzi:yezzi@tcp(localhost:3306)/users",
 	}
 }
 func LoadConfig() (config Config, err error) {
