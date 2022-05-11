@@ -37,5 +37,17 @@ func TestNFTService_UploadImage(t *testing.T) {
 	apikey := ""
 	client := http.Client{}
 	nftService := NewNFTService(apikey,&client)
-	//str, err := nftService.UploadImage("")
+
+	body,err := os.Open("")
+	if err != nil{
+		fmt.Println(err)
+		t.Fatal(err)
+	}
+	str,err := nftService.UploadImage(body)
+	if err != nil {
+
+		fmt.Println(err)
+		t.Fatal(err)
+	}
+	fmt.Println(str)
 }
