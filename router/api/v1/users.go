@@ -4,6 +4,7 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/utils"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,8 +21,8 @@ import (
 func Register(ctx *gin.Context) {
 	// TODO (@mingzhe): associate the certificate with user info
 	p := model.Person{
-		ctx.Query("email"),
-		ctx.Query("passwd"),
+		Email:  ctx.Query("email"),
+		Passwd: ctx.Query("passwd"),
 	}
 	if err := p.Register(); err != base.Success {
 		ctx.JSON(http.StatusOK, gin.H{
@@ -47,8 +48,8 @@ func Register(ctx *gin.Context) {
 // @Router       /users/login [POST]
 func Login(ctx *gin.Context) {
 	p := model.Person{
-		ctx.Query("email"),
-		ctx.Query("passwd"),
+		Email:  ctx.Query("email"),
+		Passwd: ctx.Query("passwd"),
 	}
 	if err := p.Login(); err != base.Success {
 		ctx.JSON(http.StatusOK, gin.H{
@@ -84,10 +85,11 @@ func Login(ctx *gin.Context) {
 func Update(ctx *gin.Context) {
 
 	p := model.Person{
-		ctx.Query("email"),
-		ctx.Query("passwd"),
+		Email:  ctx.Query("email"),
+		Passwd: ctx.Query("passwd"),
 	}
 	newpasswd := ctx.Query("newpasswd")
+	fmt.Println(newpasswd)
 	if err := p.Update(newpasswd); err != base.Success {
 		ctx.JSON(http.StatusOK, gin.H{
 			"code": err,

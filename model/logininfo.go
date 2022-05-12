@@ -3,9 +3,10 @@ package model
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/config"
+	"log"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"log"
 )
 
 type Error struct {
@@ -42,7 +43,6 @@ func InitDB(config config.Config) {
 	}
 	db.SetMaxOpenConns(100)
 	db.SetConnMaxIdleTime(20)
-	return
 }
 
 // first examin if the account exists and then insert
@@ -98,6 +98,8 @@ func (p Person) Update(newpasswd string) base.ErrCode {
 		log.Println(base.PasswdUpdateError, base.PasswdUpdateError.String(), e)
 		return base.PasswdUpdateError
 	}
-	log.Println("rowsAffected: ", result.RowsAffected, "lastInsertId: ", result.LastInsertId)
+	rowsAffected, _ := result.RowsAffected()
+	lastInsertId, _ := result.LastInsertId()
+	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
 	return base.Success
 }

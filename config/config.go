@@ -1,18 +1,25 @@
 package config
 
+import "github.com/spf13/viper"
+
 type Config struct {
 	DBDriver string `mapstructure:"DB_DRIVER"`
 	DBSource string `mapstructure:"DB_SOURCE"`
 }
 
-func newConfig() (config *Config) {
-	return &Config{
-		DBDriver: "mysql",
-		DBSource: "yezzi:yezzi@tcp(localhost:3306)/users",
-	}
-}
-func LoadConfig() (config Config, err error) {
-	// viper
+// LoadConfig reads configuration from file or environment variables.
+func LoadConfig(path string) (config Config, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
 
-	return *newConfig(), nil
+	viper.AutomaticEnv()
+
+	err = viper.ReadInConfig()
+	if err != nil {
+		return
+	}
+
+	err = viper.Unmarshal(&config)
+	return
 }
