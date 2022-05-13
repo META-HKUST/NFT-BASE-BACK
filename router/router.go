@@ -24,10 +24,11 @@ func InitRouter() *gin.Engine {
 		userRouter := routerV1.Group("/users")
 		{
 			userRouter.POST("/register", v1.Register)
+			userRouter.POST("/update", v1.Update)
 			userRouter.POST("/login", v1.Login)
 		}
 
-		accountRouter := routerV1.Group("/:id").Use(mw.AuthMiddleware)
+		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth())
 		{
 			// getUser
 			// if username == id, return all information includes password
@@ -103,7 +104,7 @@ func InitRouter() *gin.Engine {
 
 			eventRouter.GET("/:event-id/likes", v1.EventLikes)
 
-			eventRouter.Use(mw.AuthMiddleware)
+			eventRouter.Use(mw.JWTAuth())
 
 			eventRouter.POST("/:event-id/join", v1.JoinEvent)
 

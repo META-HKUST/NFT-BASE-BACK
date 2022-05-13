@@ -1,11 +1,10 @@
 package main
 
 import (
-	"log"
-
+	"NFT-BASE-BACK/config"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/router"
-	"NFT-BASE-BACK/utils"
+	"log"
 )
 
 // @title HKUST-NFT
@@ -16,11 +15,10 @@ import (
 // @host localhost:8080
 // @BasePath /api/v1
 func main() {
-	config, err := utils.LoadConfig()
+	config, err := config.LoadConfig("./config")
 	if err != nil {
 		log.Fatal("cannot load config", err)
 	}
-
 	model.InitDB(config)
 	router := router.InitRouter()
 	router.Run(":8888")
