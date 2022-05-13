@@ -4,7 +4,6 @@ import (
 	"NFT-BASE-BACK/config"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/router"
-	"fmt"
 	"log"
 )
 
@@ -17,7 +16,6 @@ import (
 // @BasePath /api/v1
 func main() {
 	config, err := config.LoadConfig("./config")
-	fmt.Println(config)
 	if err != nil {
 		log.Fatal("cannot load config", err)
 	}
