@@ -3,6 +3,7 @@ package v1
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
+	"NFT-BASE-BACK/service"
 	"NFT-BASE-BACK/utils"
 	"fmt"
 	"net/http"
@@ -24,14 +25,34 @@ func Register(ctx *gin.Context) {
 		Email:  ctx.Query("email"),
 		Passwd: ctx.Query("passwd"),
 	}
+	//p.ActivateEmailToken()
+	p1, _ := model.GetPerson(p.Email)
+
+	if p1.Email == p.Email {
+		if p1.Activated != "no" {
+			ctx.JSON(http.StatusOK, gin.H{
+				"code": base.AccountExistError,
+				"msg":  base.AccountExistError.String(),
+			})
+			return
+		}
+	}
+
 	if err := p.Register(); err != base.Success {
 		ctx.JSON(http.StatusOK, gin.H{
-			"code": base.AccountExistError,
-			"msg":  base.AccountExistError.String(),
+			"code": err,
+			"msg":  err.String(),
 		})
 		return
 	}
-
+	name := ctx.Query("name")
+	if err := service.RegisterEmailToken(p, name); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"code": base.Success,
 		"msg":  base.Success.String(),
@@ -66,6 +87,13 @@ func Login(ctx *gin.Context) {
 		})
 		return
 	}
+	if err := service.CheckEmailToken(p); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"code": base.Success,
 		"msg":  base.Success.String(),
@@ -81,7 +109,7 @@ func Login(ctx *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/login [POST]
+// @Router       /users/update [POST]
 func Update(ctx *gin.Context) {
 
 	p := model.Person{
@@ -98,6 +126,56 @@ func Update(ctx *gin.Context) {
 		return
 	}
 
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": base.Success,
+		"msg":  base.Success.String(),
+	})
+}
+
+// Activate @Description  user email token activate
+// @Tags         user
+// @param 		 token    query   string    true    "token"
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string "POST/api/v1/users"
+// @Router       /users/activate [POST]
+func Activate(ctx *gin.Context) {
+
+	token := ctx.Query("token")
+	err := service.ActivateToken(token)
+	if err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code": base.Success,
+		"msg":  base.Success.String(),
+	})
+}
+
+// RerunEmail @Description  send activation email again
+// @Tags         user
+// @param 		 email    query   string    true    "email"
+// @param 		 name    query   string    true    "name"
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string "POST/api/v1/users"
+// @Router       /users/activate [POST]
+func RerunEmail(ctx *gin.Context) {
+	p := model.Person{
+		Email: ctx.Query("email"),
+	}
+	name := ctx.Query("name")
+	if err := service.RegisterEmailToken(p, name); err != base.Success {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": err,
+			"msg":  err.String(),
+		})
+		return
+	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"code": base.Success,
 		"msg":  base.Success.String(),

@@ -26,6 +26,8 @@ func InitRouter() *gin.Engine {
 			userRouter.POST("/register", v1.Register)
 			userRouter.POST("/update", v1.Update)
 			userRouter.POST("/login", v1.Login)
+			userRouter.GET("/activate", v1.Activate)
+			userRouter.POST("/rerunEmail", v1.RerunEmail)
 		}
 
 		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth())
