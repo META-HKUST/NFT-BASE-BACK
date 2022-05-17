@@ -125,10 +125,10 @@ func InitRouter() *gin.Engine {
 
 			tourRouter.GET("/event-banner", v1.Name19)
 		}
-		itemJsonRouter := routerV1.Group("/itemid")
+		itemJsonRouter := routerV1.Group("/tokenid")
 		{
 
-			itemJsonRouter.GET("/", v1.GetJsonMsg)
+			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
 		}
 	}
 

@@ -1,8 +1,11 @@
 package v1
 
 import (
+	"NFT-BASE-BACK/model"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type JsonMsg struct {
@@ -19,6 +22,13 @@ type JsonMsg struct {
 // @Failure      500  {object}  utils.Error
 // @Router       /{item-id} [GET]
 func GetJsonMsg(ctx *gin.Context)  {
+	id := ctx.Param("tokenid")
+	tokenId, err := strconv.ParseInt(id, 10, 64)
+	tokenInfo, err := model.GetUrlByTokenId(tokenId)
+	if err != nil {
+		return
+	}
+	fmt.Println(tokenInfo)
 	resp := JsonMsg{
 		Name:	"ust-hk #9897",
 		Image:  "https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png",
