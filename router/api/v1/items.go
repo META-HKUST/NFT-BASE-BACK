@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -38,6 +39,7 @@ type AllItemsResponse struct {
 // @Failure      500  {object}  utils.Error
 // @Router       /items [GET]
 func AllItems(ctx *gin.Context) {
+	fmt.Println("进入")
 	var resp AllItemsResponse
 	resp.Code = "SUCCESS"
 	for i := 0; i < 10; i++ {
@@ -71,6 +73,6 @@ func SingleItem(ctx *gin.Context) {
 		Image:          "www.image.com/1",
 		Favorites:      1,
 	}
-
 	ctx.JSON(http.StatusOK, resp)
 }
+
