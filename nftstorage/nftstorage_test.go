@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	openapiclient "github.com/nftstorage/go-client"
+	"log"
 	"net/http"
 	"os"
 	"testing"
@@ -40,14 +41,15 @@ func TestNFTService_UploadImage(t *testing.T) {
 
 	body,err := os.Open("")
 	if err != nil{
-		fmt.Println(err)
+		log.Println(err)
 		t.Fatal(err)
 	}
-	str,err := nftService.UploadImage(body)
+	str,err := nftService.Upload(body,"video")
 	if err != nil {
 
-		fmt.Println(err)
+		log.Println(err)
 		t.Fatal(err)
 	}
-	fmt.Println(str)
+
+	log.Println(str)
 }

@@ -48,7 +48,7 @@ func NewNFTService (apikey string,client *http.Client) *NFTService {
 
 
 // UploadImage upload content to NFTStorage by given byte slice, it returns an IPFS hash and an error.
-func (nft *NFTService) UploadImage(r io.Reader) (Response, error) {
+func (nft *NFTService) Upload(r io.Reader,fileType string) (Response, error) {
 	endpoint := api + "/upload"
 	req, err := http.NewRequest(http.MethodPost, endpoint, r)
 	if err != nil {
@@ -79,8 +79,12 @@ func (nft *NFTService) UploadImage(r io.Reader) (Response, error) {
 		}
 		return Response{}, err
 	}
+	res.Value.Type = fileType
 	return res, nil
 }
+
+
+
 
 
 

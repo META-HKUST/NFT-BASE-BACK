@@ -2,6 +2,7 @@ package model
 
 import (
 	"NFT-BASE-BACK/base"
+	"fmt"
 	"log"
 )
 type TokenInfo struct {
@@ -10,8 +11,8 @@ type TokenInfo struct {
 }
 var(
 	//NFT data storage related sentences
-	addTokenUrl = string("insert into nfturl(tokenid,url) values(?,?);")
-	findUrlByID = string("select * from nfturl where tokenid=?;")
+	addTokenUrl = string("insert into nftstore(tokenid,url) values(?,?);")
+	findUrlByID = string("select * from nftstore where tokenid=?;")
 )
 
 // Store URL and tokenid to database
@@ -29,6 +30,7 @@ func StoreUrl(tokenId int64,url string) base.ErrCode {
 
 func GetUrlByTokenId(tokenId int64) (TokenInfo,error){
 	tokenInfo := TokenInfo{}
+	fmt.Println(tokenId)
 	err := db.Get(&tokenInfo,findUrlByID,tokenId)
 	if err != nil {
 		log.Println(err)

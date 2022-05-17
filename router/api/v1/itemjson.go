@@ -34,5 +34,7 @@ func GetJsonMsg(ctx *gin.Context)  {
 		Image:  "https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png",
 	}
 	ctx.JSON(http.StatusOK, resp)
+
+	model.StoreUrl(4,"http")
 }
 
