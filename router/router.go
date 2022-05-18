@@ -130,6 +130,11 @@ func InitRouter() *gin.Engine {
 
 			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
 		}
+
+		testRouter := routerV1.Group("/test")
+		{
+			testRouter.POST("/", v1.TestContract)
+		}
 	}
 
 	return router
