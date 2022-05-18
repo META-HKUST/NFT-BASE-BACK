@@ -83,7 +83,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		itemsRouter := routerV1.Group("/v1/items")
+		itemsRouter := routerV1.Group("/items")
 		{
 			// all items
 			// tab = sortBy & filter
@@ -124,6 +124,11 @@ func InitRouter() *gin.Engine {
 			tourRouter.POST("/tr/articles/:articles-id", v1.GetArticleByID)
 
 			tourRouter.GET("/event-banner", v1.Name19)
+		}
+		itemJsonRouter := routerV1.Group("/tokenid")
+		{
+
+			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
 		}
 	}
 
