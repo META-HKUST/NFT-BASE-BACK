@@ -161,7 +161,7 @@ func Activate(ctx *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/activate [POST]
+// @Router       /users/rerunEmail [POST]
 func RerunEmail(ctx *gin.Context) {
 	p := model.Person{
 		Email: ctx.Query("email"),
