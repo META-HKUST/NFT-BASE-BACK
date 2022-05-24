@@ -625,6 +625,36 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST/api/v1/users",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
                         "description": "email",
                         "name": "email",
                         "in": "query",
@@ -632,8 +662,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "name",
-                        "name": "name",
+                        "description": "password",
+                        "name": "passwd",
                         "in": "query",
                         "required": true
                     }
@@ -673,6 +703,13 @@ const docTemplate = `{
                         "name": "passwd",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -685,7 +722,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/register": {
+        "/users/rerunEmail": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -700,21 +737,14 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "email",
-                        "name": "Email",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "passwd",
-                        "name": "Passwd",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "name",
-                        "name": "Name",
+                        "name": "name",
                         "in": "query",
                         "required": true
                     }
@@ -751,7 +781,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "password",
-                        "name": "password",
+                        "name": "passwd",
                         "in": "query",
                         "required": true
                     },
@@ -1294,7 +1324,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "http://pascal.idea.ust.hk:8888",
+	Host:             "unifit.ust.hk:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

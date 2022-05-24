@@ -110,7 +110,7 @@ definitions:
         example: SUCCESS,USER_JOINED
         type: string
     type: object
-host: http://pascal.idea.ust.hk:8888
+host: unifit.ust.hk:8888
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -736,6 +736,25 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: token
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/users
+          schema:
+            type: string
+      tags:
+      - user
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
       - description: email
         in: query
         name: email
@@ -743,7 +762,7 @@ paths:
         type: string
       - description: name
         in: query
-        name: name
+        name: passwd
         required: true
         type: string
       produces:
@@ -770,6 +789,11 @@ paths:
         name: passwd
         required: true
         type: string
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -779,24 +803,19 @@ paths:
             type: string
       tags:
       - user
-  /users/register:
+  /users/rerunEmail:
     post:
       consumes:
       - application/json
       parameters:
       - description: email
         in: query
-        name: Email
-        required: true
-        type: string
-      - description: passwd
-        in: query
-        name: Passwd
+        name: email
         required: true
         type: string
       - description: name
         in: query
-        name: Name
+        name: name
         required: true
         type: string
       produces:
@@ -820,7 +839,7 @@ paths:
         type: string
       - description: password
         in: query
-        name: password
+        name: passwd
         required: true
         type: string
       - description: newpasswd
