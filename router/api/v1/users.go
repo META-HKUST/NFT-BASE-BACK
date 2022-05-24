@@ -15,6 +15,7 @@ import (
 // @Tags         user
 // @param 		 Email         query   string    true    "email"
 // @param 		 Passwd        query   string    true    "passwd"
+// @param 		 Name        query   string    true    "name"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
@@ -59,7 +60,7 @@ func Register(ctx *gin.Context) {
 // Login @Description  user login
 // @Tags         user
 // @param 		 email      query   string    true    "email"
-// @param 		 password   query   string    true    "password"
+// @param 		 passwd   query   string    true    "passwd"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
@@ -102,7 +103,7 @@ func Login(ctx *gin.Context) {
 // @Tags         user
 // @param 		 email      query   string    true    "email"
 // @param 		 password   query   string    true    "password"
-// @param 		 newpassword   query   string    true    "newpassword"
+// @param 		 newpasswd   query   string    true    "newpasswd"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"

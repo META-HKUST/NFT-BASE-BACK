@@ -21,7 +21,7 @@ func InitRouter() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	routerV1 := router.Group("/api/v1")
 	{
-		userRouter := routerV1.Group("/users")
+		userRouter := routerV1.Group("/users").Use(mw.Cors())
 		{
 			userRouter.POST("/register", v1.Register)
 			userRouter.POST("/update", v1.Update)
@@ -30,7 +30,7 @@ func InitRouter() *gin.Engine {
 			userRouter.POST("/rerunEmail", v1.RerunEmail)
 		}
 
-		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth())
+		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth()).Use(mw.Cors())
 		{
 			// getUser
 			// if username == id, return all information includes password
@@ -67,7 +67,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		collectionRouter := routerV1.Group("/collections")
+		collectionRouter := routerV1.Group("/collections").Use(mw.Cors())
 		{
 			// get all collections
 			collectionRouter.GET("/", v1.GetAllCollections)
@@ -83,7 +83,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		itemsRouter := routerV1.Group("/items")
+		itemsRouter := routerV1.Group("/items").Use(mw.Cors())
 		{
 			// all items
 			// tab = sortBy & filter
@@ -93,7 +93,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		eventRouter := routerV1.Group("/events")
+		eventRouter := routerV1.Group("/events").Use(mw.Cors())
 		{
 			// all events
 			eventRouter.GET("/", v1.AllEvents)
@@ -115,7 +115,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		tourRouter := routerV1.Group("/tour")
+		tourRouter := routerV1.Group("/tour").Use(mw.Cors())
 		{
 			tourRouter.GET("/", v1.GetAllTutorials)
 
@@ -125,13 +125,13 @@ func InitRouter() *gin.Engine {
 
 			tourRouter.GET("/event-banner", v1.Name19)
 		}
-		itemJsonRouter := routerV1.Group("/tokenid")
+		itemJsonRouter := routerV1.Group("/tokenid").Use(mw.Cors())
 		{
 
 			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
 		}
 
-		testRouter := routerV1.Group("/test")
+		testRouter := routerV1.Group("/test").Use(mw.Cors())
 		{
 			testRouter.POST("/", v1.TestContract)
 		}

@@ -110,7 +110,7 @@ definitions:
         example: SUCCESS,USER_JOINED
         type: string
     type: object
-host: localhost:8080
+host: http://pascal.idea.ust.hk:8888
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -320,6 +320,34 @@ paths:
             type: string
       tags:
       - account
+  /{item-id}:
+    get:
+      consumes:
+      - application/json
+      description: item json msg
+      parameters:
+      - description: collection id
+        in: path
+        name: item-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GET/api/v1/XXXX
+          schema:
+            $ref: '#/definitions/v1.Item'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Error'
+      tags:
+      - item
   /collections:
     get:
       consumes:
@@ -703,6 +731,30 @@ paths:
             type: string
       tags:
       - tour
+  /users/activate:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/users
+          schema:
+            type: string
+      tags:
+      - user
   /users/login:
     post:
       consumes:
@@ -713,9 +765,9 @@ paths:
         name: email
         required: true
         type: string
-      - description: password
+      - description: passwd
         in: query
-        name: password
+        name: passwd
         required: true
         type: string
       produces:
@@ -732,11 +784,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: campus
-        in: query
-        name: Campus
-        required: true
-        type: integer
       - description: email
         in: query
         name: Email
@@ -747,19 +794,38 @@ paths:
         name: Passwd
         required: true
         type: string
-      - description: bannerimage
+      - description: name
         in: query
-        name: BannerImage
+        name: Name
         required: true
         type: string
-      - description: avatarimage
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: POST/api/v1/users
+          schema:
+            type: string
+      tags:
+      - user
+  /users/update:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
         in: query
-        name: AvatarImage
+        name: email
         required: true
         type: string
-      - description: username
+      - description: password
         in: query
-        name: UserName
+        name: password
+        required: true
+        type: string
+      - description: newpasswd
+        in: query
+        name: newpasswd
         required: true
         type: string
       produces:
