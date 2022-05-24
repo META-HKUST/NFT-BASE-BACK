@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "http://pascal.idea.ust.hk:8888",
+    "host": "pascal.idea.ust.hk:8888",
     "basePath": "/api/v1",
     "paths": {
         "/collections": {
