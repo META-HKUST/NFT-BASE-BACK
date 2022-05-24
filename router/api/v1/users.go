@@ -53,10 +53,7 @@ func Register(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": base.Success,
-		"msg":  base.Success.String(),
-	})
+	ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.Success))
 }
 
 // Login @Description  user login
@@ -169,15 +166,20 @@ func RerunEmail(ctx *gin.Context) {
 		Email: ctx.Query("email"),
 	}
 	name := ctx.Query("name")
-	if err := service.RegisterEmailToken(p, name); err != base.Success {
-		ctx.JSON(http.StatusOK, gin.H{
-			"code": err,
-			"msg":  err.String(),
-		})
-		return
-	}
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": base.Success,
-		"msg":  base.Success.String(),
-	})
+
+	res := base.Response{}
+	code := service.RegisterEmailToken(p, name)
+
+	ctx.JSON(http.StatusOK, res.SetCode(code))
+	//if err := service.RegisterEmailToken(p, name); err != base.Success {
+	//	ctx.JSON(http.StatusOK, gin.H{
+	//		"code": err,
+	//		"msg":  err.String(),
+	//	})
+	//	return
+	//}
+	//ctx.JSON(http.StatusOK, gin.H{
+	//	"code": base.Success,
+	//	"msg":  base.Success.String(),
+	//})
 }

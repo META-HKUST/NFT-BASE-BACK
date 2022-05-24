@@ -10,3 +10,15 @@ type User struct {
 	Id          string `json:"id" example:"1001"`
 	Certificate string `json:"certificate" example:"/home/yezzi/certificate_yezzi"`
 }
+
+type Person struct {
+	Email  string `db:"email"`
+	Passwd string `db:"passwd"`
+	Activate
+}
+
+type Activate struct {
+	Token     string `db:"token"`
+	Activated string `db:"activated"`
+	GenTime   string `db:"genTime"`
+}

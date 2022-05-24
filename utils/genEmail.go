@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	FrontLink string = ("http://localhost:8888/api/v1/users/activate?token=")
+	FrontLink string = ("pascal.ieda.ust.hk://8888/api/v1/users/activate?token=")
 
-	SubjectName string = ("Fire Bird Account Confirmation")
+	SubjectName string = ("UniFiT Account Confirmation")
 	logo        string = ("https://thumbs.dreamstime.com/z/phoenix-fenix-fire-bird-cartoon-character-fantasy-magic-creature-red-burning-plumage-steaming-wings-fairytale-animal-182971826.jpg")
 
 	SenderName   string      = ("MetaUST Account Center")
