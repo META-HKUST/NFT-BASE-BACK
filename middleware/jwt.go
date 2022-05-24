@@ -67,6 +67,7 @@ func CheckUserInfo(claims *utils.CustomClaims) error {
 	p := model.Person{
 		claims.Email,
 		claims.Passwd,
+		model.Activate{},
 	}
 	if p.Login() == base.Success {
 		return nil

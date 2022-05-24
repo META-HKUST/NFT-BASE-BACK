@@ -21,4 +21,12 @@ const (
 	LackTokenError  ErrCode = 1105 // Lack token in request header
 	UserTokenError  ErrCode = 1105 // Wrong account or password, maybe the password has been changed
 
+	GetPersonError        ErrCode = 1201 // Can not get user info from database
+	StoreEmailTokenError  ErrCode = 1202 // Store Email Token Error
+	ActivateEmailError    ErrCode = 1203 // Activate email token failed
+	SendEmailError        ErrCode = 1204 // Error sending activation email to the user
+	TokenNotActivated     ErrCode = 1205 // Token not activated, please rerun activation email
+	TokenInvalidError     ErrCode = 1206 // Token invalid: Overtime
+	TokenNotExist         ErrCode = 1207 // Could not find this token in database
+	TokenAlreadyActivated ErrCode = 1208 // Token has already been activated
 )

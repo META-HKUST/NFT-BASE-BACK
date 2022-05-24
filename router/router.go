@@ -26,6 +26,8 @@ func InitRouter() *gin.Engine {
 			userRouter.POST("/register", v1.Register)
 			userRouter.POST("/update", v1.Update)
 			userRouter.POST("/login", v1.Login)
+			userRouter.GET("/activate", v1.Activate)
+			userRouter.POST("/rerunEmail", v1.RerunEmail)
 		}
 
 		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth())
@@ -81,7 +83,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		itemsRouter := routerV1.Group("/v1/items")
+		itemsRouter := routerV1.Group("/items")
 		{
 			// all items
 			// tab = sortBy & filter
@@ -122,6 +124,16 @@ func InitRouter() *gin.Engine {
 			tourRouter.POST("/tr/articles/:articles-id", v1.GetArticleByID)
 
 			tourRouter.GET("/event-banner", v1.Name19)
+		}
+		itemJsonRouter := routerV1.Group("/tokenid")
+		{
+
+			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
+		}
+
+		testRouter := routerV1.Group("/test")
+		{
+			testRouter.POST("/", v1.TestContract)
 		}
 	}
 
