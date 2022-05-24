@@ -13,8 +13,9 @@ import (
 
 // Register @Description  user register: upload all the parameters needed and get a success feedback
 // @Tags         user
-// @param 		 Email         query   string    true    "email"
-// @param 		 Passwd        query   string    true    "passwd"
+// @param 		 email         query   string    true    "email"
+// @param 		 passwd        query   string    true    "passwd"
+// @param 		 name        query   string    true    "name"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
@@ -59,7 +60,7 @@ func Register(ctx *gin.Context) {
 // Login @Description  user login
 // @Tags         user
 // @param 		 email      query   string    true    "email"
-// @param 		 password   query   string    true    "password"
+// @param 		 passwd   query   string    true    "password"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
@@ -101,8 +102,8 @@ func Login(ctx *gin.Context) {
 // Update @Description  user password update
 // @Tags         user
 // @param 		 email      query   string    true    "email"
-// @param 		 password   query   string    true    "password"
-// @param 		 newpassword   query   string    true    "newpassword"
+// @param 		 passwd   query   string    true    "password"
+// @param 		 newpasswd   query   string    true    "newpasswd"
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
@@ -160,7 +161,7 @@ func Activate(ctx *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/activate [POST]
+// @Router       /users/rerunEmail [POST]
 func RerunEmail(ctx *gin.Context) {
 	p := model.Person{
 		Email: ctx.Query("email"),

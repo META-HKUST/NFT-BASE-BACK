@@ -611,6 +611,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/activate": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST/api/v1/users",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/users/login": {
             "post": {
                 "consumes": [
@@ -633,7 +663,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "password",
-                        "name": "password",
+                        "name": "passwd",
                         "in": "query",
                         "required": true
                     }
@@ -661,44 +691,104 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "campus",
-                        "name": "Campus",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
                         "type": "string",
                         "description": "email",
-                        "name": "Email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "passwd",
-                        "name": "Passwd",
+                        "name": "passwd",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "bannerimage",
-                        "name": "BannerImage",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST/api/v1/users",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/rerunEmail": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "avatarimage",
-                        "name": "AvatarImage",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "POST/api/v1/users",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
                         "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "username",
-                        "name": "UserName",
+                        "description": "password",
+                        "name": "passwd",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "newpasswd",
+                        "name": "newpasswd",
                         "in": "query",
                         "required": true
                     }
@@ -1021,6 +1111,49 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/{item-id}": {
+            "get": {
+                "description": "item json msg",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection id",
+                        "name": "item-id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GET/api/v1/XXXX",
+                        "schema": {
+                            "$ref": "#/definitions/v1.Item"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1191,7 +1324,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "unifit.ust.hk:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",
