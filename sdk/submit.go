@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	cryptoPath    = "/NFT-BASE-BACK/"
-	ccpPath       = "NFT-BASE-BACK/connect.yaml"
+	cryptoPath    = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.example.com/users/"
+	ccpPath       = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.example.com/connection-org1.yaml"
 	channelName   = "mychannel"
 	chaincodeName = "erc721cc"
 )

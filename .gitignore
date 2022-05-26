@@ -1,1 +1,5 @@
+# config
 config/config.yaml
+
+# nohup go run main.go 2>&1 >output &
+output
