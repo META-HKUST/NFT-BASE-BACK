@@ -5,10 +5,11 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/utils"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 // JWTAuth middleware
