@@ -760,7 +760,7 @@ paths:
         name: email
         required: true
         type: string
-      - description: name
+      - description: password
         in: query
         name: passwd
         required: true
@@ -774,7 +774,7 @@ paths:
             type: string
       tags:
       - user
-  /users/login:
+  /users/register:
     post:
       consumes:
       - application/json

@@ -678,7 +678,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/login": {
+        "/users/register": {
             "post": {
                 "consumes": [
                     "application/json"
