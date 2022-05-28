@@ -134,6 +134,7 @@ func InitRouter() *gin.Engine {
 		testRouter := routerV1.Group("/test").Use(mw.Cors())
 		{
 			testRouter.POST("/", v1.TestContract)
+			testRouter.POST("/enroll", v1.TestEnroll)
 		}
 	}
 

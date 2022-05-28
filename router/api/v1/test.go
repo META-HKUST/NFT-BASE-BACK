@@ -8,7 +8,7 @@ import (
 )
 
 type submitReq struct {
-	Username     string   `json:"username" binding:"min"`
+	Username     string   `json:"username"`
 	ContractName string   `json:"contract"`
 	Args         []string `json:"args"`
 }
@@ -18,7 +18,7 @@ func TestContract(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{
-			"code": 9999,
+			"code": 9998,
 			"msg":  err,
 		})
 		return
@@ -27,7 +27,7 @@ func TestContract(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{
 			"code": 9999,
-			"msg":  err,
+			"msg":  err.Error(),
 		})
 		return
 	}
@@ -36,4 +36,33 @@ func TestContract(ctx *gin.Context) {
 		"result": result,
 	})
 
+}
+
+type enrollReq struct {
+	Username string `json:"username"`
+}
+
+func TestEnroll(ctx *gin.Context) {
+	var req enrollReq
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 9998,
+			"msg":  err,
+		})
+		return
+	}
+
+	result, err := sdk.Enroll(req.Username)
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": 9999,
+			"msg":  err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"result": result,
+	})
 }
