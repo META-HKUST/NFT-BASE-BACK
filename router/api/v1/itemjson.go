@@ -9,9 +9,10 @@ import (
 )
 
 type JsonMsg struct {
-	Name		string `josn:"name" example:"ust-hk #9897"`
-	Image       string `json:"image" exmaple:"https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png"`
+	Name  string `josn:"name" example:"ust-hk #9897"`
+	Image string `json:"image" exmaple:"https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png"`
 }
+
 // @Description  item json msg
 // @Tags         item
 // @param 		 item-id   path   string    true    "collection id"
@@ -21,7 +22,7 @@ type JsonMsg struct {
 // @Failure      400  {object}  utils.Error
 // @Failure      500  {object}  utils.Error
 // @Router       /{item-id} [GET]
-func GetJsonMsg(ctx *gin.Context)  {
+func GetJsonMsg(ctx *gin.Context) {
 	id := ctx.Param("tokenid")
 	tokenId, err := strconv.ParseInt(id, 10, 64)
 	tokenInfo, err := model.GetUrlByTokenId(tokenId)
@@ -30,11 +31,10 @@ func GetJsonMsg(ctx *gin.Context)  {
 	}
 	fmt.Println(tokenInfo)
 	resp := JsonMsg{
-		Name:	"ust-hk #9897",
-		Image:  "https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png",
+		Name:  "ust-hk #9897",
+		Image: "https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png",
 	}
 	ctx.JSON(http.StatusOK, resp)
 
-	model.StoreUrl(4,"http")
+	model.StoreUrl(4, "http")
 }
-

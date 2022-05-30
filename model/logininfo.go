@@ -3,7 +3,6 @@ package model
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/config"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -117,7 +116,6 @@ func GetPerson(email string) (Person, error) {
 	var a Person
 	err := db.Get(&a, query, email)
 	if err != nil {
-		fmt.Println(err)
 		return Person{}, err
 	}
 	return a, nil
@@ -153,20 +151,20 @@ func ActivateEmailToken(token string) error {
 	return nil
 }
 
-func GetGenTime(token string) string {
+func GetGenTime(token string) (error, string) {
 	var g string
 	err := db.Get(&g, queryGentime, token)
 	if err != nil {
-		log.Println(err)
+		return err, ""
 	}
-	return g
+	return nil, g
 }
 
-func GetTokenStatus(token string) string {
+func GetTokenStatus(token string) (error, string) {
 	var g string
 	err := db.Get(&g, queryTokenStatus, token)
 	if err != nil {
-		log.Println(err)
+		return err, ""
 	}
-	return g
+	return nil, g
 }

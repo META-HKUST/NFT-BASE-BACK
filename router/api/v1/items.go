@@ -1,78 +1,51 @@
 package v1
 
 import (
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/service"
 	"fmt"
-	"net/http"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-type AllItemsReq struct {
-	SortBy string `json:"sort-by" example:"newest"`
-	Filter string `json:"filter" example:"image"`
-}
-
-type Item struct {
-	ItemID         int    `json:"item_id" example:"123455"`
-	ItemCollection int    `json:"collection_id" example:"5"`
-	OwnerId        string `josn:"owner_id" example:"mazhengwang-ust-hk"`
-	CreaterId      string `josn:"creater_id" example:"mazhengwang-ust-hk"`
-	Image          string `json:"image" exmaple:"http://www.iamge.com/123455"`
-	Favorites      int    `josn:"favorites" example:"1"`
-}
-
-type AllItemsResponse struct {
-	Code  string `json:"code" example:"success"`
-	Total int    `json:"total" example:"10"`
-	Items []Item
-}
-
-// @Description  all items
+// @Description  get all items in database and get them sorted according to "method", default time
 // @Tags         item
-// @param        sort-by  query string  false  "favorites,popular,newest"
-// @param        filter   query string  false  "image,video,audio"
+// @param 		 pagenumber   query   string   true   "pagenumber"
+// @param 		 pagesize   query   string   true   "pagesize"
+// @param 		 method   query   string   true   "method on how to sort these items"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  AllItemsResponse "GET/api/v1/items"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success      200  []{object}  []Item
 // @Router       /items [GET]
-func AllItems(ctx *gin.Context) {
-	fmt.Println("进入")
-	var resp AllItemsResponse
-	resp.Code = "SUCCESS"
-	for i := 0; i < 10; i++ {
-		resp.Total += 1
-		ItemTmp := Item{
-			ItemID:         i,
-			ItemCollection: 1,
-			OwnerId:        "mazhengwang-ust-hk",
-			Image:          "www.image.com/" + strconv.Itoa(i),
-			Favorites:      i,
-		}
-		resp.Items = append(resp.Items, ItemTmp)
-	}
-	ctx.JSON(http.StatusOK, resp)
+func SortedItems(ctx *gin.Context) {
+	res := base.PageResponse{}
+	pgnumber := ctx.Query("pagenumber")
+	pgsize := ctx.Query("pagesize")
+	method := ctx.Query("method")
+	fmt.Println(pgnumber, pgsize)
+	// 如果id为空，则查询为所有items，如果id为UserId则查询一个人创建的所有items，如果id为CollectionId，则返回一个collection的所有items
+	// method为排序方式
+	code, data, count := service.GetItems("", 1, 2, method)
+	res.SetCode(code)
+	res.SetData(data)
+	res.SetCount(count)
+	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  single item
+// @Description  single item according to item-id
 // @Tags         item
-// @param 		 item-id   path   string    true    "collection id"
+// @param 		 item-id   path   string    true    "item-id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  Item       "GET/api/v1/items/yiiiiiii"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success      200  {object}  Item
 // @Router       /items/{item-id} [GET]
 func SingleItem(ctx *gin.Context) {
-	resp := Item{
-		ItemID:         1,
-		ItemCollection: 1,
-		OwnerId:        "mazhengwang-ust-hk",
-		Image:          "www.image.com/1",
-		Favorites:      1,
-	}
-	ctx.JSON(http.StatusOK, resp)
+	res := base.Response{}
+	ItemId := ctx.Query("item-id")
+	code, data := service.GetItem(ItemId)
+	res.SetData(data)
+	res.SetCode(code)
+	ctx.JSON(http.StatusOK, res)
 }
+
 
