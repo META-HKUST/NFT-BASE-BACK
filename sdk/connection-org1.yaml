@@ -36,13 +36,26 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer0.org1.example.com
       hostnameOverride: peer0.org1.example.com
-# certificateAuthorities:
-#   ca.org1.example.com:
-#     url: https://localhost:7054
-#     caName: ca-org1
-#     tlsCACerts:
-#       pem: 
-#         - |
-#           /home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.example.com/msp/cacerts/ca.org1.example.com-cert.pem
-#     httpOptions:
-#       verify: false
+certificateAuthorities:
+  ca.org1.example.com:
+    url: https://localhost:7054
+    caName: ca-org1
+    tlsCACerts:
+      pem: 
+        - |
+          -----BEGIN CERTIFICATE-----
+          MIICFTCCAbygAwIBAgIULAC+qusCTv52+sEsKiJzSuhJbJ0wCgYIKoZIzj0EAwIw
+          XzELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQK
+          EwtIeXBlcmxlZGdlcjEPMA0GA1UECxMGRmFicmljMRAwDgYDVQQDEwdjYS1vcmcx
+          MB4XDTIyMDUyMzE0MDkwMFoXDTM3MDUxOTE0MDkwMFowXzELMAkGA1UEBhMCVVMx
+          FzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMRQwEgYDVQQKEwtIeXBlcmxlZGdlcjEP
+          MA0GA1UECxMGRmFicmljMRAwDgYDVQQDEwdjYS1vcmcxMFkwEwYHKoZIzj0CAQYI
+          KoZIzj0DAQcDQgAEP5KKdbrsLWq42+L9iIjIOWXX/X9/S+73Im3qUvxWqzka5ppX
+          NgWB5L9e/3WVOcpvguMsoJv4xcYjMeV3i7z0GqNWMFQwDgYDVR0PAQH/BAQDAgEG
+          MBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFOx9S17rBXbVToDlZmzy0G52
+          MhTPMA8GA1UdEQQIMAaHBAAAAAAwCgYIKoZIzj0EAwIDRwAwRAIgHhjJsfe950RN
+          VW1C2uttYeHBbDO66haRNYtJaURY3mkCIB0Prnmuf5I/NlI9vSYmmBTh5eiyh6c6
+          zUxfV8yWW0fM
+          -----END CERTIFICATE-----
+    httpOptions:
+      verify: false

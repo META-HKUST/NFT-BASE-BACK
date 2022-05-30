@@ -9,9 +9,6 @@ func TestEnroll(t *testing.T) {
         username string
     }{
         {"zwang"},
-        {"zzding4"},
-        {"zzding5"},
-        {"zzding6"},
     }
 
     for _, v := range enrollTests {

@@ -6,3 +6,6 @@ output
 
 # IDE
 .idea
+
+# x509
+*.id
