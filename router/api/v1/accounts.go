@@ -50,7 +50,7 @@ func CreateItem(ctx *gin.Context) {
 // @Success 200 {object} base.Response "Operation Succeed"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/create-item [POST]
+// @Router       /{id}/edit-item [POST]
 func EditItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
