@@ -25,7 +25,7 @@ definitions:
         description: 错误描述
         type: string
     type: object
-host: unifit.ust.hk:8888
+host: localhost:8888
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -122,26 +122,32 @@ paths:
       - description: name
         in: query
         name: name
+        required: true
         type: string
       - description: image
         in: query
         name: image
+        required: true
         type: string
       - description: description
         in: query
         name: description
+        required: true
         type: string
       - description: collection
         in: query
         name: collection
+        required: true
         type: string
       - description: category
         in: query
         name: category
+        required: true
         type: string
       - description: label
         in: query
         name: label
+        required: true
         type: string
       produces:
       - application/json
@@ -270,6 +276,52 @@ paths:
       - description: description
         in: query
         name: description
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - account
+  /{id}/edit-item:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: image
+        in: query
+        name: image
+        type: string
+      - description: description
+        in: query
+        name: description
+        type: string
+      - description: collection
+        in: query
+        name: collection
+        type: string
+      - description: category
+        in: query
+        name: category
+        type: string
+      - description: label
+        in: query
+        name: label
         type: string
       produces:
       - application/json

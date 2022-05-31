@@ -1170,37 +1170,43 @@ const docTemplate = `{
                         "type": "string",
                         "description": "name",
                         "name": "name",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "image",
                         "name": "image",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "description",
                         "name": "description",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "collection",
                         "name": "collection",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "category",
                         "name": "category",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "label",
                         "name": "label",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1423,6 +1429,77 @@ const docTemplate = `{
                 }
             }
         },
+        "/{id}/edit-item": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "image",
+                        "name": "image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "collection",
+                        "name": "collection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "category",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "label",
+                        "name": "label",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/{id}/edit-profile": {
             "post": {
                 "consumes": [
@@ -1608,7 +1685,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "unifit.ust.hk:8888",
+	Host:             "localhost:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",
