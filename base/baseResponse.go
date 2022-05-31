@@ -9,6 +9,7 @@ type Response struct {
 }
 
 func (res *Response) SetData(data interface{}) Response {
+	res.Data = data
 	return Response{
 		Code: res.Code,
 		Msg:  res.Msg,
@@ -17,6 +18,8 @@ func (res *Response) SetData(data interface{}) Response {
 }
 
 func (res *Response) SetCode(Err ErrCode) Response {
+	res.Code = int(Err)
+	res.Msg = Err.String()
 	return Response{
 		Code: int(Err),
 		Msg:  Err.String(),
@@ -46,6 +49,7 @@ type PageResponse struct {
 }
 
 func (res *PageResponse) SetData(data interface{}) PageResponse {
+	res.Data = data
 	return PageResponse{
 		Code:       res.Code,
 		Msg:        res.Msg,
@@ -55,6 +59,8 @@ func (res *PageResponse) SetData(data interface{}) PageResponse {
 }
 
 func (res *PageResponse) SetCode(Err ErrCode) PageResponse {
+	res.Code = int(Err)
+	res.Msg = Err.String()
 	return PageResponse{
 		Code:       int(Err),
 		Msg:        Err.String(),
@@ -64,6 +70,7 @@ func (res *PageResponse) SetCode(Err ErrCode) PageResponse {
 }
 
 func (res *PageResponse) SetCount(count int) PageResponse {
+	res.TotalCount = count
 	return PageResponse{
 		Code:       res.Code,
 		Msg:        res.Msg,
