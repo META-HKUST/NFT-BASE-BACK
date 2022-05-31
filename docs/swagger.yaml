@@ -1,113 +1,28 @@
 basePath: /api/v1
 definitions:
-  utils.Error:
+  base.PageResponse:
     properties:
       code:
-        example: USER_NAME_EXIST
+        description: 错误码
+        type: integer
+      data:
+        description: 返回数据
+      msg:
+        description: 错误描述
         type: string
-      message:
-        example: user name exist
-        type: string
-    type: object
-  v1.AllItemsResponse:
-    properties:
-      code:
-        example: success
-        type: string
-      items:
-        items:
-          $ref: '#/definitions/v1.Item'
-        type: array
       total:
-        example: 10
+        description: 总数
         type: integer
     type: object
-  v1.Event:
-    properties:
-      event_description:
-        type: string
-      event_id:
-        type: integer
-      event_name:
-        example: helloworld
-        type: string
-      start_time:
-        type: string
-      time_duration:
-        type: integer
-    type: object
-  v1.EventItem:
-    properties:
-      collection_id:
-        example: 5
-        type: integer
-      image:
-        type: string
-      item_id:
-        example: 123455
-        type: integer
-      localFavorites:
-        example: 1
-        type: integer
-      ownerId:
-        example: mazhengwang-ust-hk
-        type: string
-    type: object
-  v1.EventItemsResponse:
+  base.Response:
     properties:
       code:
-        example: SUCCESS
-        type: string
-      items:
-        items:
-          $ref: '#/definitions/v1.EventItem'
-        type: array
-      totel:
-        example: 1
+        description: 错误码
         type: integer
-    type: object
-  v1.EventResponse:
-    properties:
-      code:
-        type: string
-      event:
-        $ref: '#/definitions/v1.Event'
-    type: object
-  v1.EventsResponse:
-    properties:
-      code:
-        type: string
-      events:
-        items:
-          $ref: '#/definitions/v1.Event'
-        type: array
-      total:
-        type: integer
-    type: object
-  v1.Item:
-    properties:
-      collection_id:
-        example: 5
-        type: integer
-      createrId:
-        example: mazhengwang-ust-hk
-        type: string
-      favorites:
-        example: 1
-        type: integer
-      image:
-        type: string
-      item_id:
-        example: 123455
-        type: integer
-      ownerId:
-        example: mazhengwang-ust-hk
-        type: string
-    type: object
-  v1.JoinEventResponse:
-    properties:
-      code:
-        example: SUCCESS,USER_JOINED
+      data:
+        description: 返回数据
+      msg:
+        description: 错误描述
         type: string
     type: object
 host: unifit.ust.hk:8888
@@ -120,214 +35,197 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
-  /{id}:
-    get:
-      consumes:
-      - application/json
-      description: get user:if username == id, return all information includes password
-      parameters:
-      - description: user id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: GET/api/v1/Anna
-          schema:
-            type: string
-      tags:
-      - account
-  /{id}/change-profile:
-    post:
-      consumes:
-      - application/json
-      description: change profile
-      parameters:
-      - description: user id
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: user Name
-        in: query
-        name: userName
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: POST/api/v1/Anna/change-profile
-          schema:
-            type: string
-      tags:
-      - account
   /{id}/collected:
     get:
       consumes:
       - application/json
-      description: collected
       parameters:
-      - description: user id
-        in: path
-        name: id
+      - description: pagenumber
+        in: query
+        name: pagenumber
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
         required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/Anna/collected
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.PageResponse'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.PageResponse'
       tags:
       - account
   /{id}/create-collection:
     post:
       consumes:
       - application/json
-      description: create-collection
       parameters:
-      - description: user id
-        in: path
-        name: id
+      - description: name
+        in: query
+        name: name
         required: true
         type: string
-      - description: collection Name
+      - description: logo-image
         in: query
-        name: collection-Name
+        name: logo-image
+        required: true
+        type: string
+      - description: feature-image
+        in: query
+        name: feature-image
+        required: true
+        type: string
+      - description: banner-image
+        in: query
+        name: banner-image
+        required: true
+        type: string
+      - description: description
+        in: query
+        name: description
+        required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/Anna/create-collection
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - account
   /{id}/create-item:
     post:
       consumes:
       - application/json
-      description: create-item
       parameters:
-      - description: user id
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: item Name
+      - description: name
         in: query
-        name: item-Name
+        name: name
+        type: string
+      - description: image
+        in: query
+        name: image
+        type: string
+      - description: description
+        in: query
+        name: description
+        type: string
+      - description: collection
+        in: query
+        name: collection
+        type: string
+      - description: category
+        in: query
+        name: category
+        type: string
+      - description: label
+        in: query
+        name: label
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/Anna/create-item
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - account
   /{id}/creation:
     get:
       consumes:
       - application/json
-      description: creation
       parameters:
-      - description: user id
-        in: path
-        name: id
+      - description: pagenumber
+        in: query
+        name: pagenumber
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
         required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/Anna/creation
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.PageResponse'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.PageResponse'
       tags:
       - account
-  /{id}/edit-collection:
+  /{id}/delete-collection:
     post:
       consumes:
       - application/json
-      description: edit-collection
       parameters:
-      - description: user id
+      - description: collection-id
         in: path
-        name: id
+        name: collection-id
         required: true
-        type: string
-      - description: collection Name
-        in: query
-        name: collection-Name
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/Anna/edit-collection
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/edit-item:
+  /{id}/delete-item:
     post:
       consumes:
       - application/json
-      description: edit-item
       parameters:
-      - description: user id
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: item Name
+      - description: item-id
         in: query
-        name: item-Name
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: POST/api/v1/Anna/edit-item
-          schema:
-            type: string
-      tags:
-      - account
-  /{id}/favorites:
-    get:
-      consumes:
-      - application/json
-      description: favorites
-      parameters:
-      - description: user id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: GET/api/v1/Anna/favorites
-          schema:
-            type: string
-      tags:
-      - account
-  /{item-id}:
-    get:
-      consumes:
-      - application/json
-      description: item json msg
-      parameters:
-      - description: collection id
-        in: path
         name: item-id
         required: true
         type: string
@@ -335,38 +233,193 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/XXXX
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.Item'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
-      - item
-  /collections:
-    get:
+      - account
+  /{id}/edit-collection:
+    post:
       consumes:
       - application/json
-      description: get all collections under the current account
+      parameters:
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: logo-image
+        in: query
+        name: logo-image
+        type: string
+      - description: feature-image
+        in: query
+        name: feature-image
+        type: string
+      - description: banner-image
+        in: query
+        name: banner-image
+        type: string
+      - description: description
+        in: query
+        name: description
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/collections
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - account
+  /{id}/edit-profile:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: banner-image
+        in: query
+        name: banner-image
+        type: string
+      - description: avatar-image
+        in: query
+        name: avatar-image
+        type: string
+      - description: poison
+        in: query
+        name: poison
+        type: string
+      - description: campus
+        in: query
+        name: campus
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - account
+  /{id}/favorites:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: pagenumber
+        in: query
+        name: pagenumber
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.PageResponse'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.PageResponse'
+      tags:
+      - account
+  /{id}/get-user:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - account
+  /collections:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: pagenumber
+        in: query
+        name: pagenumber
+        required: true
+        type: string
+      - description: pagesize
+        in: query
+        name: pagesize
+        required: true
+        type: string
+      - description: method on how to sort these collections
+        in: query
+        name: method
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.PageResponse'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.PageResponse'
       tags:
       - collection
   /collections/{collection-id}:
     get:
       consumes:
       - application/json
-      description: get single collection by id
       parameters:
       - description: collection id
         in: path
@@ -377,43 +430,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/collections/XXXX
+          description: Operation Succeed
           schema:
-            type: string
-      tags:
-      - collection
-  /collections/{collection-id}/items:
-    get:
-      consumes:
-      - application/json
-      description: all items in collection
-      parameters:
-      - description: collection id
-        in: path
-        name: collection-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: GET/api/v1/collections/XXXXX/items
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
           schema:
-            type: string
-      tags:
-      - collection
-  /create:
-    post:
-      consumes:
-      - application/json
-      description: create new collection
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: POST /api/v1/collections/create
+            type: integer
+        "500":
+          description: error code and message and nil data
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
       tags:
       - collection
   /event-banner:
@@ -425,9 +452,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/event-banner
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - tour
   /events:
@@ -439,17 +474,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/events
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.EventsResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}:
@@ -467,17 +502,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/events/balala
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.EventResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}/items:
@@ -495,17 +530,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/events/balala/items
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.EventItemsResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}/join:
@@ -523,17 +558,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/events/balala/join
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.JoinEventResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}/likes:
@@ -556,17 +591,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/events/balala/likes
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.JoinEventResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}/ranks:
@@ -584,17 +619,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/events/balala/ranks
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.EventItemsResponse'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /events/{event-id}/submit-item:
@@ -617,57 +652,65 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/events/balala/submit-item
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
       tags:
       - event
   /items:
     get:
       consumes:
       - application/json
-      description: all items
+      description: get all items in database and get them sorted according to "method",
+        default time
       parameters:
-      - description: favorites,popular,newest
+      - description: pagenumber
         in: query
-        name: sort-by
+        name: pagenumber
+        required: true
         type: string
-      - description: image,video,audio
+      - description: pagesize
         in: query
-        name: filter
+        name: pagesize
+        required: true
+        type: string
+      - description: method on how to sort these items
+        in: query
+        name: method
+        required: true
         type: string
       produces:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/items
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.AllItemsResponse'
+            $ref: '#/definitions/base.PageResponse'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.PageResponse'
       tags:
       - item
   /items/{item-id}:
     get:
       consumes:
       - application/json
-      description: single item
+      description: single item according to item-id
       parameters:
-      - description: collection id
+      - description: item-id
         in: path
         name: item-id
         required: true
@@ -676,17 +719,44 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/v1/items/yiiiiiii
+          description: Operation Succeed
           schema:
-            $ref: '#/definitions/v1.Item'
+            $ref: '#/definitions/base.Response'
         "400":
-          description: Bad Request
+          description: request error
           schema:
-            $ref: '#/definitions/utils.Error'
+            type: integer
         "500":
-          description: Internal Server Error
+          description: error code and message and nil data
           schema:
-            $ref: '#/definitions/utils.Error'
+            $ref: '#/definitions/base.Response'
+      tags:
+      - item
+  /items/item-json:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: token id of one NFT
+        in: query
+        name: token-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - item
   /tour:
@@ -698,9 +768,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/tour
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - tour
   /tr/articles:
@@ -712,9 +790,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/tr/articles
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - tour
   /tr/articles/:articles-id:
@@ -726,17 +812,25 @@ paths:
       - application/json
       responses:
         "200":
-          description: GET/api/tr/articles/XXXXXX
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - tour
   /users/activate:
-    post:
+    get:
       consumes:
       - application/json
       parameters:
-      - description: token
+      - description: token of email(different from auth jwt token)
         in: query
         name: token
         required: true
@@ -745,12 +839,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - user
-  /users/login:
+  /users/forget-passwd:
     post:
       consumes:
       - application/json
@@ -760,18 +862,19 @@ paths:
         name: email
         required: true
         type: string
-      - description: name
-        in: query
-        name: passwd
-        required: true
-        type: string
-      produces:
-      - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - user
   /users/login:
@@ -789,7 +892,39 @@ paths:
         name: passwd
         required: true
         type: string
-      - description: name
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - user
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: passwd
+        in: query
+        name: passwd
+        required: true
+        type: string
+      - description: the user's name
         in: query
         name: name
         required: true
@@ -798,12 +933,20 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - user
-  /users/rerunEmail:
+  /users/rerun-Email:
     post:
       consumes:
       - application/json
@@ -822,9 +965,44 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - user
+  /users/reset-passwd:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Operation Succeed
+          schema:
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - user
   /users/update:
@@ -837,7 +1015,7 @@ paths:
         name: email
         required: true
         type: string
-      - description: password
+      - description: passwd
         in: query
         name: passwd
         required: true
@@ -851,9 +1029,17 @@ paths:
       - application/json
       responses:
         "200":
-          description: POST/api/v1/users
+          description: Operation Succeed
           schema:
-            type: string
+            $ref: '#/definitions/base.Response'
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
       tags:
       - user
 swagger: "2.0"

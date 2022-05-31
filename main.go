@@ -21,5 +21,5 @@ func main() {
 	}
 	model.InitDB(config)
 	router := router.InitRouter()
-	router.Run(":8889")
+	router.Run(":8888")
 }
