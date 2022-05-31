@@ -10,14 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Register @Description  user register: upload all the parameters needed and get a success feedback
+// Register @Description  register: upload name email and passwd to register an account
 // @Tags         user
-// @param 		 email         query   string    true    "email"
-// @param 		 passwd        query   string    true    "passwd"
-// @param 		 name        query   string    true    "name"
+// @param 		 email       query   string    true    "email"
+// @param 		 passwd      query   string    true    "passwd"
+// @param 		 name        query   string    true    "the user's name"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/register [POST]
 func Register(ctx *gin.Context) {
 	// TODO (@mingzhe): associate the certificate with user info
@@ -49,13 +51,15 @@ func Register(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
-// Login @Description  user login
+// Login @Description  login: enter the email and passwd and return token and UserId
 // @Tags         user
 // @param 		 email      query   string    true    "email"
-// @param 		 passwd   query   string    true    "password"
+// @param 		 passwd   query   string    true    "passwd"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/login [POST]
 func Login(ctx *gin.Context) {
 	p := model.Person{
@@ -81,14 +85,16 @@ func Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// Update @Description  user password update
+// Update @Description  update: password update
 // @Tags         user
 // @param 		 email      query   string    true    "email"
-// @param 		 passwd   query   string    true    "password"
+// @param 		 passwd   query   string    true    "passwd"
 // @param 		 newpasswd   query   string    true    "newpasswd"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/update [POST]
 func Update(ctx *gin.Context) {
 	p := model.Person{
@@ -101,13 +107,15 @@ func Update(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// Activate @Description  user email token activate
+// Activate @Description  activate: activate email using the Email token generated within 15 minutes
 // @Tags         user
-// @param 		 token    query   string    true    "token"
+// @param 		 token    query   string    true    "token of email(different from auth jwt token)"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/activate [POST]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /users/activate [GET]
 func Activate(ctx *gin.Context) {
 	res := base.Response{}
 	token := ctx.Query("token")
@@ -115,14 +123,16 @@ func Activate(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// RerunEmail @Description  send activation email again
+// RerunEmail @Description  rerun-email: send activation email to the email address again
 // @Tags         user
 // @param 		 email    query   string    true    "email"
 // @param 		 name    query   string    true    "name"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/rerunEmail [POST]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /users/rerun-Email [POST]
 func RerunEmail(ctx *gin.Context) {
 	p := model.Person{
 		Email: ctx.Query("email"),
@@ -135,13 +145,14 @@ func RerunEmail(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// ResetPasswd @Description  send activation email again
+// ForgetPasswd @Description  forget-passwd: enter the email and send VerifyCode to change passwd
 // @Tags         user
 // @param 		 email    query   string    true    "email"
 // @Accept       json
-// @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/rerunEmail [POST]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /users/forget-passwd [POST]
 func ForgetPasswd(ctx *gin.Context) {
 	p := model.Person{
 		Email: ctx.Query("email"),
@@ -151,13 +162,15 @@ func ForgetPasswd(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// ResetPasswd @Description  send activation email again
+// ResetPasswd @Description  reset-passwd: send activation email again
 // @Tags         user
 // @param 		 email    query   string    true    "email"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/users"
-// @Router       /users/rerunEmail [POST]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /users/reset-passwd [POST]
 func ResetPasswd(ctx *gin.Context) {
 	p := model.Person{
 		Email:  ctx.Query("email"),
@@ -170,16 +183,17 @@ func ResetPasswd(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// @Description  create-collection
-// @Tags         account
-// @param 		 id   path   string    true    "user id"
-// @param 		 collection-Name   query   string   false   "collection Name"
+// DeleteUUser @Description  delete-user: check User's authority and close one's account
+// @Tags         user
+// @param 		 UserId  query   string    true    "UserId"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/Anna/create-collection"
-// @Router       /{id}/create-collection [POST]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /{id}/delete-user [POST]
 
-func DeleteUUser(ctx *gin.Context) {
+func DeleteUser(ctx *gin.Context) {
 	res := base.Response{}
 	ctx.JSON(http.StatusOK, res)
 }

@@ -4,12 +4,11 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/service"
 	"fmt"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-// @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
+// CreateItem @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
 // @Tags         account
 // @param 		 name   query   string   true   "name"
 // @param 		 image   query   string   true    "image"
@@ -19,7 +18,9 @@ import (
 // @param 		 label   query   string   true    "label"
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} _Item
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/create-item [POST]
 func CreateItem(ctx *gin.Context) {
 	res := base.Response{}
@@ -36,7 +37,7 @@ func CreateItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  edit single item: parse UserId from token and edit NFT
+// EditItem @Description  edit single item: parse UserId from token and edit NFT
 // @Tags         account
 // @param 		 name   query   string   false   "name"
 // @param 		 image   query   string   false   "image"
@@ -46,7 +47,9 @@ func CreateItem(ctx *gin.Context) {
 // @param 		 label   query   string   false   "label"
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} _Item
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/create-item [POST]
 func EditItem(ctx *gin.Context) {
 	res := base.Response{}
@@ -63,13 +66,15 @@ func EditItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  collected: will return the collected NFT items of one user, enter pagesize and pagenumber return number and info
+// Collected @Description  collected: will return the collected NFT items of one user, enter pagesize and pagenumber return number and info
 // @Tags         account
 // @param 		 pagenumber   query   string   true   "pagenumber"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success      200 []{object} _[]Item
+// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /{id}/collected [GET]
 func Collected(ctx *gin.Context) {
 	res := base.PageResponse{}
@@ -84,13 +89,15 @@ func Collected(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  favorites: will return the favorite NFT items of one user, in which UserId is parsed from token
+// Favorites @Description  favorites: will return the favorite NFT items of one user, in which UserId is parsed from token
 // @Tags         account
 // @param 		 pagenumber   query   string   true   "pagenumber"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success      200 []{object} _[]Item
+// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /{id}/favorites [GET]
 func Favorites(ctx *gin.Context) {
 	res := base.PageResponse{}
@@ -105,12 +112,14 @@ func Favorites(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  DeleteItem: delete one item of one user, UserId is parsed from token
+// DeleteItem @Description  DeleteItem: delete one item of one user, UserId is parsed from token
 // @Tags         account
 // @param 		 item-id   query   string   true   "item-id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "..."
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/delete-item [POST]
 func DeleteItem(ctx *gin.Context) {
 	res := base.Response{}
@@ -121,7 +130,7 @@ func DeleteItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  create-collection: create one collection, only owner itself could create his/her collection, also parse UserID
+// CreateCollectionByAccount @Description  create-collection: create one collection, only owner itself could create his/her collection, also parse UserID
 // @Tags         account
 // @param 		 name   query   string    true    "name"
 // @param 		 logo-image   query   string    true    "logo-image"
@@ -130,7 +139,9 @@ func DeleteItem(ctx *gin.Context) {
 // @param 		 description   query   string    true    "description"
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} collection
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/create-collection [POST]
 func CreateCollectionByAccount(ctx *gin.Context) {
 	res := base.Response{}
@@ -149,7 +160,7 @@ func CreateCollectionByAccount(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  EditCollection: Edit one collection, only owner itself could edit his/her collection, also parse UserID, and do not require all params but lack param check
+// EditCollection @Description  EditCollection: Edit one collection, only owner itself could edit his/her collection, also parse UserID, and do not require all params but lack param check
 // @Tags         account
 // @param 		 name   query   string    false    "name"
 // @param 		 logo-image   query   string    false    "logo-image"
@@ -158,7 +169,9 @@ func CreateCollectionByAccount(ctx *gin.Context) {
 // @param 		 description   query   string    false    "description"
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} collection
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/edit-collection [POST]
 func EditCollection(ctx *gin.Context) {
 	res := base.Response{}
@@ -177,13 +190,15 @@ func EditCollection(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  creation: return the collections created by one user, parse UserId from token
+// Creation @Description  creation: return the collections created by one user, parse UserId from token
 // @Tags         account
 // @param 		 pagenumber   query   string   true   "pagenumber"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success      200 []{object} []collection
+// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /{id}/creation [GET]
 func Creation(ctx *gin.Context) {
 	res := base.PageResponse{}
@@ -198,12 +213,14 @@ func Creation(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  delete-collection: owner could delete his/her collection, parse UserId
+// DeleteCollection @Description  delete-collection: owner could delete his/her collection, parse UserId
 // @Tags         account
 // @param 		 collection-id   path   string    true    "collection-id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "..."
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/delete-collection [POST]
 func DeleteCollection(ctx *gin.Context) {
 	res := base.Response{}
@@ -214,7 +231,7 @@ func DeleteCollection(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  edit-profile: owner edit his/her profile, do not require all params, parse UserId
+// EditProfile @Description  edit-profile: owner edit his/her profile, do not require all params, parse UserId
 // @Tags         account
 // @param 		 banner-image   query   string    false    "banner-image"
 // @param 		 avatar-image   query   string    false    "avatar-image"
@@ -222,7 +239,9 @@ func DeleteCollection(ctx *gin.Context) {
 // @param 		 campus   query   string    false    "campus"
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} []Account
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/edit-profile [POST]
 func EditProfile(ctx *gin.Context) {
 	res := base.Response{}
@@ -237,11 +256,13 @@ func EditProfile(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  get-user: get account info of one user
+// GetUser @Description  get-user: get account info of one user
 // @Tags         account
 // @Accept       json
 // @Produce      json
-// @Success      200 {object} []Account
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/get-user [GET]
 func GetUser(ctx *gin.Context) {
 	res := base.Response{}

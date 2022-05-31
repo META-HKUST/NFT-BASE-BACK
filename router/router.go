@@ -23,12 +23,14 @@ func InitRouter() *gin.Engine {
 		userRouter := routerV1.Group("/users").Use(mw.Cors())
 		{
 			userRouter.POST("/register", v1.Register)
-			userRouter.POST("/update", v1.Update)
 			userRouter.POST("/login", v1.Login)
+			userRouter.POST("/update", v1.Update)
+
 			userRouter.GET("/activate", v1.Activate)
-			userRouter.POST("/rerunEmail", v1.RerunEmail)
+			userRouter.POST("/rerun-Email", v1.RerunEmail)
 			userRouter.POST("/forget-passwd", v1.ForgetPasswd)
 			userRouter.POST("/reset-passwd", v1.ResetPasswd)
+			userRouter.POST("/delete-user", v1.DeleteUser)
 		}
 
 		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth()).Use(mw.Cors())
@@ -77,6 +79,8 @@ func InitRouter() *gin.Engine {
 
 			itemsRouter.GET("/:item", v1.SingleItem)
 
+			itemsRouter.GET("/item-json", v1.GetJsonMsg)
+
 		}
 
 		eventRouter := routerV1.Group("/events").Use(mw.Cors())
@@ -110,11 +114,6 @@ func InitRouter() *gin.Engine {
 			tourRouter.POST("/tr/articles/:articles-id", v1.GetArticleByID)
 
 			tourRouter.GET("/event-banner", v1.Name19)
-		}
-		itemJsonRouter := routerV1.Group("/tokenid").Use(mw.Cors())
-		{
-
-			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
 		}
 
 		testRouter := routerV1.Group("/test").Use(mw.Cors())

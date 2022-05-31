@@ -13,17 +13,17 @@ type JsonMsg struct {
 	Image string `json:"image" exmaple:"https://ikzttp.mypinata.cloud/ipfs/QmYDvPAXtiJg7s8JdRBSLWdgSphQdac8j1YuQNNxcGE1hg/9897.png"`
 }
 
-// @Description  item json msg
+// GetJsonMsg @Description  item-json: get one item json info related to ipfs
 // @Tags         item
-// @param 		 item-id   path   string    true    "collection id"
+// @param 		 token-id   query   string    true    "token id of one NFT"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  Item       "GET/api/v1/XXXX"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
-// @Router       /{item-id} [GET]
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
+// @Router       /items/item-json [GET]
 func GetJsonMsg(ctx *gin.Context) {
-	id := ctx.Param("tokenid")
+	id := ctx.Query("token-id")
 	tokenId, err := strconv.ParseInt(id, 10, 64)
 	tokenInfo, err := model.GetUrlByTokenId(tokenId)
 	if err != nil {

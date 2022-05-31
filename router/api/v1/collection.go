@@ -8,14 +8,16 @@ import (
 	"net/http"
 )
 
-// @Description  get all collections in database using some methods
+// GetAllCollections @Description  get all collections in database using some methods
 // @Tags         collection
 // @param 		 pagenumber   query   string   true   "pagenumber"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @param 		 method   query   string   true   "method on how to sort these collections"
 // @Accept       json
 // @Produce      json
-// @Success      200  []{Object}  []Collection
+// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /collections [GET]
 func GetAllCollections(ctx *gin.Context) {
 	res := base.PageResponse{}
@@ -30,12 +32,14 @@ func GetAllCollections(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  get single collection by id
+// GetCollectionByID @Description  get single collection by id
 // @Tags         collection
 // @param 		 collection-id   path   string    true    "collection id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {Object}  Collection
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /collections/{collection-id} [GET]
 func GetCollectionByID(ctx *gin.Context) {
 	res := base.Response{}

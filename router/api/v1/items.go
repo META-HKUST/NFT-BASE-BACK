@@ -15,7 +15,9 @@ import (
 // @param 		 method   query   string   true   "method on how to sort these items"
 // @Accept       json
 // @Produce      json
-// @Success      200  []{object}  []Item
+// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /items [GET]
 func SortedItems(ctx *gin.Context) {
 	res := base.PageResponse{}
@@ -37,7 +39,9 @@ func SortedItems(ctx *gin.Context) {
 // @param 		 item-id   path   string    true    "item-id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  Item
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /items/{item-id} [GET]
 func SingleItem(ctx *gin.Context) {
 	res := base.Response{}
@@ -47,5 +51,3 @@ func SingleItem(ctx *gin.Context) {
 	res.SetCode(code)
 	ctx.JSON(http.StatusOK, res)
 }
-
-
