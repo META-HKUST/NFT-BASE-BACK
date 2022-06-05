@@ -12,8 +12,7 @@ func TestSubmit(t *testing.T) {
 	}{
 		{
 			username:     "zwang",
-			contractName: "MintWithTokenURI",
-			args:         []string{"11001", "jjjaaahahha"},
+			contractName: "PublicMint",
 		},
 	}
 

@@ -8,16 +8,16 @@ import (
 )
 
 const (
-	cryptoPath    = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.example.com/users/"
-	ccpPath       = "/home/fabric_release/03_End/zwang/NFT-BASE-BACK/sdk/connection-org1.yaml"
-	channelName   = "mychannel"
-	chaincodeName = "erc721cc"
+	cryptoPath    = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/users/"
+	ccpPath       = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/connection-org1.yaml"
+	channelName   = "unifitchannel"
+	chaincodeName = "unifitPublicNFT"
 )
 
 func populateWallet(wallet *gateway.Wallet, username string) error {
 
-	certPath := cryptoPath + username + ".org1.example.com/msp/signcerts/cert.pem"
-	keyPath := cryptoPath + username + ".org1.example.com/msp/keystore/"
+	certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
+	keyPath := cryptoPath + username + ".org1.unifit.com/msp/keystore/"
 	// read the certificate pem
 	cert, err := ioutil.ReadFile(certPath)
 	if err != nil {

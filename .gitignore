@@ -8,4 +8,6 @@ output
 .idea
 
 # x509
+sdk/keystore
+wallet
 *.id
