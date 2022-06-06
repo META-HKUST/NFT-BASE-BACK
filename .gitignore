@@ -11,3 +11,6 @@ output
 sdk/keystore
 wallet
 *.id
+
+# log
+*.log
