@@ -18,10 +18,10 @@ import (
 // @param 		 label   query   string   true    "label"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/create-item [POST]
+// @Router       /account/create-item [POST]
 func CreateItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -40,26 +40,27 @@ func CreateItem(ctx *gin.Context) {
 // EditItem @Description  edit single item: parse UserId from token and edit NFT
 // @Tags         account
 // @param 		 name   query   string   false   "name"
-// @param 		 image   query   string   false   "image"
 // @param 		 description   query   string   false   "description"
 // @param 		 collection   query   string   false   "collection"
-// @param 		 category   query   string   false   "category"
 // @param 		 label   query   string   false   "label"
+// @param 		 item-id   query   string   false   "item-id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/edit-item [POST]
+// @Router       /account/edit-item [POST]
 func EditItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
 	name := ctx.Query("name")
-	image := ctx.Query("image")
+	item_id := ctx.Query("item-id")
 	description := ctx.Query("description")
 	itemCollection := ctx.Query("collection")
-	category := ctx.Query("category")
 	label := ctx.Query("label")
+	image := "/yezzi/1.png"
+	category := "image"
+	fmt.Println(item_id)
 	code, data := service.EditItem(UserId, name, image, description, itemCollection, category, []string{label})
 	res.SetCode(code)
 	res.SetData(data)
@@ -68,18 +69,18 @@ func EditItem(ctx *gin.Context) {
 
 // Collected @Description  collected: will return the collected NFT items of one user, enter pagesize and pagenumber return number and info
 // @Tags         account
-// @param 		 pagenumber   query   string   true   "pagenumber"
+// @param 		 num   query   string   true   "num"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
-// @Router       /{id}/collected [GET]
+// @Router       /account/collected [GET]
 func Collected(ctx *gin.Context) {
 	res := base.PageResponse{}
 	UserId := "mingzheliu-ust-hk"
-	pgnumber := ctx.Query("pagenumber")
+	pgnumber := ctx.Query("num")
 	pgsize := ctx.Query("pagesize")
 	fmt.Println(pgnumber, pgsize)
 	code, data, count := service.GetItems(UserId, 1, 2, "collected")
@@ -91,17 +92,17 @@ func Collected(ctx *gin.Context) {
 
 // Favorites @Description  favorites: will return the favorite NFT items of one user, in which UserId is parsed from token
 // @Tags         account
-// @param 		 pagenumber   query   string   true   "pagenumber"
+// @param 		 num   query   string   true   "num"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
-// @Router       /{id}/favorites [GET]
+// @Router       /account/favorites [GET]
 func Favorites(ctx *gin.Context) {
 	res := base.PageResponse{}
-	pgnumber := ctx.Query("pagenumber")
+	pgnumber := ctx.Query("num")
 	pgsize := ctx.Query("pagesize")
 	Userid := "mingzheliu-ust-hk"
 	fmt.Println(pgnumber, pgsize)
@@ -117,10 +118,10 @@ func Favorites(ctx *gin.Context) {
 // @param 		 item-id   query   string   true   "item-id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/delete-item [POST]
+// @Router       /account/delete-item [POST]
 func DeleteItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -139,10 +140,10 @@ func DeleteItem(ctx *gin.Context) {
 // @param 		 description   query   string    true    "description"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/create-collection [POST]
+// @Router       /account/create-collection [POST]
 func CreateCollectionByAccount(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -169,10 +170,10 @@ func CreateCollectionByAccount(ctx *gin.Context) {
 // @param 		 description   query   string    false    "description"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/edit-collection [POST]
+// @Router       /account/edit-collection [POST]
 func EditCollection(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -192,17 +193,17 @@ func EditCollection(ctx *gin.Context) {
 
 // Creation @Description  creation: return the collections created by one user, parse UserId from token
 // @Tags         account
-// @param 		 pagenumber   query   string   true   "pagenumber"
+// @param 		 num   query   string   true   "num"
 // @param 		 pagesize   query   string   true   "pagesize"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.PageResponse "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
-// @Router       /{id}/creation [GET]
+// @Router       /account/creation [GET]
 func Creation(ctx *gin.Context) {
 	res := base.PageResponse{}
-	pgnumber := ctx.Query("pagenumber")
+	pgnumber := ctx.Query("num")
 	pgsize := ctx.Query("pagesize")
 	Userid := "mingzheliu-ust-hk"
 	fmt.Println(pgnumber, pgsize)
@@ -218,10 +219,10 @@ func Creation(ctx *gin.Context) {
 // @param 		 collection-id   path   string    true    "collection-id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/delete-collection [POST]
+// @Router       /account/delete-collection [POST]
 func DeleteCollection(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -239,10 +240,10 @@ func DeleteCollection(ctx *gin.Context) {
 // @param 		 campus   query   string    false    "campus"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/edit-profile [POST]
+// @Router       /account/edit-profile [POST]
 func EditProfile(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -260,13 +261,15 @@ func EditProfile(ctx *gin.Context) {
 // @Tags         account
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /{id}/get-user [GET]
+// @Router       /account/get-user [GET]
 func GetUser(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
+	// 参数为id
+	// 改成两种情况的返回：如id提供就是读其他人profile，如果不提供就是parse token
 	code, data := service.GetUser(UserId)
 	res.SetCode(code)
 	res.SetData(data)

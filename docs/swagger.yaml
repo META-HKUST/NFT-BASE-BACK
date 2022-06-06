@@ -25,7 +25,7 @@ definitions:
         description: 错误描述
         type: string
     type: object
-host: localhost:8888
+host: unifit.ust.hk:8888
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -35,14 +35,14 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
-  /{id}/collected:
+  /account/collected:
     get:
       consumes:
       - application/json
       parameters:
-      - description: pagenumber
+      - description: num
         in: query
-        name: pagenumber
+        name: num
         required: true
         type: string
       - description: pagesize
@@ -53,10 +53,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.PageResponse'
+            type: integer
         "400":
           description: request error
           schema:
@@ -67,7 +67,7 @@ paths:
             $ref: '#/definitions/base.PageResponse'
       tags:
       - account
-  /{id}/create-collection:
+  /account/create-collection:
     post:
       consumes:
       - application/json
@@ -100,10 +100,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -114,7 +114,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/create-item:
+  /account/create-item:
     post:
       consumes:
       - application/json
@@ -152,10 +152,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -166,14 +166,14 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/creation:
+  /account/creation:
     get:
       consumes:
       - application/json
       parameters:
-      - description: pagenumber
+      - description: num
         in: query
-        name: pagenumber
+        name: num
         required: true
         type: string
       - description: pagesize
@@ -184,10 +184,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.PageResponse'
+            type: integer
         "400":
           description: request error
           schema:
@@ -198,7 +198,7 @@ paths:
             $ref: '#/definitions/base.PageResponse'
       tags:
       - account
-  /{id}/delete-collection:
+  /account/delete-collection:
     post:
       consumes:
       - application/json
@@ -211,10 +211,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -225,7 +225,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/delete-item:
+  /account/delete-item:
     post:
       consumes:
       - application/json
@@ -238,10 +238,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -252,7 +252,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/edit-collection:
+  /account/edit-collection:
     post:
       consumes:
       - application/json
@@ -280,10 +280,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -294,7 +294,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/edit-item:
+  /account/edit-item:
     post:
       consumes:
       - application/json
@@ -302,10 +302,6 @@ paths:
       - description: name
         in: query
         name: name
-        type: string
-      - description: image
-        in: query
-        name: image
         type: string
       - description: description
         in: query
@@ -315,21 +311,21 @@ paths:
         in: query
         name: collection
         type: string
-      - description: category
-        in: query
-        name: category
-        type: string
       - description: label
         in: query
         name: label
         type: string
+      - description: item-id
+        in: query
+        name: item-id
+        type: string
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -340,7 +336,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/edit-profile:
+  /account/edit-profile:
     post:
       consumes:
       - application/json
@@ -364,10 +360,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -378,14 +374,14 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - account
-  /{id}/favorites:
+  /account/favorites:
     get:
       consumes:
       - application/json
       parameters:
-      - description: pagenumber
+      - description: num
         in: query
-        name: pagenumber
+        name: num
         required: true
         type: string
       - description: pagesize
@@ -396,10 +392,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.PageResponse'
+            type: integer
         "400":
           description: request error
           schema:
@@ -410,17 +406,17 @@ paths:
             $ref: '#/definitions/base.PageResponse'
       tags:
       - account
-  /{id}/get-user:
+  /account/get-user:
     get:
       consumes:
       - application/json
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -436,9 +432,9 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: pagenumber
+      - description: num
         in: query
-        name: pagenumber
+        name: num
         required: true
         type: string
       - description: pagesize
@@ -454,10 +450,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.PageResponse'
+            type: integer
         "400":
           description: request error
           schema:
@@ -481,10 +477,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -742,10 +738,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.PageResponse'
+            type: integer
         "400":
           description: request error
           schema:
@@ -770,10 +766,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -797,10 +793,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -890,10 +886,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -915,10 +911,10 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -947,10 +943,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -984,10 +980,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -998,7 +994,7 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - user
-  /users/rerun-Email:
+  /users/rerun-email:
     post:
       consumes:
       - application/json
@@ -1016,10 +1012,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -1043,10 +1039,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:
@@ -1057,16 +1053,11 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - user
-  /users/update:
+  /users/update-passwd:
     post:
       consumes:
       - application/json
       parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
       - description: passwd
         in: query
         name: passwd
@@ -1080,10 +1071,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: Operation Succeed
+        "0":
+          description: 'Operation Succeed, code: 0'
           schema:
-            $ref: '#/definitions/base.Response'
+            type: integer
         "400":
           description: request error
           schema:

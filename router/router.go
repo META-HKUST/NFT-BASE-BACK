@@ -24,16 +24,16 @@ func InitRouter() *gin.Engine {
 		{
 			userRouter.POST("/register", v1.Register)
 			userRouter.POST("/login", v1.Login)
-			userRouter.POST("/update", v1.Update)
+			userRouter.POST("/update-passwd", v1.Update)
 
 			userRouter.GET("/activate", v1.Activate)
-			userRouter.POST("/rerun-Email", v1.RerunEmail)
+			userRouter.POST("/rerun-email", v1.RerunEmail)
 			userRouter.POST("/forget-passwd", v1.ForgetPasswd)
 			userRouter.POST("/reset-passwd", v1.ResetPasswd)
 			userRouter.POST("/delete-user", v1.DeleteUser)
 		}
 
-		accountRouter := routerV1.Group("/:id").Use(mw.JWTAuth()).Use(mw.Cors())
+		accountRouter := routerV1.Group("/account").Use(mw.JWTAuth()).Use(mw.Cors())
 		{
 			// createItem
 			accountRouter.POST("/create-item", v1.CreateItem)

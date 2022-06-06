@@ -17,7 +17,7 @@ import (
 // @param 		 name        query   string    true    "the user's name"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/register [POST]
@@ -57,7 +57,7 @@ func Register(ctx *gin.Context) {
 // @param 		 passwd   query   string    true    "passwd"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/login [POST]
@@ -85,20 +85,20 @@ func Login(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-// Update @Description  update: password update
+// Update @Description  update-passwd: password update
 // @Tags         user
-// @param 		 email      query   string    true    "email"
 // @param 		 passwd   query   string    true    "passwd"
 // @param 		 newpasswd   query   string    true    "newpasswd"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /users/update [POST]
+// @Router       /users/update-passwd [POST]
 func Update(ctx *gin.Context) {
+	email := "mingzheliu@ust.hk"
 	p := model.Person{
-		Email:  ctx.Query("email"),
+		Email:  email,
 		Passwd: ctx.Query("passwd"),
 	}
 	newpasswd := ctx.Query("newpasswd")
@@ -112,7 +112,7 @@ func Update(ctx *gin.Context) {
 // @param 		 token    query   string    true    "token of email(different from auth jwt token)"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/activate [GET]
@@ -129,10 +129,10 @@ func Activate(ctx *gin.Context) {
 // @param 		 name    query   string    true    "name"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
-// @Router       /users/rerun-Email [POST]
+// @Router       /users/rerun-email [POST]
 func RerunEmail(ctx *gin.Context) {
 	p := model.Person{
 		Email: ctx.Query("email"),
@@ -145,11 +145,11 @@ func RerunEmail(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// ForgetPasswd @Description  forget-passwd: enter the email and send VerifyCode to change passwd
+// ForgetPasswd @Description  forget-passwd: enter the email and we will send VerifyCode to the assigned email
 // @Tags         user
 // @param 		 email    query   string    true    "email"
 // @Accept       json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/forget-passwd [POST]
@@ -162,12 +162,12 @@ func ForgetPasswd(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
-// ResetPasswd @Description  reset-passwd: send activation email again
+// ResetPasswd @Description  reset-passwd: enter verify code, email and passwd to change passwd
 // @Tags         user
 // @param 		 email    query   string    true    "email"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /users/reset-passwd [POST]
@@ -188,7 +188,7 @@ func ResetPasswd(ctx *gin.Context) {
 // @param 		 UserId  query   string    true    "UserId"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /{id}/delete-user [POST]

@@ -18,7 +18,7 @@ type JsonMsg struct {
 // @param 		 token-id   query   string    true    "token id of one NFT"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} base.Response "Operation Succeed"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /items/item-json [GET]
