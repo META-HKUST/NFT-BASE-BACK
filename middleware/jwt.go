@@ -66,9 +66,9 @@ func JWTAuth() gin.HandlerFunc {
 //检查用户名信息
 func CheckUserInfo(claims *utils.CustomClaims) error {
 	p := model.Person{
-		claims.Email,
-		claims.Passwd,
-		model.Activate{},
+		Email:    claims.Email,
+		Passwd:   claims.Passwd,
+		Activate: model.Activate{},
 	}
 	if p.Login() == base.Success {
 		return nil
