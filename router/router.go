@@ -15,12 +15,13 @@ import (
 // initRouter initialize routing information
 func InitRouter() *gin.Engine {
 	router := gin.Default()
+	router.Use(mw.Cors())
 	docs.SwaggerInfo.BasePath = "/api/v1"
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	routerV1 := router.Group("/api/v1")
 	{
-		userRouter := routerV1.Group("/users").Use(mw.Cors())
+		userRouter := routerV1.Group("/users")
 		{
 			userRouter.POST("/register", v1.Register)
 			userRouter.POST("/login", v1.Login)
@@ -33,7 +34,7 @@ func InitRouter() *gin.Engine {
 			userRouter.POST("/delete-user", v1.DeleteUser)
 		}
 
-		accountRouter := routerV1.Group("/account").Use(mw.JWTAuth()).Use(mw.Cors())
+		accountRouter := routerV1.Group("/account").Use(mw.JWTAuth())
 		{
 			// createItem
 			accountRouter.POST("/create-item", v1.CreateItem)
@@ -61,7 +62,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		collectionRouter := routerV1.Group("/collections").Use(mw.Cors())
+		collectionRouter := routerV1.Group("/collections")
 		{
 			// get all collections
 			collectionRouter.GET("/", v1.GetAllCollections)
@@ -71,7 +72,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		itemsRouter := routerV1.Group("/items").Use(mw.Cors())
+		itemsRouter := routerV1.Group("/items")
 		{
 			// all items
 			// tab = sortBy & filter
@@ -83,7 +84,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		eventRouter := routerV1.Group("/events").Use(mw.Cors())
+		eventRouter := routerV1.Group("/events")
 		{
 			// all events
 			eventRouter.GET("/", v1.AllEvents)
@@ -105,7 +106,7 @@ func InitRouter() *gin.Engine {
 
 		}
 
-		tourRouter := routerV1.Group("/tour").Use(mw.Cors())
+		tourRouter := routerV1.Group("/tour")
 		{
 			tourRouter.GET("/", v1.GetAllTutorials)
 
@@ -116,7 +117,7 @@ func InitRouter() *gin.Engine {
 			tourRouter.GET("/event-banner", v1.Name19)
 		}
 
-		testRouter := routerV1.Group("/test").Use(mw.Cors())
+		testRouter := routerV1.Group("/test")
 		{
 			testRouter.POST("/", v1.TestContract)
 			testRouter.POST("/enroll", v1.TestEnroll)
