@@ -123,6 +123,5 @@ func InitRouter() *gin.Engine {
 			testRouter.POST("/enroll", v1.TestEnroll)
 		}
 	}
-
 	return router
 }
