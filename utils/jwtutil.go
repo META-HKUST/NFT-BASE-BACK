@@ -22,8 +22,8 @@ func GenToken(user model.Person) (string, error) {
 	claim := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: jwt.At(time.Now().Add(time.Minute * 1)), //1分钟后过期，前期测试使用
-			Issuer:    "Yezzi",                                 //签发人
+			ExpiresAt: jwt.At(time.Now().Add(time.Minute * 15)),
+			Issuer:    "Yezzi",
 		},
 	}
 

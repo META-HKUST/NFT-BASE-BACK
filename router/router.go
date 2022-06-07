@@ -12,7 +12,6 @@ import (
 
 // accessToken + refreshToken
 // authMiddleware
-
 // initRouter initialize routing information
 func InitRouter() *gin.Engine {
 	router := gin.Default()
@@ -25,46 +24,41 @@ func InitRouter() *gin.Engine {
 		userRouter := routerV1.Group("/users")
 		{
 			userRouter.POST("/register", v1.Register)
-			userRouter.POST("/update", v1.Update)
 			userRouter.POST("/login", v1.Login)
+			userRouter.POST("/update-passwd", v1.Update)
+
 			userRouter.GET("/activate", v1.Activate)
-			userRouter.POST("/rerunEmail", v1.RerunEmail)
+			userRouter.POST("/rerun-email", v1.RerunEmail)
+			userRouter.POST("/forget-passwd", v1.ForgetPasswd)
+			userRouter.POST("/reset-passwd", v1.ResetPasswd)
+			userRouter.POST("/delete-user", v1.DeleteUser)
 		}
 
-		accountRouter := routerV1.Group("/:id")
+		accountRouter := routerV1.Group("/account").Use(mw.JWTAuth())
 		{
-			// getUser
-			// if username == id, return all information includes password
-			// else return
-			accountRouter.GET("/", v1.GetUser)
-
-			// // changeProfile
-			accountRouter.POST("/change-profile", v1.ChangeProfile)
-
-			// // collected
-			accountRouter.GET("/collected", v1.Collected)
-
-			// // favorites
-			accountRouter.GET("/favorites", v1.Favorites)
-
-			// creation
-			// tab = item or collection
-			accountRouter.GET("/creation", v1.Creation)
-
-			// // createItem
+			// createItem
 			accountRouter.POST("/create-item", v1.CreateItem)
-
-			// // editItem
+			//  editItem
 			accountRouter.POST("/edit-item", v1.EditItem)
-
-			// // editItem
+			// collected
+			accountRouter.GET("/collected", v1.Collected)
+			// favorites
+			accountRouter.GET("/favorites", v1.Favorites)
+			// deleteItem
 			accountRouter.POST("/delete-item", v1.DeleteItem)
 
-			// // createCollection
+			// createCollection
 			accountRouter.POST("/create-collection", v1.CreateCollectionByAccount)
-
-			// // editCollection
+			// editCollection
 			accountRouter.POST("/edit-collection", v1.EditCollection)
+			accountRouter.GET("/creation", v1.Creation)
+			// deleteCollection
+			accountRouter.POST("/delete-collection", v1.DeleteCollection)
+
+			// EditProfile
+			accountRouter.POST("/edit-profile", v1.EditProfile)
+			// getUser
+			accountRouter.GET("/get-user", v1.GetUser)
 
 		}
 
@@ -73,14 +67,8 @@ func InitRouter() *gin.Engine {
 			// get all collections
 			collectionRouter.GET("/", v1.GetAllCollections)
 
-			//create collection
-			collectionRouter.POST("/create", v1.CreateCollection)
-
 			// check one collection
 			collectionRouter.GET("/:collection-id", v1.GetCollectionByID)
-
-			// items
-			collectionRouter.GET("/:collection-id/items", v1.GetAllItems)
 
 		}
 
@@ -88,9 +76,11 @@ func InitRouter() *gin.Engine {
 		{
 			// all items
 			// tab = sortBy & filter
-			itemsRouter.GET("/", v1.AllItems)
+			itemsRouter.GET("/", v1.SortedItems)
 
 			itemsRouter.GET("/:item", v1.SingleItem)
+
+			itemsRouter.GET("/item-json", v1.GetJsonMsg)
 
 		}
 
@@ -126,16 +116,12 @@ func InitRouter() *gin.Engine {
 
 			tourRouter.GET("/event-banner", v1.Name19)
 		}
-		itemJsonRouter := routerV1.Group("/tokenid")
-		{
-
-			itemJsonRouter.GET("/:tokenid", v1.GetJsonMsg)
-		}
 
 		testRouter := routerV1.Group("/test")
 		{
 			testRouter.POST("/", v1.TestContract)
-		}	
+			testRouter.POST("/enroll", v1.TestEnroll)
+		}
 	}
 	return router
 }

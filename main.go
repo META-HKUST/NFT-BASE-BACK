@@ -4,7 +4,11 @@ import (
 	"NFT-BASE-BACK/config"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/router"
+	"io"
 	"log"
+	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 // @title HKUST-NFT
@@ -15,6 +19,9 @@ import (
 // @host unifit.ust.hk:8888
 // @BasePath /api/v1
 func main() {
+	gin.DisableConsoleColor()
+	f, _ := os.Create("log/gin.log")
+	gin.DefaultWriter = io.MultiWriter(f)
 	config, err := config.LoadConfig("./config")
 	if err != nil {
 		log.Fatal("cannot load config", err)

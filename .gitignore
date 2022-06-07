@@ -1,2 +1,19 @@
+# config
 config/config.yaml
+
+# nohup go run main.go 2>&1 >output &
 output
+
+# IDE
+.idea
+
+# x509
+sdk/keystore
+wallet
+*.id
+
+# log
+*.log
+
+# docs
+docs

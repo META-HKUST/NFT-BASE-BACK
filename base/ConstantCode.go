@@ -4,7 +4,7 @@ package base
 type ErrCode int
 
 const (
-	Success ErrCode = 100 // Operation succeed
+	Success ErrCode = 0 // Operation succeed
 
 	OpenSqlError      ErrCode = 1001 // Error open Mysql database
 	ConnectSqlError   ErrCode = 1002 // Cannot connect to mysql database

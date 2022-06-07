@@ -1,58 +1,51 @@
 package v1
 
 import (
-	"net/http"
-	"time"
-
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-type Collection struct {
-	CollectionId   int    `json:"collection_id"`
-	CollectionName string `json:"collection_name"`
-	Items          []Item
-	CreateTime     time.Time `json:"create_time"`
-	Owner          string    `json:"owner"`
-}
-
-// @Description  get all collections under the current account
+// GetAllCollections @Description  get all collections in database using some methods
 // @Tags         collection
+// @param 		 num   query   string   true   "num"
+// @param 		 pagesize   query   string   true   "pagesize"
+// @param 		 method   query   string   true   "method on how to sort these collections"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "GET/api/v1/collections"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /collections [GET]
 func GetAllCollections(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
+	res := base.PageResponse{}
+	pgnumber := ctx.Query("num")
+	pgsize := ctx.Query("pagesize")
+	methond := ctx.Query("method")
+	fmt.Println(pgnumber, pgsize)
+	code, data, count := service.GetCollections("", 1, 2, methond)
+	res.SetCode(code)
+	res.SetData(data)
+	res.SetCount(count)
+	ctx.JSON(http.StatusOK, res)
 }
 
-// @Description  create new collection
-// @Tags         collection
-// @Accept       json
-// @Produce      json
-// @Success      200  {string}  string "POST /api/v1/collections/create"
-// @Router       /create [POST]
-func CreateCollection(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
-}
-
-// @Description  get single collection by id
+// GetCollectionByID @Description  get single collection by id
 // @Tags         collection
 // @param 		 collection-id   path   string    true    "collection id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "GET/api/v1/collections/XXXX"
+// @Success 0 {object} base.ErrCode "Operation Succeed, code: 0"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /collections/{collection-id} [GET]
 func GetCollectionByID(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
-}
-
-// @Description  all items in collection
-// @Tags         collection
-// @param 		 collection-id   path   string    true    "collection id"
-// @Accept       json
-// @Produce      json
-// @Success      200  {string}  string "GET/api/v1/collections/XXXXX/items"
-// @Router       /collections/{collection-id}/items [GET]
-func GetAllItems(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, ctx.Request.Method+ctx.Request.URL.Path)
+	res := base.Response{}
+	CollectionId := ctx.Query("collection-id")
+	code, data := service.GetCollection(CollectionId)
+	res.SetData(data)
+	res.SetCode(code)
+	ctx.JSON(http.StatusOK, res)
 }

@@ -8,7 +8,7 @@ func _() {
 	// An "invalid array index" compiler error signifies that the constant values have changed.
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
-	_ = x[Success-100]
+	_ = x[Success-0]
 	_ = x[OpenSqlError-1001]
 	_ = x[ConnectSqlError-1002]
 	_ = x[InsertError-1003]
@@ -47,7 +47,7 @@ var (
 
 func (i ErrCode) String() string {
 	switch {
-	case i == 100:
+	case i == 0:
 		return _ErrCode_name_0
 	case 1001 <= i && i <= 1007:
 		i -= 1001

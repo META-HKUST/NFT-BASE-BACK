@@ -20,9 +20,608 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/account/collected": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "num",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.PageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/create-collection": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "logo-image",
+                        "name": "logo-image",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "feature-image",
+                        "name": "feature-image",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "banner-image",
+                        "name": "banner-image",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/create-item": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "image",
+                        "name": "image",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "collection",
+                        "name": "collection",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "category",
+                        "name": "category",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "label",
+                        "name": "label",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/creation": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "num",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.PageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/delete-collection": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "collection-id",
+                        "name": "collection-id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/delete-item": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "item-id",
+                        "name": "item-id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/edit-collection": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "logo-image",
+                        "name": "logo-image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "feature-image",
+                        "name": "feature-image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "banner-image",
+                        "name": "banner-image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/edit-item": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "description",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "collection",
+                        "name": "collection",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "label",
+                        "name": "label",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "item-id",
+                        "name": "item-id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/edit-profile": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "banner-image",
+                        "name": "banner-image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "avatar-image",
+                        "name": "avatar-image",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "poison",
+                        "name": "poison",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "campus",
+                        "name": "campus",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/favorites": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "num",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.PageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account/get-user": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "account"
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/collections": {
             "get": {
-                "description": "get all collections under the current account",
                 "consumes": [
                     "application/json"
                 ],
@@ -32,11 +631,46 @@ const docTemplate = `{
                 "tags": [
                     "collection"
                 ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "num",
+                        "name": "num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "method on how to sort these collections",
+                        "name": "method",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
-                    "200": {
-                        "description": "GET/api/v1/collections",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.PageResponse"
                         }
                     }
                 }
@@ -44,7 +678,6 @@ const docTemplate = `{
         },
         "/collections/{collection-id}": {
             "get": {
-                "description": "get single collection by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -64,63 +697,22 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "GET/api/v1/collections/XXXX",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
-                    }
-                }
-            }
-        },
-        "/collections/{collection-id}/items": {
-            "get": {
-                "description": "all items in collection",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "collection"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "collection id",
-                        "name": "collection-id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/collections/XXXXX/items",
+                    },
+                    "400": {
+                        "description": "request error",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
-                    }
-                }
-            }
-        },
-        "/create": {
-            "post": {
-                "description": "create new collection",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "collection"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST /api/v1/collections/create",
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -140,9 +732,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/event-banner",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -162,21 +766,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/events",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.EventsResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -205,21 +809,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/events/balala",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.EventResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -248,21 +852,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/events/balala/items",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.EventItemsResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -291,21 +895,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "POST/api/v1/events/balala/join",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.JoinEventResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -341,21 +945,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "POST/api/v1/events/balala/likes",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.JoinEventResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -384,21 +988,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/v1/events/balala/ranks",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "$ref": "#/definitions/v1.EventItemsResponse"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -434,21 +1038,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "POST/api/v1/events/balala/submit-item",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -456,7 +1060,7 @@ const docTemplate = `{
         },
         "/items": {
             "get": {
-                "description": "all items",
+                "description": "get all items in database and get them sorted according to \"method\", default time",
                 "consumes": [
                     "application/json"
                 ],
@@ -469,34 +1073,85 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "favorites,popular,newest",
-                        "name": "sort-by",
-                        "in": "query"
+                        "description": "pagenumber",
+                        "name": "pagenumber",
+                        "in": "query",
+                        "required": true
                     },
                     {
                         "type": "string",
-                        "description": "image,video,audio",
-                        "name": "filter",
-                        "in": "query"
+                        "description": "pagesize",
+                        "name": "pagesize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "method on how to sort these items",
+                        "name": "method",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "GET/api/v1/items",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "$ref": "#/definitions/v1.AllItemsResponse"
+                            "type": "integer"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.PageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/items/item-json": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token id of one NFT",
+                        "name": "token-id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -504,7 +1159,7 @@ const docTemplate = `{
         },
         "/items/{item-id}": {
             "get": {
-                "description": "single item",
+                "description": "single item according to item-id",
                 "consumes": [
                     "application/json"
                 ],
@@ -517,29 +1172,29 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "collection id",
+                        "description": "item-id",
                         "name": "item-id",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "GET/api/v1/items/yiiiiiii",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "$ref": "#/definitions/v1.Item"
+                            "type": "integer"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -559,9 +1214,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/tour",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -581,9 +1248,21 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/tr/articles",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -603,16 +1282,28 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "GET/api/tr/articles/XXXXXX",
+                        "description": "Operation Succeed",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
             }
         },
         "/users/activate": {
-            "post": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -625,17 +1316,68 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "token",
+                        "description": "token of email(different from auth jwt token)",
                         "name": "token",
                         "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "POST/api/v1/users",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/forget-passwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -662,17 +1404,29 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "password",
+                        "description": "passwd",
                         "name": "passwd",
                         "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "POST/api/v1/users",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -706,23 +1460,35 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "name",
+                        "description": "the user's name",
                         "name": "name",
                         "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "POST/api/v1/users",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
             }
         },
-        "/users/rerunEmail": {
+        "/users/rerun-email": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -750,16 +1516,28 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "POST/api/v1/users",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
             }
         },
-        "/users/update": {
+        "/users/reset-passwd": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -777,10 +1555,45 @@ const docTemplate = `{
                         "name": "email",
                         "in": "query",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
                     },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update-passwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
                     {
                         "type": "string",
-                        "description": "password",
+                        "description": "passwd",
                         "name": "passwd",
                         "in": "query",
                         "required": true
@@ -794,362 +1607,22 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "POST/api/v1/users",
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
                         "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}": {
-            "get": {
-                "description": "get user:if username == id, return all information includes password",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/Anna",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/change-profile": {
-            "post": {
-                "description": "change profile",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "user Name",
-                        "name": "userName",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST/api/v1/Anna/change-profile",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/collected": {
-            "get": {
-                "description": "collected",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/Anna/collected",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/create-collection": {
-            "post": {
-                "description": "create-collection",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "collection Name",
-                        "name": "collection-Name",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST/api/v1/Anna/create-collection",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/create-item": {
-            "post": {
-                "description": "create-item",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "item Name",
-                        "name": "item-Name",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST/api/v1/Anna/create-item",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/creation": {
-            "get": {
-                "description": "creation",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/Anna/creation",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/edit-collection": {
-            "post": {
-                "description": "edit-collection",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "collection Name",
-                        "name": "collection-Name",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST/api/v1/Anna/edit-collection",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/edit-item": {
-            "post": {
-                "description": "edit-item",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "item Name",
-                        "name": "item-Name",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "POST/api/v1/Anna/edit-item",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{id}/favorites": {
-            "get": {
-                "description": "favorites",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "account"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/Anna/favorites",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/{item-id}": {
-            "get": {
-                "description": "item json msg",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "item"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "collection id",
-                        "name": "item-id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "GET/api/v1/XXXX",
-                        "schema": {
-                            "$ref": "#/definitions/v1.Item"
+                            "type": "integer"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "request error",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "type": "integer"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "error code and message and nil data",
                         "schema": {
-                            "$ref": "#/definitions/utils.Error"
+                            "$ref": "#/definitions/base.Response"
                         }
                     }
                 }
@@ -1157,164 +1630,39 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "utils.Error": {
+        "base.PageResponse": {
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "string",
-                    "example": "USER_NAME_EXIST"
+                    "description": "错误码",
+                    "type": "integer"
                 },
-                "message": {
-                    "type": "string",
-                    "example": "user name exist"
-                }
-            }
-        },
-        "v1.AllItemsResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string",
-                    "example": "success"
+                "data": {
+                    "description": "返回数据"
                 },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/v1.Item"
-                    }
+                "msg": {
+                    "description": "错误描述",
+                    "type": "string"
                 },
                 "total": {
-                    "type": "integer",
-                    "example": 10
-                }
-            }
-        },
-        "v1.Event": {
-            "type": "object",
-            "properties": {
-                "event_description": {
-                    "type": "string"
-                },
-                "event_id": {
-                    "type": "integer"
-                },
-                "event_name": {
-                    "type": "string",
-                    "example": "helloworld"
-                },
-                "start_time": {
-                    "type": "string"
-                },
-                "time_duration": {
+                    "description": "总数",
                     "type": "integer"
                 }
             }
         },
-        "v1.EventItem": {
-            "type": "object",
-            "properties": {
-                "collection_id": {
-                    "type": "integer",
-                    "example": 5
-                },
-                "image": {
-                    "type": "string"
-                },
-                "item_id": {
-                    "type": "integer",
-                    "example": 123455
-                },
-                "localFavorites": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "ownerId": {
-                    "type": "string",
-                    "example": "mazhengwang-ust-hk"
-                }
-            }
-        },
-        "v1.EventItemsResponse": {
+        "base.Response": {
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "string",
-                    "example": "SUCCESS"
-                },
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/v1.EventItem"
-                    }
-                },
-                "totel": {
-                    "type": "integer",
-                    "example": 1
-                }
-            }
-        },
-        "v1.EventResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "event": {
-                    "$ref": "#/definitions/v1.Event"
-                }
-            }
-        },
-        "v1.EventsResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/v1.Event"
-                    }
-                },
-                "total": {
+                    "description": "错误码",
                     "type": "integer"
-                }
-            }
-        },
-        "v1.Item": {
-            "type": "object",
-            "properties": {
-                "collection_id": {
-                    "type": "integer",
-                    "example": 5
                 },
-                "createrId": {
-                    "type": "string",
-                    "example": "mazhengwang-ust-hk"
+                "data": {
+                    "description": "返回数据"
                 },
-                "favorites": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "image": {
+                "msg": {
+                    "description": "错误描述",
                     "type": "string"
-                },
-                "item_id": {
-                    "type": "integer",
-                    "example": 123455
-                },
-                "ownerId": {
-                    "type": "string",
-                    "example": "mazhengwang-ust-hk"
-                }
-            }
-        },
-        "v1.JoinEventResponse": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string",
-                    "example": "SUCCESS,USER_JOINED"
                 }
             }
         }

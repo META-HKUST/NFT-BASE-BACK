@@ -5,10 +5,11 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/utils"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 // JWTAuth middleware
@@ -65,9 +66,9 @@ func JWTAuth() gin.HandlerFunc {
 //检查用户名信息
 func CheckUserInfo(claims *utils.CustomClaims) error {
 	p := model.Person{
-		claims.Email,
-		claims.Passwd,
-		model.Activate{},
+		Email:    claims.Email,
+		Passwd:   claims.Passwd,
+		Activate: model.Activate{},
 	}
 	if p.Login() == base.Success {
 		return nil

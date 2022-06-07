@@ -26,9 +26,9 @@ type EventsResponse struct {
 // @Tags         event
 // @Accept       json
 // @Produce      json
-// @Success      200  {object} v1.EventsResponse  "GET/api/v1/events"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events [GET]
 func AllEvents(ctx *gin.Context) {
 	var resp EventsResponse
@@ -57,9 +57,9 @@ type EventResponse struct {
 // @param 		 event-id   path   string    true    "event id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  EventResponse "GET/api/v1/events/balala"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id} [GET]
 func SingleEvent(ctx *gin.Context) {
 	var resp EventResponse
@@ -93,9 +93,9 @@ type EventItemsResponse struct {
 // @param 		 event-id   path   string    true    "event id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  EventItemsResponse "GET/api/v1/events/balala/items"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/items [GET]
 func EventItems(ctx *gin.Context) {
 	var resp EventItemsResponse
@@ -119,9 +119,9 @@ func EventItems(ctx *gin.Context) {
 // @param 		 event-id   path   string    true    "event id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  EventItemsResponse "GET/api/v1/events/balala/ranks"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/ranks [GET]
 func EventItemsRank(ctx *gin.Context) {
 	var resp EventItemsResponse
@@ -150,9 +150,9 @@ type EventLikesResponse struct {
 // @param        item-id    query  int    true    "item id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  JoinEventResponse "POST/api/v1/events/balala/likes"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/likes [POST]
 func EventLikes(ctx *gin.Context) {
 	var resp EventLikesResponse
@@ -169,9 +169,9 @@ type JoinEventResponse struct {
 // @param 		 event-id   path   string    true    "event id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {object}  JoinEventResponse "POST/api/v1/events/balala/join"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/join [POST]
 func JoinEvent(ctx *gin.Context) {
 	var resp JoinEventResponse
@@ -189,9 +189,9 @@ type SubmitItemResponse struct {
 // @param        item-id    query  string    true    "item id"
 // @Accept       json
 // @Produce      json
-// @Success      200  {string}  string "POST/api/v1/events/balala/submit-item"
-// @Failure      400  {object}  utils.Error
-// @Failure      500  {object}  utils.Error
+// @Success 200 {object} base.Response "Operation Succeed"
+// @Failure 400 {object} base.ErrCode "request error"
+// @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/submit-item [POST]
 func SubmitItem(ctx *gin.Context) {
 	var resp SubmitItemResponse
