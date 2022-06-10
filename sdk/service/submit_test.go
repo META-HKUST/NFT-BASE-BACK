@@ -1,8 +1,6 @@
-package sdk
+package service
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestSubmit(t *testing.T) {
 	submitTests := []struct {
@@ -13,6 +11,7 @@ func TestSubmit(t *testing.T) {
 		{
 			username:     "zwang",
 			contractName: "PublicMint",
+			args:         []string{},
 		},
 	}
 
@@ -23,4 +22,5 @@ func TestSubmit(t *testing.T) {
 		}
 		t.Log(result)
 	}
+
 }

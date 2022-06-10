@@ -3,8 +3,9 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
-	DBDriver string `mapstructure:"DB_DRIVER"`
-	DBSource string `mapstructure:"DB_SOURCE"`
+	DBDriver    string `mapstructure:"DB_DRIVER"`
+	DBSource    string `mapstructure:"DB_SOURCE"`
+	LogFilePATH string `mapstructure:"LOG_FILE_PATH"`
 }
 
 // LoadConfig reads configuration from file or environment variables.

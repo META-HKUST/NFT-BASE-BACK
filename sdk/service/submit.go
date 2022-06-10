@@ -1,4 +1,4 @@
-package sdk
+package service
 
 import (
 	"io/ioutil"
@@ -45,7 +45,7 @@ func populateWallet(wallet *gateway.Wallet, username string) error {
 
 func Submit(username string, contractName string, args ...string) (string, error) {
 
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/wallet")
 	if err != nil {
 		return "", err
 	}
@@ -71,7 +71,6 @@ func Submit(username string, contractName string, args ...string) (string, error
 	}
 
 	contract := network.GetContract(chaincodeName)
-	// result, err := contract.SubmitTransaction("MintWithTokenURI", string(id), "http://example.com")
 	result, err := contract.SubmitTransaction(contractName, args...)
 	if err != nil {
 		return "", err
@@ -80,9 +79,9 @@ func Submit(username string, contractName string, args ...string) (string, error
 	return string(result), nil
 }
 
-func Evalute(username string, contractName string, args ...string) (string, error) {
+func Evaluate(username string, contractName string, args ...string) (string, error) {
 
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/wallet")
 	if err != nil {
 		return "", err
 	}
