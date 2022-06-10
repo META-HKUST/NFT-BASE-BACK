@@ -16,7 +16,7 @@ import (
 // @description HKUST-NFT Server API
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8888
+// @host unifit.ust.hk:8888
 // @BasePath /api/v1
 func main() {
 	gin.DisableConsoleColor()
@@ -28,5 +28,5 @@ func main() {
 	}
 	model.InitDB(config)
 	router := router.InitRouter()
-	router.Run(":8888")
+	router.Run(":8889")
 }
