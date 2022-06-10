@@ -25,7 +25,7 @@ definitions:
         description: 错误描述
         type: string
     type: object
-host: unifit.ust.hk:8888
+host: localhost:8888
 info:
   contact: {}
   description: HKUST-NFT Server API

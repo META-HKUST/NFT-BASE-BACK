@@ -45,7 +45,7 @@ func populateWallet(wallet *gateway.Wallet, username string) error {
 
 func Submit(username string, contractName string, args ...string) (string, error) {
 
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/NFT-BASE-BACK/sdk/wallet")
 	if err != nil {
 		return "", err
 	}
@@ -82,7 +82,7 @@ func Submit(username string, contractName string, args ...string) (string, error
 
 func Evalute(username string, contractName string, args ...string) (string, error) {
 
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/zwang/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/NFT-BASE-BACK/sdk/wallet")
 	if err != nil {
 		return "", err
 	}
