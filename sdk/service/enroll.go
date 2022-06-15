@@ -6,7 +6,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 )
@@ -15,9 +14,6 @@ import (
 // Carolina,C=US::CN=ca-org1,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US
 func Enroll(username string) (id string, err error) {
 	certPath := config_local.CONFIG.CryptoPath + username + config_local.CONFIG.CertPathSuffix
-	log.Println(config_local.CONFIG.CryptoPath)
-	log.Println(certPath)
-	log.Println(22)
 	// certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
 	_, err = os.Stat(certPath)
 	if err == nil {

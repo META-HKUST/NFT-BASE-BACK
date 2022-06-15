@@ -63,7 +63,6 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot load config", err)
 	}
-	log.Println(config.CONFIG)
 
 	if strings.ToLower(*serverType) == "gin" {
 		startGinServer()
