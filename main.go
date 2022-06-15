@@ -8,7 +8,6 @@ import (
 	"NFT-BASE-BACK/sdk/pb"
 	"NFT-BASE-BACK/sdk/service"
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"net"
@@ -26,26 +25,28 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host unifit.ust.hk:8888
 // @BasePath /api/v1
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func startGinServer() {
 	gin.DisableConsoleColor()
-	f, _ := os.Create("/home/fabric_release/03_End/zwang/log/gin.log")
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
-	// gin.DefaultWriter = io.MultiWriter(f)
-	config, err := config.LoadConfig("./config")
+	log.Println(config.CONFIG.LogFilePATH)
+	f, err := os.Create(config.CONFIG.LogFilePATH)
 	if err != nil {
-		log.Fatal("cannot load config", err)
+		log.Fatal(err)
 	}
-	model.InitDB(config)
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	model.InitDB(config.CONFIG)
 	sdk.InitClient()
 	router := router.InitRouter()
-	router.Run(":8889")
+	router.Run(":" + config.CONFIG.GinPort)
 }
 
 func startGRPCServer() {
 	server := service.NewFabricServer()
 	grpcServer := grpc.NewServer()
 	pb.RegisterFabricSDKServer(grpcServer, server)
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", 9080))
+	listener, err := net.Listen("tcp", ":"+config.CONFIG.GrpcPort)
 	if err != nil {
 		log.Fatal("cannot start grpc server:", err.Error())
 	}
@@ -53,8 +54,17 @@ func startGRPCServer() {
 }
 
 func main() {
+	// load flag
 	serverType := flag.String("server", "gin", "choose gin or grpc server")
 	flag.Parse()
+
+	// load config
+	err := config.LoadConfig("./config")
+	if err != nil {
+		log.Fatal("cannot load config", err)
+	}
+	log.Println(config.CONFIG)
+
 	if strings.ToLower(*serverType) == "gin" {
 		startGinServer()
 	} else if strings.ToLower(*serverType) == "grpc" {

@@ -173,6 +173,7 @@ type JoinEventResponse struct {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/join [POST]
+// @Security ApiKeyAuth
 func JoinEvent(ctx *gin.Context) {
 	var resp JoinEventResponse
 	resp.Code = "SUCCESS"
@@ -193,6 +194,7 @@ type SubmitItemResponse struct {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /events/{event-id}/submit-item [POST]
+// @Security ApiKeyAuth
 func SubmitItem(ctx *gin.Context) {
 	var resp SubmitItemResponse
 	resp.Code = "SUCCESS"

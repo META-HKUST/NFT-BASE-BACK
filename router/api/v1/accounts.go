@@ -4,8 +4,9 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/service"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // CreateItem @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
@@ -22,6 +23,7 @@ import (
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/create-item [POST]
+// @Security ApiKeyAuth
 func CreateItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -50,6 +52,7 @@ func CreateItem(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/edit-item [POST]
+// @Security ApiKeyAuth
 func EditItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -77,6 +80,7 @@ func EditItem(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /account/collected [GET]
+// @Security ApiKeyAuth
 func Collected(ctx *gin.Context) {
 	res := base.PageResponse{}
 	UserId := "mingzheliu-ust-hk"
@@ -100,6 +104,7 @@ func Collected(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /account/favorites [GET]
+// @Security ApiKeyAuth
 func Favorites(ctx *gin.Context) {
 	res := base.PageResponse{}
 	pgnumber := ctx.Query("num")
@@ -122,6 +127,7 @@ func Favorites(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/delete-item [POST]
+// @Security ApiKeyAuth
 func DeleteItem(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -144,6 +150,7 @@ func DeleteItem(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/create-collection [POST]
+// @Security ApiKeyAuth
 func CreateCollectionByAccount(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -174,6 +181,7 @@ func CreateCollectionByAccount(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/edit-collection [POST]
+// @Security ApiKeyAuth
 func EditCollection(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -201,6 +209,7 @@ func EditCollection(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.PageResponse "error code and message and nil data"
 // @Router       /account/creation [GET]
+// @Security ApiKeyAuth
 func Creation(ctx *gin.Context) {
 	res := base.PageResponse{}
 	pgnumber := ctx.Query("num")
@@ -223,6 +232,7 @@ func Creation(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/delete-collection [POST]
+// @Security ApiKeyAuth
 func DeleteCollection(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -244,6 +254,7 @@ func DeleteCollection(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/edit-profile [POST]
+// @Security ApiKeyAuth
 func EditProfile(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"
@@ -265,6 +276,7 @@ func EditProfile(ctx *gin.Context) {
 // @Failure 400 {object} base.ErrCode "request error"
 // @Failure 500 {object} base.Response "error code and message and nil data"
 // @Router       /account/get-user [GET]
+// @Security ApiKeyAuth
 func GetUser(ctx *gin.Context) {
 	res := base.Response{}
 	UserId := "mingzheliu-ust-hk"

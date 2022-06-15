@@ -38,6 +38,7 @@ type FabricSDKClient interface {
 	PublicMint(ctx context.Context, in *PublicMintRequest, opts ...grpc.CallOption) (*PublicMintResponse, error)
 	PrivateBurn(ctx context.Context, in *PrivateBurnRequest, opts ...grpc.CallOption) (*PrivateBurnResponse, error)
 	TotalSupply(ctx context.Context, in *TokenURIRequest, opts ...grpc.CallOption) (*TotalSupplyResponse, error)
+	Enroll(ctx context.Context, in *EnrollRequest, opts ...grpc.CallOption) (*EnrollResponse, error)
 }
 
 type fabricSDKClient struct {
@@ -192,6 +193,15 @@ func (c *fabricSDKClient) TotalSupply(ctx context.Context, in *TokenURIRequest, 
 	return out, nil
 }
 
+func (c *fabricSDKClient) Enroll(ctx context.Context, in *EnrollRequest, opts ...grpc.CallOption) (*EnrollResponse, error) {
+	out := new(EnrollResponse)
+	err := c.cc.Invoke(ctx, "/FabricSDK/Enroll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FabricSDKServer is the server API for FabricSDK service.
 // All implementations must embed UnimplementedFabricSDKServer
 // for forward compatibility
@@ -212,6 +222,7 @@ type FabricSDKServer interface {
 	PublicMint(context.Context, *PublicMintRequest) (*PublicMintResponse, error)
 	PrivateBurn(context.Context, *PrivateBurnRequest) (*PrivateBurnResponse, error)
 	TotalSupply(context.Context, *TokenURIRequest) (*TotalSupplyResponse, error)
+	Enroll(context.Context, *EnrollRequest) (*EnrollResponse, error)
 	mustEmbedUnimplementedFabricSDKServer()
 }
 
@@ -266,6 +277,9 @@ func (UnimplementedFabricSDKServer) PrivateBurn(context.Context, *PrivateBurnReq
 }
 func (UnimplementedFabricSDKServer) TotalSupply(context.Context, *TokenURIRequest) (*TotalSupplyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalSupply not implemented")
+}
+func (UnimplementedFabricSDKServer) Enroll(context.Context, *EnrollRequest) (*EnrollResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Enroll not implemented")
 }
 func (UnimplementedFabricSDKServer) mustEmbedUnimplementedFabricSDKServer() {}
 
@@ -568,6 +582,24 @@ func _FabricSDK_TotalSupply_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FabricSDK_Enroll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnrollRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FabricSDKServer).Enroll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/FabricSDK/Enroll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FabricSDKServer).Enroll(ctx, req.(*EnrollRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FabricSDK_ServiceDesc is the grpc.ServiceDesc for FabricSDK service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -638,6 +670,10 @@ var FabricSDK_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TotalSupply",
 			Handler:    _FabricSDK_TotalSupply_Handler,
+		},
+		{
+			MethodName: "Enroll",
+			Handler:    _FabricSDK_Enroll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

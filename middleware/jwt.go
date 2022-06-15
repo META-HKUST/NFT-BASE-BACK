@@ -21,6 +21,7 @@ func JWTAuth() gin.HandlerFunc {
 				"code": base.LackTokenError,
 				"msg":  base.LackTokenError.String(),
 			})
+			ctx.Abort()
 			return
 		}
 		log.Print("token:", authHeader)

@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"NFT-BASE-BACK/config"
 	"NFT-BASE-BACK/sdk/pb"
 	"NFT-BASE-BACK/sdk/service"
 	"fmt"
@@ -16,6 +17,11 @@ import (
 func TestClient(t *testing.T) {
 	// startTestServer(t)
 	InitClient()
+
+	err := config.LoadConfig("../config")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// response, err := client.OwnerOf(context.Background(), &pb.OwnerOfRequest{
 	// 	TokenId:  "1",

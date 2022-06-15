@@ -65,6 +65,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.PageResponse'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/create-collection:
@@ -112,6 +114,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/create-item:
@@ -164,6 +168,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/creation:
@@ -196,6 +202,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.PageResponse'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/delete-collection:
@@ -223,6 +231,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/delete-item:
@@ -250,6 +260,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/edit-collection:
@@ -292,6 +304,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/edit-item:
@@ -334,6 +348,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/edit-profile:
@@ -372,6 +388,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/favorites:
@@ -404,6 +422,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.PageResponse'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /account/get-user:
@@ -425,6 +445,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - account
   /collections:
@@ -617,6 +639,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - event
   /events/{event-id}/likes:
@@ -711,6 +735,8 @@ paths:
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
+      security:
+      - ApiKeyAuth: []
       tags:
       - event
   /items:
@@ -1085,4 +1111,9 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

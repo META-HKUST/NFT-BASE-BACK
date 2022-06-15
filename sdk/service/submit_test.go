@@ -1,8 +1,18 @@
 package service
 
-import "testing"
+import (
+	"NFT-BASE-BACK/config"
+	"log"
+	"testing"
+)
 
 func TestSubmit(t *testing.T) {
+
+	err := config.LoadConfig("../../config")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	submitTests := []struct {
 		username     string
 		contractName string

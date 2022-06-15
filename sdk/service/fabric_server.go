@@ -148,3 +148,12 @@ func (server *FabricServer) TotalSupply(ctx context.Context, req *pb.TokenURIReq
 	return &pb.TotalSupplyResponse{Num: result}, nil
 	// return nil, status.Errorf(codes.Unimplemented, "method TotalSupply not implemented")
 }
+
+func (server *FabricServer) Enroll(ctx context.Context, req *pb.EnrollRequest) (*pb.EnrollResponse, error) {
+	result, err := Enroll(req.Username)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.EnrollResponse{X509: result}, nil
+	// return nil, status.Errorf(codes.Unimplemented, "method Enroll not implemented")
+}

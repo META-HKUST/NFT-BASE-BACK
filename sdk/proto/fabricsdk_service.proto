@@ -9,7 +9,6 @@ message BalanceOfResuest {
 
 message BalanceOfResponse {
   string num = 1;
-  // string err = 2;
 }
 
 // OwnerOf
@@ -20,7 +19,6 @@ message OwnerOfRequest {
 
 message OwnerOfResponse {
   string owner = 1;
-  // string err = 2;
 }
 
 // Approve
@@ -32,7 +30,6 @@ message ApproveRequest {
 
 message ApproveResponse {
   string ok = 1;
-  // string err = 2;
 }
 
 // SetApprovalForAll
@@ -45,7 +42,6 @@ message SetApprovalForAllRequest {
 
 message SetApprovalForAllResponse {
   string ok = 1;
-  // string err = 2;
 }
 
 // IsApprovedForAll
@@ -57,7 +53,6 @@ message IsApprovedForAllRequest {
 
 message IsApprovedForAllResponse {
   string ok = 1;
-  // string err = 2;
 }
 
 // GetApproved
@@ -79,7 +74,6 @@ message TransferFromRequest {
 
 message TransferFromResponse {
   string ok = 1;
-  // string err = 2;
 }
 
 // ClientAccountBalance
@@ -89,7 +83,6 @@ message ClientAccountBalanceRequest {
 
 message ClientAccountBalanceResponse {
   string num = 1;
-  // string err = 2;
 }
 
 // ClientAccountID
@@ -99,7 +92,6 @@ message ClientAccountIDRequest {
 
 message ClientAccountIDResponse {
   string x509 = 1;
-  // string err = 2;
 }
 
 // TokenURI
@@ -110,7 +102,6 @@ message TokenURIRequest {
 
 message TokenURIReqponse {
   string URI = 1;
-  // string err = 2;
 }
 
 // SetChainCodeOwner
@@ -122,7 +113,6 @@ message SetChainCodeOwnerRequest {
 // ?
 message SetChainCodeOwnerResponse {
   string owner = 1;
-  // string err = 2;
 }
 
 // GetChainCodeOwner
@@ -132,7 +122,6 @@ message GetChainCodeOwnerRequest {
 
 message GetChainCodeOwnerResponse {
   string owner = 1;
-  // string err = 2;
 }
 
 // SetBaseURI
@@ -144,7 +133,6 @@ message SetBaseURIRequest {
 // ?
 message SetBaseURIResponse {
   string result = 1;
-  // string err = 2;
 }
 
 // PublicMint
@@ -154,7 +142,6 @@ message PublicMintRequest{
 
 message PublicMintResponse {
   string tokenId = 1;
-  // string err = 2;
 }
 
 // PrivateBurn
@@ -165,7 +152,6 @@ message PrivateBurnRequest {
 
 message PrivateBurnResponse {
   string ok = 1;
-  // string err = 2;
 }
 
 // TotalSupply
@@ -175,7 +161,15 @@ message TotalSupplyRequest {
 
 message TotalSupplyResponse {
   string num = 1;
-  // string err = 2;
+}
+
+// Enroll
+message EnrollRequest {
+  string username = 1;
+}
+
+message EnrollResponse {
+  string x509 = 1;
 }
 
 service FabricSDK {
@@ -201,4 +195,5 @@ service FabricSDK {
   rpc PublicMint(PublicMintRequest) returns (PublicMintResponse) {}
   rpc PrivateBurn(PrivateBurnRequest) returns (PrivateBurnResponse) {}
   rpc TotalSupply(TokenURIRequest) returns (TotalSupplyResponse) {}
+  rpc Enroll(EnrollRequest) returns (EnrollResponse) {}
 }
