@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"NFT-BASE-BACK/sdk"
+	"NFT-BASE-BACK/sdk/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +23,7 @@ func TestContract(ctx *gin.Context) {
 		})
 		return
 	}
-	result, err := sdk.Submit(req.Username, req.ContractName, req.Args...)
+	result, err := service.Submit(req.Username, req.ContractName, req.Args...)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{
 			"code": 9999,
@@ -53,7 +53,7 @@ func TestEnroll(ctx *gin.Context) {
 		return
 	}
 
-	result, err := sdk.Enroll(req.Username)
+	result, err := service.Enroll(req.Username)
 	if err != nil {
 		ctx.JSON(http.StatusOK, gin.H{
 			"code": 9999,

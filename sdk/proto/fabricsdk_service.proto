@@ -1,0 +1,199 @@
+syntax = "proto3";
+option go_package = "../pb;pb";
+
+// BalanceOf
+message BalanceOfResuest { 
+  string owner = 1; 
+  string username = 2;
+}
+
+message BalanceOfResponse {
+  string num = 1;
+}
+
+// OwnerOf
+message OwnerOfRequest { 
+  string tokenId = 1; 
+  string username = 2;
+}
+
+message OwnerOfResponse {
+  string owner = 1;
+}
+
+// Approve
+message ApproveRequest {
+  string operator = 1;
+  string tokenId = 2;
+  string username = 3;
+}
+
+message ApproveResponse {
+  string ok = 1;
+}
+
+// SetApprovalForAll
+// ?
+message SetApprovalForAllRequest {
+  string operator = 1;
+  string operator2 = 2;
+  string username = 3;
+}
+
+message SetApprovalForAllResponse {
+  string ok = 1;
+}
+
+// IsApprovedForAll
+message IsApprovedForAllRequest {
+  string owner = 1;
+  string operator = 2;
+  string username = 3;
+}
+
+message IsApprovedForAllResponse {
+  string ok = 1;
+}
+
+// GetApproved
+message GetApprovedRequest { 
+  string tokenId = 1; 
+  string username = 2;
+}
+
+// ?
+message GetApprovedResponse {}
+
+// TransferFrom
+message TransferFromRequest {
+  string from = 1;
+  string to = 2;
+  string tokenId = 3;
+  string username = 4;
+}
+
+message TransferFromResponse {
+  string ok = 1;
+}
+
+// ClientAccountBalance
+message ClientAccountBalanceRequest {
+  string username = 1;
+}
+
+message ClientAccountBalanceResponse {
+  string num = 1;
+}
+
+// ClientAccountID
+message ClientAccountIDRequest {
+  string username = 1;
+}
+
+message ClientAccountIDResponse {
+  string x509 = 1;
+}
+
+// TokenURI
+message TokenURIRequest { 
+  string tokenId = 1; 
+  string username = 2;
+}
+
+message TokenURIReqponse {
+  string URI = 1;
+}
+
+// SetChainCodeOwner
+message SetChainCodeOwnerRequest { 
+  string codeOwner = 1; 
+  string username = 2;
+}
+
+// ?
+message SetChainCodeOwnerResponse {
+  string owner = 1;
+}
+
+// GetChainCodeOwner
+message GetChainCodeOwnerRequest {
+  string username = 1;
+}
+
+message GetChainCodeOwnerResponse {
+  string owner = 1;
+}
+
+// SetBaseURI
+message SetBaseURIRequest { 
+  string uri = 1; 
+  string username = 2;
+}
+
+// ?
+message SetBaseURIResponse {
+  string result = 1;
+}
+
+// PublicMint
+message PublicMintRequest{
+  string username = 1;
+}
+
+message PublicMintResponse {
+  string tokenId = 1;
+}
+
+// PrivateBurn
+message PrivateBurnRequest { 
+  string tokenId = 1; 
+  string username = 2;
+}
+
+message PrivateBurnResponse {
+  string ok = 1;
+}
+
+// TotalSupply
+message TotalSupplyRequest {
+  string username = 1;
+}
+
+message TotalSupplyResponse {
+  string num = 1;
+}
+
+// Enroll
+message EnrollRequest {
+  string username = 1;
+}
+
+message EnrollResponse {
+  string x509 = 1;
+}
+
+service FabricSDK {
+  rpc BalanceOf(BalanceOfResuest) returns (BalanceOfResponse) {}
+  rpc OwnerOf(OwnerOfRequest) returns (OwnerOfResponse) {}
+  rpc Approve(ApproveRequest) returns (ApproveResponse) {}
+  rpc SetApprovalForAll(SetApprovalForAllRequest)
+      returns (SetApprovalForAllResponse) {}
+  rpc IsApprovedForAll(IsApprovedForAllRequest)
+      returns (IsApprovedForAllResponse) {}
+  rpc GetApproved(GetApprovedRequest) returns (GetApprovedResponse) {}
+  rpc TransferFrom(TransferFromRequest) returns (TransferFromResponse) {}
+  rpc ClientAccountBalance(ClientAccountBalanceRequest)
+      returns (ClientAccountBalanceResponse) {}
+  rpc ClientAccountID(ClientAccountIDRequest) returns (ClientAccountIDResponse) {
+  }
+  rpc TokenURI(TokenURIRequest) returns (TokenURIReqponse) {}
+  rpc SetChainCodeOwner(SetChainCodeOwnerRequest)
+      returns (SetChainCodeOwnerResponse) {}
+  rpc GetChainCodeOwner(GetChainCodeOwnerRequest)
+      returns (GetChainCodeOwnerResponse) {}
+  rpc SetBaseURI(SetBaseURIRequest) returns (SetBaseURIResponse) {}
+  rpc PublicMint(PublicMintRequest) returns (PublicMintResponse) {}
+  rpc PrivateBurn(PrivateBurnRequest) returns (PrivateBurnResponse) {}
+  rpc TotalSupply(TokenURIRequest) returns (TotalSupplyResponse) {}
+  rpc Enroll(EnrollRequest) returns (EnrollResponse) {}
+}

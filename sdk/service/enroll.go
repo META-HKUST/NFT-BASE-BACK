@@ -1,6 +1,7 @@
-package sdk
+package service
 
 import (
+	config_local "NFT-BASE-BACK/config"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
@@ -12,7 +13,8 @@ import (
 //  x509::CN=zwang.org1.example.com,OU=client,O=Hyperledger,ST=North /
 // Carolina,C=US::CN=ca-org1,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US
 func Enroll(username string) (id string, err error) {
-	certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
+	certPath := config_local.CONFIG.CryptoPath + username + config_local.CONFIG.CertPathSuffix
+	// certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
 	_, err = os.Stat(certPath)
 	if err == nil {
 		err1 := errors.New(username + " exists!")

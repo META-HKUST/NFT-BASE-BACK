@@ -10,11 +10,16 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8888",
+    "host": "unifit.ust.hk:8888",
     "basePath": "/api/v1",
     "paths": {
         "/account/collected": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -64,6 +69,11 @@
         },
         "/account/create-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -134,6 +144,11 @@
         },
         "/account/create-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -211,6 +226,11 @@
         },
         "/account/creation": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -260,6 +280,11 @@
         },
         "/account/delete-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -302,6 +327,11 @@
         },
         "/account/delete-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -344,6 +374,11 @@
         },
         "/account/edit-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -409,6 +444,11 @@
         },
         "/account/edit-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -474,6 +514,11 @@
         },
         "/account/edit-profile": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -533,6 +578,11 @@
         },
         "/account/favorites": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -582,6 +632,11 @@
         },
         "/account/get-user": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -867,6 +922,11 @@
         },
         "/events/{event-id}/join": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "user join event",
                 "consumes": [
                     "application/json"
@@ -1003,6 +1063,11 @@
         },
         "/events/{event-id}/submit-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "user submit item",
                 "consumes": [
                     "application/json"
@@ -1658,6 +1723,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

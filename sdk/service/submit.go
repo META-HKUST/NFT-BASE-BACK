@@ -1,23 +1,27 @@
-package sdk
+package service
 
 import (
 	"io/ioutil"
+
+	config_local "NFT-BASE-BACK/config"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
 )
 
 const (
-	cryptoPath    = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/users/"
-	ccpPath       = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/connection-org1.yaml"
-	channelName   = "unifitchannel"
-	chaincodeName = "unifitPublicNFT"
+// cryptoPath    = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/users/"
+// ccpPath       = "/home/fabric_release/01_Fabric/hyperledger/crypto-config/peerOrganizations/org1.unifit.com/connection-org1.yaml"
+// channelName   = "unifitchannel"
+// chaincodeName = "unifitPublicNFT"
 )
 
 func populateWallet(wallet *gateway.Wallet, username string) error {
 
-	certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
-	keyPath := cryptoPath + username + ".org1.unifit.com/msp/keystore/"
+	certPath := config_local.CONFIG.CryptoPath + username + config_local.CONFIG.CertPathSuffix
+	// certPath := cryptoPath + username + ".org1.unifit.com/msp/signcerts/cert.pem"
+	keyPath := config_local.CONFIG.CryptoPath + username + config_local.CONFIG.KeyPathSuffix
+	// keyPath := cryptoPath + username + ".org1.unifit.com/msp/keystore/"
 	// read the certificate pem
 	cert, err := ioutil.ReadFile(certPath)
 	if err != nil {
@@ -35,7 +39,7 @@ func populateWallet(wallet *gateway.Wallet, username string) error {
 		return err
 	}
 
-	identity := gateway.NewX509Identity("Org1MSP", string(cert), string(key))
+	identity := gateway.NewX509Identity(config_local.CONFIG.MspId, string(cert), string(key))
 	err = wallet.Put(username, identity)
 	if err != nil {
 		return err
@@ -44,8 +48,7 @@ func populateWallet(wallet *gateway.Wallet, username string) error {
 }
 
 func Submit(username string, contractName string, args ...string) (string, error) {
-
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet(config_local.CONFIG.WalletPath)
 	if err != nil {
 		return "", err
 	}
@@ -58,20 +61,19 @@ func Submit(username string, contractName string, args ...string) (string, error
 	}
 
 	gw, err := gateway.Connect(
-		gateway.WithConfig(config.FromFile(ccpPath)),
+		gateway.WithConfig(config.FromFile(config_local.CONFIG.CcpPath)),
 		gateway.WithIdentity(wallet, username),
 	)
 	if err != nil {
 		return "", err
 	}
 	defer gw.Close()
-	network, err := gw.GetNetwork(channelName)
+	network, err := gw.GetNetwork(config_local.CONFIG.ChannelName)
 	if err != nil {
 		return "", err
 	}
 
-	contract := network.GetContract(chaincodeName)
-	// result, err := contract.SubmitTransaction("MintWithTokenURI", string(id), "http://example.com")
+	contract := network.GetContract(config_local.CONFIG.ChaincodeName)
 	result, err := contract.SubmitTransaction(contractName, args...)
 	if err != nil {
 		return "", err
@@ -80,9 +82,9 @@ func Submit(username string, contractName string, args ...string) (string, error
 	return string(result), nil
 }
 
-func Evalute(username string, contractName string, args ...string) (string, error) {
+func Evaluate(username string, contractName string, args ...string) (string, error) {
 
-	wallet, err := gateway.NewFileSystemWallet("/home/fabric_release/03_End/NFT-BASE-BACK/sdk/wallet")
+	wallet, err := gateway.NewFileSystemWallet(config_local.CONFIG.WalletPath)
 	if err != nil {
 		return "", err
 	}
@@ -95,19 +97,19 @@ func Evalute(username string, contractName string, args ...string) (string, erro
 	}
 
 	gw, err := gateway.Connect(
-		gateway.WithConfig(config.FromFile(ccpPath)),
+		gateway.WithConfig(config.FromFile(config_local.CONFIG.CcpPath)),
 		gateway.WithIdentity(wallet, username),
 	)
 	if err != nil {
 		return "", err
 	}
 	defer gw.Close()
-	network, err := gw.GetNetwork(channelName)
+	network, err := gw.GetNetwork(config_local.CONFIG.ChannelName)
 	if err != nil {
 		return "", err
 	}
 
-	contract := network.GetContract(chaincodeName)
+	contract := network.GetContract(config_local.CONFIG.ChaincodeName)
 	result, err := contract.EvaluateTransaction(contractName, args...)
 	if err != nil {
 		return "", err

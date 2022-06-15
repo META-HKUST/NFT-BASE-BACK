@@ -22,6 +22,11 @@ const docTemplate = `{
     "paths": {
         "/account/collected": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -71,6 +76,11 @@ const docTemplate = `{
         },
         "/account/create-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -141,6 +151,11 @@ const docTemplate = `{
         },
         "/account/create-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -218,6 +233,11 @@ const docTemplate = `{
         },
         "/account/creation": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -267,6 +287,11 @@ const docTemplate = `{
         },
         "/account/delete-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -309,6 +334,11 @@ const docTemplate = `{
         },
         "/account/delete-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -351,6 +381,11 @@ const docTemplate = `{
         },
         "/account/edit-collection": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -416,6 +451,11 @@ const docTemplate = `{
         },
         "/account/edit-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -481,6 +521,11 @@ const docTemplate = `{
         },
         "/account/edit-profile": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -540,6 +585,11 @@ const docTemplate = `{
         },
         "/account/favorites": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -589,6 +639,11 @@ const docTemplate = `{
         },
         "/account/get-user": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -874,6 +929,11 @@ const docTemplate = `{
         },
         "/events/{event-id}/join": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "user join event",
                 "consumes": [
                     "application/json"
@@ -1010,6 +1070,11 @@ const docTemplate = `{
         },
         "/events/{event-id}/submit-item": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "user submit item",
                 "consumes": [
                     "application/json"
@@ -1666,13 +1731,20 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8888",
+	Host:             "unifit.ust.hk:8888",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

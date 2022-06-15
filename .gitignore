@@ -6,6 +6,7 @@ output
 
 # IDE
 .idea
+.vscode
 
 # x509
 sdk/keystore

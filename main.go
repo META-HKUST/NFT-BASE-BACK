@@ -4,11 +4,18 @@ import (
 	"NFT-BASE-BACK/config"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/router"
+	"NFT-BASE-BACK/sdk"
+	"NFT-BASE-BACK/sdk/pb"
+	"NFT-BASE-BACK/sdk/service"
+	"flag"
 	"io"
 	"log"
+	"net"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 )
 
 // @title HKUST-NFT
@@ -18,15 +25,48 @@ import (
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host unifit.ust.hk:8888
 // @BasePath /api/v1
-func main() {
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+func startGinServer() {
 	gin.DisableConsoleColor()
-	f, _ := os.Create("log/gin.log")
+	log.Println(config.CONFIG.LogFilePATH)
+	f, err := os.Create(config.CONFIG.LogFilePATH)
+	if err != nil {
+		log.Fatal(err)
+	}
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
-	config, err := config.LoadConfig("./config")
+	model.InitDB(config.CONFIG)
+	sdk.InitClient()
+	router := router.InitRouter()
+	router.Run(":" + config.CONFIG.GinPort)
+}
+
+func startGRPCServer() {
+	server := service.NewFabricServer()
+	grpcServer := grpc.NewServer()
+	pb.RegisterFabricSDKServer(grpcServer, server)
+	listener, err := net.Listen("tcp", ":"+config.CONFIG.GrpcPort)
+	if err != nil {
+		log.Fatal("cannot start grpc server:", err.Error())
+	}
+	grpcServer.Serve(listener)
+}
+
+func main() {
+	// load flag
+	serverType := flag.String("server", "gin", "choose gin or grpc server")
+	flag.Parse()
+
+	// load config
+	err := config.LoadConfig("./config")
 	if err != nil {
 		log.Fatal("cannot load config", err)
 	}
-	model.InitDB(config)
-	router := router.InitRouter()
-	router.Run(":8889")
+
+	if strings.ToLower(*serverType) == "gin" {
+		startGinServer()
+	} else if strings.ToLower(*serverType) == "grpc" {
+		startGRPCServer()
+	}
 }

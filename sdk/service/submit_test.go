@@ -1,10 +1,18 @@
-package sdk
+package service
 
 import (
+	"NFT-BASE-BACK/config"
+	"log"
 	"testing"
 )
 
 func TestSubmit(t *testing.T) {
+
+	err := config.LoadConfig("../../config")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	submitTests := []struct {
 		username     string
 		contractName string
@@ -13,6 +21,7 @@ func TestSubmit(t *testing.T) {
 		{
 			username:     "zwang",
 			contractName: "PublicMint",
+			args:         []string{},
 		},
 	}
 
@@ -23,4 +32,5 @@ func TestSubmit(t *testing.T) {
 		}
 		t.Log(result)
 	}
+
 }
