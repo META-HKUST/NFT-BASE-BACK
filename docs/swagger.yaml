@@ -1,19 +1,5 @@
 basePath: /api/v1
 definitions:
-  base.PageResponse:
-    properties:
-      code:
-        description: 错误码
-        type: integer
-      data:
-        description: 返回数据
-      msg:
-        description: 错误描述
-        type: string
-      total:
-        description: 总数
-        type: integer
-    type: object
   base.Response:
     properties:
       code:
@@ -35,63 +21,19 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
-  /account/collected:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: num
-        in: query
-        name: num
-        required: true
-        type: string
-      - description: pagesize
-        in: query
-        name: pagesize
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.PageResponse'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/create-collection:
+  /item/create:
     post:
       consumes:
       - application/json
       parameters:
-      - description: name
+      - description: item_name
         in: query
-        name: name
+        name: item_name
         required: true
         type: string
-      - description: logo-image
+      - description: item_data
         in: query
-        name: logo-image
-        required: true
-        type: string
-      - description: feature-image
-        in: query
-        name: feature-image
-        required: true
-        type: string
-      - description: banner-image
-        in: query
-        name: banner-image
+        name: item_data
         required: true
         type: string
       - description: description
@@ -99,53 +41,9 @@ paths:
         name: description
         required: true
         type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/create-item:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: name
+      - description: item_collection
         in: query
-        name: name
-        required: true
-        type: string
-      - description: image
-        in: query
-        name: image
-        required: true
-        type: string
-      - description: description
-        in: query
-        name: description
-        required: true
-        type: string
-      - description: collection
-        in: query
-        name: collection
-        required: true
-        type: string
-      - description: category
-        in: query
-        name: category
+        name: item_collection
         required: true
         type: string
       - description: label
@@ -160,634 +58,40 @@ paths:
           description: 'Operation Succeed, code: 0'
           schema:
             type: integer
-        "400":
+        "1000":
           description: request error
           schema:
             type: integer
-        "500":
+        "2000":
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/creation:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: num
-        in: query
-        name: num
-        required: true
-        type: string
-      - description: pagesize
-        in: query
-        name: pagesize
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.PageResponse'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/delete-collection:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: collection-id
-        in: path
-        name: collection-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/delete-item:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: item-id
-        in: query
-        name: item-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/edit-collection:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: name
-        in: query
-        name: name
-        type: string
-      - description: logo-image
-        in: query
-        name: logo-image
-        type: string
-      - description: feature-image
-        in: query
-        name: feature-image
-        type: string
-      - description: banner-image
-        in: query
-        name: banner-image
-        type: string
-      - description: description
-        in: query
-        name: description
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/edit-item:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: name
-        in: query
-        name: name
-        type: string
-      - description: description
-        in: query
-        name: description
-        type: string
-      - description: collection
-        in: query
-        name: collection
-        type: string
-      - description: label
-        in: query
-        name: label
-        type: string
-      - description: item-id
-        in: query
-        name: item-id
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/edit-profile:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: banner-image
-        in: query
-        name: banner-image
-        type: string
-      - description: avatar-image
-        in: query
-        name: avatar-image
-        type: string
-      - description: poison
-        in: query
-        name: poison
-        type: string
-      - description: campus
-        in: query
-        name: campus
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/favorites:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: num
-        in: query
-        name: num
-        required: true
-        type: string
-      - description: pagesize
-        in: query
-        name: pagesize
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.PageResponse'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /account/get-user:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - account
-  /collections:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: num
-        in: query
-        name: num
-        required: true
-        type: string
-      - description: pagesize
-        in: query
-        name: pagesize
-        required: true
-        type: string
-      - description: method on how to sort these collections
-        in: query
-        name: method
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.PageResponse'
-      tags:
-      - collection
-  /collections/{collection-id}:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: collection id
-        in: path
-        name: collection-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - collection
-  /event-banner:
-    get:
-      consumes:
-      - application/json
-      description: event-banner
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - tour
-  /events:
-    get:
-      consumes:
-      - application/json
-      description: all events
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - event
-  /events/{event-id}:
-    get:
-      consumes:
-      - application/json
-      description: single event
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - event
-  /events/{event-id}/items:
-    get:
-      consumes:
-      - application/json
-      description: items in event
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - event
-  /events/{event-id}/join:
-    post:
-      consumes:
-      - application/json
-      description: user join event
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - event
-  /events/{event-id}/likes:
-    post:
-      consumes:
-      - application/json
-      description: user join event
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: integer
-      - description: item id
-        in: query
-        name: item-id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - event
-  /events/{event-id}/ranks:
-    get:
-      consumes:
-      - application/json
-      description: item ranks in event
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - event
-  /events/{event-id}/submit-item:
-    post:
-      consumes:
-      - application/json
-      description: user submit item
-      parameters:
-      - description: event id
-        in: path
-        name: event-id
-        required: true
-        type: string
-      - description: item id
-        in: query
-        name: item-id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      security:
-      - ApiKeyAuth: []
-      tags:
-      - event
-  /items:
-    get:
-      consumes:
-      - application/json
-      description: get all items in database and get them sorted according to "method",
-        default time
-      parameters:
-      - description: pagenumber
-        in: query
-        name: pagenumber
-        required: true
-        type: string
-      - description: pagesize
-        in: query
-        name: pagesize
-        required: true
-        type: string
-      - description: method on how to sort these items
-        in: query
-        name: method
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.PageResponse'
       tags:
       - item
-  /items/{item-id}:
-    get:
+  /item/edit:
+    post:
       consumes:
       - application/json
-      description: single item according to item-id
       parameters:
       - description: item-id
-        in: path
+        in: query
         name: item-id
-        required: true
+        type: string
+      - description: name
+        in: query
+        name: item_name
+        type: string
+      - description: description
+        in: query
+        name: description
+        type: string
+      - description: collection
+        in: query
+        name: collection_id
+        type: string
+      - description: label
+        in: query
+        name: label
         type: string
       produces:
       - application/json
@@ -796,11 +100,67 @@ paths:
           description: 'Operation Succeed, code: 0'
           schema:
             type: integer
-        "400":
+        "1000":
           description: request error
           schema:
             type: integer
-        "500":
+        "2000":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - item
+  /item/like:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: item-id
+        in: query
+        name: item-id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: Operation Succeed
+          schema:
+            type: integer
+        "1000":
+          description: request error
+          schema:
+            type: integer
+        "2000":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - item
+  /item/transfer:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: to user id
+        in: query
+        name: to_user_id
+        type: string
+      - description: item id
+        in: query
+        name: item_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: Operation Succeed
+          schema:
+            type: integer
+        "1000":
+          description: request error
+          schema:
+            type: integer
+        "2000":
           description: error code and message and nil data
           schema:
             $ref: '#/definitions/base.Response'
@@ -833,80 +193,14 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - item
-  /tour:
-    get:
-      consumes:
-      - application/json
-      description: tour
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - tour
-  /tr/articles:
-    get:
-      consumes:
-      - application/json
-      description: tutorials
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - tour
-  /tr/articles/:articles-id:
-    post:
-      consumes:
-      - application/json
-      description: view articles by title
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Operation Succeed
-          schema:
-            $ref: '#/definitions/base.Response'
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - tour
-  /users/activate:
+  /list/collection:
     get:
       consumes:
       - application/json
       parameters:
-      - description: token of email(different from auth jwt token)
-        in: query
-        name: token
+      - description: collection id
+        in: path
+        name: collection_id
         required: true
         type: string
       produces:
@@ -925,192 +219,7 @@ paths:
           schema:
             $ref: '#/definitions/base.Response'
       tags:
-      - user
-  /users/forget-passwd:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
-  /users/login:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      - description: passwd
-        in: query
-        name: passwd
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
-  /users/register:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      - description: passwd
-        in: query
-        name: passwd
-        required: true
-        type: string
-      - description: the user's name
-        in: query
-        name: name
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
-  /users/rerun-email:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      - description: name
-        in: query
-        name: name
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
-  /users/reset-passwd:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: email
-        in: query
-        name: email
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
-  /users/update-passwd:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: passwd
-        in: query
-        name: passwd
-        required: true
-        type: string
-      - description: newpasswd
-        in: query
-        name: newpasswd
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: 'Operation Succeed, code: 0'
-          schema:
-            type: integer
-        "400":
-          description: request error
-          schema:
-            type: integer
-        "500":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - user
+      - list
 securityDefinitions:
   ApiKeyAuth:
     in: header

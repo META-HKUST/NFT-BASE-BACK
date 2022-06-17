@@ -21,106 +21,31 @@ func InitRouter() *gin.Engine {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	routerV1 := router.Group("/api/v1")
 	{
-		userRouter := routerV1.Group("/users")
+
+		itemRouter := routerV1.Group("/item")
 		{
-			userRouter.POST("/register", v1.Register)
-			userRouter.POST("/login", v1.Login)
-			userRouter.POST("/update-passwd", v1.Update)
 
-			userRouter.GET("/activate", v1.Activate)
-			userRouter.POST("/rerun-email", v1.RerunEmail)
-			userRouter.POST("/forget-passwd", v1.ForgetPasswd)
-			userRouter.POST("/reset-passwd", v1.ResetPasswd)
-			userRouter.POST("/delete-user", v1.DeleteUser)
-		}
+			itemRouter.POST("/create", v1.CreateItem)
 
-		accountRouter := routerV1.Group("/account").Use(mw.JWTAuth())
-		{
-			// createItem
-			accountRouter.POST("/create-item", v1.CreateItem)
-			//  editItem
-			accountRouter.POST("/edit-item", v1.EditItem)
-			// collected
-			accountRouter.GET("/collected", v1.Collected)
-			// favorites
-			accountRouter.GET("/favorites", v1.Favorites)
-			// deleteItem
-			accountRouter.POST("/delete-item", v1.DeleteItem)
+			itemRouter.POST("/edit", v1.EditItem)
 
-			// createCollection
-			accountRouter.POST("/create-collection", v1.CreateCollectionByAccount)
-			// editCollection
-			accountRouter.POST("/edit-collection", v1.EditCollection)
-			accountRouter.GET("/creation", v1.Creation)
-			// deleteCollection
-			accountRouter.POST("/delete-collection", v1.DeleteCollection)
-
-			// EditProfile
-			accountRouter.POST("/edit-profile", v1.EditProfile)
-			// getUser
-			accountRouter.GET("/get-user", v1.GetUser)
+			itemRouter.POST("/transfer", v1.TransferItem)
+			itemRouter.POST("/like", v1.LikeItem)
 
 		}
 
-		collectionRouter := routerV1.Group("/collections")
+		listRouter := routerV1.Group("/list")
 		{
-			// get all collections
-			collectionRouter.GET("/", v1.GetAllCollections)
 
-			// check one collection
-			collectionRouter.GET("/:collection-id", v1.GetCollectionByID)
+			listRouter.GET("/user-list",v1.UserList)
 
-		}
+			listRouter.POST("/collection", v1.SingleCollection)
 
-		itemsRouter := routerV1.Group("/items")
-		{
-			// all items
-			// tab = sortBy & filter
-			itemsRouter.GET("/", v1.SortedItems)
+			listRouter.POST("/collection-list", v1.CollectionList)
+			listRouter.POST("/item", v1.SingleItem)
+			listRouter.POST("/item-list", v1.ItemList)
+			listRouter.POST("/item-history", v1.ItemHistory)
 
-			itemsRouter.GET("/:item", v1.SingleItem)
-
-			itemsRouter.GET("/item-json", v1.GetJsonMsg)
-
-		}
-
-		eventRouter := routerV1.Group("/events")
-		{
-			// all events
-			eventRouter.GET("/", v1.AllEvents)
-
-			eventRouter.GET("/:event-id", v1.SingleEvent)
-
-			eventRouter.GET("/:event-id/items", v1.EventItems)
-
-			eventRouter.GET("/:event-id/ranks", v1.EventItemsRank)
-
-			eventRouter.GET("/:event-id/likes", v1.EventLikes)
-
-			eventRouter.Use(mw.JWTAuth())
-
-			eventRouter.POST("/:event-id/join", v1.JoinEvent)
-
-			// choose
-			eventRouter.POST("/:event-id/submit-item", v1.SubmitItem)
-
-		}
-
-		tourRouter := routerV1.Group("/tour")
-		{
-			tourRouter.GET("/", v1.GetAllTutorials)
-
-			tourRouter.GET("/tr/articles", v1.GetAllArticles)
-
-			tourRouter.POST("/tr/articles/:articles-id", v1.GetArticleByID)
-
-			tourRouter.GET("/event-banner", v1.Name19)
-		}
-
-		testRouter := routerV1.Group("/test")
-		{
-			testRouter.POST("/", v1.TestContract)
-			testRouter.POST("/enroll", v1.TestEnroll)
 		}
 	}
 	return router
