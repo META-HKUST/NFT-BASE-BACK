@@ -11,19 +11,6 @@ type CreateCollectionRequest struct {
 	Description     string `json:"description" example:"Happy Happy Happy Happy" default:"Happy Happy Happy Happy"`
 	Label           string `json:"label" example:"Pear&Pixel&Wechat" default:"Pear&Pixel&Wechat"`
 }
-type Collection struct {
-	CollectionId   string   `json:"collection_id"`
-	CollectionName string   `json:"collection_name"`
-	BannerImage    string   `json:"banner_image"`
-	LogoImage      string   `json:"logo_image"`
-	FeatureImage   string   `json:"feature_image"`
-	Description    string   `json:"description"`
-	Label          []string `json:"label"`
-	ItemNum        int      `json:"item_num"`
-	OwnerId        string   `json:"owner_id"`
-	OwnerName      string   `json:"owner_name"`
-	CreationTime   string   `json:"creation_time"`
-}
 
 func NewCollection() Collection {
 	return Collection{

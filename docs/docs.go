@@ -159,6 +159,11 @@ const docTemplate = `{
         },
         "/item/create": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -170,58 +175,39 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "item_name",
-                        "name": "item_name",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "item_data",
+                        "type": "file",
+                        "description": "NFT本身数据",
                         "name": "item_data",
-                        "in": "query",
+                        "in": "formData",
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "description",
-                        "name": "description",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "item_collection",
-                        "name": "item_collection",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "label",
-                        "name": "label",
-                        "in": "query",
-                        "required": true
+                        "description": "info needed to upload",
+                        "name": "param_request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.CreateParams"
+                        }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
-                    "1000": {
-                        "description": "request error",
+                    "400": {
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
-                    "2000": {
-                        "description": "error code and message and nil data",
+                    "500": {
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -229,6 +215,11 @@ const docTemplate = `{
         },
         "/item/edit": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -240,53 +231,38 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "item-id",
-                        "name": "item-id",
-                        "in": "query"
+                        "type": "file",
+                        "description": "NFT本身数据",
+                        "name": "item_data",
+                        "in": "formData"
                     },
                     {
-                        "type": "string",
-                        "description": "name",
-                        "name": "item_name",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "description",
-                        "name": "description",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "collection",
-                        "name": "collection_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "label",
-                        "name": "label",
-                        "in": "query"
+                        "description": "info needed to upload",
+                        "name": "param_request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.EditParams"
+                        }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
-                    "1000": {
-                        "description": "request error",
+                    "400": {
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
-                    "2000": {
-                        "description": "error code and message and nil data",
+                    "500": {
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -294,6 +270,11 @@ const docTemplate = `{
         },
         "/item/like": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -305,29 +286,32 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "item-id",
-                        "name": "item-id",
-                        "in": "query"
+                        "description": "item id",
+                        "name": "item_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
-                    "1000": {
-                        "description": "request error",
+                    "400": {
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
-                    "2000": {
-                        "description": "error code and message and nil data",
+                    "500": {
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -335,6 +319,11 @@ const docTemplate = `{
         },
         "/item/transfer": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -346,77 +335,32 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "to user id",
-                        "name": "to_user_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "item id",
-                        "name": "item_id",
-                        "in": "query"
+                        "description": "item needed to transfer",
+                        "name": "param_request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.TransferParams"
+                        }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "1000": {
-                        "description": "request error",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    "2000": {
-                        "description": "error code and message and nil data",
-                        "schema": {
-                            "$ref": "#/definitions/base.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/items/item-json": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "item"
-                ],
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token id of one NFT",
-                        "name": "token-id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "0": {
-                        "description": "Operation Succeed, code: 0",
-                        "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
                     "400": {
-                        "description": "request error",
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
                     "500": {
-                        "description": "error code and message and nil data",
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -438,27 +382,104 @@ const docTemplate = `{
                         "type": "string",
                         "description": "collection id",
                         "name": "collection_id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ListResponse"
                         }
                     },
                     "400": {
-                        "description": "request error",
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
                     "500": {
-                        "description": "error code and message and nil data",
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/collection-list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "list"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "keyword",
+                        "name": "keyword",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "rank favorite",
+                        "name": "rank_favorite",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "rank time",
+                        "name": "rank_time",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "user_id",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "label",
+                        "name": "label",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page num",
+                        "name": "page_num",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "page_size",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -480,27 +501,69 @@ const docTemplate = `{
                         "type": "string",
                         "description": "item id",
                         "name": "item_id",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ListResponse"
                         }
                     },
                     "400": {
-                        "description": "request error",
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
                     "500": {
-                        "description": "error code and message and nil data",
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/item-history": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "list"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "item id",
+                        "name": "item_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -522,108 +585,100 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "page num",
                         "name": "page_num",
-                        "in": "path"
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "type": "integer",
                         "description": "page size",
                         "name": "page_size",
-                        "in": "path"
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "description": "user id",
                         "name": "user_id",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "boolean",
                         "description": "user like",
                         "name": "user_like",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "boolean",
                         "description": "user collect",
                         "name": "user_collect",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "boolean",
                         "description": "user create",
                         "name": "user_create",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "string",
                         "description": "category",
                         "name": "category",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "string",
                         "description": "keyword",
                         "name": "keyword",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "boolean",
                         "description": "rank favorite",
                         "name": "rank_favorite",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "boolean",
                         "description": "rank time",
                         "name": "rank_time",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "string",
                         "description": "collection id",
                         "name": "collection_id",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     },
                     {
                         "type": "string",
                         "description": "label",
                         "name": "label",
-                        "in": "path",
-                        "required": true
+                        "in": "path"
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ListResponse"
                         }
                     },
                     "400": {
-                        "description": "request error",
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
                     "500": {
-                        "description": "error code and message and nil data",
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
             }
         },
-        "/list/item_history": {
+        "/list/user-list": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -637,29 +692,42 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "item id",
-                        "name": "item_id",
-                        "in": "path",
+                        "description": "keyword",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pagesize",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page num",
+                        "name": "page_num",
+                        "in": "query",
                         "required": true
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "Operation Succeed, code: 0",
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.ListResponse"
                         }
                     },
                     "400": {
-                        "description": "request error",
+                        "description": "Input error",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/v2.Err1000"
                         }
                     },
                     "500": {
-                        "description": "error code and message and nil data",
+                        "description": "Server error",
                         "schema": {
-                            "$ref": "#/definitions/base.Response"
+                            "$ref": "#/definitions/v2.Err2000"
                         }
                     }
                 }
@@ -1031,6 +1099,11 @@ const docTemplate = `{
         },
         "/user/update-passwd": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1075,22 +1148,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "base.Response": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "错误码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "返回数据"
-                },
-                "msg": {
-                    "description": "错误描述",
-                    "type": "string"
-                }
-            }
-        },
         "v2.CreateCollectionRequest": {
             "type": "object",
             "properties": {
@@ -1108,6 +1165,37 @@ const docTemplate = `{
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
                     "example": "Pear\u0026Pixel\u0026Wechat"
+                }
+            }
+        },
+        "v2.CreateParams": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string",
+                    "example": "Pixel Bear"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "A very cute pixel bear with hammer"
+                },
+                "item_data": {
+                    "type": "string",
+                    "example": "https://img1.baidu.com/it/u=1783064339,1648739044\u0026fm=253\u0026fmt=auto\u0026app=138\u0026f=GIF?w=240\u0026h=240"
+                },
+                "item_name": {
+                    "type": "string",
+                    "example": "Pixel Bear With Hammer"
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music ",
+                        "Comics"
+                    ]
                 }
             }
         },
@@ -1133,6 +1221,37 @@ const docTemplate = `{
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
                     "example": "Pear\u0026Pixel\u0026Wechat"
+                }
+            }
+        },
+        "v2.EditParams": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string",
+                    "example": "Pixel Bear"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "A very cute pixel bear with hammer"
+                },
+                "item_data": {
+                    "type": "string",
+                    "example": "1001"
+                },
+                "item_name": {
+                    "type": "string",
+                    "example": "Pixel Bear With Hammer"
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music ",
+                        "Comics"
+                    ]
                 }
             }
         },
@@ -1193,6 +1312,85 @@ const docTemplate = `{
                     "type": "string",
                     "default": "mingzheliu@ust.hk",
                     "example": "mingzheliu@ust.hk"
+                }
+            }
+        },
+        "v2.Item": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "example": "image"
+                },
+                "collection_id": {
+                    "type": "string",
+                    "example": "Pixel Bear"
+                },
+                "create_time": {
+                    "type": "string",
+                    "example": "2022-06-16 22:04:22"
+                },
+                "creater_id": {
+                    "type": "string",
+                    "example": "mingzheliu-ust-hk"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "A very cute pixel bear with hammer"
+                },
+                "favorite": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "favorite_num": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "item_data": {
+                    "type": "string",
+                    "example": "https://img1.baidu.com/it/u=1783064339,1648739044\u0026fm=253\u0026fmt=auto\u0026app=138\u0026f=GIF?w=240\u0026h=240"
+                },
+                "item_id": {
+                    "type": "string",
+                    "example": "1010"
+                },
+                "item_name": {
+                    "type": "string",
+                    "example": "Pixel Bear With Hammer"
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music ",
+                        "Comics"
+                    ]
+                },
+                "owner_id": {
+                    "type": "string",
+                    "example": "mingzheliu-ust-hk"
+                }
+            }
+        },
+        "v2.ItemResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/v2.Item"
+                },
+                "status": {
+                    "$ref": "#/definitions/v2.StatusInfo"
+                }
+            }
+        },
+        "v2.ListResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "status": {
+                    "$ref": "#/definitions/v2.StatusInfo"
                 }
             }
         },
@@ -1275,6 +1473,30 @@ const docTemplate = `{
                     "type": "string",
                     "default": "mingzheliu@ust.hk",
                     "example": "mingzheliu@ust.hk"
+                }
+            }
+        },
+        "v2.StatusInfo": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "v2.TransferParams": {
+            "type": "object",
+            "properties": {
+                "item_id": {
+                    "type": "string",
+                    "example": "1010"
+                },
+                "to_user_id": {
+                    "type": "string",
+                    "example": "zhengwang-ust-hk"
                 }
             }
         },

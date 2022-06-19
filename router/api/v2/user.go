@@ -169,7 +169,7 @@ type Edit_ProfileRequest struct {
 	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
 }
 
-type UserInfo struct {
+type UserProfileInfo struct {
 	UserId           string `json:"user_id" `
 	UserEmail        string `json:"user_email" `
 	UserName         string `json:"user_name" `
@@ -180,8 +180,8 @@ type UserInfo struct {
 	RegistrationTime string `json:"registration_time" `
 }
 
-func NewUserInfo() UserInfo {
-	return UserInfo{
+func NewUserInfo() UserProfileInfo {
+	return UserProfileInfo{
 		UserId:           "mingzheliu-ust-hk",
 		UserEmail:        "mingzheliu@ust.hk",
 		UserName:         "LMZ",

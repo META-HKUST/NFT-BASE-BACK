@@ -1,16 +1,5 @@
 basePath: /api/v2
 definitions:
-  base.Response:
-    properties:
-      code:
-        description: 错误码
-        type: integer
-      data:
-        description: 返回数据
-      msg:
-        description: 错误描述
-        type: string
-    type: object
   v2.CreateCollectionRequest:
     properties:
       collection_name:
@@ -25,6 +14,28 @@ definitions:
         default: Pear&Pixel&Wechat
         example: Pear&Pixel&Wechat
         type: string
+    type: object
+  v2.CreateParams:
+    properties:
+      collection_id:
+        example: Pixel Bear
+        type: string
+      description:
+        example: A very cute pixel bear with hammer
+        type: string
+      item_data:
+        example: https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240
+        type: string
+      item_name:
+        example: Pixel Bear With Hammer
+        type: string
+      label:
+        example:
+        - 'Music '
+        - Comics
+        items:
+          type: string
+        type: array
     type: object
   v2.Edit_ProfileRequest:
     properties:
@@ -60,6 +71,28 @@ definitions:
         example: Pear&Pixel&Wechat
         type: string
     type: object
+  v2.EditParams:
+    properties:
+      collection_id:
+        example: Pixel Bear
+        type: string
+      description:
+        example: A very cute pixel bear with hammer
+        type: string
+      item_data:
+        example: "1001"
+        type: string
+      item_name:
+        example: Pixel Bear With Hammer
+        type: string
+      label:
+        example:
+        - 'Music '
+        - Comics
+        items:
+          type: string
+        type: array
+    type: object
   v2.Err1000:
     properties:
       code:
@@ -88,6 +121,62 @@ definitions:
         default: mingzheliu@ust.hk
         example: mingzheliu@ust.hk
         type: string
+    type: object
+  v2.Item:
+    properties:
+      category:
+        example: image
+        type: string
+      collection_id:
+        example: Pixel Bear
+        type: string
+      create_time:
+        example: "2022-06-16 22:04:22"
+        type: string
+      creater_id:
+        example: mingzheliu-ust-hk
+        type: string
+      description:
+        example: A very cute pixel bear with hammer
+        type: string
+      favorite:
+        example: false
+        type: boolean
+      favorite_num:
+        example: 100
+        type: integer
+      item_data:
+        example: https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240
+        type: string
+      item_id:
+        example: "1010"
+        type: string
+      item_name:
+        example: Pixel Bear With Hammer
+        type: string
+      label:
+        example:
+        - 'Music '
+        - Comics
+        items:
+          type: string
+        type: array
+      owner_id:
+        example: mingzheliu-ust-hk
+        type: string
+    type: object
+  v2.ItemResponse:
+    properties:
+      data:
+        $ref: '#/definitions/v2.Item'
+      status:
+        $ref: '#/definitions/v2.StatusInfo'
+    type: object
+  v2.ListResponse:
+    properties:
+      data: {}
+      status:
+        $ref: '#/definitions/v2.StatusInfo'
     type: object
   v2.LoginRequest:
     properties:
@@ -148,6 +237,22 @@ definitions:
       email:
         default: mingzheliu@ust.hk
         example: mingzheliu@ust.hk
+        type: string
+    type: object
+  v2.StatusInfo:
+    properties:
+      code:
+        type: integer
+      msg:
+        type: string
+    type: object
+  v2.TransferParams:
+    properties:
+      item_id:
+        example: "1010"
+        type: string
+      to_user_id:
+        example: zhengwang-ust-hk
         type: string
     type: object
   v2.Update_PasswdRequest:
@@ -263,46 +368,34 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: item_name
-        in: query
-        name: item_name
-        required: true
-        type: string
-      - description: item_data
-        in: query
+      - description: NFT本身数据
+        in: formData
         name: item_data
         required: true
-        type: string
-      - description: description
-        in: query
-        name: description
+        type: file
+      - description: info needed to upload
+        in: body
+        name: param_request
         required: true
-        type: string
-      - description: item_collection
-        in: query
-        name: item_collection
-        required: true
-        type: string
-      - description: label
-        in: query
-        name: label
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/v2.CreateParams'
       produces:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
-        "1000":
-          description: request error
+            $ref: '#/definitions/v2.ItemResponse'
+        "400":
+          description: Input error
           schema:
-            type: integer
-        "2000":
-          description: error code and message and nil data
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - item
   /item/edit:
@@ -310,41 +403,33 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: item-id
-        in: query
-        name: item-id
-        type: string
-      - description: name
-        in: query
-        name: item_name
-        type: string
-      - description: description
-        in: query
-        name: description
-        type: string
-      - description: collection
-        in: query
-        name: collection_id
-        type: string
-      - description: label
-        in: query
-        name: label
-        type: string
+      - description: NFT本身数据
+        in: formData
+        name: item_data
+        type: file
+      - description: info needed to upload
+        in: body
+        name: param_request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.EditParams'
       produces:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
-        "1000":
-          description: request error
+            $ref: '#/definitions/v2.ItemResponse'
+        "400":
+          description: Input error
           schema:
-            type: integer
-        "2000":
-          description: error code and message and nil data
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - item
   /item/like:
@@ -352,25 +437,29 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: item-id
-        in: query
-        name: item-id
-        type: string
+      - description: item id
+        in: body
+        name: item_id
+        required: true
+        schema:
+          type: string
       produces:
       - application/json
       responses:
         "0":
-          description: Operation Succeed
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
-        "1000":
-          description: request error
+            $ref: '#/definitions/v2.ItemResponse'
+        "400":
+          description: Input error
           schema:
-            type: integer
-        "2000":
-          description: error code and message and nil data
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - item
   /item/transfer:
@@ -378,56 +467,29 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: to user id
-        in: query
-        name: to_user_id
-        type: string
-      - description: item id
-        in: query
-        name: item_id
-        type: string
-      produces:
-      - application/json
-      responses:
-        "0":
-          description: Operation Succeed
-          schema:
-            type: integer
-        "1000":
-          description: request error
-          schema:
-            type: integer
-        "2000":
-          description: error code and message and nil data
-          schema:
-            $ref: '#/definitions/base.Response'
-      tags:
-      - item
-  /items/item-json:
-    get:
-      consumes:
-      - application/json
-      parameters:
-      - description: token id of one NFT
-        in: query
-        name: token-id
+      - description: item needed to transfer
+        in: body
+        name: param_request
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/v2.TransferParams'
       produces:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
+            $ref: '#/definitions/v2.ItemResponse'
         "400":
-          description: request error
+          description: Input error
           schema:
-            type: integer
+            $ref: '#/definitions/v2.Err1000'
         "500":
-          description: error code and message and nil data
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - item
   /list/collection:
@@ -436,7 +498,7 @@ paths:
       - application/json
       parameters:
       - description: collection id
-        in: path
+        in: query
         name: collection_id
         required: true
         type: string
@@ -444,17 +506,67 @@ paths:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
+            $ref: '#/definitions/v2.ListResponse'
         "400":
-          description: request error
+          description: Input error
           schema:
-            type: integer
+            $ref: '#/definitions/v2.Err1000'
         "500":
-          description: error code and message and nil data
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - list
+  /list/collection-list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: keyword
+        in: path
+        name: keyword
+        type: string
+      - description: rank favorite
+        in: path
+        name: rank_favorite
+        type: string
+      - description: rank time
+        in: path
+        name: rank_time
+        type: string
+      - description: user id
+        in: path
+        name: user_id
+        type: string
+      - description: label
+        in: path
+        name: label
+        type: string
+      - description: page num
+        in: path
+        name: page_num
+        type: integer
+      - description: page size
+        in: path
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ListResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
       tags:
       - list
   /list/item:
@@ -463,7 +575,7 @@ paths:
       - application/json
       parameters:
       - description: item id
-        in: path
+        in: query
         name: item_id
         required: true
         type: string
@@ -471,17 +583,44 @@ paths:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
+            $ref: '#/definitions/v2.ListResponse'
         "400":
-          description: request error
+          description: Input error
           schema:
-            type: integer
+            $ref: '#/definitions/v2.Err1000'
         "500":
-          description: error code and message and nil data
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - list
+  /list/item-history:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: item id
+        in: query
+        name: item_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ListResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
       tags:
       - list
   /list/item-list:
@@ -492,103 +631,104 @@ paths:
       - description: page num
         in: path
         name: page_num
+        required: true
         type: integer
       - description: page size
         in: path
         name: page_size
+        required: true
         type: integer
       - description: user id
         in: path
         name: user_id
-        required: true
         type: string
       - description: user like
         in: path
         name: user_like
-        required: true
         type: boolean
       - description: user collect
         in: path
         name: user_collect
-        required: true
         type: boolean
       - description: user create
         in: path
         name: user_create
-        required: true
         type: boolean
       - description: category
         in: path
         name: category
-        required: true
         type: string
       - description: keyword
         in: path
         name: keyword
-        required: true
         type: string
       - description: rank favorite
         in: path
         name: rank_favorite
-        required: true
         type: boolean
       - description: rank time
         in: path
         name: rank_time
-        required: true
         type: boolean
       - description: collection id
         in: path
         name: collection_id
-        required: true
         type: string
       - description: label
         in: path
         name: label
-        required: true
         type: string
       produces:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
+            $ref: '#/definitions/v2.ListResponse'
         "400":
-          description: request error
+          description: Input error
           schema:
-            type: integer
+            $ref: '#/definitions/v2.Err1000'
         "500":
-          description: error code and message and nil data
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
       tags:
       - list
-  /list/item_history:
+  /list/user-list:
     get:
       consumes:
       - application/json
       parameters:
-      - description: item id
-        in: path
-        name: item_id
-        required: true
+      - description: keyword
+        in: query
+        name: keyword
         type: string
+      - description: pagesize
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: page num
+        in: query
+        name: page_num
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "0":
-          description: 'Operation Succeed, code: 0'
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            type: integer
+            $ref: '#/definitions/v2.ListResponse'
         "400":
-          description: request error
+          description: Input error
           schema:
-            type: integer
+            $ref: '#/definitions/v2.Err1000'
         "500":
-          description: error code and message and nil data
+          description: Server error
           schema:
-            $ref: '#/definitions/base.Response'
+            $ref: '#/definitions/v2.Err2000'
       tags:
       - list
   /user/activate:
@@ -848,6 +988,8 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - user
 securityDefinitions:

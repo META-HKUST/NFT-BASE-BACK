@@ -3,7 +3,6 @@ package router
 import (
 	docs "NFT-BASE-BACK/docs"
 	mw "NFT-BASE-BACK/middleware"
-	v1 "NFT-BASE-BACK/router/api/v1"
 	v2 "NFT-BASE-BACK/router/api/v2"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +19,6 @@ func InitRouter() *gin.Engine {
 	docs.SwaggerInfo.BasePath = "/api/v2"
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	routerV1 := router.Group("/api/v1")
 	routerV2 := router.Group("/api/v2")
 	userRouter := routerV2.Group("/user")
 	{
@@ -43,32 +41,6 @@ func InitRouter() *gin.Engine {
 		collectionRouter.POST("/create", v2.Create)
 		collectionRouter.POST("/edit", v2.Edit)
 	}
-	itemRouter := routerV1.Group("/item")
-	{
-
-		itemRouter.POST("/create", v1.CreateItem)
-
-		itemRouter.POST("/edit", v1.EditItem)
-
-		itemRouter.POST("/transfer", v1.TransferItem)
-		itemRouter.POST("/like", v1.LikeItem)
-
-	}
-
-	listRouter := routerV1.Group("/list")
-	{
-
-		listRouter.GET("/user-list", v1.UserList)
-
-		listRouter.POST("/collection", v1.SingleCollection)
-
-		listRouter.POST("/collection-list", v1.CollectionList)
-		listRouter.POST("/item", v1.SingleItem)
-		listRouter.POST("/item-list", v1.ItemList)
-		listRouter.POST("/item-history", v1.ItemHistory)
-
-	}
-
 
 	itemsRouter := routerV2.Group("/item")
 	{
@@ -78,14 +50,14 @@ func InitRouter() *gin.Engine {
 		itemsRouter.POST("/like", v2.LikeItem)
 	}
 
-	listsRouter := routerV2.Group("/item")
+	listsRouter := routerV2.Group("/list")
 	{
-		listsRouter.POST("/user-list", v2.UserList)
-		listsRouter.POST("/collection", v2.SingleColletction)
-		listsRouter.POST("/collection-list", v2.CollectionList)
-		listsRouter.POST("/item", v2.SingleItem)
-		listsRouter.POST("/item-list", v2.ItemList)
-		listsRouter.POST("/item-history", v2.ItemHistory)
+		listsRouter.GET("/user-list", v2.UserList)
+		listsRouter.GET("/collection", v2.SingleColletction)
+		listsRouter.GET("/collection-list", v2.CollectionList)
+		listsRouter.GET("/item", v2.SingleItem)
+		listsRouter.GET("/item-list", v2.ItemList)
+		listsRouter.GET("/item-history", v2.ItemHistory)
 
 	}
 	return router
