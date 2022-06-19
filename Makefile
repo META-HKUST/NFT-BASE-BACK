@@ -1,4 +1,5 @@
 gin:
+	swag init
 	go run main.go -server=gin
 grpc:
 	go run main.go -server=grpc

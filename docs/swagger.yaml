@@ -206,6 +206,83 @@ definitions:
         example: Operation Succeed
         type: string
     type: object
+  v2.PostActCreateRequest:
+    properties:
+      act_name:
+        example: the first activity
+        type: string
+      description:
+        example: It is funny
+        type: string
+      end_time:
+        example: "1234567890"
+        type: string
+      start_time:
+        example: "1234567890"
+        type: string
+    type: object
+  v2.PostActDeleteRequest:
+    properties:
+      act_id:
+        example: "1"
+        type: string
+    type: object
+  v2.PostActEditRequest:
+    properties:
+      act_id:
+        example: "1"
+        type: string
+      act_name:
+        example: the first activity
+        type: string
+      description:
+        example: It is funny
+        type: string
+      end_time:
+        example: "1234567890"
+        type: string
+      start_time:
+        example: "1234567890"
+        type: string
+    type: object
+  v2.PostActUploadItemRequest:
+    properties:
+      act_id:
+        example: "1"
+        type: string
+      item_id:
+        example: "2"
+        type: string
+    type: object
+  v2.PostActVoteRequest:
+    properties:
+      act_id:
+        example: "1"
+        type: string
+      item_id:
+        example: "2"
+        type: string
+      vote_num:
+        default: 1
+        example: 3
+        type: integer
+    type: object
+  v2.PostTokenTransferRequest:
+    properties:
+      from_user_id:
+        example: mazhengwang-ust-hk
+        type: string
+      to_user_id:
+        example: mzliu
+        type: string
+      token_num:
+        example: 100
+        type: number
+    required:
+    - from_user_id
+    - to_user_id
+    - token_num
+    type: object
   v2.RegisterRequest:
     properties:
       email:
@@ -276,6 +353,246 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
+  /act/create:
+    post:
+      consumes:
+      - application/json
+      description: create activity
+      parameters:
+      - description: 参数均不可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostActCreateRequest'
+      - description: activity front page image
+        in: formData
+        name: act_image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - act
+  /act/delete:
+    post:
+      consumes:
+      - application/json
+      description: deleta activity
+      parameters:
+      - description: 活动ID不可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostActDeleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - act
+  /act/edit:
+    post:
+      consumes:
+      - application/json
+      description: edit activity
+      parameters:
+      - description: ID不可为空，其他可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostActEditRequest'
+      - description: activity front page image
+        in: formData
+        name: act_image
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - act
+  /act/info:
+    get:
+      consumes:
+      - application/json
+      description: get activity information
+      parameters:
+      - description: ID不可为空
+        in: query
+        name: act_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - act
+  /act/item-list:
+    get:
+      consumes:
+      - application/json
+      description: get activity item list
+      parameters:
+      - description: act id
+        in: query
+        name: act_id
+        required: true
+        type: string
+      - description: page num
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: page size
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      - description: whether sorted by votes or not
+        in: query
+        name: rank_vote
+        required: true
+        type: boolean
+      - description: whether sorted by time or not
+        in: query
+        name: rang_time
+        required: true
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - act
+  /act/upload-item:
+    post:
+      consumes:
+      - application/json
+      description: upload item to activity, means students join this activity
+      parameters:
+      - description: ID均不可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostActUploadItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - act
+  /act/vote:
+    post:
+      consumes:
+      - application/json
+      description: student votes for item in activity
+      parameters:
+      - description: 参数均不可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostActVoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - act
   /collection/create:
     post:
       consumes:
@@ -731,6 +1048,61 @@ paths:
             $ref: '#/definitions/v2.Err2000'
       tags:
       - list
+  /tk/info:
+    get:
+      consumes:
+      - application/json
+      description: get token balance
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - tk
+  /tk/transfer:
+    post:
+      consumes:
+      - application/json
+      description: transfer token form one account to another account
+      parameters:
+      - description: 参数均不可为空
+        in: body
+        name: param_request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.PostTokenTransferRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - tk
   /user/activate:
     get:
       consumes:
