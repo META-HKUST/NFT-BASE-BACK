@@ -266,7 +266,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: localhost:8889
+host: unifit.ust.hk:8889
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -382,7 +382,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ItemResponse'
@@ -416,7 +416,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ItemResponse'
@@ -446,7 +446,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ItemResponse'
@@ -476,7 +476,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ItemResponse'
@@ -505,7 +505,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -555,7 +555,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -582,7 +582,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -609,7 +609,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -681,7 +681,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -717,7 +717,7 @@ paths:
       produces:
       - application/json
       responses:
-        "0":
+        "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ListResponse'
@@ -934,7 +934,7 @@ paths:
             $ref: '#/definitions/v2.Err2000'
       tags:
       - user
-  /user/reset_passwd:
+  /user/reset-passwd:
     post:
       consumes:
       - application/json

@@ -48,7 +48,7 @@ type TransferParams struct {
 // @param 		 param_request  body  CreateParams   true   "info needed to upload"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /item/create [POST]
@@ -91,7 +91,7 @@ type EditParams struct {
 // @param 		 param_request  body  EditParams  true   "info needed to upload"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /item/edit [POST]
@@ -125,7 +125,7 @@ func EditItem(ctx *gin.Context) {
 // @param 		 param_request  body  TransferParams  true   "item needed to transfer"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /item/transfer [POST]
@@ -159,7 +159,7 @@ func TransferItem(ctx *gin.Context) {
 // @param 		 item_id  body string  true   "item id"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /item/like [POST]

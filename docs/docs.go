@@ -192,7 +192,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -247,7 +247,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -296,7 +296,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -345,7 +345,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -387,7 +387,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -464,7 +464,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -506,7 +506,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -548,7 +548,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -657,7 +657,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -712,7 +712,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -1053,7 +1053,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/user/reset_passwd": {
+        "/user/reset-passwd": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1528,7 +1528,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8889",
+	Host:             "unifit.ust.hk:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

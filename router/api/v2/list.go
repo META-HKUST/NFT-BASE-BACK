@@ -69,7 +69,7 @@ type History struct {
 // @param 		 page_num   query  int   true   "page num"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/user-list [GET]
@@ -115,7 +115,7 @@ func UserList(ctx *gin.Context) {
 // @param 		 collection_id   query   string   true   "collection id"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/collection [GET]
@@ -153,7 +153,7 @@ func SingleColletction(ctx *gin.Context) {
 // @param 		 page_size   path   int   false   "page size"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/collection-list [GET]
@@ -201,7 +201,7 @@ func CollectionList(ctx *gin.Context) {
 // @param 		 item_id   query   string   true   "item id"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item [GET]
@@ -245,7 +245,7 @@ func SingleItem(ctx *gin.Context) {
 // @param 		 label   path   string   false   "label"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item-list [GET]
@@ -299,7 +299,7 @@ func ItemList(ctx *gin.Context) {
 // @param 		 item_id   query   string   true   "item id"
 // @Accept       json
 // @Produce      json
-// @Success 0 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item-history [GET]

@@ -157,7 +157,7 @@ type Reset_PasswdRequest struct {
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
-// @Router       /user/reset_passwd [POST]
+// @Router       /user/reset-passwd [POST]
 func Reset_Passwd(ctx *gin.Context) {
 	res := base.Response{}
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))

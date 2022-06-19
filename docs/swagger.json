@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8889",
+    "host": "unifit.ust.hk:8889",
     "basePath": "/api/v2",
     "paths": {
         "/collection/create": {
@@ -185,7 +185,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -240,7 +240,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -289,7 +289,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -338,7 +338,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ItemResponse"
@@ -380,7 +380,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -457,7 +457,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -499,7 +499,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -541,7 +541,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -650,7 +650,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -705,7 +705,7 @@
                     }
                 ],
                 "responses": {
-                    "0": {
+                    "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ListResponse"
@@ -1046,7 +1046,7 @@
                 }
             }
         },
-        "/user/reset_passwd": {
+        "/user/reset-passwd": {
             "post": {
                 "consumes": [
                     "application/json"
