@@ -68,5 +68,25 @@ func InitRouter() *gin.Engine {
 		listRouter.POST("/item-history", v1.ItemHistory)
 
 	}
+
+
+	itemsRouter := routerV2.Group("/item")
+	{
+		itemsRouter.POST("/create", v2.CreateItem)
+		itemsRouter.POST("/edit", v2.EditItem)
+		itemsRouter.POST("/transfer", v2.TransferItem)
+		itemsRouter.POST("/like", v2.LikeItem)
+	}
+
+	listsRouter := routerV2.Group("/item")
+	{
+		listsRouter.POST("/user-list", v2.UserList)
+		listsRouter.POST("/collection", v2.SingleColletction)
+		listsRouter.POST("/collection-list", v2.CollectionList)
+		listsRouter.POST("/item", v2.SingleItem)
+		listsRouter.POST("/item-list", v2.ItemList)
+		listsRouter.POST("/item-history", v2.ItemHistory)
+
+	}
 	return router
 }
