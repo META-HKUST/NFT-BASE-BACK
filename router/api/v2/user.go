@@ -118,6 +118,7 @@ type Update_PasswdRequest struct {
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
+// @Security ApiKeyAuth
 // @Router       /user/update-passwd [POST]
 func Update_Passwd(ctx *gin.Context) {
 	res := base.Response{}
