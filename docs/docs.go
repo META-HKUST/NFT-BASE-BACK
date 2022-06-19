@@ -20,6 +20,143 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/collection/create": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "logo_image of a collection",
+                        "name": "logo_image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "feature_image of a collection",
+                        "name": "feature_image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "banner_image of a collection",
+                        "name": "banner_image",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "description": "名称、描述和一些标签，其中标签可以为空，其余参数不可为空",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.CreateCollectionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/collection/edit": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "collection"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "logo_image of a collection",
+                        "name": "logo_image",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "feature_image of a collection",
+                        "name": "feature_image",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "banner_image of a collection",
+                        "name": "banner_image",
+                        "in": "formData"
+                    },
+                    {
+                        "description": "输入想要修改的名称、描述和标签 collection_id不能为空，其他都可以为空",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.EditCollectionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
         "/item/create": {
             "post": {
                 "consumes": [
@@ -326,6 +463,615 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/list/item": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "list"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "item id",
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/item-list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "list"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page num",
+                        "name": "page_num",
+                        "in": "path"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "page_size",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "user like",
+                        "name": "user_like",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "user collect",
+                        "name": "user_collect",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "user create",
+                        "name": "user_create",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "category",
+                        "name": "category",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "keyword",
+                        "name": "keyword",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "rank favorite",
+                        "name": "rank_favorite",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "rank time",
+                        "name": "rank_time",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "collection id",
+                        "name": "collection_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "label",
+                        "name": "label",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/list/item_history": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "list"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "item id",
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "Operation Succeed, code: 0",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "request error",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "500": {
+                        "description": "error code and message and nil data",
+                        "schema": {
+                            "$ref": "#/definitions/base.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/activate": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Email token sent to users",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/edit-profile": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "logo_image of a user",
+                        "name": "logo_image",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "banner_image of a user",
+                        "name": "banner_image",
+                        "in": "formData"
+                    },
+                    {
+                        "description": "用户名称、组织名称、老师还是学生",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Edit_ProfileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/forget-passwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "登录用的邮箱和密码",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.Forget_PasswdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/info": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user_id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "登录用的邮箱和密码",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱和密码",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/rerun-email": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.RerunEmailRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/reset_passwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱、验证码密码",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.Reset_PasswdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update-passwd": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "description": "登录用的邮箱和密码",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.Update_PasswdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -344,6 +1090,208 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "v2.CreateCollectionRequest": {
+            "type": "object",
+            "properties": {
+                "collection_name": {
+                    "type": "string",
+                    "default": "Pixel Pear",
+                    "example": "Pixel Pear"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "Happy Happy Happy Happy",
+                    "example": "Happy Happy Happy Happy"
+                },
+                "label": {
+                    "type": "string",
+                    "default": "Pear\u0026Pixel\u0026Wechat",
+                    "example": "Pear\u0026Pixel\u0026Wechat"
+                }
+            }
+        },
+        "v2.EditCollectionRequest": {
+            "type": "object",
+            "properties": {
+                "collection_id": {
+                    "type": "string",
+                    "default": "111111",
+                    "example": "111111"
+                },
+                "collection_name": {
+                    "type": "string",
+                    "default": "Pixel Pear",
+                    "example": "Pixel Pear"
+                },
+                "description": {
+                    "type": "string",
+                    "default": "Happy Happy Happy Happy",
+                    "example": "Happy Happy Happy Happy"
+                },
+                "label": {
+                    "type": "string",
+                    "default": "Pear\u0026Pixel\u0026Wechat",
+                    "example": "Pear\u0026Pixel\u0026Wechat"
+                }
+            }
+        },
+        "v2.Edit_ProfileRequest": {
+            "type": "object",
+            "properties": {
+                "organization": {
+                    "type": "string",
+                    "default": "HKUST-GZ",
+                    "example": "HKUST-GZ"
+                },
+                "poison": {
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "teacher"
+                },
+                "user_name": {
+                    "type": "string",
+                    "default": "Hunter",
+                    "example": "Hunter"
+                }
+            }
+        },
+        "v2.Err1000": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "default": 1000,
+                    "example": 1000
+                },
+                "msg": {
+                    "type": "string",
+                    "default": "Input Error",
+                    "example": "Input Error"
+                }
+            }
+        },
+        "v2.Err2000": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "default": 2000,
+                    "example": 2000
+                },
+                "msg": {
+                    "type": "string",
+                    "default": "Server Error",
+                    "example": "Server Error"
+                }
+            }
+        },
+        "v2.Forget_PasswdRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "default": "mingzheliu@ust.hk",
+                    "example": "mingzheliu@ust.hk"
+                }
+            }
+        },
+        "v2.LoginRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "default": "mingzheliu@ust.hk",
+                    "example": "mingzheliu@ust.hk"
+                },
+                "passwd": {
+                    "type": "string",
+                    "default": "Abcd123456",
+                    "example": "Abcd123456"
+                }
+            }
+        },
+        "v2.ModelResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误码",
+                    "type": "integer",
+                    "default": 0,
+                    "example": 0
+                },
+                "data": {
+                    "description": "返回数据",
+                    "type": "string",
+                    "example": ""
+                },
+                "msg": {
+                    "description": "错误描述",
+                    "type": "string",
+                    "default": "Operation Succeed",
+                    "example": "Operation Succeed"
+                }
+            }
+        },
+        "v2.RegisterRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "default": "mingzheliu@ust.hk",
+                    "example": "mingzheliu@ust.hk"
+                },
+                "passwd": {
+                    "type": "string",
+                    "default": "Abcd123456",
+                    "example": "Abcd123456"
+                }
+            }
+        },
+        "v2.RerunEmailRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "default": "mingzheliu@ust.hk",
+                    "example": "mingzheliu@ust.hk"
+                }
+            }
+        },
+        "v2.Reset_PasswdRequest": {
+            "type": "object",
+            "properties": {
+                "Abcd12345": {
+                    "type": "string",
+                    "default": "Abcd12345",
+                    "example": "Abcd12345"
+                },
+                "code": {
+                    "type": "string",
+                    "default": "456WER",
+                    "example": "456WER"
+                },
+                "email": {
+                    "type": "string",
+                    "default": "mingzheliu@ust.hk",
+                    "example": "mingzheliu@ust.hk"
+                }
+            }
+        },
+        "v2.Update_PasswdRequest": {
+            "type": "object",
+            "properties": {
+                "new_passwd": {
+                    "type": "string",
+                    "default": "Abcd1234567",
+                    "example": "Abcd1234567"
+                },
+                "old_passwd": {
+                    "type": "string",
+                    "default": "Abcd123456",
+                    "example": "Abcd123456"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -358,8 +1306,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "unifit.ust.hk:8888",
-	BasePath:         "/api/v1",
+	Host:             "localhost:8889",
+	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",
 	Description:      "HKUST-NFT Server API",

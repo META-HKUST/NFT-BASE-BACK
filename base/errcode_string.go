@@ -9,6 +9,7 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[Success-0]
+	_ = x[InputError-1000]
 	_ = x[OpenSqlError-1001]
 	_ = x[ConnectSqlError-1002]
 	_ = x[InsertError-1003]
@@ -30,17 +31,19 @@ func _() {
 	_ = x[TokenInvalidError-1206]
 	_ = x[TokenNotExist-1207]
 	_ = x[TokenAlreadyActivated-1208]
+	_ = x[ServerError-2000]
 }
 
 const (
 	_ErrCode_name_0 = "Operation succeed"
-	_ErrCode_name_1 = "Error open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failed"
+	_ErrCode_name_1 = "Input ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failed"
 	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request header"
 	_ErrCode_name_3 = "Can not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activated"
+	_ErrCode_name_4 = "Server Error"
 )
 
 var (
-	_ErrCode_index_1 = [...]uint8{0, 25, 57, 74, 88, 112, 141, 163}
+	_ErrCode_index_1 = [...]uint8{0, 11, 36, 68, 85, 99, 123, 152, 174}
 	_ErrCode_index_2 = [...]uint8{0, 29, 79, 145, 184, 212}
 	_ErrCode_index_3 = [...]uint16{0, 35, 58, 85, 127, 177, 200, 237, 269}
 )
@@ -49,8 +52,8 @@ func (i ErrCode) String() string {
 	switch {
 	case i == 0:
 		return _ErrCode_name_0
-	case 1001 <= i && i <= 1007:
-		i -= 1001
+	case 1000 <= i && i <= 1007:
+		i -= 1000
 		return _ErrCode_name_1[_ErrCode_index_1[i]:_ErrCode_index_1[i+1]]
 	case 1101 <= i && i <= 1105:
 		i -= 1101
@@ -58,6 +61,8 @@ func (i ErrCode) String() string {
 	case 1201 <= i && i <= 1208:
 		i -= 1201
 		return _ErrCode_name_3[_ErrCode_index_3[i]:_ErrCode_index_3[i+1]]
+	case i == 2000:
+		return _ErrCode_name_4
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}

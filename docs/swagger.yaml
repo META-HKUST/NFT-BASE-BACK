@@ -1,4 +1,4 @@
-basePath: /api/v1
+basePath: /api/v2
 definitions:
   base.Response:
     properties:
@@ -11,7 +11,157 @@ definitions:
         description: 错误描述
         type: string
     type: object
-host: unifit.ust.hk:8888
+  v2.CreateCollectionRequest:
+    properties:
+      collection_name:
+        default: Pixel Pear
+        example: Pixel Pear
+        type: string
+      description:
+        default: Happy Happy Happy Happy
+        example: Happy Happy Happy Happy
+        type: string
+      label:
+        default: Pear&Pixel&Wechat
+        example: Pear&Pixel&Wechat
+        type: string
+    type: object
+  v2.Edit_ProfileRequest:
+    properties:
+      organization:
+        default: HKUST-GZ
+        example: HKUST-GZ
+        type: string
+      poison:
+        default: teacher
+        example: teacher
+        type: string
+      user_name:
+        default: Hunter
+        example: Hunter
+        type: string
+    type: object
+  v2.EditCollectionRequest:
+    properties:
+      collection_id:
+        default: "111111"
+        example: "111111"
+        type: string
+      collection_name:
+        default: Pixel Pear
+        example: Pixel Pear
+        type: string
+      description:
+        default: Happy Happy Happy Happy
+        example: Happy Happy Happy Happy
+        type: string
+      label:
+        default: Pear&Pixel&Wechat
+        example: Pear&Pixel&Wechat
+        type: string
+    type: object
+  v2.Err1000:
+    properties:
+      code:
+        default: 1000
+        example: 1000
+        type: integer
+      msg:
+        default: Input Error
+        example: Input Error
+        type: string
+    type: object
+  v2.Err2000:
+    properties:
+      code:
+        default: 2000
+        example: 2000
+        type: integer
+      msg:
+        default: Server Error
+        example: Server Error
+        type: string
+    type: object
+  v2.Forget_PasswdRequest:
+    properties:
+      email:
+        default: mingzheliu@ust.hk
+        example: mingzheliu@ust.hk
+        type: string
+    type: object
+  v2.LoginRequest:
+    properties:
+      email:
+        default: mingzheliu@ust.hk
+        example: mingzheliu@ust.hk
+        type: string
+      passwd:
+        default: Abcd123456
+        example: Abcd123456
+        type: string
+    type: object
+  v2.ModelResponse:
+    properties:
+      code:
+        default: 0
+        description: 错误码
+        example: 0
+        type: integer
+      data:
+        description: 返回数据
+        example: ""
+        type: string
+      msg:
+        default: Operation Succeed
+        description: 错误描述
+        example: Operation Succeed
+        type: string
+    type: object
+  v2.RegisterRequest:
+    properties:
+      email:
+        default: mingzheliu@ust.hk
+        example: mingzheliu@ust.hk
+        type: string
+      passwd:
+        default: Abcd123456
+        example: Abcd123456
+        type: string
+    type: object
+  v2.RerunEmailRequest:
+    properties:
+      email:
+        default: mingzheliu@ust.hk
+        example: mingzheliu@ust.hk
+        type: string
+    type: object
+  v2.Reset_PasswdRequest:
+    properties:
+      Abcd12345:
+        default: Abcd12345
+        example: Abcd12345
+        type: string
+      code:
+        default: 456WER
+        example: 456WER
+        type: string
+      email:
+        default: mingzheliu@ust.hk
+        example: mingzheliu@ust.hk
+        type: string
+    type: object
+  v2.Update_PasswdRequest:
+    properties:
+      new_passwd:
+        default: Abcd1234567
+        example: Abcd1234567
+        type: string
+      old_passwd:
+        default: Abcd123456
+        example: Abcd123456
+        type: string
+    type: object
+host: localhost:8889
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -21,6 +171,93 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
+  /collection/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: logo_image of a collection
+        in: formData
+        name: logo_image
+        required: true
+        type: file
+      - description: feature_image of a collection
+        in: formData
+        name: feature_image
+        required: true
+        type: file
+      - description: banner_image of a collection
+        in: formData
+        name: banner_image
+        required: true
+        type: file
+      - description: 名称、描述和一些标签，其中标签可以为空，其余参数不可为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.CreateCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - collection
+  /collection/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: logo_image of a collection
+        in: formData
+        name: logo_image
+        type: file
+      - description: feature_image of a collection
+        in: formData
+        name: feature_image
+        type: file
+      - description: banner_image of a collection
+        in: formData
+        name: banner_image
+        type: file
+      - description: 输入想要修改的名称、描述和标签 collection_id不能为空，其他都可以为空
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.EditCollectionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - collection
   /item/create:
     post:
       consumes:
@@ -220,6 +457,399 @@ paths:
             $ref: '#/definitions/base.Response'
       tags:
       - list
+  /list/item:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: item id
+        in: path
+        name: item_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 'Operation Succeed, code: 0'
+          schema:
+            type: integer
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - list
+  /list/item-list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: page num
+        in: path
+        name: page_num
+        type: integer
+      - description: page size
+        in: path
+        name: page_size
+        type: integer
+      - description: user id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: user like
+        in: path
+        name: user_like
+        required: true
+        type: boolean
+      - description: user collect
+        in: path
+        name: user_collect
+        required: true
+        type: boolean
+      - description: user create
+        in: path
+        name: user_create
+        required: true
+        type: boolean
+      - description: category
+        in: path
+        name: category
+        required: true
+        type: string
+      - description: keyword
+        in: path
+        name: keyword
+        required: true
+        type: string
+      - description: rank favorite
+        in: path
+        name: rank_favorite
+        required: true
+        type: boolean
+      - description: rank time
+        in: path
+        name: rank_time
+        required: true
+        type: boolean
+      - description: collection id
+        in: path
+        name: collection_id
+        required: true
+        type: string
+      - description: label
+        in: path
+        name: label
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 'Operation Succeed, code: 0'
+          schema:
+            type: integer
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - list
+  /list/item_history:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: item id
+        in: path
+        name: item_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "0":
+          description: 'Operation Succeed, code: 0'
+          schema:
+            type: integer
+        "400":
+          description: request error
+          schema:
+            type: integer
+        "500":
+          description: error code and message and nil data
+          schema:
+            $ref: '#/definitions/base.Response'
+      tags:
+      - list
+  /user/activate:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Email token sent to users
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/edit-profile:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: logo_image of a user
+        in: formData
+        name: logo_image
+        type: file
+      - description: banner_image of a user
+        in: formData
+        name: banner_image
+        type: file
+      - description: 用户名称、组织名称、老师还是学生
+        in: body
+        name: RequestParam
+        schema:
+          $ref: '#/definitions/v2.Edit_ProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - user
+  /user/forget-passwd:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录用的邮箱和密码
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Forget_PasswdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: user_id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录用的邮箱和密码
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 邮箱和密码
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/rerun-email:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 邮箱
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.RerunEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/reset_passwd:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 邮箱、验证码密码
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Reset_PasswdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
+  /user/update-passwd:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录用的邮箱和密码
+        in: body
+        name: RequestParam
+        required: true
+        schema:
+          $ref: '#/definitions/v2.Update_PasswdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - user
 securityDefinitions:
   ApiKeyAuth:
     in: header

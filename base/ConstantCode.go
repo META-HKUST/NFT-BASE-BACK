@@ -6,6 +6,7 @@ type ErrCode int
 const (
 	Success ErrCode = 0 // Operation succeed
 
+	InputError        ErrCode = 1000 // Input Error
 	OpenSqlError      ErrCode = 1001 // Error open Mysql database
 	ConnectSqlError   ErrCode = 1002 // Cannot connect to mysql database
 	InsertError       ErrCode = 1003 // Insert data error
@@ -29,4 +30,6 @@ const (
 	TokenInvalidError     ErrCode = 1206 // Token invalid: Overtime
 	TokenNotExist         ErrCode = 1207 // Could not find this token in database
 	TokenAlreadyActivated ErrCode = 1208 // Token has already been activated
+
+	ServerError ErrCode = 2000 // Server Error
 )
