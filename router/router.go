@@ -60,5 +60,22 @@ func InitRouter() *gin.Engine {
 		listsRouter.GET("/item-history", v2.ItemHistory)
 
 	}
+
+	actRouter := routerV2.Group("/act")
+	{
+		actRouter.POST("/create", v2.PostActCreate)
+		actRouter.POST("/delete", v2.PostActDelete)
+		actRouter.POST("/edit", v2.PostActEdit)
+		actRouter.GET("/info", v2.GetActInfo)
+		actRouter.POST("/upload-item", v2.PostActUploadItem)
+		actRouter.GET("/item-list", v2.GetActItemList)
+		actRouter.POST("/vote", v2.PostActVote)
+	}
+
+	tkRouter := routerV2.Group("/tk")
+	{
+		tkRouter.POST("/transfer", v2.PostTokenTransfer)
+		tkRouter.GET("/info", v2.GetTokenInfo)
+	}
 	return router
 }
