@@ -25,9 +25,9 @@ type ListResponse struct {
 
 type InfoList struct {
 	Info  interface{}	`json:"info"`
-	page  int			`json:"page"`
-	size  int			`json:"size"`
-	total int			`json:"total"`
+	Page  int			`json:"page"`
+	Size  int			`json:"size"`
+	Total int			`json:"total"`
 }
 
 type Collection struct {
@@ -278,9 +278,9 @@ func ItemList(ctx *gin.Context) {
 					false,
 				},
 			},
-			page:  1,
-			size:  10,
-			total: 1,
+			Page:  1,
+			Size:  10,
+			Total: 1,
 		},
 	}
 	ctx.JSON(http.StatusOK, resp)
