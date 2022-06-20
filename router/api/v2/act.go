@@ -9,8 +9,8 @@ import (
 type PostActCreateRequest struct {
 	ActName     string `json:"act_name" example:"the first activity"`
 	Description string `json:"description" example:"It is funny"`
-	StartTime   string `json:"start_time" example:"1234567890"`
-	EndTime     string `json:"end_time" example:"1234567890"`
+	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
+	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40"`
 }
 
 // PostActCreate
@@ -78,8 +78,8 @@ type PostActEditRequest struct {
 	ActID       string `json:"act_id" example:"1"`
 	ActName     string `json:"act_name" example:"the first activity"`
 	Description string `json:"description" example:"It is funny"`
-	StartTime   string `json:"start_time" example:"1234567890"`
-	EndTime     string `json:"end_time" example:"1234567890"`
+	StartTime   string `json:"start_time" example:"2022-06-20 20:45:40"`
+	EndTime     string `json:"end_time" example:"2022-08-20 20:45:40"`
 }
 
 // PostActEditRequest
