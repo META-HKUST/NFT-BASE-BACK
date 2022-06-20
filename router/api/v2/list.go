@@ -23,8 +23,22 @@ type ListResponse struct {
 	Data   interface{}	`json:"data"`
 }
 
-type InfoList struct {
-	Info  interface{}	`json:"info"`
+type UsersList struct {
+	UserList  interface{}	`json:"user_list"`
+	Page  int			`json:"page"`
+	Size  int			`json:"size"`
+	Total int			`json:"total"`
+}
+
+type CollectionsList struct {
+	CollectionList  interface{}	`json:"collection_list"`
+	Page  int			`json:"page"`
+	Size  int			`json:"size"`
+	Total int			`json:"total"`
+}
+
+type ItemsList struct {
+	ItemList  interface{}	`json:"item_list"`
 	Page  int			`json:"page"`
 	Size  int			`json:"size"`
 	Total int			`json:"total"`
@@ -100,7 +114,7 @@ func UserList(ctx *gin.Context) {
 	resp := ListResponse{
 		0,
 		"Operation succeed",
-		InfoList{
+		UsersList{
 			users,
 			1,
 			10,
@@ -159,7 +173,7 @@ func CollectionList(ctx *gin.Context) {
 	resp := ListResponse{
 		0,
 		"Operation succeed",
-		InfoList{
+		CollectionsList{
 			[]CollectionInfo{
 				{
 					"Doodles",
@@ -247,8 +261,8 @@ func ItemList(ctx *gin.Context) {
 	resp := ListResponse{
 		0,
 		"Operation succeed",
-		InfoList{
-			Info: []Item{
+		ItemsList{
+			ItemList: []Item{
 				{
 					"Pixel Bear With Hammer",
 					"1010",
