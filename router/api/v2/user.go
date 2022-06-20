@@ -3,7 +3,7 @@ package v2
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
-	"fmt"
+	"NFT-BASE-BACK/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -45,8 +45,9 @@ func Register(ctx *gin.Context) {
 		Passwd: ctx.PostForm("passwd"),
 	}
 	res := base.Response{}
-	fmt.Println(p)
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	code := service.Register(p)
+	res.SetCode(code)
+	ctx.JSON(http.StatusOK, res)
 }
 
 type RerunEmailRequest struct {
@@ -63,10 +64,13 @@ type RerunEmailRequest struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/rerun-email [POST]
 func Rerun_Email(ctx *gin.Context) {
-	Email := ctx.PostForm("email")
+	p := model.Person{
+		Email: ctx.PostForm("email"),
+	}
 	res := base.Response{}
-	fmt.Println(Email)
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	name := "Sir/Madam"
+	code := service.RegisterEmailToken(p, name)
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
 // Activate @Description  activate: 激活相应的邮件
@@ -80,7 +84,9 @@ func Rerun_Email(ctx *gin.Context) {
 // @Router       /user/activate [GET]
 func Activate(ctx *gin.Context) {
 	res := base.Response{}
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	token := ctx.Query("token")
+	code := service.ActivateToken(token)
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
 type LoginRequest struct {
@@ -98,10 +104,14 @@ type LoginRequest struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/login [POST]
 func Login(ctx *gin.Context) {
-	Email := ctx.PostForm("email")
+	p := model.Person{
+		Email:  ctx.PostForm("email"),
+		Passwd: ctx.PostForm("passwd"),
+	}
 	res := base.Response{}
-	res.SetData(gin.H{"user_id": "mazhengwang-ust-hk", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6Im1pbmd6aGVsaXVAdXN0LmhrIiwiUGFzc3dkIjoiMTIzNDU2IiwiVG9rZW4iOiIiLCJBY3RpdmF0ZWQiOiIiLCJHZW5UaW1lIjoiIiwiZXhwIjoxNjU1MzcxNjA1LjQyNTU2MjksImlzcyI6IlllenppIn0.ULpqRvjdxyEd-B0FJHJMpg7-sIXb53JSqahRXDkYLPA"})
-	fmt.Println(Email)
+	code, token, UserId := service.Login(p)
+	res.SetCode(code)
+	res.SetData(gin.H{"token": token, "user_id": UserId})
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
@@ -121,8 +131,17 @@ type Update_PasswdRequest struct {
 // @Security ApiKeyAuth
 // @Router       /user/update-passwd [POST]
 func Update_Passwd(ctx *gin.Context) {
+	// TODO：change this email to parse token
+	email := "mingzheliu@ust.hk"
+	p := model.Person{
+		Email:  email,
+		Passwd: ctx.PostForm("old_passwd"),
+	}
+	newpasswd := ctx.Query("new_passwd")
+
 	res := base.Response{}
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	code := p.Update(newpasswd)
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
 type Forget_PasswdRequest struct {
@@ -146,7 +165,7 @@ func Forget_Passwd(ctx *gin.Context) {
 type Reset_PasswdRequest struct {
 	Email      string `json:"email" example:"mingzheliu@ust.hk" default:"mingzheliu@ust.hk"`
 	Code       string `json:"code" example:"456WER" default:"456WER"`
-	New_Passwd string `json:"Abcd12345" example:"Abcd12345" default:"Abcd12345"`
+	New_Passwd string `json:"new_Passwd" example:"Abcd12345" default:"Abcd12345"`
 }
 
 // Reset_Passwd @Description  reset_passwd: 输入邮箱、验证码和密码，重新设置已经忘记的密码

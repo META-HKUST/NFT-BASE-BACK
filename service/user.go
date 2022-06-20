@@ -51,3 +51,41 @@ func CheckEmailToken(p model.Person) base.ErrCode {
 	}
 	return base.Success
 }
+
+func Register(p model.Person) base.ErrCode {
+	// TODO (@mingzhe): associate the certificate with user info
+
+	//p.ActivateEmailToken()
+	p1, _ := model.GetPerson(p.Email)
+
+	if p1.Email == p.Email {
+		if p1.Activated != "no" {
+			return base.AccountExistError
+		}
+	}
+
+	if err := p.Register(); err != base.Success {
+		return base.ErrCode(err)
+	}
+	name := "Sir/Madam"
+	if err := RegisterEmailToken(p, name); err != base.Success {
+		return base.ErrCode(err)
+	}
+	return base.Success
+}
+
+func Login(p model.Person) (base.ErrCode, string, string) {
+
+	if err := p.Login(); err != base.Success {
+		return base.InputError, "", ""
+	}
+	token, err := utils.GenToken(p)
+	if err != nil {
+		return base.ServerError, "", ""
+	}
+	if err := CheckEmailToken(p); err != base.Success {
+		return base.ServerError, "", ""
+	}
+
+	return base.Success, token, "mazhengwang-ust-hk"
+}

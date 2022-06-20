@@ -51,7 +51,7 @@ type EditCollectionRequest struct {
 	Collection_id   string `json:"collection_id" example:"111111" default:"111111"`
 	Collection_name string `json:"collection_name" example:"Pixel Pear" default:"Pixel Pear"`
 	Description     string `json:"description" example:"Happy Happy Happy Happy" default:"Happy Happy Happy Happy"`
-	Label           string `json:"label" example:"Pear&Pixel&Wechat" default:"Pear&Pixel&Wechat"`
+	Label           string `json:"label" example:"Pear,Pixel,Wechat" default:"Pear&Pixel&Wechat"`
 }
 
 // Edit  @Description  edit : 输入邮箱、验证码和密码，重新设置已经忘记的密码
