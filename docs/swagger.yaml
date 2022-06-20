@@ -68,7 +68,7 @@ definitions:
         type: string
       label:
         default: Pear&Pixel&Wechat
-        example: Pear&Pixel&Wechat
+        example: Pear,Pixel,Wechat
         type: string
     type: object
   v2.EditParams:
@@ -317,10 +317,6 @@ definitions:
     type: object
   v2.Reset_PasswdRequest:
     properties:
-      Abcd12345:
-        default: Abcd12345
-        example: Abcd12345
-        type: string
       code:
         default: 456WER
         example: 456WER
@@ -328,6 +324,10 @@ definitions:
       email:
         default: mingzheliu@ust.hk
         example: mingzheliu@ust.hk
+        type: string
+      new_Passwd:
+        default: Abcd12345
+        example: Abcd12345
         type: string
     type: object
   v2.TransferParams:
@@ -350,7 +350,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: unifit.ust.hk:8889
+host: localhost:8889
 info:
   contact: {}
   description: HKUST-NFT Server API

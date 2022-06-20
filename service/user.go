@@ -57,18 +57,24 @@ func Register(p model.Person) base.ErrCode {
 
 	//p.ActivateEmailToken()
 	p1, _ := model.GetPerson(p.Email)
+	if p.Email == "" {
+		return base.InputError
+	}
 
 	if p1.Email == p.Email {
 		if p1.Activated != "no" {
+			log.Println(base.AccountExistError.String())
 			return base.AccountExistError
 		}
 	}
 
 	if err := p.Register(); err != base.Success {
+		log.Println(err.String())
 		return base.ErrCode(err)
 	}
 	name := "Sir/Madam"
 	if err := RegisterEmailToken(p, name); err != base.Success {
+		log.Println(err.String())
 		return base.ErrCode(err)
 	}
 	return base.Success

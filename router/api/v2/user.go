@@ -4,6 +4,7 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -40,12 +41,14 @@ type RegisterRequest struct {
 // @Router       /user/register [POST]
 func Register(ctx *gin.Context) {
 	// TODO (@mingzhe): associate the certificate with user info
-	p := model.Person{
-		Email:  ctx.PostForm("email"),
-		Passwd: ctx.PostForm("passwd"),
-	}
+	p := model.Person{}
+	ctx.BindJSON(&p)
 	res := base.Response{}
 	code := service.Register(p)
+	if code != base.Success {
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
 	res.SetCode(code)
 	ctx.JSON(http.StatusOK, res)
 }
@@ -64,9 +67,8 @@ type RerunEmailRequest struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/rerun-email [POST]
 func Rerun_Email(ctx *gin.Context) {
-	p := model.Person{
-		Email: ctx.PostForm("email"),
-	}
+	p := model.Person{}
+	ctx.BindJSON(&p)
 	res := base.Response{}
 	name := "Sir/Madam"
 	code := service.RegisterEmailToken(p, name)
@@ -104,14 +106,21 @@ type LoginRequest struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/login [POST]
 func Login(ctx *gin.Context) {
-	p := model.Person{
-		Email:  ctx.PostForm("email"),
-		Passwd: ctx.PostForm("passwd"),
-	}
+	p := model.Person{}
+	ctx.BindJSON(&p)
+
 	res := base.Response{}
 	code, token, UserId := service.Login(p)
+	if code != base.Success {
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
 	res.SetCode(code)
-	res.SetData(gin.H{"token": token, "user_id": UserId})
+	dto := gin.H{
+		"token":   token,
+		"user_id": UserId,
+	}
+	res.SetData(dto)
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
@@ -131,16 +140,18 @@ type Update_PasswdRequest struct {
 // @Security ApiKeyAuth
 // @Router       /user/update-passwd [POST]
 func Update_Passwd(ctx *gin.Context) {
-	// TODO：change this email to parse token
-	email := "mingzheliu@ust.hk"
-	p := model.Person{
-		Email:  email,
-		Passwd: ctx.PostForm("old_passwd"),
-	}
-	newpasswd := ctx.Query("new_passwd")
 
+	s, _ := ctx.Get("email")
+	email := fmt.Sprintf("%v", s)
+	ch := Update_PasswdRequest{}
+	ctx.BindJSON(&ch)
+
+	P := model.Person{
+		Email:  email,
+		Passwd: ch.Old_Passwd,
+	}
 	res := base.Response{}
-	code := p.Update(newpasswd)
+	code := P.Update(ch.New_Passwd)
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 

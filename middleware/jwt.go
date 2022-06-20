@@ -5,7 +5,6 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/utils"
 	"errors"
-	"log"
 	"net/http"
 	"strings"
 
@@ -24,8 +23,7 @@ func JWTAuth() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		log.Print("token:", authHeader)
-
+		
 		//按空格拆分
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
@@ -56,9 +54,9 @@ func JWTAuth() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-
 		// 将当前请求的claims信息保存到请求的上下文c上
-		ctx.Set("claims", claims)
+		ctx.Set("email", claims.Email)
+		ctx.Set("passwd", claims.Passwd)
 		ctx.Next() // 后续的处理函数可以用过ctx.Get("claims")来获取当前请求的用户信息
 
 	}

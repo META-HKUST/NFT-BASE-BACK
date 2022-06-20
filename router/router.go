@@ -29,7 +29,7 @@ func InitRouter() *gin.Engine {
 		//登录
 		userRouter.POST("/login", v2.Login)
 		//密码管理
-		userRouter.POST("/update-passwd", v2.Update_Passwd)
+		userRouter.POST("/update-passwd", mw.JWTAuth(), v2.Update_Passwd)
 		userRouter.POST("/forget-passwd", v2.Forget_Passwd)
 		userRouter.POST("/reset-passwd", v2.Reset_Passwd)
 		//用户个人信息

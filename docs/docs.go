@@ -1686,7 +1686,7 @@ const docTemplate = `{
                 "label": {
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
-                    "example": "Pear\u0026Pixel\u0026Wechat"
+                    "example": "Pear,Pixel,Wechat"
                 }
             }
         },
@@ -2052,11 +2052,6 @@ const docTemplate = `{
         "v2.Reset_PasswdRequest": {
             "type": "object",
             "properties": {
-                "Abcd12345": {
-                    "type": "string",
-                    "default": "Abcd12345",
-                    "example": "Abcd12345"
-                },
                 "code": {
                     "type": "string",
                     "default": "456WER",
@@ -2066,6 +2061,11 @@ const docTemplate = `{
                     "type": "string",
                     "default": "mingzheliu@ust.hk",
                     "example": "mingzheliu@ust.hk"
+                },
+                "new_Passwd": {
+                    "type": "string",
+                    "default": "Abcd12345",
+                    "example": "Abcd12345"
                 }
             }
         },
@@ -2110,7 +2110,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "unifit.ust.hk:8889",
+	Host:             "localhost:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

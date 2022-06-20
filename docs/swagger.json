@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "unifit.ust.hk:8889",
+    "host": "localhost:8889",
     "basePath": "/api/v2",
     "paths": {
         "/act/create": {
@@ -1679,7 +1679,7 @@
                 "label": {
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
-                    "example": "Pear\u0026Pixel\u0026Wechat"
+                    "example": "Pear,Pixel,Wechat"
                 }
             }
         },
@@ -2045,11 +2045,6 @@
         "v2.Reset_PasswdRequest": {
             "type": "object",
             "properties": {
-                "Abcd12345": {
-                    "type": "string",
-                    "default": "Abcd12345",
-                    "example": "Abcd12345"
-                },
                 "code": {
                     "type": "string",
                     "default": "456WER",
@@ -2059,6 +2054,11 @@
                     "type": "string",
                     "default": "mingzheliu@ust.hk",
                     "example": "mingzheliu@ust.hk"
+                },
+                "new_Passwd": {
+                    "type": "string",
+                    "default": "Abcd12345",
+                    "example": "Abcd12345"
                 }
             }
         },
