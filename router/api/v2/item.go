@@ -39,6 +39,11 @@ type TransferParams struct {
 	ToUserId string `json:"to_user_id" example:"zhengwang-ust-hk"`
 }
 
+
+type LikeRequest struct {
+	ItemId string `json:"item_id" example:"1"`
+}
+
 // CreateItem @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
 // @Tags         item
 // @param 		 item_data      formData  file  true    "NFT本身数据"
@@ -147,7 +152,7 @@ func TransferItem(ctx *gin.Context) {
 
 // LikeItem @Description  edit single item
 // @Tags         item
-// @param 		 item_id  body string  true   "item id"
+// @param 		 item_id  body LikeRequest true  "item id"
 // @Accept       json
 // @Produce      json
 // @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"

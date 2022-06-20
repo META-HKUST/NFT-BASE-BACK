@@ -143,8 +143,8 @@ func SingleColletction(ctx *gin.Context) {
 // CollectionList @Description  get all users in database
 // @Tags         list
 // @param 		 keyword   path   string   false   "keyword"
-// @param 		 rank_favorite   path   string   false   "rank favorite"
-// @param 		 rank_time   path   string   false   "rank time"
+// @param 		 rank_favorite   path   bool   false   "rank favorite"
+// @param 		 rank_time   path   bool   false   "rank time"
 // @param 		 user_id   path   string   false   "user id"
 // @param 		 label   path   string   false   "label"
 // @param 		 page_num   path   int   false   "page num"
