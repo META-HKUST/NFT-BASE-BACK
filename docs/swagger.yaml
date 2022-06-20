@@ -167,16 +167,24 @@ definitions:
     type: object
   v2.ItemResponse:
     properties:
+      code:
+        example: 0
+        type: integer
       data:
         $ref: '#/definitions/v2.Item'
-      status:
-        $ref: '#/definitions/v2.StatusInfo'
+      msg:
+        example: Operation succeed
+        type: string
     type: object
   v2.ListResponse:
     properties:
+      code:
+        example: 0
+        type: integer
       data: {}
-      status:
-        $ref: '#/definitions/v2.StatusInfo'
+      msg:
+        example: Operation succeed
+        type: string
     type: object
   v2.LoginRequest:
     properties:
@@ -314,13 +322,6 @@ definitions:
       email:
         default: mingzheliu@ust.hk
         example: mingzheliu@ust.hk
-        type: string
-    type: object
-  v2.StatusInfo:
-    properties:
-      code:
-        type: integer
-      msg:
         type: string
     type: object
   v2.TransferParams:

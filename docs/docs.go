@@ -1843,20 +1843,30 @@ const docTemplate = `{
         "v2.ItemResponse": {
             "type": "object",
             "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "data": {
                     "$ref": "#/definitions/v2.Item"
                 },
-                "status": {
-                    "$ref": "#/definitions/v2.StatusInfo"
+                "msg": {
+                    "type": "string",
+                    "example": "Operation succeed"
                 }
             }
         },
         "v2.ListResponse": {
             "type": "object",
             "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "data": {},
-                "status": {
-                    "$ref": "#/definitions/v2.StatusInfo"
+                "msg": {
+                    "type": "string",
+                    "example": "Operation succeed"
                 }
             }
         },
@@ -2047,17 +2057,6 @@ const docTemplate = `{
                     "type": "string",
                     "default": "mingzheliu@ust.hk",
                     "example": "mingzheliu@ust.hk"
-                }
-            }
-        },
-        "v2.StatusInfo": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "msg": {
-                    "type": "string"
                 }
             }
         },
