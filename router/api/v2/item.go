@@ -19,14 +19,11 @@ type Item struct {
 	FavoriteNum  int64    `json:"favorite_num" example:"100"`
 	Favorite     bool     `json:"favorite" example:"false"`
 }
-type StatusInfo struct {
-	Code int
-	Msg  string
-}
 
 type ItemResponse struct {
-	Status StatusInfo
-	Data   Item
+	Code   int		`json:"code" example:"0"`
+	Msg    string	`json:"msg" example:"Operation succeed"`
+	Data   Item		`json:"data"`
 }
 
 type CreateParams struct {
@@ -55,24 +52,22 @@ type TransferParams struct {
 // @Security ApiKeyAuth
 func CreateItem(ctx *gin.Context) {
 	resp := ItemResponse{
-		Status: StatusInfo{
 			0,
 			"Operation succeed",
-		},
-		Data: Item{
-			"Pixel Bear With Hammer",
-			"1010",
-			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-			"2022-06-16 22:04:22",
-			"A very cute pixel bear with hammer",
-			"Pixel Bear",
-			"image",
-			[]string{"Music", "Comics"},
-			"mingzheliu-ust-hk",
-			"mingzheliu-ust-hk",
-			100,
-			false,
-		},
+			Item{
+				"Pixel Bear With Hammer",
+				"1010",
+				"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
+				"2022-06-16 22:04:22",
+				"A very cute pixel bear with hammer",
+				"Pixel Bear",
+				"image",
+				[]string{"Music", "Comics"},
+				"mingzheliu-ust-hk",
+				"mingzheliu-ust-hk",
+				100,
+				false,
+			},
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -98,11 +93,9 @@ type EditParams struct {
 // @Security ApiKeyAuth
 func EditItem(ctx *gin.Context) {
 	resp := ItemResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: Item{
+		0,
+		"Operation succeed",
+		Item{
 			"Pixel Bear With Hammer",
 			"1010",
 			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
@@ -132,11 +125,9 @@ func EditItem(ctx *gin.Context) {
 // @Security ApiKeyAuth
 func TransferItem(ctx *gin.Context) {
 	resp := ItemResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: Item{
+		0,
+		"Operation succeed",
+		Item{
 			"Pixel Bear With Hammer",
 			"1010",
 			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
@@ -166,11 +157,9 @@ func TransferItem(ctx *gin.Context) {
 // @Security ApiKeyAuth
 func LikeItem(ctx *gin.Context) {
 	resp := ItemResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: Item{
+		0,
+		"Operation succeed",
+		Item{
 			"Pixel Bear With Hammer",
 			"1010",
 			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",

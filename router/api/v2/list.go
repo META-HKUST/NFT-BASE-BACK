@@ -18,15 +18,16 @@ type UserInfo struct {
 }
 
 type ListResponse struct {
-	Status StatusInfo
-	Data   interface{}
+	Code   int		`json:"code" example:"0"`
+	Msg    string	`json:"msg" example:"Operation succeed"`
+	Data   interface{}	`json:"data"`
 }
 
 type InfoList struct {
-	Info  interface{}
-	page  int
-	size  int
-	total int
+	Info  interface{}	`json:"info"`
+	page  int			`json:"page"`
+	size  int			`json:"size"`
+	total int			`json:"total"`
 }
 
 type Collection struct {
@@ -56,11 +57,11 @@ type CollectionInfo struct {
 }
 
 type History struct {
-	FromUserId   string
-	ToUserId     string
-	FromUserName string
-	ToUserName   string
-	Time         string
+	FromUserId   string			`json:"from_user_id"`
+	ToUserId     string			`json:"to_user_id"`
+	FromUserName string			`json:"from_user_name"`
+	ToUserName   string			`json:"to_user_name"`
+	Time         string			`json:"time"`
 }
 
 // UserList @Description  get all users in database
@@ -97,11 +98,9 @@ func UserList(ctx *gin.Context) {
 		},
 	}
 	resp := ListResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: InfoList{
+		0,
+		"Operation succeed",
+		InfoList{
 			users,
 			1,
 			10,
@@ -122,10 +121,8 @@ func UserList(ctx *gin.Context) {
 // @Router       /list/collection [GET]
 func SingleColletction(ctx *gin.Context) {
 	resp := ListResponse{
-		Status: StatusInfo{
-			Code: 0,
-			Msg:  "Operation succeed",
-		},
+		Code: 0,
+		Msg:  "Operation succeed",
 		Data: Collection{
 			"mingzheliu-ust-hk",
 			"Doodles",
@@ -160,11 +157,9 @@ func SingleColletction(ctx *gin.Context) {
 // @Router       /list/collection-list [GET]
 func CollectionList(ctx *gin.Context) {
 	resp := ListResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: InfoList{
+		0,
+		"Operation succeed",
+		InfoList{
 			[]CollectionInfo{
 				{
 					"Doodles",
@@ -208,11 +203,9 @@ func CollectionList(ctx *gin.Context) {
 // @Router       /list/item [GET]
 func SingleItem(ctx *gin.Context) {
 	resp := ListResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: Item{
+		0,
+		"Operation succeed",
+		Item{
 			"Pixel Bear With Hammer",
 			"1010",
 			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
@@ -252,11 +245,9 @@ func SingleItem(ctx *gin.Context) {
 // @Router       /list/item-list [GET]
 func ItemList(ctx *gin.Context) {
 	resp := ListResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: InfoList{
+		0,
+		"Operation succeed",
+		InfoList{
 			Info: []Item{
 				{
 					"Pixel Bear With Hammer",
@@ -306,11 +297,9 @@ func ItemList(ctx *gin.Context) {
 // @Router       /list/item-history [GET]
 func ItemHistory(ctx *gin.Context) {
 	resp := ListResponse{
-		Status: StatusInfo{
-			0,
-			"Operation succeed",
-		},
-		Data: []History{
+		0,
+		"Operation succeed",
+		[]History{
 			{
 				"baofuhan-ust-hk",
 				"zwang-ust-hk",
