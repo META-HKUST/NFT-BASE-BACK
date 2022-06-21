@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	FrontLink string = ("http://pascal.ieda.ust.hk:8889/api/v2/user/activate?token=")
+	FrontLink string = ("http://unifit.ust.hk:8889/api/v2/user/activate?token=")
 
 	SubjectName string = ("UniFiT Account Confirmation")
 	logo        string = ("https://thumbs.dreamstime.com/z/phoenix-fenix-fire-bird-cartoon-character-fantasy-magic-creature-red-burning-plumage-steaming-wings-fairytale-animal-182971826.jpg")

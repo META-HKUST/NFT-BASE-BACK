@@ -25,6 +25,7 @@ func RegisterEmailToken(p model.Person, ReceiverName string) base.ErrCode {
 
 func ActivateToken(token string) base.ErrCode {
 	_, genTime := model.GetGenTime(token)
+
 	if genTime == "" {
 		return base.TokenNotExist
 	}
