@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"encoding/hex"
+	"math/rand"
 	"time"
 )
 
@@ -21,4 +22,14 @@ func GenEmailToken() string {
 
 	// 将字节流转化为16进制的字符串
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+func GenVerifyCode() string {
+	s := "1234567890"
+	code := ""
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 6; i++ {
+		code += string(s[rand.Intn(len(s))])
+	}
+	return code
 }

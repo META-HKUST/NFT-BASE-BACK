@@ -170,12 +170,17 @@ type Forget_PasswdRequest struct {
 // @Router       /user/forget-passwd [POST]
 func Forget_Passwd(ctx *gin.Context) {
 	res := base.Response{}
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+
+	ch := Forget_PasswdRequest{}
+	ctx.BindJSON(&ch)
+	code := service.ForgetPasswd(ch.Email)
+
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
 type Reset_PasswdRequest struct {
 	Email      string `json:"email" example:"mingzheliu@ust.hk" default:"mingzheliu@ust.hk"`
-	Code       string `json:"code" example:"456WER" default:"456WER"`
+	Code       string `json:"code" example:"466568" default:"456WER"`
 	New_Passwd string `json:"new_Passwd" example:"Abcd12345" default:"Abcd12345"`
 }
 
@@ -190,7 +195,12 @@ type Reset_PasswdRequest struct {
 // @Router       /user/reset-passwd [POST]
 func Reset_Passwd(ctx *gin.Context) {
 	res := base.Response{}
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+
+	ch := Reset_PasswdRequest{}
+	ctx.BindJSON(&ch)
+	code := service.ResetPasswd(ch.Email, ch.Code, ch.New_Passwd)
+
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
 type Edit_ProfileRequest struct {

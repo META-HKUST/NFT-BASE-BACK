@@ -6,14 +6,6 @@ import (
 	"NFT-BASE-BACK/utils"
 )
 
-func ForgetPasswd(emial string) base.ErrCode {
-	return base.Success
-}
-
-func ResetPasswd(emial string, passwd string, verify string) base.ErrCode {
-	return base.Success
-}
-
 func LoadItemHistory(ItenId string) []string {
 	return []string{"Created by mingzheliu-ust-hk"}
 }

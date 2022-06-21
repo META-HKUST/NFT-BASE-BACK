@@ -31,6 +31,7 @@ func _() {
 	_ = x[TokenInvalidError-1206]
 	_ = x[TokenNotExist-1207]
 	_ = x[TokenAlreadyActivated-1208]
+	_ = x[WrongVerifyCode-1301]
 	_ = x[ServerError-2000]
 }
 
@@ -39,7 +40,8 @@ const (
 	_ErrCode_name_1 = "Input ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failed"
 	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request header"
 	_ErrCode_name_3 = "Can not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activated"
-	_ErrCode_name_4 = "Server Error"
+	_ErrCode_name_4 = "The verify code is invalid or expired"
+	_ErrCode_name_5 = "Server Error"
 )
 
 var (
@@ -61,8 +63,10 @@ func (i ErrCode) String() string {
 	case 1201 <= i && i <= 1208:
 		i -= 1201
 		return _ErrCode_name_3[_ErrCode_index_3[i]:_ErrCode_index_3[i+1]]
-	case i == 2000:
+	case i == 1301:
 		return _ErrCode_name_4
+	case i == 2000:
+		return _ErrCode_name_5
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}

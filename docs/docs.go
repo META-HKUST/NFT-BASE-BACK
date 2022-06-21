@@ -2055,7 +2055,7 @@ const docTemplate = `{
                 "code": {
                     "type": "string",
                     "default": "456WER",
-                    "example": "456WER"
+                    "example": "466568"
                 },
                 "email": {
                     "type": "string",

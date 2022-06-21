@@ -4,7 +4,9 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/utils"
+	"fmt"
 	"log"
+	"strings"
 )
 
 func RegisterEmailToken(p model.Person, ReceiverName string) base.ErrCode {
@@ -77,6 +79,8 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(err.String())
 		return base.ErrCode(err)
 	}
+	// TODO: store UserId and check if it's unique
+
 	return base.Success
 }
 
@@ -92,6 +96,35 @@ func Login(p model.Person) (base.ErrCode, string, string) {
 	if err := CheckEmailToken(p); err != base.Success {
 		return base.ServerError, "", ""
 	}
+	t1 := strings.Replace(p.Email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	return base.Success, token, UserId
+}
 
-	return base.Success, token, "mazhengwang-ust-hk"
+func ForgetPasswd(emial string) base.ErrCode {
+	c := utils.GenVerifyCode()
+	err := model.UpdateVerifyCode(emial, c)
+	if err != nil {
+		return base.ServerError
+	}
+	utils.ResetEmail("Sir/Madam", emial, c)
+	return base.Success
+}
+
+func ResetPasswd(email string, code string, pd string) base.ErrCode {
+	c1, err1 := model.GetVerifyCode(email)
+	if err1 != nil {
+		return base.InputError
+	}
+	fmt.Println("Get verify code: ", c1)
+
+	// TODO: Set the expire time of verify code
+	if c1 != code {
+		return base.WrongVerifyCode
+	}
+	err := model.ResetUpdate(email, pd)
+	if err != nil {
+		return base.InputError
+	}
+	return base.Success
 }

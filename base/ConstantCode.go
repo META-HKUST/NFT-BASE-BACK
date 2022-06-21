@@ -31,5 +31,7 @@ const (
 	TokenNotExist         ErrCode = 1207 // Could not find this token in database
 	TokenAlreadyActivated ErrCode = 1208 // Token has already been activated
 
+	WrongVerifyCode ErrCode = 1301 // The verify code is invalid or expired
+
 	ServerError ErrCode = 2000 // Server Error
 )

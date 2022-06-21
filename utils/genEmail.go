@@ -95,3 +95,68 @@ func Email(ReceiverName string, ReceiverMail string, token string) error {
 	log.Println("Activation email successfully sent to", ReceiverName)
 	return nil
 }
+
+func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
+	h := hermes.Hermes{
+		// Optional Theme
+		// Theme: new(Default)
+		Product: hermes.Product{
+			// Appears in header & footer of e-mails
+			Name: SenderName,
+			// Optional product logo
+			Logo: logo,
+		},
+	}
+	email := hermes.Email{
+		Body: hermes.Body{
+			Name: ReceiverName,
+			Intros: []string{
+				"Your reset password verify code: ",
+			},
+			Actions: []hermes.Action{
+				{
+					Instructions: code,
+				},
+			},
+			Outros: []string{
+				"Need help, or have questions? Just reply to this email, we'd love to help.",
+			},
+		},
+	}
+
+	// Generate an HTML email with the provided contents (for modern clients)
+
+	emailBody, err := h.GenerateHTML(email)
+	m := mail.NewMsg()
+	m.SetBodyString(mail.TypeTextHTML, emailBody)
+
+	if err := m.FromFormat(SenderName, Sender); err != nil {
+		return err
+	}
+	if err := m.To(ReceiverMail); err != nil {
+		return err
+	}
+
+	// Set a subject line
+	m.Subject("Reset Password")
+
+	// Add your mail message to body
+	m.SetBodyString(mail.TypeTextHTML, code)
+
+	host := SenderServer
+	c, err := mail.NewClient(host,
+		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithUsername(Sender),
+		mail.WithPassword(SenderPasswd), mail.WithTLSPolicy(mail.TLSMandatory), mail.WithPort(SenderPort), WithSSL)
+
+	if err != nil {
+		return err
+	}
+	// Now that we have our client, we can connect to the server and send our mail message
+	// via the convenient DialAndSend() method. You have the option to Dial() and Send()
+	// seperately as well
+	if err := c.DialAndSend(m); err != nil {
+		return err
+	}
+	log.Println("Reset Password email successfully sent to", ReceiverName)
+	return nil
+}

@@ -16,9 +16,12 @@ type Person struct {
 }
 
 type Activate struct {
-	Token     string `db:"token"`
-	Activated string `db:"activated"`
-	GenTime   string `db:"genTime"`
+	Token      string `db:"emailToken"`
+	GenTime    string `db:"genTime"`
+	Activated  string `db:"activated"`
+	VerifyCode string `db:"verify_code"`
+	CodeTime   string `db:"codeTime"`
+	UserId     string `db:"userId"`
 }
 
 // db variable
@@ -27,17 +30,21 @@ var db *sqlx.DB
 // mysql sentences
 var (
 	// these three are related to account email and passwd
-	insert = string("insert into userlogin(email,passwd) values(?,?);")
-	query  = string("select email,passwd,token,activated,genTime from userlogin where email=?;")
-	update = string("update userlogin set passwd=? where email=?;")
+	insert = string("insert into login(email,passwd) values(?,?);")
+	query  = string("select email,passwd,verify_code from login where email=?;")
+	update = string("update login set passwd=? where email=?;")
 
 	// email activation
-	updateToken      = string("update userlogin set token=? where email=?;")
-	updateactivated  = string("update userlogin set activated=? where email=?;")
-	updategenTime    = string("update userlogin set genTime=? where email=?;")
-	activateToken    = string("update userlogin set activated=? where token=?;")
-	queryGentime     = string("select genTime from userlogin where token=?;")
-	queryTokenStatus = string("select activated from userlogin where token=?;")
+	updateToken      = string("update login set emailToken=? where email=?;")
+	updateactivated  = string("update login set activated=? where email=?;")
+	updategenTime    = string("update login set genTime=? where email=?;")
+	activateToken    = string("update login set activated=? where token=?;")
+	queryGentime     = string("select genTime from login where token=?;")
+	queryTokenStatus = string("select activated from login where token=?;")
+
+	updateVerifyCode  = string("update login set verify_code=? where email=?;")
+	getVerifyCode     = string("select verify_code from login where email=?;")
+	updateResetPasswd = string("update login set passwd=? where email=?;")
 )
 
 // 连接池设为最大100，空闲最大20，可以调整
@@ -167,4 +174,33 @@ func GetTokenStatus(token string) (error, string) {
 		return err, ""
 	}
 	return nil, g
+}
+
+func UpdateVerifyCode(email string, code string) error {
+	r1, e1 := db.Exec(updateVerifyCode, code, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	log.Println(r1)
+	return nil
+}
+
+func GetVerifyCode(email string) (string, error) {
+	var code string
+	err := db.Get(&code, getVerifyCode, email)
+	if err != nil {
+		return "", err
+	}
+	return code, nil
+}
+
+func ResetUpdate(email string, passwd string) error {
+	r1, e1 := db.Exec(updateResetPasswd, passwd, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	log.Println(r1)
+	return nil
 }

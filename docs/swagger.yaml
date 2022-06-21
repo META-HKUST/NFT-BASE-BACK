@@ -319,7 +319,7 @@ definitions:
     properties:
       code:
         default: 456WER
-        example: 456WER
+        example: "466568"
         type: string
       email:
         default: mingzheliu@ust.hk
