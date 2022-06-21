@@ -39,8 +39,8 @@ var (
 	updateactivated  = string("update login set activated=? where email=?;")
 	updategenTime    = string("update login set genTime=? where email=?;")
 	activateToken    = string("update login set activated=? where token=?;")
-	queryGentime     = string("select genTime from login where token=?;")
-	queryTokenStatus = string("select activated from login where token=?;")
+	queryGentime     = string("select genTime from login where emailToken=?;")
+	queryTokenStatus = string("select activated from login where emailToken=?;")
 
 	updateVerifyCode  = string("update login set verify_code=? where email=?;")
 	getVerifyCode     = string("select verify_code from login where email=?;")
