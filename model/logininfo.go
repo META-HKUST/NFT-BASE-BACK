@@ -31,7 +31,7 @@ var db *sqlx.DB
 var (
 	// these three are related to account email and passwd
 	insert = string("insert into login(email,passwd) values(?,?);")
-	query  = string("select email,passwd,verify_code from login where email=?;")
+	query  = string("select email,passwd from login where email=?;")
 	update = string("update login set passwd=? where email=?;")
 
 	// email activation
@@ -161,6 +161,7 @@ func ActivateEmailToken(token string) error {
 func GetGenTime(token string) (error, string) {
 	var g string
 	err := db.Get(&g, queryGentime, token)
+
 	if err != nil {
 		return err, ""
 	}
