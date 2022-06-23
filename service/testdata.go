@@ -97,21 +97,6 @@ func GetItems(Id string, pgnumber int, pgsize int, method string) (base.ErrCode,
 	return base.Success, []entity.Item{item1, item2}, 2
 }
 
-func CreateCollectionByAccount(UserId string, name string, logoImage string, featureImage string, bannerImage string, description string) (base.ErrCode, entity.Collection) {
-	collection := entity.Collection{
-		CollectionId:   "2321",
-		CollectionName: name,
-		LogoImage:      logoImage,
-		FeatureImage:   featureImage,
-		BannerImage:    bannerImage,
-		ItemsCount:     12,
-		Description:    description,
-		CreateTime:     utils.GetTimeNow(),
-		Owner:          UserId,
-	}
-	return base.Success, collection
-}
-
 func LoadItemIds(CollectionId string) []string {
 	return []string{"1000", "1001", "1003", "1004"}
 }
@@ -119,7 +104,6 @@ func LoadItemIds(CollectionId string) []string {
 func EditCollection(UserId string, CollectionId string, name string, logoImage string, featureImage string, bannerImage string, description string) (base.ErrCode, entity.Collection) {
 
 	collection := entity.Collection{
-		CollectionId:   CollectionId,
 		CollectionName: name,
 		LogoImage:      logoImage,
 		FeatureImage:   featureImage,
@@ -135,7 +119,7 @@ func EditCollection(UserId string, CollectionId string, name string, logoImage s
 
 func GetCollection(CollectionId string) (base.ErrCode, entity.Collection) {
 	collection := entity.Collection{
-		CollectionId:   "1",
+		CollectionId:   1,
 		CollectionName: "Pixel Bear",
 		LogoImage:      "https://img2.baidu.com/it/u=3149703497,1232639303&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=888",
 		FeatureImage:   "https://img0.baidu.com/it/u=407638665,2322213270&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
@@ -151,7 +135,7 @@ func GetCollection(CollectionId string) (base.ErrCode, entity.Collection) {
 
 func GetCollections(Id string, pgnumber int, pgsize int, method string) (base.ErrCode, []entity.Collection, int) {
 	collection1 := entity.Collection{
-		CollectionId:   "1",
+		CollectionId:   1,
 		CollectionName: "Pixel Bear",
 		LogoImage:      "https://img2.baidu.com/it/u=3149703497,1232639303&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=888",
 		FeatureImage:   "https://img1.baidu.com/it/u=2611341694,1602866768&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
@@ -163,7 +147,7 @@ func GetCollections(Id string, pgnumber int, pgsize int, method string) (base.Er
 		Owner:          "mingzheliu-ust-hk",
 	}
 	collection2 := entity.Collection{
-		CollectionId:   "1",
+		CollectionId:   1,
 		CollectionName: "MetaUniverse",
 		LogoImage:      "https://img0.baidu.com/it/u=2102284223,1322820129&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
 		FeatureImage:   "https://img2.baidu.com/it/u=3756534050,1657480602&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=363",
