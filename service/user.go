@@ -63,6 +63,9 @@ func Register(p model.Person) base.ErrCode {
 	if p.Email == "" {
 		return base.InputError
 	}
+	if p.Passwd == "" {
+		return base.InputError
+	}
 
 	if p1.Email == p.Email {
 		if p1.Activated != "no" {
