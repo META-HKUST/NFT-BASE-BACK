@@ -1,7 +1,5 @@
 package model
 
-import "log"
-
 const (
 	insertItem      = string("insert into items(item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category) values(?,?,?,?,?,?,?,?);")
 	queryItem       = string("select item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category, created_at from items where item_id=?;")
@@ -71,8 +69,6 @@ func UpdateItemOwner(itemId, toUserId string) (Item, error) {
 		toUserId,
 		itemId,
 	)
-	log.Println(toUserId)
-	log.Println(err)
 	if err != nil {
 		return Item{}, err
 	}

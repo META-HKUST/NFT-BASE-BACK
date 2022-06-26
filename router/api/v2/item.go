@@ -6,7 +6,6 @@ import (
 	"NFT-BASE-BACK/sdk"
 	"NFT-BASE-BACK/sdk/pb"
 	"context"
-	"log"
 	"net/http"
 	"strings"
 
@@ -234,9 +233,7 @@ func TransferItem(ctx *gin.Context) {
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
 	username = strings.Replace(username, ".", "-", -1)
-	log.Println(username)
 	// 调用sdk
-	log.Println(243)
 	_, err = sdk.Client.TransferFrom(
 		context.Background(),
 		&pb.TransferFromRequest{
@@ -257,8 +254,6 @@ func TransferItem(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	log.Println(ret)
 
 	// 查label
 	ret_label, err := model.SearchLable(req.ItemId)
