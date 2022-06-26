@@ -552,13 +552,6 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "NFT本身数据",
-                        "name": "item_data",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
                         "description": "info needed to upload",
                         "name": "param_request",
                         "in": "body",
@@ -572,7 +565,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "$ref": "#/definitions/v2.ItemResponse"
+                            "$ref": "#/definitions/v2.CreateParamsResponse"
                         }
                     },
                     "400": {
@@ -725,7 +718,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "$ref": "#/definitions/v2.ItemResponse"
+                            "$ref": "#/definitions/v2.TransferItemResponse"
                         }
                     },
                     "400": {
@@ -1614,6 +1607,69 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "entity.Item": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "example": "Pixel Bear"
+                },
+                "collection_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "collection_name": {
+                    "type": "string",
+                    "example": "Pixel Bear"
+                },
+                "create-time": {
+                    "type": "string",
+                    "example": "2022-06-16 22:04:22"
+                },
+                "creater_id": {
+                    "type": "string",
+                    "example": "mazhengwang-ust-hk"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "A very cute pixel bear with hammer"
+                },
+                "favorite": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "favorite_num": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "item_data": {
+                    "type": "string"
+                },
+                "item_id": {
+                    "type": "string",
+                    "example": "123455"
+                },
+                "item_name": {
+                    "description": "basic info",
+                    "type": "string",
+                    "example": "hahhahah"
+                },
+                "lable": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music",
+                        "Comics"
+                    ]
+                },
+                "owner_id": {
+                    "type": "string",
+                    "example": "mazhengwang-ust-hk"
+                }
+            }
+        },
         "v2.CreateCollectionRequest": {
             "type": "object",
             "properties": {
@@ -1637,17 +1693,29 @@ const docTemplate = `{
         "v2.CreateParams": {
             "type": "object",
             "properties": {
-                "collection_id": {
+                "category": {
                     "type": "string",
-                    "example": "Pixel Bear"
+                    "example": "image"
+                },
+                "collection_id": {
+                    "type": "integer",
+                    "example": 1
                 },
                 "description": {
                     "type": "string",
                     "example": "A very cute pixel bear with hammer"
                 },
-                "item_data": {
+                "item_data_cos": {
                     "type": "string",
                     "example": "https://img1.baidu.com/it/u=1783064339,1648739044\u0026fm=253\u0026fmt=auto\u0026app=138\u0026f=GIF?w=240\u0026h=240"
+                },
+                "item_data_ipfs": {
+                    "type": "string",
+                    "example": "https://img1.baidu.com/it/u=1783064339,1648739044\u0026fm=253\u0026fmt=auto\u0026app=138\u0026f=GIF?w=240\u0026h=240"
+                },
+                "item_data_signature": {
+                    "type": "string",
+                    "example": "sfahelkgbekjbfbsauiehnv"
                 },
                 "item_name": {
                     "type": "string",
@@ -1659,9 +1727,25 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": [
-                        "Music ",
+                        "Music",
                         "Comics"
                     ]
+                }
+            }
+        },
+        "v2.CreateParamsResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "$ref": "#/definitions/entity.Item"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "Operation succeed"
                 }
             }
         },
@@ -2069,6 +2153,22 @@ const docTemplate = `{
                 }
             }
         },
+        "v2.TransferItemResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "$ref": "#/definitions/entity.Item"
+                },
+                "msg": {
+                    "type": "string",
+                    "example": "Operation succeed"
+                }
+            }
+        },
         "v2.TransferParams": {
             "type": "object",
             "properties": {
@@ -2110,7 +2210,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8889",
+	Host:             "unifit.ust.hk:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",
