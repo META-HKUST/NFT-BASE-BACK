@@ -24,7 +24,7 @@ import (
 // @description HKUST-NFT Server API
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8889
+// @host unifit.ust.hk:8889
 // @BasePath /api/v2
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
