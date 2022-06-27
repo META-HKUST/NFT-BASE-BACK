@@ -36,7 +36,7 @@ func InitRouter() *gin.Engine {
 		userRouter.POST("/edit-profile", mw.JWTAuth(), v2.Edit_Profile)
 		userRouter.GET("/info", mw.JWTAuth(), v2.GetUserInfo)
 	}
-	collectionRouter := routerV2.Group("/collection")
+	collectionRouter := routerV2.Group("/collection").Use(mw.JWTAuth())
 	{
 		collectionRouter.POST("/create", v2.Create)
 		collectionRouter.POST("/edit", v2.Edit)
