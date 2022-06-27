@@ -206,13 +206,13 @@ func Reset_Passwd(ctx *gin.Context) {
 }
 
 type Edit_ProfileRequest struct {
-	User_Name    string `json:"user_name" example:"Hunter" default:"Hunter"`
-	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
-	Poison       string `json:"poison" example:"teacher" default:"teacher"`
-	LogoImage    		string `json:"logo_image"`
-	LogoImageSignature	string	`json:"logo_image_signature"`
-	BannerImage  		string `json:"banner_image" `
-	BannerImageSignature string	`json:"banner_image_signature"`
+	User_Name            string `json:"user_name" example:"Hunter" default:"Hunter"`
+	Organization         string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
+	Poison               string `json:"poison" example:"teacher" default:"teacher"`
+	LogoImage            string `json:"logo_image"`
+	LogoImageSignature   string `json:"logo_image_signature"`
+	BannerImage          string `json:"banner_image" `
+	BannerImageSignature string `json:"banner_image_signature"`
 }
 
 type UserProfileInfo struct {
@@ -224,19 +224,6 @@ type UserProfileInfo struct {
 	Poison           string `json:"poison" `
 	Organization     string `json:"organization" `
 	RegistrationTime string `json:"registration_time" `
-}
-
-func NewUserInfo() UserProfileInfo {
-	return UserProfileInfo{
-		UserId:           "mingzheliu-ust-hk",
-		UserEmail:        "mingzheliu@ust.hk",
-		UserName:         "LMZ",
-		BannerImage:      "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a",
-		LogoImage:        "img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-		Poison:           "teacher",
-		Organization:     "HKUST-GZ",
-		RegistrationTime: "2022-06-16 20:45:40",
-	}
 }
 
 // Edit_Profile @Description  edit-profile: 编辑用户的个人资料
@@ -259,18 +246,17 @@ func Edit_Profile(ctx *gin.Context) {
 		return
 	}
 	ctx.BindJSON(&req)
-	plainLogo,_ := utils.Decrypt([]byte(req.LogoImageSignature),fileservice.COSCONFIG.CryptoKey)
-	plainBanner,_ := utils.Decrypt([]byte(req.BannerImageSignature),fileservice.COSCONFIG.CryptoKey)
+	plainLogo, _ := utils.Decrypt([]byte(req.LogoImageSignature), fileservice.COSCONFIG.CryptoKey)
+	plainBanner, _ := utils.Decrypt([]byte(req.BannerImageSignature), fileservice.COSCONFIG.CryptoKey)
 
-
-	if plainLogo != req.LogoImage || plainBanner != req.BannerImage{
-		ctx.JSON(http.StatusInternalServerError,"URL signature error")
+	if plainLogo != req.LogoImage || plainBanner != req.BannerImage {
+		ctx.JSON(http.StatusInternalServerError, "URL signature error")
 		return
 	}
 
-	userinfo,code := model.EditProfile(email.(string),req.User_Name,req.Organization,req.Poison,req.LogoImage,req.LogoImageSignature,req.BannerImage,req.BannerImageSignature)
-	if code != base.Success{
-		ctx.JSON(http.StatusInternalServerError,"Failed to edit information")
+	userinfo, code := model.EditProfile(email.(string), req.User_Name, req.Organization, req.Poison, req.LogoImage, req.LogoImageSignature, req.BannerImage, req.BannerImageSignature)
+	if code != base.Success {
+		ctx.JSON(http.StatusInternalServerError, "Failed to edit information")
 		return
 	}
 	res.Data = userinfo
@@ -290,12 +276,12 @@ func Edit_Profile(ctx *gin.Context) {
 func GetUserInfo(ctx *gin.Context) {
 	res := base.Response{}
 	userID := ctx.Query("user_id")
-	email, ok:= ctx.Get("email")
+	email, ok := ctx.Get("email")
 	if !ok {
 		ctx.JSON(http.StatusInternalServerError, "auth email error")
 		return
 	}
-	code, userProfileInfo := model.GetUserInfoByID(userID,email.(string))
+	code, userProfileInfo := model.GetUserInfoByID(userID, email.(string))
 	if code != base.Success {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return

@@ -33,8 +33,8 @@ func InitRouter() *gin.Engine {
 		userRouter.POST("/forget-passwd", v2.Forget_Passwd)
 		userRouter.POST("/reset-passwd", v2.Reset_Passwd)
 		//用户个人信息
-		userRouter.POST("/edit-profile", mw.JWTAuth(),v2.Edit_Profile)
-		userRouter.GET("/info",mw.JWTAuth(),v2.GetUserInfo)
+		userRouter.POST("/edit-profile", mw.JWTAuth(), v2.Edit_Profile)
+		userRouter.GET("/info", mw.JWTAuth(), v2.GetUserInfo)
 	}
 	collectionRouter := routerV2.Group("/collection")
 	{
@@ -79,8 +79,8 @@ func InitRouter() *gin.Engine {
 	}
 	uploadRouter := routerV2.Group("/upload")
 	{
-		uploadRouter.POST("/cos",v2.UploadToCos)
-		uploadRouter.POST("/ipfs-and-cos",v2.UploadToIpfs)
+		uploadRouter.POST("/cos", v2.UploadToCos)
+		uploadRouter.POST("/ipfs-and-cos", v2.UploadToIpfs)
 	}
 	return router
 }

@@ -65,7 +65,7 @@ func main() {
 		log.Fatal("cannot load config", err)
 	}
 
-	err = fileservice.LoadConfig("./config",&fileservice.COSCONFIG)
+	err = fileservice.LoadConfig("./config", &fileservice.COSCONFIG)
 	if err != nil {
 		log.Fatal("cannot load cos and ipfs config", err)
 	}
