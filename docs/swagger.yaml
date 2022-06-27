@@ -105,6 +105,14 @@ definitions:
     type: object
   v2.Edit_ProfileRequest:
     properties:
+      banner_image:
+        type: string
+      banner_image_signature:
+        type: string
+      logo_image:
+        type: string
+      logo_image_signature:
+        type: string
       organization:
         default: HKUST-GZ
         example: HKUST-GZ
@@ -427,7 +435,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: unifit.ust.hk:8889
+host: localhost:8889
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -1182,6 +1190,64 @@ paths:
       - ApiKeyAuth: []
       tags:
       - tk
+  /upload/cos:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 任何数据
+        in: formData
+        name: data
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - upload
+  /upload/ipfs-and-cos:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 任何数据
+        in: formData
+        name: data
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - upload
   /user/activate:
     get:
       consumes:
@@ -1214,14 +1280,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: logo_image of a user
-        in: formData
-        name: logo_image
-        type: file
-      - description: banner_image of a user
-        in: formData
-        name: banner_image
-        type: file
       - description: 用户名称、组织名称、老师还是学生
         in: body
         name: RequestParam

@@ -11,15 +11,20 @@ import (
 	"time"
 )
 
-const EXPIRETIME = time.Hour
+const (
+	EXPIRETIME = time.Hour
+	DIRECTORY = "unifit"
+)
 type CosConfig struct {
 	URL 		string		`mapstructure:"URL"`
 	SecretID 	string		`mapstructure:"Secret_ID"`
 	SecretKey	string		`mapstructure:"Secret_Key"`
+	ApiKey		string		`mapstructure:"Api_Key"`
+	CryptoKey	string		`mapstructure:"Crypto_Key"`
+
 }
 
 var COSCONFIG CosConfig
-
 func GetCosClient() *cos.Client{
 	url, _ := url.Parse(COSCONFIG.URL)
 	b := &cos.BaseURL{BucketURL: url}
@@ -32,15 +37,19 @@ func GetCosClient() *cos.Client{
 	return client
 }
 
-func Upload(key string,content io.Reader) (*cos.Response,error){
+func Upload(key string,content io.Reader) (*cos.Response,*url.URL,error){
 	client := GetCosClient()
 	resp, err := client.Object.Put(context.Background(), key,content,nil)
 	if err != nil {
-		return resp,err
+		return resp,&url.URL{},err
 	}
-
-	return resp,nil
+	presignedURL,err := GeneratePreSignedUrl(key)
+	if err != nil {
+		return resp,&url.URL{},err
+	}
+	return resp,presignedURL,nil
 }
+
 
 func AccessFileObject(preSignedUrl *url.URL) {
 	resp, err := http.Get(preSignedUrl.String())
@@ -65,7 +74,7 @@ func GeneratePreSignedUrl(key string) (*url.URL,error){
 
 func LoadConfig(path string,config *CosConfig) error {
 	viper.AddConfigPath(path)
-	viper.SetConfigName("config")
+	viper.SetConfigName("configcos")
 	viper.SetConfigType("yaml")
 
 	viper.AutomaticEnv()

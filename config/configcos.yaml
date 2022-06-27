@@ -1,0 +1,12 @@
+
+# cos
+URL: "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com"
+Secret_ID: "AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5"
+Secret_Key: "tVqtgDUYLtqWw71ez4sPedMp42kBLErD"
+
+#ipfs
+API_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE0REE3N0E4Y0VFZWIwNmY2OTZEQUIzZjFCMkQzODZCZTRiMUNjOTkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1MTQ1MDIyNjQ1MiwibmFtZSI6Im5mdC1zdG9yYWdlLXRlc3QifQ.cua-DSWuivlAVRSVxzVOR6pwCaavf5VVifai4zUyG9g"
+
+#crypto
+Crypto_Key: "abcdefgehjhijkmlkjjwwoew"
+

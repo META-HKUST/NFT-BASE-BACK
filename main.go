@@ -2,6 +2,7 @@ package main
 
 import (
 	"NFT-BASE-BACK/config"
+	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/router"
 	"NFT-BASE-BACK/sdk"
@@ -23,7 +24,7 @@ import (
 // @description HKUST-NFT Server API
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host unifit.ust.hk:8889
+// @host localhost:8889
 // @BasePath /api/v2
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -62,6 +63,11 @@ func main() {
 	err := config.LoadConfig("./config")
 	if err != nil {
 		log.Fatal("cannot load config", err)
+	}
+
+	err = fileservice.LoadConfig("./config",&fileservice.COSCONFIG)
+	if err != nil {
+		log.Fatal("cannot load cos and ipfs config", err)
 	}
 
 	if strings.ToLower(*serverType) == "gin" {

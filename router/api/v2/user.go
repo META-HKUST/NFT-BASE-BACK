@@ -2,8 +2,10 @@ package v2
 
 import (
 	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
+	"NFT-BASE-BACK/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -205,8 +207,12 @@ func Reset_Passwd(ctx *gin.Context) {
 
 type Edit_ProfileRequest struct {
 	User_Name    string `json:"user_name" example:"Hunter" default:"Hunter"`
-	Poison       string `json:"poison" example:"teacher" default:"teacher"`
 	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
+	Poison       string `json:"poison" example:"teacher" default:"teacher"`
+	LogoImage    		string `json:"logo_image"`
+	LogoImageSignature	string	`json:"logo_image_signature"`
+	BannerImage  		string `json:"banner_image" `
+	BannerImageSignature string	`json:"banner_image_signature"`
 }
 
 type UserProfileInfo struct {
@@ -235,8 +241,6 @@ func NewUserInfo() UserProfileInfo {
 
 // Edit_Profile @Description  edit-profile: 编辑用户的个人资料
 // @Tags         user
-// @param 		 logo_image   formData  file  false    "logo_image of a user"
-// @param 		 banner_image formData  file  false    "banner_image of a user"
 // @param 		 RequestParam  body  Edit_ProfileRequest  false  "用户名称、组织名称、老师还是学生"
 // @Accept       json
 // @Produce      json
@@ -247,9 +251,31 @@ func NewUserInfo() UserProfileInfo {
 // @Router       /user/edit-profile [POST]
 func Edit_Profile(ctx *gin.Context) {
 	res := base.Response{}
-	res.SetData(NewUserInfo())
-	res.SetCode(base.Success)
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	req := Edit_ProfileRequest{}
+
+	email, ok := ctx.Get("email")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		return
+	}
+	ctx.BindJSON(&req)
+	plainLogo,_ := utils.Decrypt([]byte(req.LogoImageSignature),fileservice.COSCONFIG.CryptoKey)
+	plainBanner,_ := utils.Decrypt([]byte(req.BannerImageSignature),fileservice.COSCONFIG.CryptoKey)
+
+
+	if plainLogo != req.LogoImage || plainBanner != req.BannerImage{
+		ctx.JSON(http.StatusInternalServerError,"URL signature error")
+		return
+	}
+
+	userinfo,code := model.EditProfile(email.(string),req.User_Name,req.Organization,req.Poison,req.LogoImage,req.LogoImageSignature,req.BannerImage,req.BannerImageSignature)
+	if code != base.Success{
+		ctx.JSON(http.StatusInternalServerError,"Failed to edit information")
+		return
+	}
+	res.Data = userinfo
+	res.Code = 0
+	ctx.JSON(http.StatusOK, res)
 }
 
 // GetUserInfo @Description  info: 获取用户的个人资料
@@ -263,7 +289,20 @@ func Edit_Profile(ctx *gin.Context) {
 // @Router       /user/info [GET]
 func GetUserInfo(ctx *gin.Context) {
 	res := base.Response{}
-	res.SetData(NewUserInfo())
+	userID := ctx.Query("user_id")
+	email, ok:= ctx.Get("email")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		return
+	}
+	code, userProfileInfo := model.GetUserInfoByID(userID,email.(string))
+	if code != base.Success {
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
+
+	res.SetData(userProfileInfo)
 	res.SetCode(base.Success)
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	res.Msg = "Operation succeed"
+	ctx.JSON(http.StatusOK, res)
 }
