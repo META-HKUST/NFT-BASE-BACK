@@ -169,7 +169,6 @@ message EnrollRequest {
 }
 
 message EnrollResponse {
-  string x509 = 1;
 }
 
 service FabricSDK {

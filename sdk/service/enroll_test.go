@@ -19,11 +19,10 @@ func TestEnroll(t *testing.T) {
 	}
 
 	for _, v := range enrollTests {
-		result, err := Enroll(v.username)
+		err := Enroll(v.username)
 		if err != nil {
 			t.Log(err)
 		}
-		t.Log(result)
 
 	}
 }
