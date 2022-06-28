@@ -42,7 +42,7 @@ func InitRouter() *gin.Engine {
 		collectionRouter.POST("/edit", v2.Edit)
 	}
 
-	itemsRouter := routerV2.Group("/item")
+	itemsRouter := routerV2.Group("/item").Use(mw.JWTAuth())
 	{
 		itemsRouter.POST("/create", v2.CreateItem)
 		itemsRouter.POST("/edit", v2.EditItem)

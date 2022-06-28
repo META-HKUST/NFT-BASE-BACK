@@ -1,5 +1,51 @@
 basePath: /api/v2
 definitions:
+  entity.Item:
+    properties:
+      category:
+        example: Pixel Bear
+        type: string
+      collection_id:
+        example: 1
+        type: integer
+      collection_name:
+        example: Pixel Bear
+        type: string
+      create-time:
+        example: "2022-06-16 22:04:22"
+        type: string
+      creater_id:
+        example: mazhengwang-ust-hk
+        type: string
+      description:
+        example: A very cute pixel bear with hammer
+        type: string
+      favorite:
+        example: false
+        type: boolean
+      favorite_num:
+        example: 100
+        type: integer
+      item_data:
+        type: string
+      item_id:
+        example: "123455"
+        type: string
+      item_name:
+        description: basic info
+        example: hahhahah
+        type: string
+      lable:
+        example:
+        - Music
+        - Comics
+        items:
+          type: string
+        type: array
+      owner_id:
+        example: mazhengwang-ust-hk
+        type: string
+    type: object
   v2.CreateCollectionRequest:
     properties:
       collection_name:
@@ -17,25 +63,45 @@ definitions:
     type: object
   v2.CreateParams:
     properties:
-      collection_id:
-        example: Pixel Bear
+      category:
+        example: image
         type: string
+      collection_id:
+        example: 1
+        type: integer
       description:
         example: A very cute pixel bear with hammer
         type: string
-      item_data:
+      item_data_cos:
         example: https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240
+        type: string
+      item_data_ipfs:
+        example: https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240
+        type: string
+      item_data_signature:
+        example: sfahelkgbekjbfbsauiehnv
         type: string
       item_name:
         example: Pixel Bear With Hammer
         type: string
       label:
         example:
-        - 'Music '
+        - Music
         - Comics
         items:
           type: string
         type: array
+    type: object
+  v2.CreateParamsResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/entity.Item'
+      msg:
+        example: Operation succeed
+        type: string
     type: object
   v2.Edit_ProfileRequest:
     properties:
@@ -330,6 +396,17 @@ definitions:
         example: Abcd12345
         type: string
     type: object
+  v2.TransferItemResponse:
+    properties:
+      code:
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/entity.Item'
+      msg:
+        example: Operation succeed
+        type: string
+    type: object
   v2.TransferParams:
     properties:
       item_id:
@@ -350,7 +427,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: localhost:8889
+host: unifit.ust.hk:8890
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -692,11 +769,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: NFT本身数据
-        in: formData
-        name: item_data
-        required: true
-        type: file
       - description: info needed to upload
         in: body
         name: param_request
@@ -709,7 +781,7 @@ paths:
         "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            $ref: '#/definitions/v2.ItemResponse'
+            $ref: '#/definitions/v2.CreateParamsResponse'
         "400":
           description: Input error
           schema:
@@ -803,7 +875,7 @@ paths:
         "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            $ref: '#/definitions/v2.ItemResponse'
+            $ref: '#/definitions/v2.TransferItemResponse'
         "400":
           description: Input error
           schema:
