@@ -415,27 +415,6 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "logo_image of a collection",
-                        "name": "logo_image",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "feature_image of a collection",
-                        "name": "feature_image",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "banner_image of a collection",
-                        "name": "banner_image",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
                         "description": "名称、描述和一些标签，其中标签可以为空，其余参数不可为空",
                         "name": "RequestParam",
                         "in": "body",
@@ -484,24 +463,6 @@ const docTemplate = `{
                     "collection"
                 ],
                 "parameters": [
-                    {
-                        "type": "file",
-                        "description": "logo_image of a collection",
-                        "name": "logo_image",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "file",
-                        "description": "feature_image of a collection",
-                        "name": "feature_image",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "file",
-                        "description": "banner_image of a collection",
-                        "name": "banner_image",
-                        "in": "formData"
-                    },
                     {
                         "description": "输入想要修改的名称、描述和标签 collection_id不能为空，其他都可以为空",
                         "name": "RequestParam",
@@ -1192,6 +1153,100 @@ const docTemplate = `{
                 }
             }
         },
+        "/upload/cos": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "upload"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "任何数据",
+                        "name": "data",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/upload/ipfs-and-cos": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "upload"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "任何数据",
+                        "name": "data",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
         "/user/activate": {
             "get": {
                 "consumes": [
@@ -1251,18 +1306,6 @@ const docTemplate = `{
                     "user"
                 ],
                 "parameters": [
-                    {
-                        "type": "file",
-                        "description": "logo_image of a user",
-                        "name": "logo_image",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "file",
-                        "description": "banner_image of a user",
-                        "name": "banner_image",
-                        "in": "formData"
-                    },
                     {
                         "description": "用户名称、组织名称、老师还是学生",
                         "name": "RequestParam",
@@ -1673,6 +1716,14 @@ const docTemplate = `{
         "v2.CreateCollectionRequest": {
             "type": "object",
             "properties": {
+                "banner_image": {
+                    "type": "string",
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9P"
+                },
+                "banner_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
                 "collection_name": {
                     "type": "string",
                     "default": "Pixel Pear",
@@ -1683,10 +1734,26 @@ const docTemplate = `{
                     "default": "Happy Happy Happy Happy",
                     "example": "Happy Happy Happy Happy"
                 },
+                "feature_image": {
+                    "type": "string",
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
+                },
+                "feature_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
                 "label": {
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
                     "example": "Pear\u0026Pixel\u0026Wechat"
+                },
+                "log_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
+                "logo_image": {
+                    "type": "string",
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
                 }
             }
         },
@@ -1752,10 +1819,18 @@ const docTemplate = `{
         "v2.EditCollectionRequest": {
             "type": "object",
             "properties": {
-                "collection_id": {
+                "banner_image": {
                     "type": "string",
-                    "default": "111111",
-                    "example": "111111"
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9P"
+                },
+                "banner_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
+                "collection_id": {
+                    "type": "integer",
+                    "default": 111111,
+                    "example": 111111
                 },
                 "collection_name": {
                     "type": "string",
@@ -1767,10 +1842,26 @@ const docTemplate = `{
                     "default": "Happy Happy Happy Happy",
                     "example": "Happy Happy Happy Happy"
                 },
+                "feature_image": {
+                    "type": "string",
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
+                },
+                "feature_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
                 "label": {
                     "type": "string",
                     "default": "Pear\u0026Pixel\u0026Wechat",
                     "example": "Pear,Pixel,Wechat"
+                },
+                "log_image_signature": {
+                    "type": "string",
+                    "default": "ABCDE"
+                },
+                "logo_image": {
+                    "type": "string",
+                    "default": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
                 }
             }
         },
@@ -1808,6 +1899,18 @@ const docTemplate = `{
         "v2.Edit_ProfileRequest": {
             "type": "object",
             "properties": {
+                "banner_image": {
+                    "type": "string"
+                },
+                "banner_image_signature": {
+                    "type": "string"
+                },
+                "logo_image": {
+                    "type": "string"
+                },
+                "logo_image_signature": {
+                    "type": "string"
+                },
                 "organization": {
                     "type": "string",
                     "default": "HKUST-GZ",
@@ -2210,7 +2313,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "unifit.ust.hk:8890",
+	Host:             "unifit.ust.hk:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

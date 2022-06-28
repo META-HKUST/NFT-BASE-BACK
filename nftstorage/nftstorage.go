@@ -66,7 +66,6 @@ func (nft *NFTService) Upload(r io.Reader,fileType string) (Response, error) {
 	if resp.StatusCode != http.StatusOK {
 		return Response{}, fmt.Errorf(resp.Status)
 	}
-
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return Response{}, err

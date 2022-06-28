@@ -8,6 +8,7 @@ import (
 )
 
 func CreateCollectionByAccount(UserId string, name string, logoImage string, featureImage string, bannerImage string, description string) (base.ErrCode, entity.Collection) {
+
 	c := entity.Collection{
 		CollectionName: name,
 		LogoImage:      logoImage,
@@ -22,5 +23,46 @@ func CreateCollectionByAccount(UserId string, name string, logoImage string, fea
 	if err != nil {
 		return base.ServerError, entity.Collection{}
 	}
+	cId, _ := model.GetMaxCollectionId()
+	c.CollectionId = cId
 	return base.Success, c
+}
+
+func EditCollection(c entity.Collection) (base.ErrCode, entity.Collection) {
+	if c.CollectionName != "" {
+		err := model.EditCollectionName(c.CollectionName, c.CollectionId)
+		if err != nil {
+			return base.InsertError, entity.Collection{}
+		}
+	}
+	if c.LogoImage != "" {
+		err := model.EditLogoImage(c.LogoImage, c.CollectionId)
+		if err != nil {
+			return base.InsertError, entity.Collection{}
+		}
+	}
+	if c.FeatureImage != "" {
+		err := model.EditFeatureImage(c.FeatureImage, c.CollectionId)
+		if err != nil {
+			return base.InsertError, entity.Collection{}
+		}
+	}
+	if c.BannerImage != "" {
+		err := model.EditBannerImage(c.BannerImage, c.CollectionId)
+		if err != nil {
+			return base.InsertError, entity.Collection{}
+		}
+	}
+	if c.Description != "" {
+		err := model.EditDescription(c.Description, c.CollectionId)
+		if err != nil {
+			return base.InsertError, entity.Collection{}
+		}
+	}
+	g, err := model.GetCollection(c.CollectionId)
+
+	if err != nil {
+		return base.ServerError, entity.Collection{}
+	}
+	return base.Success, g
 }

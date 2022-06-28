@@ -34,4 +34,7 @@ const (
 	WrongVerifyCode ErrCode = 1301 // The verify code is invalid or expired
 
 	ServerError ErrCode = 2000 // Server Error
+
+	UserIDNotExist	ErrCode = 3000
+	UserProfileUpdateError ErrCode = 3001 // Update profile failed
 )

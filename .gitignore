@@ -1,5 +1,6 @@
 # config
 config/config.yaml
+config/configcos.yaml
 
 # nohup go run main.go 2>&1 >output &
 output
