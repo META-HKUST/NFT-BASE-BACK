@@ -2,7 +2,6 @@ package model
 
 import (
 	"NFT-BASE-BACK/base"
-	"fmt"
 	"log"
 )
 
@@ -39,14 +38,13 @@ type UserProfileInfo struct {
 	RegistrationTime string `json:"registration_time" `
 }
 
-func EditProfile(email, username, organization, poison, logo, logoSignature, banner, bannerSignature string) (UserProfileInfo, base.ErrCode) {
+func EditProfile(email, username, organization, poison, logo, banner string) (UserProfileInfo, base.ErrCode) {
 	p := UserProfile{}
 	userID, err := GetUserIDByEmail(email)
 	if err != nil {
 
 		return UserProfileInfo{}, base.UserIDNotExist
 	}
-	fmt.Println("用户id:", userID)
 	e := db.Get(&p, getProfileByID, userID)
 
 	if e != nil {
@@ -76,7 +74,7 @@ func EditProfile(email, username, organization, poison, logo, logoSignature, ban
 	rowsAffected, _ := result.RowsAffected()
 	lastInsertId, _ := result.LastInsertId()
 	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
-	code, userProfileInfo := GetUserInfoByID(userID, email)
+	code, userProfileInfo := GetUserInfoByID(userID)
 	if code != base.Success {
 		return UserProfileInfo{}, code
 	}
@@ -119,7 +117,7 @@ func GetUserInfoEmail(email string) (base.ErrCode, UserProfileInfo) {
 	return base.Success, resp
 }
 
-func GetUserInfoByID(userID, email string) (base.ErrCode, UserProfileInfo) {
+func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
 	p := UserProfile{}
 
 	e := db.Get(&p, getProfileByID, userID)
@@ -130,7 +128,7 @@ func GetUserInfoByID(userID, email string) (base.ErrCode, UserProfileInfo) {
 
 	resp := UserProfileInfo{
 		p.UserID,
-		email,
+		"",
 		p.UserName,
 		p.BannerImage,
 		p.LogoImage,

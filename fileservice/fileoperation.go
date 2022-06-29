@@ -68,7 +68,7 @@ func GeneratePreSignedUrl(key string) (*url.URL,error){
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(presignedURL)
+	fmt.Println("预签名",presignedURL)
 	return presignedURL,err
 }
 

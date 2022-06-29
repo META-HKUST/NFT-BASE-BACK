@@ -4,21 +4,19 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/nftstorage"
-	"NFT-BASE-BACK/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type CosResponse struct {
 	Url string		`json:"url"`
-	UrlSignature	string	`json:"url_signature"`
+	//UrlSignature	string	`json:"url_signature"`
 }
 
 type CosAndIpfsResponse struct {
 	UrlIpfs string		`json:"url_ipfs"`
 	UrlCos	string		`json:"url_cos"`
-	UrlSignature	string	`json:"url_signature"`
+	//UrlSignature	string	`json:"url_signature"`
 }
 
 // UploadToCos @Description  upload data: 上传数据到图片服务器cos
@@ -40,16 +38,15 @@ func UploadToCos(ctx *gin.Context) {
 	if err != nil{
 		ctx.JSON(1000,resp)
 	}
-	UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
-	if err != nil {
-		fmt.Println(err)
-	}
+	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	resp.Code = 0
 	resp.Msg= "Operation Succeed"
 	resp.Data = CosResponse{
 		Url: url.String(),
-		UrlSignature: string(UrlSignature),
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -69,8 +66,7 @@ func UploadToIpfs(ctx *gin.Context) {
 	file,header,_:= ctx.Request.FormFile("data")
 
 	name := fileservice.DIRECTORY+"/"+header.Filename
-	_,url,err := fileservice.Upload(name,file)
-
+	_,url,_ := fileservice.Upload(name,file)
 	//apikey := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE0REE3N0E4Y0VFZWIwNmY2OTZEQUIzZjFCMkQzODZCZTRiMUNjOTkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1MTQ1MDIyNjQ1MiwibmFtZSI6Im5mdC1zdG9yYWdlLXRlc3QifQ.cua-DSWuivlAVRSVxzVOR6pwCaavf5VVifai4zUyG9g"
 	client := http.Client{}
 	nftService := nftstorage.NewNFTService(fileservice.COSCONFIG.ApiKey,&client)
@@ -78,15 +74,14 @@ func UploadToIpfs(ctx *gin.Context) {
 	fileReader,_ := header.Open()
 	ipfsResp,_ := nftService.Upload(fileReader,"video")
 
-	UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
-	if err != nil {
-		fmt.Println(err)
-	}
+	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
 
 	fileResp := CosAndIpfsResponse{
 		ipfsResp.Value.Cid,
 		url.String(),
-		string(UrlSignature),
 	}
 	resp.Code = 0
 	resp.Msg = "Operation Succeed"

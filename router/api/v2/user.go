@@ -2,10 +2,8 @@ package v2
 
 import (
 	"NFT-BASE-BACK/base"
-	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
-	"NFT-BASE-BACK/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -209,10 +207,8 @@ type Edit_ProfileRequest struct {
 	User_Name            string `json:"user_name" example:"Hunter" default:"Hunter"`
 	Organization         string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
 	Poison               string `json:"poison" example:"teacher" default:"teacher"`
-	LogoImage            string `json:"logo_image"`
-	LogoImageSignature   string `json:"logo_image_signature"`
+	LogoImage            string `json:"logo_image" example:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6" default:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"`
 	BannerImage          string `json:"banner_image" `
-	BannerImageSignature string `json:"banner_image_signature"`
 }
 
 type UserProfileInfo struct {
@@ -245,16 +241,10 @@ func Edit_Profile(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, "auth email error")
 		return
 	}
+
 	ctx.BindJSON(&req)
-	plainLogo, _ := utils.Decrypt([]byte(req.LogoImageSignature), fileservice.COSCONFIG.CryptoKey)
-	plainBanner, _ := utils.Decrypt([]byte(req.BannerImageSignature), fileservice.COSCONFIG.CryptoKey)
-
-	if plainLogo != req.LogoImage || plainBanner != req.BannerImage {
-		ctx.JSON(http.StatusInternalServerError, "URL signature error")
-		return
-	}
-
-	userinfo, code := model.EditProfile(email.(string), req.User_Name, req.Organization, req.Poison, req.LogoImage, req.LogoImageSignature, req.BannerImage, req.BannerImageSignature)
+	fmt.Println(req)
+	userinfo, code := model.EditProfile(email.(string), req.User_Name, req.Organization, req.Poison, req.LogoImage, req.BannerImage)
 	if code != base.Success {
 		ctx.JSON(http.StatusInternalServerError, "Failed to edit information")
 		return
@@ -276,12 +266,12 @@ func Edit_Profile(ctx *gin.Context) {
 func GetUserInfo(ctx *gin.Context) {
 	res := base.Response{}
 	userID := ctx.Query("user_id")
-	email, ok := ctx.Get("email")
-	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
-		return
-	}
-	code, userProfileInfo := model.GetUserInfoByID(userID, email.(string))
+	//email, ok := ctx.Get("email")
+	//if !ok {
+	//	ctx.JSON(http.StatusInternalServerError, "auth email error")
+	//	return
+	//}
+	code, userProfileInfo := model.GetUserInfoByID(userID)
 	if code != base.Success {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return

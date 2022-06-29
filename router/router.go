@@ -34,7 +34,7 @@ func InitRouter() *gin.Engine {
 		userRouter.POST("/reset-passwd", v2.Reset_Passwd)
 		//用户个人信息
 		userRouter.POST("/edit-profile", mw.JWTAuth(), v2.Edit_Profile)
-		userRouter.GET("/info", mw.JWTAuth(), v2.GetUserInfo)
+		userRouter.GET("/info", v2.GetUserInfo)
 	}
 	collectionRouter := routerV2.Group("/collection").Use(mw.JWTAuth())
 	{
