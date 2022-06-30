@@ -1,78 +1,75 @@
-CREATE TABLE `users` (
-    `user_id` varchar(255) PRIMARY KEY,
-    `username` varchar(255) NOT NULL,
-    `hashed_passward` varchar(255) NOT NULL,
-    `campus` varchar(255) NOT NULL,
-    `email` varchar(255) UNIQUE NOT NULL,
-    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+CREATE TABLE `login`(
+                        `email` VARCHAR(255) NOT NULL unique,
+                        `passwd` VARCHAR(255) NOT NULL,
+
+                        `emailToken` VARCHAR(255),
+                        `genTime` DATETIME,
+                        `activated` VARCHAR(20),
+                        `verify_code` VARCHAR(255),
+                        `codeTime` DATETIME,
+
+                        `user_id` VARCHAR(255) unique,
+                        PRIMARY KEY (`email`)
 );
 
 CREATE TABLE `accounts` (
-  `account_id` bigint PRIMARY KEY,
-  `owner` varchar(255) NOT NULL,
-  `blockchain_id` varchar(255) UNIQUE NOT NULL,
-  `token_type` varchar(255) NOT NULL,
-  `balance` float NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+                            `user_id` varchar(255) PRIMARY KEY,
+                            `email` varchar(255),
+                            `user_name` VARCHAR(255),
+                            `banner_image` VARCHAR(255),
+                            `avatar_image` VARCHAR(255),
+                            `poison` VARCHAR(255),
+                            `organization` VARCHAR(255),
+                            `token` INT,
+                            `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `collection` (
+                              `collection_id` INT AUTO_INCREMENT PRIMARY KEY,
+                              `collection_name` varchar(255),
+                              `logo_image` varchar(255),
+                              `feature_image` varchar(255),
+                              `banner_image` varchar(255),
+                              `items_count` int,
+                              `description` varchar(255),
+                              `owner` varchar(255),
+                              `creater` varchar(255),
+                              `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE `collection_label` (
+                                    `label_id` bigint NOT NULL AUTO_INCREMENT,
+                                    `collection_id` int NOT NULL,
+                                    `label` varchar(255) NOT NULL,
+                                    PRIMARY KEY (`label_id`),
+                                    UNIQUE KEY `item_label` (`item_id`, `label`)
 );
 
 CREATE TABLE `items` (
-  `item_id` bigint PRIMARY KEY,
-  `item_name` varchar(255) NOT NULL,
-  `collection_id` bigint NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `creater` varchar(255) NOT NULL,
-  `token_uri` varchar(255) UNIQUE NOT NULL,
-  `favorites` bigint NOT NULL,
-  `view_times` bigint NOT NULL,
-  `about` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+                         `item_id` varchar(255) PRIMARY KEY,
+                         `item_name` varchar(255) NOT NULL,
+                         `collection_id` bigint NOT NULL,
+                         `item_data` varchar(255) NOT NULL,
+                         `description` varchar(255) NOT NULL,
+                         `owner_id` varchar(255) NOT NULL,
+                         `creater_id` varchar(255) NOT NULL,
+                         `category`varchar(255) NOT NULL,
+                         `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE `collections` (
-  `collection_id` bigint PRIMARY KEY,
-  `collection_name` varchar(255) NOT NULL,
-  `creater` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `items` bigint NOT NULL,
-  `owners` bigint NOT NULL,
-  `about` varchar(255) NOT NULL,
-  `contract_address` varchar(255) UNIQUE NOT NULL,
-  `token_standard` varchar(255) NOT NULL,
-  `blockchain` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE `item_label` (
+                              `label_id` bigint NOT NULL AUTO_INCREMENT,
+                              `item_id` varchar(255) NOT NULL,
+                              `label` varchar(255) NOT NULL,
+                              PRIMARY KEY (`label_id`),
+                              UNIQUE KEY `item_label` (`item_id`, `label`)
 );
 
-CREATE TABLE `favorites` (
-  `favorites_id` bigint PRIMARY KEY,
-  `user_id` varchar(255) NOT NULL,
-  `item_id` bigint NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE `item_history` (
+                                `item_id` varchar(255) NOT NULL,
+                                `from`    varchar(255) NOT NULL,
+                                `to`      varchar(255) NOT NULL,
+                                `operation` varchar(255) NOT NULL,
+                                `time` timestamp NOT NULL
 );
-
-CREATE TABLE `events` (
-  `event_id` bigint PRIMARY KEY,
-  `event_name` varchar(255) NOT NULL,
-  `event_description` varchar(255) NOT NULL,
-  `creater` varchar(255) NOT NULL,
-  `start_time` timestamp NOT NULL,
-  `end_time` timestamp NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-ALTER TABLE `accounts` ADD FOREIGN KEY (`owner`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `items` ADD FOREIGN KEY (`collection_id`) REFERENCES `collections` (`collection_id`);
-
-ALTER TABLE `items` ADD FOREIGN KEY (`owner`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `items` ADD FOREIGN KEY (`creater`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `collections` ADD FOREIGN KEY (`creater`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `favorites` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
-ALTER TABLE `favorites` ADD FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
-
-ALTER TABLE `events` ADD FOREIGN KEY (`creater`) REFERENCES `users` (`user_id`);

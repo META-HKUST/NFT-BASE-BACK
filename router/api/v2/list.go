@@ -1,6 +1,8 @@
 package v2
 
 import (
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,30 +20,30 @@ type UserInfo struct {
 }
 
 type ListResponse struct {
-	Code   int		`json:"code" example:"0"`
-	Msg    string	`json:"msg" example:"Operation succeed"`
-	Data   interface{}	`json:"data"`
+	Code int         `json:"code" example:"0"`
+	Msg  string      `json:"msg" example:"Operation succeed"`
+	Data interface{} `json:"data"`
 }
 
 type UsersList struct {
-	UserList  interface{}	`json:"user_list"`
-	Page  int			`json:"page"`
-	Size  int			`json:"size"`
-	Total int			`json:"total"`
+	UserList interface{} `json:"user_list"`
+	Page     int         `json:"page"`
+	Size     int         `json:"size"`
+	Total    int         `json:"total"`
 }
 
 type CollectionsList struct {
-	CollectionList  interface{}	`json:"collection_list"`
-	Page  int			`json:"page"`
-	Size  int			`json:"size"`
-	Total int			`json:"total"`
+	CollectionList interface{} `json:"collection_list"`
+	Page           int         `json:"page"`
+	Size           int         `json:"size"`
+	Total          int         `json:"total"`
 }
 
 type ItemsList struct {
-	ItemList  interface{}	`json:"item_list"`
-	Page  int			`json:"page"`
-	Size  int			`json:"size"`
-	Total int			`json:"total"`
+	ItemList interface{} `json:"item_list"`
+	Page     int         `json:"page"`
+	Size     int         `json:"size"`
+	Total    int         `json:"total"`
 }
 
 type Collection struct {
@@ -71,11 +73,11 @@ type CollectionInfo struct {
 }
 
 type History struct {
-	FromUserId   string			`json:"from_user_id"`
-	ToUserId     string			`json:"to_user_id"`
-	FromUserName string			`json:"from_user_name"`
-	ToUserName   string			`json:"to_user_name"`
-	Time         string			`json:"time"`
+	FromUserId   string `json:"from_user_id"`
+	ToUserId     string `json:"to_user_id"`
+	FromUserName string `json:"from_user_name"`
+	ToUserName   string `json:"to_user_name"`
+	Time         string `json:"time"`
 }
 
 // UserList @Description  get all users in database
@@ -134,24 +136,16 @@ func UserList(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/collection [GET]
 func SingleColletction(ctx *gin.Context) {
-	resp := ListResponse{
-		Code: 0,
-		Msg:  "Operation succeed",
-		Data: Collection{
-			"mingzheliu-ust-hk",
-			"Doodles",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-			"A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Commun",
-			[]string{"Comics"},
-			20,
-			"zezhending-ust-hk",
-			"ZZD",
-			"2022-06-16 20:45:40",
-		},
+	res := base.Response{}
+	var ch int
+	ctx.BindJSON(&ch)
+	data, err := service.GetCollection(ch)
+	if err != nil {
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 	}
-	ctx.JSON(http.StatusOK, resp)
+	res.SetData(data)
+
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
 // CollectionList @Description  get all users in database
@@ -215,6 +209,7 @@ func CollectionList(ctx *gin.Context) {
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item [GET]
+// @Security ApiKeyAuth
 func SingleItem(ctx *gin.Context) {
 	resp := ListResponse{
 		0,
@@ -257,6 +252,7 @@ func SingleItem(ctx *gin.Context) {
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item-list [GET]
+// @Security ApiKeyAuth
 func ItemList(ctx *gin.Context) {
 	resp := ListResponse{
 		0,

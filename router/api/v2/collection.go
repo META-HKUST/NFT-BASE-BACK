@@ -3,9 +3,7 @@ package v2
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
-	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/service"
-	"NFT-BASE-BACK/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -38,15 +36,6 @@ type CreateCollectionRequest struct {
 func Create(ctx *gin.Context) {
 	ch := CreateCollectionRequest{}
 	ctx.BindJSON(&ch)
-
-	plainLogo, _ := utils.Decrypt([]byte(ch.LogoImage_S), fileservice.COSCONFIG.CryptoKey)
-	plainFeature, _ := utils.Decrypt([]byte(ch.FeatureImagee_S), fileservice.COSCONFIG.CryptoKey)
-	plainBanner, _ := utils.Decrypt([]byte(ch.BannerImage_S), fileservice.COSCONFIG.CryptoKey)
-
-	if plainLogo != ch.LogoImage || plainFeature != ch.FeatureImage || plainBanner != ch.BannerImage {
-		ctx.JSON(http.StatusInternalServerError, "URL signature error")
-		return
-	}
 
 	res := base.Response{}
 
@@ -90,15 +79,6 @@ func Edit(ctx *gin.Context) {
 
 	ch := EditCollectionRequest{}
 	ctx.BindJSON(&ch)
-
-	plainLogo, _ := utils.Decrypt([]byte(ch.LogoImage_S), fileservice.COSCONFIG.CryptoKey)
-	plainFeature, _ := utils.Decrypt([]byte(ch.FeatureImagee_S), fileservice.COSCONFIG.CryptoKey)
-	plainBanner, _ := utils.Decrypt([]byte(ch.BannerImage_S), fileservice.COSCONFIG.CryptoKey)
-
-	if plainLogo != ch.LogoImage || plainFeature != ch.FeatureImage || plainBanner != ch.BannerImage {
-		ctx.JSON(http.StatusInternalServerError, "URL signature error")
-		return
-	}
 
 	s, _ := ctx.Get("email")
 

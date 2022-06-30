@@ -30,9 +30,10 @@ var db *sqlx.DB
 // mysql sentences
 var (
 	// these three are related to account email and passwd
-	insert = string("insert into login(email,passwd) values(?,?);")
-	query  = string("select email,passwd from login where email=?;")
-	update = string("update login set passwd=? where email=?;")
+	insert       = string("insert into login(email,passwd) values(?,?);")
+	query        = string("select email,passwd from login where email=?;")
+	update       = string("update login set passwd=? where email=?;")
+	updateUserId = string("update login set user_id=? where email=?;")
 
 	// email activation
 	updateToken      = string("update login set emailToken=? where email=?;")
@@ -45,6 +46,8 @@ var (
 	updateVerifyCode  = string("update login set verify_code=? where email=?;")
 	getVerifyCode     = string("select verify_code from login where email=?;")
 	updateResetPasswd = string("update login set passwd=? where email=?;")
+
+	insertAccount = string("insert into accounts(user_id,email) values(?,?);")
 )
 
 // 连接池设为最大100，空闲最大20，可以调整
@@ -198,6 +201,26 @@ func GetVerifyCode(email string) (string, error) {
 
 func ResetUpdate(email string, passwd string) error {
 	r1, e1 := db.Exec(updateResetPasswd, passwd, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	log.Println(r1)
+	return nil
+}
+
+func UpdateId(email string, Id string) error {
+	r1, e1 := db.Exec(updateUserId, Id, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	log.Println(r1)
+	return nil
+}
+
+func InsertAccount(email string, Id string) error {
+	r1, e1 := db.Exec(insertAccount, Id, email)
 	if e1 != nil {
 		log.Println(e1)
 		return e1

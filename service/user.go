@@ -83,7 +83,13 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(err.String())
 		return base.ErrCode(err)
 	}
+
 	// TODO: store UserId and check if it's unique
+	t1 := strings.Replace(p.Email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
+	model.UpdateId(p.Email, UserId)
+	model.InsertAccount(p.Email, UserId)
 
 	return base.Success
 }

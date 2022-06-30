@@ -49,34 +49,34 @@ func InitRouter() *gin.Engine {
 		itemsRouter.POST("/transfer", v2.TransferItem)
 		itemsRouter.POST("/like", v2.LikeItem)
 	}
+	tkRouter := routerV2.Group("/tk").Use(mw.JWTAuth())
+	{
+		tkRouter.POST("/transfer", v2.PostTokenTransfer)
+		tkRouter.GET("/info", v2.GetTokenInfo)
+	}
 
 	listsRouter := routerV2.Group("/list")
 	{
 		listsRouter.GET("/user-list", v2.UserList)
 		listsRouter.GET("/collection", v2.SingleColletction)
 		listsRouter.GET("/collection-list", v2.CollectionList)
-		listsRouter.GET("/item", v2.SingleItem)
-		listsRouter.GET("/item-list", v2.ItemList)
+		listsRouter.GET("/item", mw.JWTAuth(), v2.SingleItem)
+		listsRouter.GET("/item-list", mw.JWTAuth(), v2.ItemList)
 		listsRouter.GET("/item-history", v2.ItemHistory)
 
 	}
 
 	actRouter := routerV2.Group("/act")
 	{
-		actRouter.POST("/create", v2.PostActCreate)
-		actRouter.POST("/delete", v2.PostActDelete)
-		actRouter.POST("/edit", v2.PostActEdit)
+		actRouter.POST("/create", mw.JWTAuth(), v2.PostActCreate)
+		actRouter.POST("/delete", mw.JWTAuth(), v2.PostActDelete)
+		actRouter.POST("/edit", mw.JWTAuth(), v2.PostActEdit)
 		actRouter.GET("/info", v2.GetActInfo)
-		actRouter.POST("/upload-item", v2.PostActUploadItem)
-		actRouter.GET("/item-list", v2.GetActItemList)
-		actRouter.POST("/vote", v2.PostActVote)
+		actRouter.POST("/upload-item", mw.JWTAuth(), v2.PostActUploadItem)
+		actRouter.GET("/item-list", mw.JWTAuth(), v2.GetActItemList)
+		actRouter.POST("/vote", mw.JWTAuth(), v2.PostActVote)
 	}
 
-	tkRouter := routerV2.Group("/tk")
-	{
-		tkRouter.POST("/transfer", v2.PostTokenTransfer)
-		tkRouter.GET("/info", v2.GetTokenInfo)
-	}
 	uploadRouter := routerV2.Group("/upload")
 	{
 		uploadRouter.POST("/cos", v2.UploadToCos)

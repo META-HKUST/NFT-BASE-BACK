@@ -9,13 +9,13 @@ import (
 )
 
 type CosResponse struct {
-	Url string		`json:"url"`
+	Url string `json:"url"`
 	//UrlSignature	string	`json:"url_signature"`
 }
 
 type CosAndIpfsResponse struct {
-	UrlIpfs string		`json:"url_ipfs"`
-	UrlCos	string		`json:"url_cos"`
+	UrlIpfs string `json:"url_ipfs"`
+	UrlCos  string `json:"url_cos"`
 	//UrlSignature	string	`json:"url_signature"`
 }
 
@@ -31,12 +31,12 @@ type CosAndIpfsResponse struct {
 // @Router       /upload/cos [POST]
 func UploadToCos(ctx *gin.Context) {
 	resp := base.Response{}
-	file,header,_:= ctx.Request.FormFile("data")
+	file, header, _ := ctx.Request.FormFile("data")
 
-	name := fileservice.DIRECTORY+"/"+header.Filename
-	_,url,err := fileservice.Upload(name,file)
-	if err != nil{
-		ctx.JSON(1000,resp)
+	name := fileservice.DIRECTORY + "/" + header.Filename
+	_, url, err := fileservice.Upload(name, file)
+	if err != nil {
+		ctx.JSON(1000, resp)
 	}
 	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
 	//if err != nil {
@@ -44,14 +44,14 @@ func UploadToCos(ctx *gin.Context) {
 	//}
 
 	resp.Code = 0
-	resp.Msg= "Operation Succeed"
+	resp.Msg = "Operation Succeed"
 	resp.Data = CosResponse{
 		Url: url.String(),
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
 
-// Edit_Profile @Description  edit-profile: 编辑用户的个人资料
+// UploadToIpfs @Description  UploadToIpfs: 编辑用户的个人资料
 // @Tags         upload
 // @param 		 data  formData  file  true    "任何数据"
 // @Accept       json
@@ -63,16 +63,16 @@ func UploadToCos(ctx *gin.Context) {
 // @Router       /upload/ipfs-and-cos [POST]
 func UploadToIpfs(ctx *gin.Context) {
 	resp := base.Response{}
-	file,header,_:= ctx.Request.FormFile("data")
+	file, header, _ := ctx.Request.FormFile("data")
 
-	name := fileservice.DIRECTORY+"/"+header.Filename
-	_,url,_ := fileservice.Upload(name,file)
+	name := fileservice.DIRECTORY + "/" + header.Filename
+	_, url, _ := fileservice.Upload(name, file)
 	//apikey := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE0REE3N0E4Y0VFZWIwNmY2OTZEQUIzZjFCMkQzODZCZTRiMUNjOTkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1MTQ1MDIyNjQ1MiwibmFtZSI6Im5mdC1zdG9yYWdlLXRlc3QifQ.cua-DSWuivlAVRSVxzVOR6pwCaavf5VVifai4zUyG9g"
 	client := http.Client{}
-	nftService := nftstorage.NewNFTService(fileservice.COSCONFIG.ApiKey,&client)
+	nftService := nftstorage.NewNFTService(fileservice.COSCONFIG.ApiKey, &client)
 
-	fileReader,_ := header.Open()
-	ipfsResp,_ := nftService.Upload(fileReader,"video")
+	fileReader, _ := header.Open()
+	ipfsResp, _ := nftService.Upload(fileReader, "video")
 
 	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
 	//if err != nil {
