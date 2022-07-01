@@ -42,7 +42,6 @@ func EditProfile(email, username, organization, poison, logo, banner string) (Us
 	p := UserProfile{}
 	userID, err := GetUserIDByEmail(email)
 	if err != nil {
-
 		return UserProfileInfo{}, base.UserIDNotExist
 	}
 	e := db.Get(&p, getProfileByID, userID)
@@ -51,22 +50,44 @@ func EditProfile(email, username, organization, poison, logo, banner string) (Us
 		log.Println(base.QueryError, base.QueryError.String(), e)
 		return UserProfileInfo{}, base.QueryError
 	}
+	args := []string{}
+	str := "update accounts set "
 	if username != "" {
 		p.UserName = username
+		str = str + "user_name=?,"
+		args = append(args, username)
 	}
+
 	if organization != "" {
 		p.Organization = organization
+		str = str + "organization=?,"
+		args = append(args, organization)
 	}
 	if poison != "" {
 		p.Poison = poison
+		str = str + "poison=?,"
+		args = append(args, poison)
 	}
 	if logo != "" {
 		p.LogoImage = logo
+		str = str + "logo_image=?,"
+		args = append(args, logo)
 	}
+
 	if banner != "" {
 		p.BannerImage = banner
+		str = str + " "+ "banner_image=?,"
+		args = append(args, banner)
 	}
-	result, e := db.Exec(updateUserProfile, p.UserName, p.BannerImage, p.LogoImage, p.Poison, p.Organization, userID)
+	str = str[:len(str)-1]
+	str = str + " " +"where user_id=?;"
+	args = append(args, userID)
+
+	params := make([]interface{},len(args))
+	for i,v := range args{
+		params[i] = v
+	}
+	result, e := db.Exec(str,params...)
 	if e != nil {
 		log.Println(base.UserProfileUpdateError, base.UserProfileUpdateError.String(), e)
 		return UserProfileInfo{}, base.UserProfileUpdateError
@@ -76,6 +97,7 @@ func EditProfile(email, username, organization, poison, logo, banner string) (Us
 	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
 	code, userProfileInfo := GetUserInfoByID(userID)
 	if code != base.Success {
+		log.Println(code)
 		return UserProfileInfo{}, code
 	}
 

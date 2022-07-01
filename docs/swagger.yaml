@@ -1005,6 +1005,8 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - list
   /list/item-history:
@@ -1104,6 +1106,8 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
       tags:
       - list
   /list/user-list:

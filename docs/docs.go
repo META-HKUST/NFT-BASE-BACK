@@ -818,6 +818,11 @@ const docTemplate = `{
         },
         "/list/item": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -902,6 +907,11 @@ const docTemplate = `{
         },
         "/list/item-list": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
