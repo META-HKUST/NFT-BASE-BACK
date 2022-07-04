@@ -9,14 +9,13 @@ import (
 	"NFT-BASE-BACK/sdk/pb"
 	"NFT-BASE-BACK/sdk/service"
 	"flag"
+	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
 	"io"
 	"log"
 	"net"
 	"os"
 	"strings"
-
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
 )
 
 // @title HKUST-NFT
@@ -55,11 +54,11 @@ func startGRPCServer() {
 }
 
 func main() {
-	// load flag
+	//load flag
 	serverType := flag.String("server", "gin", "choose gin or grpc server")
 	flag.Parse()
 
-	// load config
+	//load config
 	err := config.LoadConfig("./config")
 	if err != nil {
 		log.Fatal("cannot load config", err)
@@ -75,4 +74,5 @@ func main() {
 	} else if strings.ToLower(*serverType) == "grpc" {
 		startGRPCServer()
 	}
+
 }

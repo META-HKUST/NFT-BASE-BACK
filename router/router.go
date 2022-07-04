@@ -51,8 +51,8 @@ func InitRouter() *gin.Engine {
 	}
 	tkRouter := routerV2.Group("/tk").Use(mw.JWTAuth())
 	{
-		tkRouter.POST("/transfer", v2.PostTokenTransfer)
-		tkRouter.GET("/info", v2.GetTokenInfo)
+		tkRouter.POST("/transfer",mw.JWTAuth(), v2.PostTokenTransfer)
+		tkRouter.GET("/info", mw.JWTAuth(),v2.GetTokenInfo)
 	}
 
 	listsRouter := routerV2.Group("/list")

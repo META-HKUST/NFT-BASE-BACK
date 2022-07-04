@@ -1,6 +1,8 @@
 package v2
 
 import (
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,6 +13,7 @@ type PostTokenTransferRequest struct {
 	FromUserId string  `json:"from_user_id" example:"mazhengwang-ust-hk" binding:"required"`
 	ToUserId   string  `json:"to_user_id" example:"mzliu" binding:"required"`
 }
+
 
 // PostTokenTransfer
 // @Description  transfer token form one account to another account
@@ -24,21 +27,23 @@ type PostTokenTransferRequest struct {
 // @Router       /tk/transfer [POST]
 // @Security ApiKeyAuth
 func PostTokenTransfer(ctx *gin.Context) {
-	// var req PostTokenTransferRequest
-	// err := ctx.ShouldBindJSON(&req)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"user_id": "mazhengwang-ust-hk",
-			"token":   100,
-		},
-	})
+	req := PostTokenTransferRequest{}
+	res := base.Response{}
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	tokenInfo,errCode := service.Transfer(req.TokenNum,req.FromUserId,req.ToUserId)
+	if errCode != base.Success {
+		ctx.JSON(http.StatusOK, res.SetCode(errCode))
+		return
+	}
+	res.SetData(tokenInfo)
+	ctx.JSON(http.StatusOK, res.SetCode(errCode))
 }
+
 
 // GetTokenInfo
 // @Description get token balance
@@ -51,12 +56,19 @@ func PostTokenTransfer(ctx *gin.Context) {
 // @Router       /tk/info [GET]
 // @Security ApiKeyAuth
 func GetTokenInfo(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"user_id": "mazhengwang-ust-hk",
-			"token":   100,
-		},
-	})
+	res := base.Response{}
+	email, ok := ctx.Get("email")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		return
+	}
+
+	tokenInfo,code := service.GetTokenInfo(email.(string))
+	if code != base.Success {
+		ctx.JSON(http.StatusOK, res.SetCode(code))
+		return
+	}
+
+	res.SetData(tokenInfo)
+	ctx.JSON(http.StatusOK, res.SetCode(code))
 }

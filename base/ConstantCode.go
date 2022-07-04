@@ -37,4 +37,6 @@ const (
 
 	UserIDNotExist	ErrCode = 3000
 	UserProfileUpdateError ErrCode = 3001 // Update profile failed
+	BalanceNotEnough		ErrCode = 3002// Sorry, your credit is running low
+	UpdateBalanceError		ErrCode = 3003//Transfer failed
 )
