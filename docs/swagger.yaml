@@ -814,10 +814,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: NFT本身数据
-        in: formData
-        name: item_data
-        type: file
       - description: info needed to upload
         in: body
         name: param_request

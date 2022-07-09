@@ -55,15 +55,13 @@ CREATE TABLE `items` (
                          `owner_id` varchar(255) NOT NULL,
                          `creater_id` varchar(255) NOT NULL,
                          `category`varchar(255) NOT NULL,
+                         `like_count` int,
                          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `item_label` (
-                              `label_id` bigint NOT NULL AUTO_INCREMENT,
                               `item_id` varchar(255) NOT NULL,
-                              `label` varchar(255) NOT NULL,
-                              PRIMARY KEY (`label_id`),
-                              UNIQUE KEY `item_label` (`item_id`, `label`)
+                              `label` varchar(255) NOT NULL
 );
 
 CREATE TABLE `item_history` (
@@ -72,4 +70,9 @@ CREATE TABLE `item_history` (
                                 `to`      varchar(255) NOT NULL,
                                 `operation` varchar(255) NOT NULL,
                                 `time` timestamp NOT NULL
+);
+
+CREATE TABLE `item_like` (
+                             `item_id` varchar(255) NOT NULL,
+                             `user_id`    varchar(255) NOT NULL
 );

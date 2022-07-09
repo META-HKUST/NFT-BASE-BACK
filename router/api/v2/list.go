@@ -40,7 +40,7 @@ type CollectionsList struct {
 }
 
 type ItemsList struct {
-	ItemList interface{} `json:"item_list"`
+	Data interface{} 	 `json:"data"`
 	Page     int         `json:"page"`
 	Size     int         `json:"size"`
 	Total    int         `json:"total"`
@@ -211,24 +211,21 @@ func CollectionList(ctx *gin.Context) {
 // @Router       /list/item [GET]
 // @Security ApiKeyAuth
 func SingleItem(ctx *gin.Context) {
-	resp := ListResponse{
-		0,
-		"Operation succeed",
-		Item{
-			"Pixel Bear With Hammer",
-			"1010",
-			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-			"2022-06-16 22:04:22",
-			"A very cute pixel bear with hammer",
-			"Pixel Bear",
-			"image",
-			[]string{"Music", "Comics"},
-			"mingzheliu-ust-hk",
-			"mingzheliu-ust-hk",
-			100,
-			false,
-		},
+	var resp base.Response
+	itemId, ok := ctx.Get("item_id")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "Input parameter error")
+		return
 	}
+
+	itemInfo, code := service.GetItem(itemId.(string))
+	if code != base.Success {
+		ctx.JSON(http.StatusOK, resp.SetCode(code))
+		return
+	}
+
+	resp.SetData(itemInfo)
+	resp.SetCode(code)
 	ctx.JSON(http.StatusOK, resp)
 }
 
@@ -254,46 +251,29 @@ func SingleItem(ctx *gin.Context) {
 // @Router       /list/item-list [GET]
 // @Security ApiKeyAuth
 func ItemList(ctx *gin.Context) {
-	resp := ListResponse{
-		0,
-		"Operation succeed",
-		ItemsList{
-			ItemList: []Item{
-				{
-					"Pixel Bear With Hammer",
-					"1010",
-					"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-					"2022-06-16 22:04:22",
-					"A very cute pixel bear with hammer",
-					"Pixel Bear",
-					"image",
-					[]string{"Music", "Comics"},
-					"mingzheliu-ust-hk",
-					"mingzheliu-ust-hk",
-					100,
-					false,
-				},
-				{
-					"Pixel Bear With Hammer",
-					"1010",
-					"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-					"2022-06-16 22:04:22",
-					"A very cute pixel bear with hammer",
-					"Pixel Bear",
-					"image",
-					[]string{"Music", "Comics"},
-					"mingzheliu-ust-hk",
-					"mingzheliu-ust-hk",
-					100,
-					false,
-				},
-			},
-			Page:  1,
-			Size:  10,
-			Total: 1,
-		},
+	var resp base.Response
+	pageNum, ok := ctx.Get("page_num")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	pageSize, ok := ctx.Get("page_size")
+	if !ok {
+		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		return
+	}
+
+	category, ok := ctx.Get("category")
+	collectionId, ok := ctx.Get("collection_id")
+	rankTime, ok := ctx.Get("rank_time")
+	rankFavorite, ok := ctx.Get("rank_favorite")
+
+	items, code := service.GetItemList(pageNum.(int64),pageSize.(int64),category.(string),rankTime.(bool),rankFavorite.(bool),collectionId.(int))
+	if code != nil {
+		ctx.JSON(http.StatusInternalServerError, "database error")
+	}
+	resp.SetData(items)
+	ctx.JSON(http.StatusOK, resp.SetCode(0))
 }
 
 // ItemHistory @Description  get all users in database

@@ -562,12 +562,6 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "NFT本身数据",
-                        "name": "item_data",
-                        "in": "formData"
-                    },
-                    {
                         "description": "info needed to upload",
                         "name": "param_request",
                         "in": "body",

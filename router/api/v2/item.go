@@ -1,10 +1,12 @@
 package v2
 
 import (
+	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/sdk"
 	"NFT-BASE-BACK/sdk/pb"
+	"NFT-BASE-BACK/service"
 	"context"
 	"net/http"
 	"strings"
@@ -50,6 +52,7 @@ type CreateParams struct {
 type LikeRequest struct {
 	ItemId string `json:"item_id" example:"1"`
 }
+
 
 type CreateParamsResponse struct {
 	Code int         `json:"code" example:"0"`
@@ -165,7 +168,6 @@ type EditParams struct {
 
 // EditItem @Description  edit single item
 // @Tags         item
-// @param 		 item_data      formData  file  false    "NFT本身数据"
 // @param 		 param_request  body  EditParams  true   "info needed to upload"
 // @Accept       json
 // @Produce      json
@@ -175,24 +177,22 @@ type EditParams struct {
 // @Router       /item/edit [POST]
 // @Security ApiKeyAuth
 func EditItem(ctx *gin.Context) {
-	resp := ItemResponse{
-		0,
-		"Operation succeed",
-		Item{
-			"Pixel Bear With Hammer",
-			"1010",
-			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-			"2022-06-16 22:04:22",
-			"A very cute pixel bear with hammer",
-			"Pixel Bear",
-			"image",
-			[]string{"Music", "Comics"},
-			"mingzheliu-ust-hk",
-			"mingzheliu-ust-hk",
-			100,
-			false,
-		},
+	var resp base.Response
+	var req EditParams
+
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
 	}
+
+	itemInfo,code := service.EditItem(req.ItemId,req.ItemName,req.Description,req.CollectionId,req.Label)
+	if code != base.Success{
+		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
+		return
+	}
+	resp.SetCode(code)
+	resp.SetData(itemInfo)
 	ctx.JSON(http.StatusOK, resp)
 }
 

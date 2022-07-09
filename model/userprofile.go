@@ -76,7 +76,7 @@ func EditProfile(email, username, organization, poison, logo, banner string) (Us
 
 	if banner != "" {
 		p.BannerImage = banner
-		str = str + " "+ "banner_image=?,"
+		str = str + "banner_image=?,"
 		args = append(args, banner)
 	}
 	str = str[:len(str)-1]
