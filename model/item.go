@@ -8,15 +8,14 @@ import (
 )
 
 const (
-	insertItem      = string("insert into items(item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category) values(?,?,?,?,?,?,?,?);")
+	insertItem      = string("insert into items(item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category,like_count) values(?,?,?,?,?,?,?,?,?);")
 	queryItem       = string("select item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category, created_at from items where item_id=?;")
 	insertItemLable = string("insert into item_label(item_id, label) values(?,?);")
 	queryItemLable  = string("select item_id, label from item_label where item_id=?")
 	updateItemOwner = string("update items set owner_id=? where item_id=?;")
 	searchLabel     = string("select label from item_label where item_id=?;")
 	updateItemLabel = string("update item_label set label=? where item_id=?;")
-	QueryItem = string("select * from items where item_id=?;")
-
+	QueryItem       = string("select * from items where item_id=?;")
 )
 
 type Item struct {
@@ -28,24 +27,22 @@ type Item struct {
 	OwnerID      string `db:"owner_id"`
 	CreaterID    string `db:"creater_id"`
 	Category     string `db:"category"`
-	LikeCount	 int	`db:"like_count"`
+	LikeCount    int    `db:"like_count"`
 	CreatedAt    string `db:"created_at"`
 }
 
 type ItemInfo struct {
-	ItemName     string `json:"item_name" db:"item_name"`
-	ItemID       string `json:"item_id" db:"item_id"`
-	ItemData     string `json:"item_data" db:"item_data"`
-	CreatedTime  string `json:"created_time" db:"created_at"`
-	Description  string `db:"description"`
-	CollectionID int    `json:"collection_id" db:"collection_id"`
-	Category     string `json:"category" db:"category"`
-	Label 		 []string	`json:"label" db:"label"`
-	CreaterID    string `json:"creater_id" db:"creater_id"`
-	OwnerID      string `db:"owner_id"`
-	LikeCount	 int		`db:"like_count"`
-
-
+	ItemName     string   `json:"item_name" db:"item_name"`
+	ItemID       string   `json:"item_id" db:"item_id"`
+	ItemData     string   `json:"item_data" db:"item_data"`
+	CreatedTime  string   `json:"created_time" db:"created_at"`
+	Description  string   `db:"description"`
+	CollectionID int      `json:"collection_id" db:"collection_id"`
+	Category     string   `json:"category" db:"category"`
+	Label        []string `json:"label" db:"label"`
+	CreaterID    string   `json:"creater_id" db:"creater_id"`
+	OwnerID      string   `db:"owner_id"`
+	LikeCount    int      `db:"like_count"`
 }
 
 func CreateItem(item Item) (Item, error) {
@@ -58,6 +55,7 @@ func CreateItem(item Item) (Item, error) {
 		item.OwnerID,
 		item.CreaterID,
 		item.Category,
+		0,
 	)
 	if err != nil {
 		return Item{}, err
@@ -123,18 +121,18 @@ func SearchLable(itemID string) ([]string, error) {
 	return LableSlice, nil
 }
 
-func EditItem(itemId,itemName,description,collectionId string,label []string) error{
+func EditItem(itemId, itemName, description, collectionId string, label []string) error {
 
 	if itemId == "" {
 		return errors.New("Parameter input error")
 	}
 
-	argsItem  := []string{}
+	argsItem := []string{}
 	labelSlice := []string{}
 	updateItemInfo := "update items set "
 	if itemName != "" {
 		updateItemInfo = updateItemInfo + "item_name=?,"
-		argsItem = append(argsItem,itemName)
+		argsItem = append(argsItem, itemName)
 	}
 
 	if description != "" {
@@ -147,50 +145,48 @@ func EditItem(itemId,itemName,description,collectionId string,label []string) er
 	}
 
 	if len(label) != 0 {
-		for _,value := range label {
+		for _, value := range label {
 			labelSlice = append(labelSlice, value)
 		}
 	}
 
 	updateItemInfo = updateItemInfo[:len(updateItemInfo)-1]
-	updateItemInfo = updateItemInfo + " " +"where item_id=?;"
-	argsItem = append(argsItem,itemId)
+	updateItemInfo = updateItemInfo + " " + "where item_id=?;"
+	argsItem = append(argsItem, itemId)
 
-	paramItem := make([]interface{},len(argsItem))
-	for i,v := range argsItem{
+	paramItem := make([]interface{}, len(argsItem))
+	for i, v := range argsItem {
 		paramItem[i] = v
 	}
-
 
 	fmt.Println(updateItemInfo)
 	fmt.Println(paramItem)
 	tx, err := db.Beginx()
 	if err != nil {
-		log.Println("Transaction start failed",err)
+		log.Println("Transaction start failed", err)
 		return err
 	}
 	fmt.Println(labelSlice)
-	ss := fmt.Sprintf(strings.Join(labelSlice,","))
+	ss := fmt.Sprintf(strings.Join(labelSlice, ","))
 	fmt.Println(ss)
-	tx.MustExec(updateItemInfo,paramItem...)
-	tx.MustExec(updateItemLabel,ss,itemId)
+	tx.MustExec(updateItemInfo, paramItem...)
+	tx.MustExec(updateItemLabel, ss, itemId)
 	err = tx.Commit()
-	if err !=nil {
+	if err != nil {
 		log.Println(err)
 		return err
 	}
 
 	return nil
 
-
 }
 
-func GetItemInfo(itemId string) (ItemInfo,error){
+func GetItemInfo(itemId string) (ItemInfo, error) {
 	var item Item
 	var lableSlice []string
-	err := db.Get(&item, QueryItem,itemId)
+	err := db.Get(&item, QueryItem, itemId)
 	if err != nil {
-		return ItemInfo{},err
+		return ItemInfo{}, err
 	}
 
 	err = db.Select(&lableSlice, searchLabel, itemId)
@@ -212,5 +208,5 @@ func GetItemInfo(itemId string) (ItemInfo,error){
 		item.LikeCount,
 	}
 
-	return itemInfo,nil
+	return itemInfo, nil
 }

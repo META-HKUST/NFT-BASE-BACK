@@ -117,7 +117,7 @@ func CreateItem(ctx *gin.Context) {
 	// 写item label
 	for _, v := range req.Label {
 		itemLabel := model.ItemLable{
-			ItemID:    response.TokenId,
+			ItemID:    "231",
 			ItemLabel: v,
 		}
 		_, err = model.CreateItemLabel(itemLabel)
