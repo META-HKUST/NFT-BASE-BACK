@@ -81,7 +81,7 @@ func EditDescription(Arg string, CollectionId int) error {
 	return nil
 }
 
-func GetCollection(collectionId int) (entity.Collection, error) {
+func GetCollection(collectionId interface{}) (entity.Collection, error) {
 	var g entity.Collection
 	err := db.Get(&g, queryCollection, collectionId)
 	if err != nil {

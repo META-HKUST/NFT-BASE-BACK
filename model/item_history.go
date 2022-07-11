@@ -7,22 +7,24 @@ import (
 
 type ItemHistory struct {
 	ItemID    string `db:"item_id"`
-	From      string `db:"from"`
-	To        string `db:"to"`
+	From      string `db:"from_id"`
+	To        string `db:"to_id"`
 	Operation string `db:"operation"`
 	Time      string `db:"time"`
 }
 
 var (
-	addHistory   = string("inset into item_history(item_id,from,to,operation) values(?,?,?,?)")
-	queryHistory = string("select * from item_history where item_id=?")
+	addHistory   = string("insert into item_history(item_id,from_id,to_id,operation) values(?,?,?,?)")
+	queryHistory = string("select * from item_history where item_id=?;")
 )
 
 func AddMintHistory(itemId string, to string) error {
-	from := ""
+
+	from := "Admin"
 	operation := "Mint"
 	_, e := db.Exec(addHistory, itemId, from, to, operation)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 	return nil
@@ -32,6 +34,7 @@ func AddTransferHistory(itemId string, from string, to string) error {
 	operation := "Transfer"
 	_, e := db.Exec(addHistory, itemId, from, to, operation)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 	return nil

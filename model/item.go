@@ -186,11 +186,13 @@ func GetItemInfo(itemId string) (ItemInfo, error) {
 	var lableSlice []string
 	err := db.Get(&item, QueryItem, itemId)
 	if err != nil {
+		log.Println(err)
 		return ItemInfo{}, err
 	}
 
 	err = db.Select(&lableSlice, searchLabel, itemId)
 	if err != nil {
+		log.Println(err)
 		return ItemInfo{}, err
 	}
 

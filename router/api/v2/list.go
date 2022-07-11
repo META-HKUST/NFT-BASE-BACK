@@ -121,11 +121,11 @@ func UserList(ctx *gin.Context) {
 // @Router       /list/collection [GET]
 func SingleColletction(ctx *gin.Context) {
 	res := base.Response{}
-	var ch int
-	ctx.BindJSON(&ch)
+	ch := ctx.Query("collection_id")
 	data, err := service.GetCollection(ch)
 	if err != nil {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 	res.SetData(data)
 
@@ -277,20 +277,15 @@ type ItemHistoryRequest struct {
 // @Router       /list/item-history [GET]
 func ItemHistory(ctx *gin.Context) {
 	var resp base.Response
-	var req ItemHistoryRequest
 
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err)
-		return
-	}
+	item_id := ctx.Query("item_id")
 
-	hs, err := model.GetItemHistory(req.ItemID)
+	data, err := model.GetItemHistory(item_id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, base.ServerError)
+		return
 	}
 	resp.SetCode(base.Success)
-	resp.SetData(hs)
+	resp.SetData(data)
 	ctx.JSON(http.StatusOK, resp)
-
 }

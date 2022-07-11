@@ -105,26 +105,37 @@ func CreateItem(ctx *gin.Context) {
 		CreaterID:    username,
 		Category:     req.Category,
 	}
+	//item := model.Item{
+	//	ItemID:       utils.GenEmailToken(),
+	//	ItemName:     "aaa",
+	//	CollectionID: 1,
+	//	ItemData:     "aaa",
+	//	Description:  "aaa",
+	//	OwnerID:      "aaa",
+	//	CreaterID:    "aaa",
+	//	Category:     "aaa",
+	//}
 
 	// 写item数据库
 	ret, err := model.CreateItem(item)
 	if err != nil {
 		log.Println(err)
-		//ctx.JSON(http.StatusInternalServerError, "database error")
-		//return
+		ctx.JSON(http.StatusInternalServerError, "database error")
+		return
 	}
 
 	// 写item label
 	for _, v := range req.Label {
 		itemLabel := model.ItemLable{
-			ItemID:    "231",
+			// change this to test
+			ItemID:    item.ItemID,
 			ItemLabel: v,
 		}
 		_, err = model.CreateItemLabel(itemLabel)
 		if err != nil {
 			log.Println(err)
-			//ctx.JSON(http.StatusInternalServerError, "database error")
-			//return
+			ctx.JSON(http.StatusInternalServerError, "database error")
+			return
 		}
 	}
 	// 在URI里面写数据
@@ -155,6 +166,7 @@ func CreateItem(ctx *gin.Context) {
 	}
 
 	model.AddMintHistory(ret.ItemID, ret.CreaterID)
+
 	ctx.JSON(http.StatusOK, resp)
 }
 

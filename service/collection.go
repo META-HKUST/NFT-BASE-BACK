@@ -67,6 +67,6 @@ func EditCollection(c entity.Collection) (base.ErrCode, entity.Collection) {
 	return base.Success, g
 }
 
-func GetCollection(collectionId int) (entity.Collection, error) {
+func GetCollection(collectionId interface{}) (entity.Collection, error) {
 	return model.GetCollection(collectionId)
 }
