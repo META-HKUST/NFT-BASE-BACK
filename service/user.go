@@ -3,6 +3,7 @@ package service
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
+	"NFT-BASE-BACK/sdk/service"
 	"NFT-BASE-BACK/utils"
 	"fmt"
 	"log"
@@ -90,6 +91,11 @@ func Register(p model.Person) base.ErrCode {
 
 	model.UpdateId(p.Email, UserId)
 	model.InsertAccount(p.Email, UserId)
+
+	err := service.Enroll(UserId)
+	if err != nil {
+		return base.ServerError
+	}
 
 	return base.Success
 }
