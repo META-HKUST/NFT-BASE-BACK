@@ -471,7 +471,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: localhost:8889
+host: unifit.ust/hk:8889
 info:
   contact: {}
   description: HKUST-NFT Server API

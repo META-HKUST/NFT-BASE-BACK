@@ -10,7 +10,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8889",
+    "host": "unifit.ust/hk:8889",
     "basePath": "/api/v2",
     "paths": {
         "/act/create": {
