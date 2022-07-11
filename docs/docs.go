@@ -46,13 +46,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/v2.PostActCreateRequest"
                         }
-                    },
-                    {
-                        "type": "file",
-                        "description": "activity front page image",
-                        "name": "act_image",
-                        "in": "formData",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -84,7 +77,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "deleta activity",
+                "description": "delet activity",
                 "consumes": [
                     "application/json"
                 ],
@@ -153,12 +146,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/v2.PostActEditRequest"
                         }
-                    },
-                    {
-                        "type": "file",
-                        "description": "activity front page image",
-                        "name": "act_image",
-                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -197,7 +184,7 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "ID不可为空",
                         "name": "act_id",
                         "in": "query",
@@ -812,11 +799,6 @@ const docTemplate = `{
         },
         "/list/item": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -901,11 +883,6 @@ const docTemplate = `{
         },
         "/list/item-list": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "consumes": [
                     "application/json"
                 ],

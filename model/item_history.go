@@ -15,7 +15,7 @@ type ItemHistory struct {
 
 var (
 	addHistory   = string("inset into item_history(item_id,from,to,operation) values(?,?,?,?)")
-	queryHistory = string("select * from item_history where item_id=? offset ?")
+	queryHistory = string("select * from item_history where item_id=?")
 )
 
 func AddMintHistory(itemId string, to string) error {
@@ -37,11 +37,10 @@ func AddTransferHistory(itemId string, from string, to string) error {
 	return nil
 }
 
-func GetItemHistory(page_num, page_size int64, item_id string) ([]ItemHistory, error) {
+func GetItemHistory(item_id string) ([]ItemHistory, error) {
 	var ItemHistorys []ItemHistory
-	offset := (page_num - 1) * page_size
 
-	err := db.Select(&ItemHistorys, queryHistory, page_size, item_id, offset)
+	err := db.Select(&ItemHistorys, queryHistory, item_id)
 	if err != nil {
 		log.Println(err)
 		return []ItemHistory{}, err

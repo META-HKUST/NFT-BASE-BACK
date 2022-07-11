@@ -493,11 +493,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/v2.PostActCreateRequest'
-      - description: activity front page image
-        in: formData
-        name: act_image
-        required: true
-        type: file
       produces:
       - application/json
       responses:
@@ -521,7 +516,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: deleta activity
+      description: delet activity
       parameters:
       - description: 活动ID不可为空
         in: body
@@ -560,10 +555,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/v2.PostActEditRequest'
-      - description: activity front page image
-        in: formData
-        name: act_image
-        type: file
       produces:
       - application/json
       responses:
@@ -593,7 +584,7 @@ paths:
         in: query
         name: act_id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
@@ -1003,8 +994,6 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/v2.Err2000'
-      security:
-      - ApiKeyAuth: []
       tags:
       - list
   /list/item-history:
@@ -1104,8 +1093,6 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/v2.Err2000'
-      security:
-      - ApiKeyAuth: []
       tags:
       - list
   /list/user-list:

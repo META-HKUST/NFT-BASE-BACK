@@ -1,16 +1,19 @@
 package model
 
+import "log"
+
 var (
-	addVote      = string("inset into item_vote(act_id,item_id,user_id) values(?,?,?)")
+	addVote      = string("insert into item_vote(act_id,item_id,user_id) values(?,?,?)")
 	deleteVote   = string("delete from item_vote where act_id=? and item_id = ? and user_id=?")
 	getVoteCount = string("select count(*) from item_vote where act_id=? and item_id = ?")
-	doesVote     = string("SELECT item_id FROM item_vote WHERE act_id=? and item_id = ? and user_id = ?")
+	doesVote     = string("select item_id from item_vote where act_id=? and item_id = ? and user_id = ?")
 )
 
 func Vote(actId int, itemId string, UserId string) error {
 
 	_, e := db.Exec(addVote, actId, itemId, UserId)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 

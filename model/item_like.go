@@ -2,7 +2,7 @@ package model
 
 var (
 	updateLikeCount = string("update items set like_count = ? where item_id = ?")
-	addItemLike     = string("inset into item_like(item_id,user_id) values(?,?)")
+	addItemLike     = string("insert into item_like(item_id,user_id) values(?,?)")
 	deleteItemLike  = string("delete from item_like where item_id = ?")
 	getLikeCount    = string("select count(*) from item_like where item_id = ?")
 	doesLike        = string("SELECT item_id FROM item_like WHERE item_id = ? and user_id = ?")
@@ -38,7 +38,7 @@ func UnLike(itemId string, UserId string) error {
 		return e
 	}
 
-	_, e = db.Exec(deleteItemLike, itemId, UserId)
+	_, e = db.Exec(deleteItemLike, itemId)
 	if e != nil {
 		return e
 	}
@@ -48,7 +48,7 @@ func UnLike(itemId string, UserId string) error {
 
 func DoesLike(itemId string, UserId string) (bool, error) {
 	var g string
-	e := db.Get(&g, itemId, UserId)
+	e := db.Get(&g, doesLike, itemId, UserId)
 	if e != nil {
 		return false, e
 	}

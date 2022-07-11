@@ -23,7 +23,6 @@ type PostActCreateRequest struct {
 // @Description  create activity
 // @Tags         act
 // @param        RequestParam body     PostActCreateRequest true "参数均不可为空"
-// @param 		 act_image   formData  file  true   "activity front page image"
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
@@ -109,7 +108,6 @@ type PostActEditRequest struct {
 // @Description  edit activity
 // @Tags         act
 // @param        RequestParam body     PostActEditRequest true "ID不可为空，其他可为空"
-// @param 		 act_image   formData  file  false   "activity front page image"
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
@@ -146,7 +144,7 @@ func PostActEdit(ctx *gin.Context) {
 // GetActInfo
 // @Description  get activity information
 // @Tags         act
-// @param        act_id 	query	string	true 	"ID不可为空"
+// @param        act_id 	query	int 	true 	"ID不可为空"
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
@@ -154,20 +152,11 @@ func PostActEdit(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /act/info [GET]
 func GetActInfo(ctx *gin.Context) {
-	ch := ActRequest{}
-	ctx.BindJSON(&ch)
+	actId := ctx.Query("act_id")
 
 	res := base.Response{}
 
-	s, _ := ctx.Get("email")
-
-	email := fmt.Sprintf("%v", s)
-
-	t1 := strings.Replace(email, "@", "-", -1)
-	UserId := strings.Replace(t1, ".", "-", -1)
-	fmt.Println(UserId)
-
-	data, err := model.GetAction(ch.ActId)
+	data, err := model.GetAction(actId)
 
 	if err != nil {
 		log.Println(err)
@@ -330,6 +319,4 @@ func PostActVote(ctx *gin.Context) {
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	}
-
-	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }

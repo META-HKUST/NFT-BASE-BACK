@@ -152,6 +152,7 @@ func CreateItem(ctx *gin.Context) {
 		},
 	}
 
+	model.AddMintHistory(ret.ItemID, ret.CreaterID)
 	ctx.JSON(http.StatusOK, resp)
 }
 
@@ -282,6 +283,7 @@ func TransferItem(ctx *gin.Context) {
 			Favorite:    false,
 		},
 	}
+	model.AddTransferHistory(ret.ItemID, username, req.ToUserId)
 
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -315,6 +317,7 @@ func LikeItem(ctx *gin.Context) {
 	fmt.Println(UserId)
 
 	bo, _ := model.DoesLike(ch.ItemID, UserId)
+	fmt.Println("bool: ", bo)
 	if bo == false {
 		err := model.Like(ch.ItemID, UserId)
 		if err != nil {

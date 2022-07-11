@@ -211,7 +211,6 @@ func CollectionList(ctx *gin.Context) {
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item [GET]
-// @Security ApiKeyAuth
 func SingleItem(ctx *gin.Context) {
 	var resp base.Response
 	itemId, ok := ctx.Get("item_id")
@@ -260,26 +259,26 @@ func ItemList(ctx *gin.Context) {
 	}
 
 	pageNum := ctx.Query("page_num")
-	pageNumInt,_:= strconv.ParseInt(pageNum,10,64)
+	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
 	pageSize := ctx.Query("page_size")
-	pageSizeInt,_:= strconv.ParseInt(pageSize,10,64)
+	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
 	userId := ctx.Query("user_id")
 	userLike := ctx.Query("user_like")
-	userLikeBool,_:= strconv.ParseBool(userLike)
+	userLikeBool, _ := strconv.ParseBool(userLike)
 	userCollect := ctx.Query("user_collect")
-	userCollectBool,_:= strconv.ParseBool(userCollect)
+	userCollectBool, _ := strconv.ParseBool(userCollect)
 	userCreate := ctx.Query("user_create")
-	userCreateBool,_:= strconv.ParseBool(userCreate)
+	userCreateBool, _ := strconv.ParseBool(userCreate)
 	category := ctx.Query("category")
 	keyword := ctx.Query("keyword")
 	rankFavorite := ctx.Query("rank_favorite")
-	rankFavoriteBool,_:= strconv.ParseBool(rankFavorite)
+	rankFavoriteBool, _ := strconv.ParseBool(rankFavorite)
 	rankTime := ctx.Query("rank_time")
-	rankTimeBool,_:= strconv.ParseBool(rankTime)
+	rankTimeBool, _ := strconv.ParseBool(rankTime)
 	collectionId := ctx.Query("collection_id")
-	collectionIdInt,_:= strconv.Atoi(collectionId)
+	collectionIdInt, _ := strconv.Atoi(collectionId)
 
-	items, code := service.GetItemList(pageNumInt,pageSizeInt,userId,userLikeBool,userCollectBool,userCreateBool,category,keyword,rankFavoriteBool,rankTimeBool,collectionIdInt)
+	items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
 	if code != nil {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
