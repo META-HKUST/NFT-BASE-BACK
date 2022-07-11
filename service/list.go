@@ -17,8 +17,8 @@ func GetItem(itemId string) (model.ItemInfo,base.ErrCode){
 
 }
 
-func GetItemList(page_num,page_size int64,category string,rank_favorite,rank_time bool,collection_id int) ([]model.Item,error){
-	items,err := model.GetItemList(page_num,page_size,category,rank_favorite,rank_time,collection_id)
+func GetItemList(page_num,page_size int64,userId string,userLike,userCollect,userCreate bool,category string,keyword string,rank_favorite,rank_time bool,collection_id int) ([]model.Item,error){
+	items,err := model.GetItemList(page_num,page_size,userId,userLike,userCollect,userCreate,category,keyword,rank_favorite,rank_time,collection_id)
 	if err != nil {
 		log.Println(err)
 		return []model.Item{},err

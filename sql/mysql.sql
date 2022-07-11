@@ -43,11 +43,8 @@ CREATE TABLE `collection_item` (
 );
 
 CREATE TABLE `collection_label` (
-                                    `label_id` bigint NOT NULL AUTO_INCREMENT,
                                     `collection_id` int NOT NULL,
-                                    `label` varchar(255) NOT NULL,
-                                    PRIMARY KEY (`label_id`),
-                                    UNIQUE KEY `item_label` (`item_id`, `label`)
+                                    `label` varchar(255) NOT NULL
 );
 
 CREATE TABLE `items` (
@@ -88,7 +85,7 @@ CREATE TABLE `item_vote` (
 );
 
 CREATE TABLE `action` (
-                          `act_id` bigint NOT NULL AUTO_INCREMENT,
+                          `act_id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
                           `act_name` varchar(255) NOT NULL,
                           `creater_id` varchar(255) NOT NULL,
                           `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,

@@ -66,7 +66,7 @@ func TestGetItemList(t *testing.T) {
 	db.SetConnMaxIdleTime(20)
 
 
-	iteminfo,code := model.GetItemList(1,2,"ffff",false,false,1001)
+	iteminfo,code := model.GetItemList(1,2,"ffff",false,false,false,"","",false,false,0)
 	if code != nil {
 		fmt.Println(code)
 	}

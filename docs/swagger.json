@@ -94,7 +94,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v2.PostActDeleteRequest"
+                            "$ref": "#/definitions/v2.ActRequest"
                         }
                     }
                 ],
@@ -913,75 +913,75 @@
                         "type": "integer",
                         "description": "page num",
                         "name": "page_num",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     },
                     {
                         "type": "integer",
                         "description": "page size",
                         "name": "page_size",
-                        "in": "path",
+                        "in": "query",
                         "required": true
                     },
                     {
                         "type": "string",
                         "description": "user id",
                         "name": "user_id",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "user like",
                         "name": "user_like",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "user collect",
                         "name": "user_collect",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "user create",
                         "name": "user_create",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "category",
                         "name": "category",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "keyword",
                         "name": "keyword",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "rank favorite",
                         "name": "rank_favorite",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "rank time",
                         "name": "rank_time",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "collection id",
                         "name": "collection_id",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "label",
                         "name": "label",
-                        "in": "path"
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1710,6 +1710,15 @@
                 }
             }
         },
+        "v2.ActRequest": {
+            "type": "object",
+            "properties": {
+                "act_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "v2.CreateCollectionRequest": {
             "type": "object",
             "properties": {
@@ -2099,6 +2108,10 @@
         "v2.PostActCreateRequest": {
             "type": "object",
             "properties": {
+                "act_image": {
+                    "type": "string",
+                    "example": "abc.com"
+                },
                 "act_name": {
                     "type": "string",
                     "example": "the first activity"
@@ -2117,21 +2130,16 @@
                 }
             }
         },
-        "v2.PostActDeleteRequest": {
-            "type": "object",
-            "properties": {
-                "act_id": {
-                    "type": "string",
-                    "example": "1"
-                }
-            }
-        },
         "v2.PostActEditRequest": {
             "type": "object",
             "properties": {
                 "act_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "act_image": {
                     "type": "string",
-                    "example": "1"
+                    "example": "abc.com"
                 },
                 "act_name": {
                     "type": "string",
@@ -2143,11 +2151,11 @@
                 },
                 "end_time": {
                     "type": "string",
-                    "example": "2022-08-20 20:45:40"
+                    "example": "2022-06-20 20:45:40"
                 },
                 "start_time": {
                     "type": "string",
-                    "example": "2022-06-20 20:45:40"
+                    "example": "2022-06-18 20:45:40"
                 }
             }
         },
@@ -2155,8 +2163,8 @@
             "type": "object",
             "properties": {
                 "act_id": {
-                    "type": "string",
-                    "example": "1"
+                    "type": "integer",
+                    "example": 1
                 },
                 "item_id": {
                     "type": "string",
@@ -2168,17 +2176,12 @@
             "type": "object",
             "properties": {
                 "act_id": {
-                    "type": "string",
-                    "example": "1"
+                    "type": "integer",
+                    "example": 1
                 },
                 "item_id": {
                     "type": "string",
                     "example": "2"
-                },
-                "vote_num": {
-                    "type": "integer",
-                    "default": 1,
-                    "example": 3
                 }
             }
         },
