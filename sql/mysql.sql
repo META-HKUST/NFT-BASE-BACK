@@ -17,7 +17,7 @@ CREATE TABLE `accounts` (
                             `email` varchar(255),
                             `user_name` VARCHAR(255),
                             `banner_image` VARCHAR(255),
-                            `avatar_image` VARCHAR(255),
+                            `logo_image` VARCHAR(255),
                             `poison` VARCHAR(255),
                             `organization` VARCHAR(255),
                             `token` INT,

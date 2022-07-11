@@ -8,7 +8,7 @@ import (
 var (
 	//edit user profile
 	getProfileByID    = string("select * from accounts where user_id=?;")
-	queryUserId       = string("select userId from login where email=?;")
+	queryUserId       = string("select user_id from accounts where email=?;")
 	updateUserProfile = string("update accounts set user_name=?,banner_image=?,logo_image=?,poison=?,organization=? where user_id=?;")
 	getProfileByKey = string("select * from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
 )
@@ -29,61 +29,56 @@ type UserProfile struct {
 }
 
 type UserProfileInfo struct {
-	UserId           string `json:"user_id" `
-	UserEmail        string `json:"user_email" `
-	UserName         string `json:"user_name" `
-	BannerImage      string `json:"banner_image" `
-	LogoImage        string `json:"logo_image"`
-	Poison           string `json:"poison" `
-	Organization     string `json:"organization" `
-	RegistrationTime string `json:"registration_time" `
+	UserID           string `json:"user_id" db:"user_id"`
+	UserEmail        string `json:"email" db:"email"`
+	UserName         string `json:"user_name" db:"user_name"`
+	BannerImage      string `json:"banner_image" db:"banner_image"`
+	LogoImage        string `json:"logo_image" db:"logo_image"`
+	Poison           string `json:"poison" db:"poison"`
+	Organization     string `json:"organization" db:"organization"`
+	Token            uint64 `json:"token" db:"token"`
+	RegistrationTime string `json:"registration_time" db:"created_at"`
 }
 
 func EditProfile(email, username, organization, poison, logo, banner string) (UserProfileInfo, base.ErrCode) {
-	p := UserProfile{}
+	//p := UserProfileInfo{}
 	userID, err := GetUserIDByEmail(email)
 	if err != nil {
 		return UserProfileInfo{}, base.UserIDNotExist
 	}
-	e := db.Get(&p, getProfileByID, userID)
-
-	if e != nil {
-		log.Println(base.QueryError, base.QueryError.String(), e)
-		return UserProfileInfo{}, base.QueryError
-	}
+	//e := db.Get(&p, getProfileByID, userID)
+	//
+	//if e != nil {
+	//	log.Println(base.QueryError, base.QueryError.String(), e)
+	//	return UserProfileInfo{}, base.QueryError
+	//}
 	args := []string{}
 	str := "update accounts set "
 	if username != "" {
-		p.UserName = username
 		str = str + "user_name=?,"
 		args = append(args, username)
 	}
 
 	if organization != "" {
-		p.Organization = organization
 		str = str + "organization=?,"
 		args = append(args, organization)
 	}
 	if poison != "" {
-		p.Poison = poison
 		str = str + "poison=?,"
 		args = append(args, poison)
 	}
 	if logo != "" {
-		p.LogoImage = logo
 		str = str + "logo_image=?,"
 		args = append(args, logo)
 	}
 
 	if banner != "" {
-		p.BannerImage = banner
 		str = str + "banner_image=?,"
 		args = append(args, banner)
 	}
 	str = str[:len(str)-1]
 	str = str + " " +"where user_id=?;"
 	args = append(args, userID)
-
 	params := make([]interface{},len(args))
 	for i,v := range args{
 		params[i] = v
@@ -115,7 +110,7 @@ func GetUserIDByEmail(email string) (string, error) {
 }
 
 func GetUserInfoEmail(email string) (base.ErrCode, UserProfileInfo) {
-	p := UserProfile{}
+	p := UserProfileInfo{}
 	userID, _ := GetUserIDByEmail(email)
 	if userID == "" {
 		return base.UserIDNotExist, UserProfileInfo{}
@@ -127,21 +122,11 @@ func GetUserInfoEmail(email string) (base.ErrCode, UserProfileInfo) {
 		return base.QueryError, UserProfileInfo{}
 	}
 
-	resp := UserProfileInfo{
-		p.UserID,
-		email,
-		p.UserName,
-		p.BannerImage,
-		p.LogoImage,
-		p.Poison,
-		p.Organization,
-		p.RegistrationTime,
-	}
-	return base.Success, resp
+	return base.Success, p
 }
 
 func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
-	p := UserProfile{}
+	p := UserProfileInfo{}
 
 	e := db.Get(&p, getProfileByID, userID)
 	if e != nil {
@@ -149,17 +134,7 @@ func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
 		return base.QueryError, UserProfileInfo{}
 	}
 
-	resp := UserProfileInfo{
-		p.UserID,
-		"",
-		p.UserName,
-		p.BannerImage,
-		p.LogoImage,
-		p.Poison,
-		p.Organization,
-		p.RegistrationTime,
-	}
-	return base.Success, resp
+	return base.Success, p
 }
 
 
