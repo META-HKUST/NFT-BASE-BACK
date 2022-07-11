@@ -312,7 +312,7 @@ func ItemHistory(ctx *gin.Context) {
 		return
 	}
 
-	hs, err := model.GetItemHistory(req.PageNum, req.PageSize, req.ItemID)
+	hs, err := model.GetItemHistory(req.ItemID)
 	if err != nil {
 		ctx.JSON(http.StatusOK, base.ServerError)
 	}
