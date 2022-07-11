@@ -10,6 +10,7 @@ var (
 	getProfileByID    = string("select * from accounts where user_id=?;")
 	queryUserId       = string("select userId from login where email=?;")
 	updateUserProfile = string("update accounts set user_name=?,banner_image=?,logo_image=?,poison=?,organization=? where user_id=?;")
+	getProfileByKey = string("select * from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
 )
 
 type UserID struct {
@@ -159,4 +160,16 @@ func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
 		p.RegistrationTime,
 	}
 	return base.Success, resp
+}
+
+
+func GetUserListByKey(keyword string,pageNum,pageSize int64,)([]UserProfile,error){
+	offset := (pageNum -1) * pageSize
+	var  userInfos []UserProfile
+	err := db.Select(&userInfos,getProfileByKey, keyword,pageSize,offset)
+	if err != nil {
+		log.Println(base.QueryError, base.QueryError.String(),err)
+		return []UserProfile{},err
+	}
+	return userInfos,nil
 }

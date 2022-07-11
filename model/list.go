@@ -43,7 +43,7 @@ func GetItemList(page_num,page_size int64,userId string,userLike,userCollect,use
 
 	if len(category) > 0 {
 		Condition = queryconditions + Condition + "and category = ? limit ? offset ?;"
-		fmt.Println(Condition)
+
 		err := db.Select(&items, Condition,category,page_size,offset)
 		if err != nil {
 			log.Println(err)
@@ -52,9 +52,19 @@ func GetItemList(page_num,page_size int64,userId string,userLike,userCollect,use
 		return items,nil
 	}
 
+	if len(keyword) > 0 {
+		Condition = queryconditions +"where item_name like concat ('%',?,'%') limit ? offset ?;"
+		err := db.Select(&items, Condition,keyword,page_size,offset)
+		if err != nil {
+			log.Println(err)
+			return []Item{}, err
+		}
+		return items,nil
+	}
+	fmt.Println("执行")
 	if len(strconv.Itoa(collection_id)) >0 {
 		Condition = queryconditions + Condition + "and collection_id = ? limit ? offset ?;"
-		fmt.Println(Condition)
+
 		err := db.Select(&items, Condition,collection_id,page_size,offset)
 		if err != nil {
 			log.Println(err)
@@ -62,7 +72,5 @@ func GetItemList(page_num,page_size int64,userId string,userLike,userCollect,use
 		}
 	}
 
-	fmt.Println(len(items))
-	fmt.Println(items)
 	return items,nil
 }

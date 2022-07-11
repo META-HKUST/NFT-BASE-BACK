@@ -94,38 +94,20 @@ type History struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/user-list [GET]
 func UserList(ctx *gin.Context) {
+	var resp base.Response
+	pageNum := ctx.Query("page_num")
+	pageNumInt,_:= strconv.ParseInt(pageNum,10,64)
+	pageSize := ctx.Query("page_size")
+	pageSizeInt,_:= strconv.ParseInt(pageSize,10,64)
+	keyword := ctx.Query("keyword")
 
-	users := []UserInfo{
-		{"mingzheliu-ust-hk",
-			"mingzheliu@ust.hk",
-			"LMZ",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-			"teacher",
-			"HKUST-GZ",
-			"2022-06-16 20:45:40"},
-		{
-			"mingzheliu-ust-hk",
-			"mingzheliu@ust.hk",
-			"LMZ",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-			"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-			"teacher",
-			"HKUST-GZ",
-			"2022-06-16 20:45:40",
-		},
+	userList,err := service.GetUserListByKeyWord(keyword,pageNumInt,pageSizeInt)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, "Failed to get user informations")
+		return
 	}
-	resp := ListResponse{
-		0,
-		"Operation succeed",
-		UsersList{
-			users,
-			1,
-			10,
-			1,
-		},
-	}
-	ctx.JSON(http.StatusOK, resp)
+	resp.SetData(userList)
+	ctx.JSON(http.StatusOK, resp.SetCode(0))
 }
 
 // SingleColletction @Description  get all users in database
@@ -252,11 +234,6 @@ func SingleItem(ctx *gin.Context) {
 // @Router       /list/item-list [GET]
 func ItemList(ctx *gin.Context) {
 	var resp base.Response
-	_, ok := ctx.Get("email")
-	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
-		return
-	}
 
 	pageNum := ctx.Query("page_num")
 	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
