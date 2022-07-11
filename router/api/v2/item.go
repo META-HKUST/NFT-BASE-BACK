@@ -109,8 +109,9 @@ func CreateItem(ctx *gin.Context) {
 	// 写item数据库
 	ret, err := model.CreateItem(item)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, "database error")
-		return
+		log.Println(err)
+		//ctx.JSON(http.StatusInternalServerError, "database error")
+		//return
 	}
 
 	// 写item label
@@ -121,8 +122,9 @@ func CreateItem(ctx *gin.Context) {
 		}
 		_, err = model.CreateItemLabel(itemLabel)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, "database error")
-			return
+			log.Println(err)
+			//ctx.JSON(http.StatusInternalServerError, "database error")
+			//return
 		}
 	}
 	// 在URI里面写数据
