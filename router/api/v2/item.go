@@ -320,6 +320,7 @@ func LikeItem(ctx *gin.Context) {
 		if err != nil {
 			log.Println(err)
 			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+			return
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	} else {
@@ -327,6 +328,7 @@ func LikeItem(ctx *gin.Context) {
 		if err != nil {
 			log.Println(err)
 			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+			return
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	}

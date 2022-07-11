@@ -49,6 +49,7 @@ func PostActCreate(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 
 	res.SetData(data)
@@ -58,7 +59,6 @@ func PostActCreate(ctx *gin.Context) {
 type ActRequest struct {
 	ActId int `json:"act_id" example:"1"`
 }
-
 
 // PostActDelete
 // @Description  delet activity
@@ -90,6 +90,7 @@ func PostActDelete(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
@@ -135,6 +136,7 @@ func PostActEdit(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 
 	res.SetData(data)
@@ -170,6 +172,7 @@ func GetActInfo(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 
 	res.SetData(data)
@@ -211,6 +214,7 @@ func PostActUploadItem(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
 	}
 
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
@@ -314,6 +318,7 @@ func PostActVote(ctx *gin.Context) {
 		if err != nil {
 			log.Println(err)
 			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+			return
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	} else {
@@ -321,6 +326,7 @@ func PostActVote(ctx *gin.Context) {
 		if err != nil {
 			log.Println(err)
 			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+			return
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	}
