@@ -8,6 +8,8 @@ import (
 	"NFT-BASE-BACK/sdk/pb"
 	"NFT-BASE-BACK/service"
 	"context"
+	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -48,11 +50,6 @@ type CreateParams struct {
 
 	Category string `json:"category" example:"image"`
 }
-
-type LikeRequest struct {
-	ItemId string `json:"item_id" example:"1"`
-}
-
 
 type CreateParamsResponse struct {
 	Code int         `json:"code" example:"0"`
@@ -186,8 +183,8 @@ func EditItem(ctx *gin.Context) {
 		return
 	}
 
-	itemInfo,code := service.EditItem(req.ItemId,req.ItemName,req.Description,req.CollectionId,req.Label)
-	if code != base.Success{
+	itemInfo, code := service.EditItem(req.ItemId, req.ItemName, req.Description, req.CollectionId, req.Label)
+	if code != base.Success {
 		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
 		return
 	}
@@ -289,6 +286,10 @@ func TransferItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, resp)
 }
 
+type LikeRequest struct {
+	ItemId string `json:"item_id" example:"1"`
+}
+
 // LikeItem @Description  edit single item
 // @Tags         item
 // @param 		 item_id  body LikeRequest true  "item id"
@@ -300,23 +301,34 @@ func TransferItem(ctx *gin.Context) {
 // @Router       /item/like [POST]
 // @Security ApiKeyAuth
 func LikeItem(ctx *gin.Context) {
-	resp := ItemResponse{
-		0,
-		"Operation succeed",
-		Item{
-			"Pixel Bear With Hammer",
-			"1010",
-			"https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-			"2022-06-16 22:04:22",
-			"A very cute pixel bear with hammer",
-			"Pixel Bear",
-			"image",
-			[]string{"Music", "Comics"},
-			"mingzheliu-ust-hk",
-			"zhengwang-ust-hk",
-			100,
-			false,
-		},
+	ch := PostActUploadItemRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	bo, _ := model.DoesLike(ch.ItemID, UserId)
+	if bo == false {
+		err := model.Like(ch.ItemID, UserId)
+		if err != nil {
+			log.Println(err)
+			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		}
+		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	} else {
+		err := model.UnLike(ch.ItemID, UserId)
+		if err != nil {
+			log.Println(err)
+			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		}
+		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	}
-	ctx.JSON(http.StatusOK, resp)
+
 }

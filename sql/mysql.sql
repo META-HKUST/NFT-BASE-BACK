@@ -1,4 +1,3 @@
-
 CREATE TABLE `login`(
                         `email` VARCHAR(255) NOT NULL unique,
                         `passwd` VARCHAR(255) NOT NULL,
@@ -38,6 +37,11 @@ CREATE TABLE `collection` (
                               `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE `collection_item` (
+                                   `collection_id` bigint NOT NULL,
+                                   `item_id`  varchar(255) NOT NULL
+);
+
 CREATE TABLE `collection_label` (
                                     `label_id` bigint NOT NULL AUTO_INCREMENT,
                                     `collection_id` int NOT NULL,
@@ -66,13 +70,36 @@ CREATE TABLE `item_label` (
 
 CREATE TABLE `item_history` (
                                 `item_id` varchar(255) NOT NULL,
-                                `from`    varchar(255) NOT NULL,
+                                `from`    varchar(255),
                                 `to`      varchar(255) NOT NULL,
                                 `operation` varchar(255) NOT NULL,
-                                `time` timestamp NOT NULL
+                                `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `item_like` (
                              `item_id` varchar(255) NOT NULL,
                              `user_id`    varchar(255) NOT NULL
+);
+
+CREATE TABLE `item_vote` (
+                             `act_id` int not null,
+                             `item_id` varchar(255) NOT NULL,
+                             `user_id`    varchar(255) NOT NULL
+);
+
+CREATE TABLE `action` (
+                          `act_id` bigint NOT NULL AUTO_INCREMENT,
+                          `act_name` varchar(255) NOT NULL,
+                          `creater_id` varchar(255) NOT NULL,
+                          `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+                          `start_time` timestamp,
+                          `end_time` timestamp,
+                          `act_image`  varchar(255) NOT NULL,
+                          `description` varchar(255) NOT NULL,
+                          `item_num` int
+);
+
+CREATE TABLE `action_item` (
+                               `act_id` bigint NOT NULL,
+                               `item_id`  varchar(255) NOT NULL
 );

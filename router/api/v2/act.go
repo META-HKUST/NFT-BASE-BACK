@@ -1,7 +1,12 @@
 package v2
 
 import (
+	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/model"
+	"fmt"
+	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,6 +16,7 @@ type PostActCreateRequest struct {
 	Description string `json:"description" example:"It is funny"`
 	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
 	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40"`
+	ActImage    string `json:"act_image" example:"abc.com"`
 }
 
 // PostActCreate
@@ -26,33 +32,31 @@ type PostActCreateRequest struct {
 // @Security ApiKeyAuth
 // @Router       /act/create [POST]
 func PostActCreate(ctx *gin.Context) {
-	// var req PostActCreateRequest
-	// err := ctx.ShouldBindJSON(&req)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, err.Error())
-	// 	return
-	// }
-	// log.Println(req)
+	ch := PostActCreateRequest{}
+	ctx.BindJSON(&ch)
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"act_id":      1,
-			"act_name":    "FIRST ACT",
-			"creater_id":  "zwang-ust-hk",
-			"create_time": "2022-06-18 20:45:40",
-			"start_time":  "2022-06-20 20:45:40",
-			"end_time":    "2022-08-20 20:45:40",
-			"act_image":   "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F5c-HcdLMinTg3LvEwXYZYC-u5nN22Pn5ivTPYA4pVEsWJHU1rCobhUlHSFjZgCHPGSmcGMQGCrDCQU8BfSfygmL7Uol9MRQZt6-gqA%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=b61af932ff80dfea857abd3a4650f4f2",
-			"description": "FIRST ACT",
-			"item_num":    10,
-		},
-	})
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
+	data, err := model.AddAction(ch.ActName, UserId, ch.StartTime, ch.EndTime, ch.ActImage, ch.Description, 0)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
-type PostActDeleteRequest struct {
-	ActId string `json:"act_id" example:"1"`
+type ActRequest struct {
+	ActId int `json:"act_id" example:"1"`
 }
 
 // PostActDelete
@@ -67,19 +71,36 @@ type PostActDeleteRequest struct {
 // @Router       /act/delete [POST]
 // @Security ApiKeyAuth
 func PostActDelete(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{},
-	})
+	ch := ActRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	err := model.DeleteAction(ch.ActId)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+	}
+
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
 type PostActEditRequest struct {
-	ActID       string `json:"act_id" example:"1"`
+	ActId       int    `json:"act_id" example:"1"`
 	ActName     string `json:"act_name" example:"the first activity"`
 	Description string `json:"description" example:"It is funny"`
-	StartTime   string `json:"start_time" example:"2022-06-20 20:45:40"`
-	EndTime     string `json:"end_time" example:"2022-08-20 20:45:40"`
+	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
+	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40"`
+	ActImage    string `json:"act_image" example:"abc.com"`
 }
 
 // PostActEditRequest
@@ -95,21 +116,28 @@ type PostActEditRequest struct {
 // @Router       /act/edit [POST]
 // @Security ApiKeyAuth
 func PostActEdit(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"act_id":      1,
-			"act_name":    "FIRST ACT",
-			"creater_id":  "zwang-ust-hk",
-			"create_time": "2022-06-18 20:45:40",
-			"start_time":  "2022-06-20 20:45:40",
-			"end_time":    "2022-08-20 20:45:40",
-			"act_image":   "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F5c-HcdLMinTg3LvEwXYZYC-u5nN22Pn5ivTPYA4pVEsWJHU1rCobhUlHSFjZgCHPGSmcGMQGCrDCQU8BfSfygmL7Uol9MRQZt6-gqA%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=b61af932ff80dfea857abd3a4650f4f2",
-			"description": "FIRST ACT",
-			"item_num":    10,
-		},
-	})
+	ch := PostActEditRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	data, err := model.EditAction(ch.ActId, ch.ActName, ch.StartTime, ch.EndTime, ch.ActImage, ch.Description)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
 // GetActInfo
@@ -123,25 +151,32 @@ func PostActEdit(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /act/info [GET]
 func GetActInfo(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"act_id":      1,
-			"act_name":    "FIRST ACT",
-			"creater_id":  "zwang-ust-hk",
-			"create_time": "2022-06-18 20:45:40",
-			"start_time":  "2022-06-20 20:45:40",
-			"end_time":    "2022-08-20 20:45:40",
-			"act_image":   "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F5c-HcdLMinTg3LvEwXYZYC-u5nN22Pn5ivTPYA4pVEsWJHU1rCobhUlHSFjZgCHPGSmcGMQGCrDCQU8BfSfygmL7Uol9MRQZt6-gqA%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=b61af932ff80dfea857abd3a4650f4f2",
-			"description": "FIRST ACT",
-			"item_num":    10,
-		},
-	})
+	ch := ActRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	data, err := model.GetAction(ch.ActId)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
 type PostActUploadItemRequest struct {
-	ActID  string `json:"act_id" example:"1"`
+	ActID  int    `json:"act_id" example:"1"`
 	ItemID string `json:"item_id" example:"2"`
 }
 
@@ -157,11 +192,27 @@ type PostActUploadItemRequest struct {
 // @Router       /act/upload-item [POST]
 // @Security ApiKeyAuth
 func PostActUploadItem(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{},
-	})
+	ch := PostActUploadItemRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	err := model.UploadNFT(ch.ActID, ch.ItemID)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+	}
+
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
 // GetActItemList
@@ -227,9 +278,8 @@ func GetActItemList(ctx *gin.Context) {
 }
 
 type PostActVoteRequest struct {
-	ActID   string `json:"act_id" example:"1"`
-	ItemID  string `json:"item_id" example:"2"`
-	VoteNum int    `json:"vote_num" example:"3" default:"1"`
+	ActID  int    `json:"act_id" example:"1"`
+	ItemID string `json:"item_id" example:"2"`
 }
 
 // PostActVote
@@ -244,9 +294,35 @@ type PostActVoteRequest struct {
 // @Router       /act/vote [POST]
 // @Security ApiKeyAuth
 func PostActVote(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{},
-	})
+	ch := PostActUploadItemRequest{}
+	ctx.BindJSON(&ch)
+
+	res := base.Response{}
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+	fmt.Println(UserId)
+
+	bo, _ := model.DoesVote(ch.ActID, ch.ItemID, UserId)
+	if bo == false {
+		err := model.Vote(ch.ActID, ch.ItemID, UserId)
+		if err != nil {
+			log.Println(err)
+			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		}
+		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	} else {
+		err := model.UnVote(ch.ActID, ch.ItemID, UserId)
+		if err != nil {
+			log.Println(err)
+			ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		}
+		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	}
+
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }

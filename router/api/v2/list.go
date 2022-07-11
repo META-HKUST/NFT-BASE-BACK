@@ -2,6 +2,7 @@ package v2
 
 import (
 	"NFT-BASE-BACK/base"
+	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
 	"net/http"
 
@@ -40,10 +41,10 @@ type CollectionsList struct {
 }
 
 type ItemsList struct {
-	Data interface{} 	 `json:"data"`
-	Page     int         `json:"page"`
-	Size     int         `json:"size"`
-	Total    int         `json:"total"`
+	Data  interface{} `json:"data"`
+	Page  int         `json:"page"`
+	Size  int         `json:"size"`
+	Total int         `json:"total"`
 }
 
 type Collection struct {
@@ -268,12 +269,18 @@ func ItemList(ctx *gin.Context) {
 	rankTime, ok := ctx.Get("rank_time")
 	rankFavorite, ok := ctx.Get("rank_favorite")
 
-	items, code := service.GetItemList(pageNum.(int64),pageSize.(int64),category.(string),rankTime.(bool),rankFavorite.(bool),collectionId.(int))
+	items, code := service.GetItemList(pageNum.(int64), pageSize.(int64), category.(string), rankTime.(bool), rankFavorite.(bool), collectionId.(int))
 	if code != nil {
 		ctx.JSON(http.StatusInternalServerError, "database error")
 	}
 	resp.SetData(items)
 	ctx.JSON(http.StatusOK, resp.SetCode(0))
+}
+
+type ItemHistoryRequest struct {
+	PageNum  int64  `json:"page_num" example:"1"`
+	PageSize int64  `json:"page_size" example:"1"`
+	ItemID   string `json:"item_id" example:"2"`
 }
 
 // ItemHistory @Description  get all users in database
@@ -286,25 +293,21 @@ func ItemList(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item-history [GET]
 func ItemHistory(ctx *gin.Context) {
-	resp := ListResponse{
-		0,
-		"Operation succeed",
-		[]History{
-			{
-				"baofuhan-ust-hk",
-				"zwang-ust-hk",
-				"BFH",
-				"ZW",
-				"2022-06-16 20:45:40",
-			},
-			{
-				"baofuhan-ust-hk",
-				"zwang-ust-hk",
-				"BFH",
-				"ZW",
-				"2022-06-16 20:45:40",
-			},
-		},
+	var resp base.Response
+	var req ItemHistoryRequest
+
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
 	}
+
+	hs, err := model.GetItemHistory(req.PageNum, req.PageSize, req.ItemID)
+	if err != nil {
+		ctx.JSON(http.StatusOK, base.ServerError)
+	}
+	resp.SetCode(base.Success)
+	resp.SetData(hs)
 	ctx.JSON(http.StatusOK, resp)
+
 }
