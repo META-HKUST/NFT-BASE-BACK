@@ -250,7 +250,6 @@ func SingleItem(ctx *gin.Context) {
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item-list [GET]
-// @Security ApiKeyAuth
 func ItemList(ctx *gin.Context) {
 	var resp base.Response
 	pageNum, ok := ctx.Get("page_num")

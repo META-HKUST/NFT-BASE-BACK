@@ -60,7 +60,7 @@ type ActRequest struct {
 }
 
 // PostActDelete
-// @Description  deleta activity
+// @Description  delet activity
 // @Tags         act
 // @param        RequestParam body PostActDeleteRequest true "活动ID不可为空"
 // @Accept       json
@@ -103,7 +103,7 @@ type PostActEditRequest struct {
 	ActImage    string `json:"act_image" example:"abc.com"`
 }
 
-// PostActEditRequest
+// PostActEdit
 // @Description  edit activity
 // @Tags         act
 // @param        RequestParam body     PostActEditRequest true "ID不可为空，其他可为空"

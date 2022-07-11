@@ -51,8 +51,8 @@ func InitRouter() *gin.Engine {
 	}
 	tkRouter := routerV2.Group("/tk").Use(mw.JWTAuth())
 	{
-		tkRouter.POST("/transfer",mw.JWTAuth(), v2.PostTokenTransfer)
-		tkRouter.GET("/info", mw.JWTAuth(),v2.GetTokenInfo)
+		tkRouter.POST("/transfer", mw.JWTAuth(), v2.PostTokenTransfer)
+		tkRouter.GET("/info", mw.JWTAuth(), v2.GetTokenInfo)
 	}
 
 	listsRouter := routerV2.Group("/list")
@@ -61,7 +61,7 @@ func InitRouter() *gin.Engine {
 		listsRouter.GET("/collection", v2.SingleColletction)
 		listsRouter.GET("/collection-list", v2.CollectionList)
 		listsRouter.GET("/item", mw.JWTAuth(), v2.SingleItem)
-		listsRouter.GET("/item-list", mw.JWTAuth(), v2.ItemList)
+		listsRouter.GET("/item-list", v2.ItemList)
 		listsRouter.GET("/item-history", v2.ItemHistory)
 
 	}
@@ -73,7 +73,7 @@ func InitRouter() *gin.Engine {
 		actRouter.POST("/edit", mw.JWTAuth(), v2.PostActEdit)
 		actRouter.GET("/info", v2.GetActInfo)
 		actRouter.POST("/upload-item", mw.JWTAuth(), v2.PostActUploadItem)
-		actRouter.GET("/item-list", mw.JWTAuth(), v2.GetActItemList)
+		actRouter.GET("/item-list", v2.GetActItemList)
 		actRouter.POST("/vote", mw.JWTAuth(), v2.PostActVote)
 	}
 
