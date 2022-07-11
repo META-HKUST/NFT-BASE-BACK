@@ -46,6 +46,12 @@ definitions:
         example: mazhengwang-ust-hk
         type: string
     type: object
+  v2.ActRequest:
+    properties:
+      act_id:
+        example: 1
+        type: integer
+    type: object
   v2.CreateCollectionRequest:
     properties:
       banner_image:
@@ -330,6 +336,9 @@ definitions:
     type: object
   v2.PostActCreateRequest:
     properties:
+      act_image:
+        example: abc.com
+        type: string
       act_name:
         example: the first activity
         type: string
@@ -343,16 +352,13 @@ definitions:
         example: "2022-06-18 20:45:40"
         type: string
     type: object
-  v2.PostActDeleteRequest:
-    properties:
-      act_id:
-        example: "1"
-        type: string
-    type: object
   v2.PostActEditRequest:
     properties:
       act_id:
-        example: "1"
+        example: 1
+        type: integer
+      act_image:
+        example: abc.com
         type: string
       act_name:
         example: the first activity
@@ -361,17 +367,17 @@ definitions:
         example: It is funny
         type: string
       end_time:
-        example: "2022-08-20 20:45:40"
+        example: "2022-06-20 20:45:40"
         type: string
       start_time:
-        example: "2022-06-20 20:45:40"
+        example: "2022-06-18 20:45:40"
         type: string
     type: object
   v2.PostActUploadItemRequest:
     properties:
       act_id:
-        example: "1"
-        type: string
+        example: 1
+        type: integer
       item_id:
         example: "2"
         type: string
@@ -379,15 +385,11 @@ definitions:
   v2.PostActVoteRequest:
     properties:
       act_id:
-        example: "1"
-        type: string
+        example: 1
+        type: integer
       item_id:
         example: "2"
         type: string
-      vote_num:
-        default: 1
-        example: 3
-        type: integer
     type: object
   v2.PostTokenTransferRequest:
     properties:
@@ -526,7 +528,7 @@ paths:
         name: RequestParam
         required: true
         schema:
-          $ref: '#/definitions/v2.PostActDeleteRequest'
+          $ref: '#/definitions/v2.ActRequest'
       produces:
       - application/json
       responses:
@@ -1038,53 +1040,53 @@ paths:
       - application/json
       parameters:
       - description: page num
-        in: path
+        in: query
         name: page_num
         required: true
         type: integer
       - description: page size
-        in: path
+        in: query
         name: page_size
         required: true
         type: integer
       - description: user id
-        in: path
+        in: query
         name: user_id
         type: string
       - description: user like
-        in: path
+        in: query
         name: user_like
         type: boolean
       - description: user collect
-        in: path
+        in: query
         name: user_collect
         type: boolean
       - description: user create
-        in: path
+        in: query
         name: user_create
         type: boolean
       - description: category
-        in: path
+        in: query
         name: category
         type: string
       - description: keyword
-        in: path
+        in: query
         name: keyword
         type: string
       - description: rank favorite
-        in: path
+        in: query
         name: rank_favorite
         type: boolean
       - description: rank time
-        in: path
+        in: query
         name: rank_time
         type: boolean
       - description: collection id
-        in: path
+        in: query
         name: collection_id
         type: string
       - description: label
-        in: path
+        in: query
         name: label
         type: string
       produces:

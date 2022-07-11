@@ -59,10 +59,11 @@ type ActRequest struct {
 	ActId int `json:"act_id" example:"1"`
 }
 
+
 // PostActDelete
 // @Description  delet activity
 // @Tags         act
-// @param        RequestParam body PostActDeleteRequest true "活动ID不可为空"
+// @param        RequestParam body ActRequest true "活动ID不可为空"
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"

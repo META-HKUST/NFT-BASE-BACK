@@ -5,6 +5,7 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -221,7 +222,7 @@ func SingleItem(ctx *gin.Context) {
 
 	itemInfo, code := service.GetItem(itemId.(string))
 	if code != base.Success {
-		ctx.JSON(http.StatusOK, resp.SetCode(code))
+		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
 	}
 
@@ -232,18 +233,18 @@ func SingleItem(ctx *gin.Context) {
 
 // ItemList @Description  get all users in database
 // @Tags         list
-// @param 		 page_num   path   int   true   "page num"
-// @param 		 page_size   path   int   true   "page size"
-// @param 		 user_id   path   string   false   "user id"
-// @param 		 user_like   path   bool   false   "user like"
-// @param 		 user_collect   path   bool   false   "user collect"
-// @param 		 user_create   path   bool   false   "user create"
-// @param 		 category   path   string   false   "category"
-// @param 		 keyword   path   string   false   "keyword"
-// @param 		 rank_favorite   path   bool   false   "rank favorite"
-// @param 		 rank_time   path   bool   false   "rank time"
-// @param 		 collection_id   path   string   false   "collection id"
-// @param 		 label   path   string   false   "label"
+// @param 		 page_num   query   int   true   "page num"
+// @param 		 page_size  query   int   true   "page size"
+// @param 		 user_id   query   string   false   "user id"
+// @param 		 user_like  query   bool   false   "user like"
+// @param 		 user_collect   query   bool   false   "user collect"
+// @param 		 user_create   query   bool   false   "user create"
+// @param 		 category   query   string   false   "category"
+// @param 		 keyword   query   string   false   "keyword"
+// @param 		 rank_favorite   query   bool   false   "rank favorite"
+// @param 		 rank_time   query   bool   false   "rank time"
+// @param 		 collection_id   query   string   false   "collection id"
+// @param 		 label   query   string   false   "label"
 // @Accept       json
 // @Produce      json
 // @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
@@ -252,25 +253,36 @@ func SingleItem(ctx *gin.Context) {
 // @Router       /list/item-list [GET]
 func ItemList(ctx *gin.Context) {
 	var resp base.Response
-	pageNum, ok := ctx.Get("page_num")
-	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
-		return
-	}
-	pageSize, ok := ctx.Get("page_size")
+	_, ok := ctx.Get("email")
 	if !ok {
 		ctx.JSON(http.StatusInternalServerError, "auth email error")
 		return
 	}
 
-	category, ok := ctx.Get("category")
-	collectionId, ok := ctx.Get("collection_id")
-	rankTime, ok := ctx.Get("rank_time")
-	rankFavorite, ok := ctx.Get("rank_favorite")
+	pageNum := ctx.Query("page_num")
+	pageNumInt,_:= strconv.ParseInt(pageNum,10,64)
+	pageSize := ctx.Query("page_size")
+	pageSizeInt,_:= strconv.ParseInt(pageSize,10,64)
+	userId := ctx.Query("user_id")
+	userLike := ctx.Query("user_like")
+	userLikeBool,_:= strconv.ParseBool(userLike)
+	userCollect := ctx.Query("user_collect")
+	userCollectBool,_:= strconv.ParseBool(userCollect)
+	userCreate := ctx.Query("user_create")
+	userCreateBool,_:= strconv.ParseBool(userCreate)
+	category := ctx.Query("category")
+	keyword := ctx.Query("keyword")
+	rankFavorite := ctx.Query("rank_favorite")
+	rankFavoriteBool,_:= strconv.ParseBool(rankFavorite)
+	rankTime := ctx.Query("rank_time")
+	rankTimeBool,_:= strconv.ParseBool(rankTime)
+	collectionId := ctx.Query("collection_id")
+	collectionIdInt,_:= strconv.Atoi(collectionId)
 
-	items, code := service.GetItemList(pageNum.(int64), pageSize.(int64), category.(string), rankTime.(bool), rankFavorite.(bool), collectionId.(int))
+	items, code := service.GetItemList(pageNumInt,pageSizeInt,userId,userLikeBool,userCollectBool,userCreateBool,category,keyword,rankFavoriteBool,rankTimeBool,collectionIdInt)
 	if code != nil {
-		ctx.JSON(http.StatusInternalServerError, "database error")
+		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
+		return
 	}
 	resp.SetData(items)
 	ctx.JSON(http.StatusOK, resp.SetCode(0))
