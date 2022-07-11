@@ -96,12 +96,12 @@ type History struct {
 func UserList(ctx *gin.Context) {
 	var resp base.Response
 	pageNum := ctx.Query("page_num")
-	pageNumInt,_:= strconv.ParseInt(pageNum,10,64)
+	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
 	pageSize := ctx.Query("page_size")
-	pageSizeInt,_:= strconv.ParseInt(pageSize,10,64)
+	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
 	keyword := ctx.Query("keyword")
 
-	userList,err := service.GetUserListByKeyWord(keyword,pageNumInt,pageSizeInt)
+	userList, err := service.GetUserListByKeyWord(keyword, pageNumInt, pageSizeInt)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get user informations")
 		return
@@ -195,13 +195,9 @@ func CollectionList(ctx *gin.Context) {
 // @Router       /list/item [GET]
 func SingleItem(ctx *gin.Context) {
 	var resp base.Response
-	itemId, ok := ctx.Get("item_id")
-	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "Input parameter error")
-		return
-	}
+	itemId := ctx.Query("item_id")
 
-	itemInfo, code := service.GetItem(itemId.(string))
+	itemInfo, code := service.GetItem(itemId)
 	if code != base.Success {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
