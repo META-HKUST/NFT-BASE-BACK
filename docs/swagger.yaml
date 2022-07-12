@@ -58,6 +58,36 @@ definitions:
         example: 1
         type: integer
     type: object
+  v2.ActRes:
+    properties:
+      act_id:
+        example: 1
+        type: integer
+      act_image:
+        example: abc.com
+        type: string
+      act_name:
+        example: the first activity
+        type: string
+      create_time:
+        example: "2022-06-18 20:45:40"
+        type: string
+      creater_id:
+        example: ssscaxxadw05130
+        type: string
+      description:
+        example: It is funny
+        type: string
+      end_time:
+        example: "2022-06-20 20:45:40"
+        type: string
+      item_num:
+        example: 100
+        type: integer
+      start_time:
+        example: "2022-06-18 20:45:40"
+        type: string
+    type: object
   v2.CreateCollectionRequest:
     properties:
       banner_image:
@@ -487,11 +517,11 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
-  /act/act_count:
+  /act/act-count:
     get:
       consumes:
       - application/json
-      description: get activity item list
+      description: get action count
       produces:
       - application/json
       responses:
@@ -499,6 +529,28 @@ paths:
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.ActCount'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - act
+  /act/all-action:
+    get:
+      consumes:
+      - application/json
+      description: get all act
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ActRes'
         "400":
           description: Input error
           schema:

@@ -20,9 +20,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/act/act_count": {
+        "/act/act-count": {
             "get": {
-                "description": "get activity item list",
+                "description": "get action count",
                 "consumes": [
                     "application/json"
                 ],
@@ -37,6 +37,40 @@ const docTemplate = `{
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.ActCount"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/act/all-action": {
+            "get": {
+                "description": "get all act",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "act"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ActRes"
                         }
                     },
                     "400": {
@@ -1745,6 +1779,47 @@ const docTemplate = `{
                 "act_id": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "v2.ActRes": {
+            "type": "object",
+            "properties": {
+                "act_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "act_image": {
+                    "type": "string",
+                    "example": "abc.com"
+                },
+                "act_name": {
+                    "type": "string",
+                    "example": "the first activity"
+                },
+                "create_time": {
+                    "type": "string",
+                    "example": "2022-06-18 20:45:40"
+                },
+                "creater_id": {
+                    "type": "string",
+                    "example": "ssscaxxadw05130"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "It is funny"
+                },
+                "end_time": {
+                    "type": "string",
+                    "example": "2022-06-20 20:45:40"
+                },
+                "item_num": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "start_time": {
+                    "type": "string",
+                    "example": "2022-06-18 20:45:40"
                 }
             }
         },

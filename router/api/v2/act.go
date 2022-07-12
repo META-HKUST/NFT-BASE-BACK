@@ -338,19 +338,44 @@ type ActCount struct {
 }
 
 // GetActCount
-// @Description  get activity item list
+// @Description  get action count
 // @Tags         act
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ActCount  "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
-// @Router       /act/act_count [GET]
+// @Router       /act/act-count [GET]
 func GetActCount(ctx *gin.Context) {
 
 	res := base.Response{}
 
 	data, err := model.GetActionCount()
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+}
+
+// GetAllAct
+// @Description  get all act
+// @Tags         act
+// @Accept       json
+// @Produce      json
+// @Success 200  {object}   ActRes  "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Failure 400  {object}   Err1000       "Input error"
+// @Failure 500  {object}   Err2000       "Server error"
+// @Router       /act/all-action [GET]
+func GetAllAct(ctx *gin.Context) {
+
+	res := base.Response{}
+
+	data, err := model.GetAllAct()
 
 	if err != nil {
 		log.Println(err)

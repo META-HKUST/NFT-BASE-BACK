@@ -16,7 +16,7 @@ var (
 	// getItemList    = string()
 	// vote           = string()
 	getActionCount = string("select count(*) from action")
-
+	getAllAct      = string("select * from action")
 	getMaxActionId = string("select max(act_id) from action")
 )
 
@@ -131,6 +131,18 @@ func GetActionCount() (int, error) {
 		return -1, err
 	}
 	return a, nil
+}
+
+func GetAllAct() ([]Action, error) {
+	var Actions []Action
+
+	err := db.Select(&Actions, getAllAct)
+	if err != nil {
+		log.Println(err)
+		return []Action{}, err
+	}
+
+	return Actions, nil
 }
 
 func ItemList() {
