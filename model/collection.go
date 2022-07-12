@@ -3,13 +3,14 @@ package model
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
+	"fmt"
 	"log"
 )
 
 var (
 	getMaxCollectionId = string("select max(collection_id) from collection")
-	insertCollection   = string("insert into collection(collection_name ,logo_image ,feature_image ,banner_image ,items_count ,description ,owner, creater, created_at) values(?,?,?,?,?,?,?,?,?);")
-	queryCollection    = string("select collection_id, collection_name ,logo_image ,feature_image ,banner_image ,items_count ,description ,owner, creater, created_at from collection where collection_id=?;")
+	insertCollection   = string("insert into collection(collection_name ,logo_image ,feature_image ,banner_image ,items_count ,description ,owner, owner_name, created_at) values(?,?,?,?,?,?,?,?,?);")
+	queryCollection    = string("select collection_id, collection_name ,logo_image ,feature_image ,banner_image ,items_count ,description ,owner, owner_name, created_at from collection where collection_id=?;")
 
 	// edit collection
 	UpdateCollectionName = string("update collection set collection_name=? where collection_id=?;")
@@ -19,8 +20,13 @@ var (
 	UpdateDescription    = string("update collection set description=? where collection_id=?;")
 )
 
-func CreatCollection(collection_name string, logo_image string, feature_image string, banner_image string, items_count int, description string, owner string, creater string, created_at string) error {
-	result, e := db.Exec(insertCollection, collection_name, logo_image, feature_image, banner_image, items_count, description, owner, creater, created_at)
+func CreatCollection(collection_name string, logo_image string, feature_image string, banner_image string, items_count int, description string, owner string, owner_name string, created_at string) error {
+	owner_name, _ = GetUserName(owner)
+	fmt.Println("owner_name: ", owner_name)
+	if owner_name == "" {
+		owner_name = owner[0 : len(owner)-7]
+	}
+	result, e := db.Exec(insertCollection, collection_name, logo_image, feature_image, banner_image, items_count, description, owner, owner_name, created_at)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
 		return e

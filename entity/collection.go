@@ -17,6 +17,6 @@ type Collection struct {
 	// account description and create time
 	Description string `json:"description" db:"description"`
 	Owner       string `json:"owner" db:"owner"`
-	Creater     string `json:"creater" db:"creater"`
+	OwnerName   string `json:"owner_name" db:"owner_name"`
 	CreateTime  string `json:"created_at" db:"created_at"`
 }

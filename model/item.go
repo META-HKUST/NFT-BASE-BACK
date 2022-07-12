@@ -36,13 +36,13 @@ type ItemInfo struct {
 	ItemID       string   `json:"item_id" db:"item_id"`
 	ItemData     string   `json:"item_data" db:"item_data"`
 	CreatedTime  string   `json:"created_time" db:"created_at"`
-	Description  string   `db:"description"`
+	Description  string   `json:"description" db:"description"`
 	CollectionID int      `json:"collection_id" db:"collection_id"`
 	Category     string   `json:"category" db:"category"`
 	Label        []string `json:"label" db:"label"`
 	CreaterID    string   `json:"creater_id" db:"creater_id"`
-	OwnerID      string   `db:"owner_id"`
-	LikeCount    int      `db:"like_count"`
+	OwnerID      string   `json:"owner_id" db:"owner_id"`
+	LikeCount    int      `json:"like_count" db:"like_count"`
 }
 
 func CreateItem(item Item) (Item, error) {

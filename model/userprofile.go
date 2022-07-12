@@ -10,7 +10,8 @@ var (
 	getProfileByID    = string("select * from accounts where user_id=?;")
 	queryUserId       = string("select user_id from accounts where email=?;")
 	updateUserProfile = string("update accounts set user_name=?,banner_image=?,avatar_image=?,poison=?,organization=? where user_id=?;")
-	getProfileByKey = string("select user_id,email,user_name,banner_image,avatar_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
+	getProfileByKey   = string("select user_id,email,user_name,banner_image,avatar_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
+	queryUserName     = string("select user_name from accounts where user_id=?;")
 )
 
 type UserID struct {
@@ -38,6 +39,15 @@ type UserProfileInfo struct {
 	Organization     string `json:"organization" db:"organization"`
 	Token            uint64 `json:"token" db:"token"`
 	RegistrationTime string `json:"registration_time" db:"created_at"`
+}
+
+func GetUserName(UserId string) (string, error) {
+	var g string
+	err := db.Get(&g, queryUserName, UserId)
+	if err != nil {
+		return "", err
+	}
+	return g, nil
 }
 
 func EditProfile(email, username, organization, poison, avatar, banner string) (UserProfileInfo, base.ErrCode) {
@@ -77,13 +87,13 @@ func EditProfile(email, username, organization, poison, avatar, banner string) (
 		args = append(args, banner)
 	}
 	str = str[:len(str)-1]
-	str = str + " " +"where user_id=?;"
+	str = str + " " + "where user_id=?;"
 	args = append(args, userID)
-	params := make([]interface{},len(args))
-	for i,v := range args{
+	params := make([]interface{}, len(args))
+	for i, v := range args {
 		params[i] = v
 	}
-	result, e := db.Exec(str,params...)
+	result, e := db.Exec(str, params...)
 	if e != nil {
 		log.Println(base.UserProfileUpdateError, base.UserProfileUpdateError.String(), e)
 		return UserProfileInfo{}, base.UserProfileUpdateError
@@ -137,14 +147,13 @@ func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
 	return base.Success, p
 }
 
-
-func GetUserListByKey(keyword string,pageNum,pageSize int64,)([]UserProfile,error){
-	offset := (pageNum -1) * pageSize
-	var  userInfos []UserProfile
-	err := db.Select(&userInfos,getProfileByKey, keyword,pageSize,offset)
+func GetUserListByKey(keyword string, pageNum, pageSize int64) ([]UserProfile, error) {
+	offset := (pageNum - 1) * pageSize
+	var userInfos []UserProfile
+	err := db.Select(&userInfos, getProfileByKey, keyword, pageSize, offset)
 	if err != nil {
-		log.Println(base.QueryError, base.QueryError.String(),err)
-		return []UserProfile{},err
+		log.Println(base.QueryError, base.QueryError.String(), err)
+		return []UserProfile{}, err
 	}
-	return userInfos,nil
+	return userInfos, nil
 }

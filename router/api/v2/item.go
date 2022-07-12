@@ -27,7 +27,7 @@ type Item struct {
 	Label        []string `json:"label" example:"Music ,Comics"`
 	CreaterId    string   `json:"creater_id" example:"mingzheliu-ust-hk"`
 	OwnerId      string   `json:"owner_id" example:"mingzheliu-ust-hk"`
-	FavoriteNum  int64    `json:"favorite_num" example:"100"`
+	FavoriteNum  int64    `json:"like_count" example:"100"`
 	Favorite     bool     `json:"favorite" example:"false"`
 }
 

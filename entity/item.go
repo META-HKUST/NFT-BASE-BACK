@@ -17,6 +17,6 @@ type Item struct {
 	CreaterId string `json:"creater_id" example:"mazhengwang-ust-hk"`
 	OwnerId   string `json:"owner_id" example:"mazhengwang-ust-hk"`
 
-	FavoriteNum int  `json:"favorite_num" example:"100"`
+	FavoriteNum int  `json:"like_count" example:"100"`
 	Favorite    bool `json:"favorite" example:"false"`
 }

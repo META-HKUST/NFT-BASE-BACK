@@ -115,7 +115,7 @@ func UserList(ctx *gin.Context) {
 // @param 		 collection_id   query   string   true   "collection id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} Collection "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/collection [GET]
@@ -163,7 +163,7 @@ func CollectionList(ctx *gin.Context) {
 	rankTimeBool, _ := strconv.ParseBool(rankTime)
 	userId := ctx.Query("user_id")
 
-	collections, code := service.GetCollectionList(pageNumInt, pageSizeInt, userId,keyword,rankFavoriteBool,rankTimeBool,label)
+	collections, code := service.GetCollectionList(pageNumInt, pageSizeInt, userId, keyword, rankFavoriteBool, rankTimeBool, label)
 	if code != nil {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get collections information")
 		return
@@ -177,7 +177,7 @@ func CollectionList(ctx *gin.Context) {
 // @param 		 item_id   query   string   true   "item id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item [GET]

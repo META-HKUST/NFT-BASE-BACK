@@ -318,7 +318,7 @@
                     {
                         "type": "boolean",
                         "description": "whether sorted by time or not",
-                        "name": "rang_time",
+                        "name": "rank_time",
                         "in": "query",
                         "required": true
                     }
@@ -763,7 +763,7 @@
                     "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "$ref": "#/definitions/v2.ListResponse"
+                            "$ref": "#/definitions/v2.Collection"
                         }
                     },
                     "400": {
@@ -1813,6 +1813,60 @@
                 "start_time": {
                     "type": "string",
                     "example": "2022-06-18 20:45:40"
+                }
+            }
+        },
+        "v2.Collection": {
+            "type": "object",
+            "properties": {
+                "banner_image": {
+                    "type": "string",
+                    "example": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
+                },
+                "collection_id": {
+                    "type": "string",
+                    "example": "111111"
+                },
+                "collection_name": {
+                    "type": "string",
+                    "example": "Doodles"
+                },
+                "creation_time": {
+                    "type": "string",
+                    "example": "2022-06-16 20:45:40"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Commun"
+                },
+                "feature_image": {
+                    "type": "string",
+                    "example": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max\u0026h=2500\u0026w=2500\u0026auto=format\u0026s=61a1f05fd1f4a891c9b8fc197befc0a9"
+                },
+                "item_num": {
+                    "type": "integer",
+                    "example": 20
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Comics"
+                    ]
+                },
+                "logo_image": {
+                    "type": "string",
+                    "example": "https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max\u0026h=120\u0026w=120\u0026auto=format\u0026s=65b159799dcff448deaf9106b1ead13e"
+                },
+                "owner_id": {
+                    "type": "string",
+                    "example": "zezhending-ust-hk"
+                },
+                "owner_name": {
+                    "type": "string",
+                    "example": "ZZD"
                 }
             }
         },

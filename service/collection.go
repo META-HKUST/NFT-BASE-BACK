@@ -24,8 +24,8 @@ func CreateCollectionByAccount(UserId string, name string, logoImage string, fea
 		return base.ServerError, entity.Collection{}
 	}
 	cId, _ := model.GetMaxCollectionId()
-	c.CollectionId = cId
-	return base.Success, c
+	col, _ := model.GetCollection(cId)
+	return base.Success, col
 }
 
 func EditCollection(c entity.Collection) (base.ErrCode, entity.Collection) {
