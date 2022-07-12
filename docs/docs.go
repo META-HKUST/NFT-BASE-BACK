@@ -891,7 +891,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "$ref": "#/definitions/v2.ListResponse"
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
                     "400": {
@@ -1732,10 +1732,6 @@ const docTemplate = `{
                     "type": "boolean",
                     "example": false
                 },
-                "favorite_num": {
-                    "type": "integer",
-                    "example": 100
-                },
                 "item_data": {
                     "type": "string"
                 },
@@ -1757,6 +1753,10 @@ const docTemplate = `{
                         "Music",
                         "Comics"
                     ]
+                },
+                "like_count": {
+                    "type": "integer",
+                    "example": 100
                 },
                 "owner_id": {
                     "type": "string",
@@ -2155,10 +2155,6 @@ const docTemplate = `{
                     "type": "boolean",
                     "example": false
                 },
-                "favorite_num": {
-                    "type": "integer",
-                    "example": 100
-                },
                 "item_data": {
                     "type": "string",
                     "example": "https://img1.baidu.com/it/u=1783064339,1648739044\u0026fm=253\u0026fmt=auto\u0026app=138\u0026f=GIF?w=240\u0026h=240"
@@ -2180,6 +2176,10 @@ const docTemplate = `{
                         "Music ",
                         "Comics"
                     ]
+                },
+                "like_count": {
+                    "type": "integer",
+                    "example": 100
                 },
                 "owner_id": {
                     "type": "string",

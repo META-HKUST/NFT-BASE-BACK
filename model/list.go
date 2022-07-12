@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 )
@@ -25,7 +24,7 @@ type Collection struct {
 	Description    string   `json:"description" db:"description"`
 	ItemNum        int      `json:"item_num" db:"items_count"`
 	OwnerId        string   `json:"owner_id" db:"owner"`
-	OwnerName      string   `json:"owner_name" db:"creater"`
+	OwnerName      string   `json:"owner_name" db:"owner_name"`
 	CreationTime   string   `json:"creation_time" db:"created_at"`
 }
 
@@ -76,7 +75,7 @@ func GetItemList(page_num,page_size int64,userId string,userLike,userCollect,use
 		}
 		return items,nil
 	}
-	fmt.Println("执行")
+
 	if len(strconv.Itoa(collection_id)) >0 {
 		Condition = queryconditions + Condition + "and collection_id = ? limit ? offset ?;"
 
@@ -134,6 +133,16 @@ func GetCollectionList(page_num,page_size int64,userId string,keyword string,ran
 	}
 
 
+	if len(label) > 0 {
+		Condition = collectionByCondition +"where collection_id in ( select collection_id from collection_label where label like concat ('%',?,'%')) limit ? offset ?;"
+		err := db.Select(&collections, Condition,label,page_size,offset)
+		if err != nil {
+			log.Println(err)
+			return []Collection{}, err
+		}
+		return collections,nil
+	}
+
 	err := db.Select(&collections, queryCollections,page_size,offset)
 	if err != nil {
 		log.Println(err)
@@ -141,6 +150,5 @@ func GetCollectionList(page_num,page_size int64,userId string,keyword string,ran
 	}
 
 	return collections,nil
-
 
 }

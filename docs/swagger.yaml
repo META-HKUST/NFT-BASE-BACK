@@ -23,9 +23,6 @@ definitions:
       favorite:
         example: false
         type: boolean
-      favorite_num:
-        example: 100
-        type: integer
       item_data:
         type: string
       item_id:
@@ -42,6 +39,9 @@ definitions:
         items:
           type: string
         type: array
+      like_count:
+        example: 100
+        type: integer
       owner_id:
         example: mazhengwang-ust-hk
         type: string
@@ -334,9 +334,6 @@ definitions:
       favorite:
         example: false
         type: boolean
-      favorite_num:
-        example: 100
-        type: integer
       item_data:
         example: https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240
         type: string
@@ -353,6 +350,9 @@ definitions:
         items:
           type: string
         type: array
+      like_count:
+        example: 100
+        type: integer
       owner_id:
         example: mingzheliu-ust-hk
         type: string
@@ -1109,7 +1109,7 @@ paths:
         "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            $ref: '#/definitions/v2.ListResponse'
+            $ref: '#/definitions/v2.ItemResponse'
         "400":
           description: Input error
           schema:
