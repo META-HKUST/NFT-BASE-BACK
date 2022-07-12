@@ -33,7 +33,7 @@ CREATE TABLE `collection` (
                               `items_count` int,
                               `description` varchar(255),
                               `owner` varchar(255),
-                              `creater` varchar(255),
+                              `owner_name` varchar(255),
                               `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
