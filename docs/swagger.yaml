@@ -193,7 +193,7 @@ definitions:
       description:
         example: A very cute pixel bear with hammer
         type: string
-      item_data:
+      item_id:
         example: "1001"
         type: string
       item_name:
@@ -925,31 +925,31 @@ paths:
       - application/json
       parameters:
       - description: keyword
-        in: path
+        in: query
         name: keyword
         type: string
       - description: rank favorite
-        in: path
+        in: query
         name: rank_favorite
         type: boolean
       - description: rank time
-        in: path
+        in: query
         name: rank_time
         type: boolean
       - description: user id
-        in: path
+        in: query
         name: user_id
         type: string
       - description: label
-        in: path
+        in: query
         name: label
         type: string
       - description: page num
-        in: path
+        in: query
         name: page_num
         type: integer
       - description: page size
-        in: path
+        in: query
         name: page_size
         type: integer
       produces:

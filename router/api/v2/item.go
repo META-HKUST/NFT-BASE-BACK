@@ -171,7 +171,7 @@ func CreateItem(ctx *gin.Context) {
 }
 
 type EditParams struct {
-	ItemId       string   `json:"item_data" example:"1001"`
+	ItemId       string   `json:"item_id" example:"1001"`
 	ItemName     string   `json:"item_name" example:"Pixel Bear With Hammer"`
 	Description  string   `json:"description" example:"A very cute pixel bear with hammer"`
 	CollectionId string   `json:"collection_id" example:"Pixel Bear"`

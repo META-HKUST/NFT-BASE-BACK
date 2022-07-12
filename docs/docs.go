@@ -736,43 +736,43 @@ const docTemplate = `{
                         "type": "string",
                         "description": "keyword",
                         "name": "keyword",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "rank favorite",
                         "name": "rank_favorite",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "rank time",
                         "name": "rank_time",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "user id",
                         "name": "user_id",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "label",
                         "name": "label",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "page num",
                         "name": "page_num",
-                        "in": "path"
+                        "in": "query"
                     },
                     {
                         "type": "integer",
                         "description": "page size",
                         "name": "page_size",
-                        "in": "path"
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1866,7 +1866,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "A very cute pixel bear with hammer"
                 },
-                "item_data": {
+                "item_id": {
                     "type": "string",
                     "example": "1001"
                 },

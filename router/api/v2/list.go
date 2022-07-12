@@ -134,13 +134,13 @@ func SingleColletction(ctx *gin.Context) {
 
 // CollectionList @Description  get all users in database
 // @Tags         list
-// @param 		 keyword   path   string   false   "keyword"
-// @param 		 rank_favorite   path   bool   false   "rank favorite"
-// @param 		 rank_time   path   bool   false   "rank time"
-// @param 		 user_id   path   string   false   "user id"
-// @param 		 label   path   string   false   "label"
-// @param 		 page_num   path   int   false   "page num"
-// @param 		 page_size   path   int   false   "page size"
+// @param 		 page_num   query   int   true   "page num"
+// @param 		 page_size   query   int   true   "page size"
+// @param 		 keyword   query   string   false   "keyword"
+// @param 		 rank_favorite   query   bool   false   "rank favorite"
+// @param 		 rank_time   query   bool   false   "rank time"
+// @param 		 user_id   query   string   false   "user id"
+// @param 		 label   query   string   false   "label"
 // @Accept       json
 // @Produce      json
 // @Success 200 {object} ListResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
@@ -148,40 +148,28 @@ func SingleColletction(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/collection-list [GET]
 func CollectionList(ctx *gin.Context) {
-	resp := ListResponse{
-		0,
-		"Operation succeed",
-		CollectionsList{
-			[]CollectionInfo{
-				{
-					"Doodles",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-					"A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Commun",
-					[]string{"Comics"},
-					20,
-					"ZZD",
-					"2022-06-16 20:45:40",
-				},
-				{
-					"MAYC",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2F7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ%3Ds10000?fit=max&h=120&w=120&auto=format&s=65b159799dcff448deaf9106b1ead13e",
-					"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9",
-					"The MUTANT APE YACHT CLUB is a collection of up to 20,000 Mutant Apes that can only be created by exposing an existing Bored Ape to a vial of MUTANT SERUM or by minting a Mutant Ape in the public sale.",
-					[]string{"Comics"},
-					20,
-					"ZW",
-					"2022-06-16 20:45:40",
-				},
-			},
-			1,
-			10,
-			1,
-		},
+
+	var resp base.Response
+
+	pageNum := ctx.Query("page_num")
+	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
+	pageSize := ctx.Query("page_size")
+	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
+	label := ctx.Query("label")
+	keyword := ctx.Query("keyword")
+	rankFavorite := ctx.Query("rank_favorite")
+	rankFavoriteBool, _ := strconv.ParseBool(rankFavorite)
+	rankTime := ctx.Query("rank_time")
+	rankTimeBool, _ := strconv.ParseBool(rankTime)
+	userId := ctx.Query("user_id")
+
+	collections, code := service.GetCollectionList(pageNumInt, pageSizeInt, userId,keyword,rankFavoriteBool,rankTimeBool,label)
+	if code != nil {
+		ctx.JSON(http.StatusInternalServerError, "Failed to get collections information")
+		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	resp.SetData(collections)
+	ctx.JSON(http.StatusOK, resp.SetCode(0))
 }
 
 // SingleItem @Description  get all users in database

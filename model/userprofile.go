@@ -9,8 +9,8 @@ var (
 	//edit user profile
 	getProfileByID    = string("select * from accounts where user_id=?;")
 	queryUserId       = string("select user_id from accounts where email=?;")
-	updateUserProfile = string("update accounts set user_name=?,banner_image=?,logo_image=?,poison=?,organization=? where user_id=?;")
-	getProfileByKey = string("select * from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
+	updateUserProfile = string("update accounts set user_name=?,banner_image=?,avatar_image=?,poison=?,organization=? where user_id=?;")
+	getProfileByKey = string("select user_id,email,user_name,banner_image,avatar_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
 )
 
 type UserID struct {
@@ -19,12 +19,12 @@ type UserID struct {
 
 type UserProfile struct {
 	UserID           string `json:"user_id" db:"user_id"`
+	UserEmail        string `json:"email" db:"email"`
 	UserName         string `json:"user_name" db:"user_name"`
 	BannerImage      string `json:"banner_image" db:"banner_image"`
-	LogoImage        string `json:"logo_image" db:"logo_image"`
+	LogoImage        string `json:"logo_image" db:"avatar_image"`
 	Poison           string `json:"poison" db:"poison"`
 	Organization     string `json:"organization" db:"organization"`
-	Token            uint64 `json:"token" db:"token"`
 	RegistrationTime string `json:"registration_time" db:"created_at"`
 }
 
@@ -33,14 +33,14 @@ type UserProfileInfo struct {
 	UserEmail        string `json:"email" db:"email"`
 	UserName         string `json:"user_name" db:"user_name"`
 	BannerImage      string `json:"banner_image" db:"banner_image"`
-	LogoImage        string `json:"logo_image" db:"logo_image"`
+	LogoImage        string `json:"logo_image" db:"avatar_image"`
 	Poison           string `json:"poison" db:"poison"`
 	Organization     string `json:"organization" db:"organization"`
 	Token            uint64 `json:"token" db:"token"`
 	RegistrationTime string `json:"registration_time" db:"created_at"`
 }
 
-func EditProfile(email, username, organization, poison, logo, banner string) (UserProfileInfo, base.ErrCode) {
+func EditProfile(email, username, organization, poison, avatar, banner string) (UserProfileInfo, base.ErrCode) {
 	//p := UserProfileInfo{}
 	userID, err := GetUserIDByEmail(email)
 	if err != nil {
@@ -67,9 +67,9 @@ func EditProfile(email, username, organization, poison, logo, banner string) (Us
 		str = str + "poison=?,"
 		args = append(args, poison)
 	}
-	if logo != "" {
-		str = str + "logo_image=?,"
-		args = append(args, logo)
+	if avatar != "" {
+		str = str + "avatar_image=?,"
+		args = append(args, avatar)
 	}
 
 	if banner != "" {
