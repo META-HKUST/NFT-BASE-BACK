@@ -46,6 +46,12 @@ definitions:
         example: mazhengwang-ust-hk
         type: string
     type: object
+  v2.ActCount:
+    properties:
+      act_count:
+        example: 100
+        type: integer
+    type: object
   v2.ActRequest:
     properties:
       act_id:
@@ -481,6 +487,28 @@ info:
   title: HKUST-NFT
   version: "1.0"
 paths:
+  /act/act_count:
+    get:
+      consumes:
+      - application/json
+      description: get activity item list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ActCount'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - act
   /act/create:
     post:
       consumes:

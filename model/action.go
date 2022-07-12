@@ -123,6 +123,16 @@ func UploadNFT(act_id int, item_id string) error {
 	return nil
 }
 
+func GetActionCount() (int, error) {
+	var a int
+	err := db.Get(&a, getActionCount)
+	if err != nil {
+		log.Println(err)
+		return -1, err
+	}
+	return a, nil
+}
+
 func ItemList() {
 
 }

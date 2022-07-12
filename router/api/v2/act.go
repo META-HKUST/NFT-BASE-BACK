@@ -320,3 +320,44 @@ func PostActVote(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	}
 }
+
+type ActRes struct {
+	ActId       int    `json:"act_id" example:"1"`
+	ActName     string `json:"act_name" example:"the first activity"`
+	CreaterId   string `json:"creater_id" example:"ssscaxxadw05130"`
+	CreateTime  string `json:"create_time" example:"2022-06-18 20:45:40"`
+	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
+	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40"`
+	ActImage    string `json:"act_image" example:"abc.com"`
+	Description string `json:"description" example:"It is funny"`
+	ItemNum     int    `json:"item_num" example:"100"`
+}
+
+type ActCount struct {
+	ActCount int `json:"act_count" example:"100"`
+}
+
+// GetActCount
+// @Description  get activity item list
+// @Tags         act
+// @Accept       json
+// @Produce      json
+// @Success 200  {object}   ActCount  "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Failure 400  {object}   Err1000       "Input error"
+// @Failure 500  {object}   Err2000       "Server error"
+// @Router       /act/act_count [GET]
+func GetActCount(ctx *gin.Context) {
+
+	res := base.Response{}
+
+	data, err := model.GetActionCount()
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+}

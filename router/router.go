@@ -75,6 +75,8 @@ func InitRouter() *gin.Engine {
 		actRouter.POST("/upload-item", mw.JWTAuth(), v2.PostActUploadItem)
 		actRouter.GET("/item-list", v2.GetActItemList)
 		actRouter.POST("/vote", mw.JWTAuth(), v2.PostActVote)
+		actRouter.GET("/act_count", v2.GetActCount)
+
 	}
 
 	uploadRouter := routerV2.Group("/upload")

@@ -67,8 +67,8 @@ CREATE TABLE `item_label` (
 
 CREATE TABLE `item_history` (
                                 `item_id` varchar(255) NOT NULL,
-                                `from`    varchar(255),
-                                `to`      varchar(255) NOT NULL,
+                                `from_id`    varchar(255),
+                                `to_id`      varchar(255) NOT NULL,
                                 `operation` varchar(255) NOT NULL,
                                 `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

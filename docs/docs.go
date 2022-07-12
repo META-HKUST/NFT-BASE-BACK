@@ -20,6 +20,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/act/act_count": {
+            "get": {
+                "description": "get activity item list",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "act"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ActCount"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
         "/act/create": {
             "post": {
                 "security": [
@@ -1693,6 +1727,15 @@ const docTemplate = `{
                 "owner_id": {
                     "type": "string",
                     "example": "mazhengwang-ust-hk"
+                }
+            }
+        },
+        "v2.ActCount": {
+            "type": "object",
+            "properties": {
+                "act_count": {
+                    "type": "integer",
+                    "example": 100
                 }
             }
         },
