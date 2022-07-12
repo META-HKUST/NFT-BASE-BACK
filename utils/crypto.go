@@ -3,6 +3,8 @@ package utils
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"encoding/base64"
+	"fmt"
 )
 
 
@@ -35,5 +37,8 @@ func Decrypt(cipherByte []byte, keyText string) (plainText string, err error) {
 	plainByte := make([]byte, len(cipherByte))
 	cfbdec.XORKeyStream(plainByte, cipherByte)
 	plainText = string(plainByte)
+	fmt.Println(base64.StdEncoding.EncodeToString(plainByte))
+
+
 	return
 }

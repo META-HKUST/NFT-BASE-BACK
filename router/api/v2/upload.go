@@ -4,19 +4,21 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/fileservice"
 	"NFT-BASE-BACK/nftstorage"
+	"NFT-BASE-BACK/service"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 type CosResponse struct {
 	Url string `json:"url"`
-	//UrlSignature	string	`json:"url_signature"`
+	UrlSignature	string	`json:"url_signature"`
 }
 
 type CosAndIpfsResponse struct {
 	UrlIpfs string `json:"url_ipfs"`
 	UrlCos  string `json:"url_cos"`
-	//UrlSignature	string	`json:"url_signature"`
+	UrlSignature	string	`json:"url_signature"`
 }
 
 // UploadToCos @Description  upload data: 上传数据到图片服务器cos
@@ -34,19 +36,24 @@ func UploadToCos(ctx *gin.Context) {
 	file, header, _ := ctx.Request.FormFile("data")
 
 	name := fileservice.DIRECTORY + "/" + header.Filename
-	_, url, err := fileservice.Upload(name, file)
+
+	//_, url, err := fileservice.Upload(name, file)
+	Url,encryptUrl,err := service.Upload(name, file)
 	if err != nil {
+		fmt.Println(err)
 		ctx.JSON(1000, resp)
+		return
 	}
 	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
 	//if err != nil {
 	//	fmt.Println(err)
 	//}
-
 	resp.Code = 0
 	resp.Msg = "Operation Succeed"
 	resp.Data = CosResponse{
-		Url: url.String(),
+		Url: Url,
+		UrlSignature:encryptUrl,
+
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -66,7 +73,7 @@ func UploadToIpfs(ctx *gin.Context) {
 	file, header, _ := ctx.Request.FormFile("data")
 
 	name := fileservice.DIRECTORY + "/" + header.Filename
-	_, url, _ := fileservice.Upload(name, file)
+	Url,encryptUrl,_:= service.Upload(name, file)
 	//apikey := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDE0REE3N0E4Y0VFZWIwNmY2OTZEQUIzZjFCMkQzODZCZTRiMUNjOTkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY1MTQ1MDIyNjQ1MiwibmFtZSI6Im5mdC1zdG9yYWdlLXRlc3QifQ.cua-DSWuivlAVRSVxzVOR6pwCaavf5VVifai4zUyG9g"
 	client := http.Client{}
 	nftService := nftstorage.NewNFTService(fileservice.COSCONFIG.ApiKey, &client)
@@ -81,7 +88,8 @@ func UploadToIpfs(ctx *gin.Context) {
 
 	fileResp := CosAndIpfsResponse{
 		ipfsResp.Value.Cid,
-		url.String(),
+		Url,
+		encryptUrl,
 	}
 	resp.Code = 0
 	resp.Msg = "Operation Succeed"

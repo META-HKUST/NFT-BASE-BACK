@@ -733,6 +733,20 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "page num",
+                        "name": "page_num",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
                         "type": "string",
                         "description": "keyword",
                         "name": "keyword",
@@ -760,18 +774,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "label",
                         "name": "label",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "page num",
-                        "name": "page_num",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "page size",
-                        "name": "page_size",
                         "in": "query"
                     }
                 ],

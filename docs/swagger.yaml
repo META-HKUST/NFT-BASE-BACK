@@ -924,6 +924,16 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: page num
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - description: page size
+        in: query
+        name: page_size
+        required: true
+        type: integer
       - description: keyword
         in: query
         name: keyword
@@ -944,14 +954,6 @@ paths:
         in: query
         name: label
         type: string
-      - description: page num
-        in: query
-        name: page_num
-        type: integer
-      - description: page size
-        in: query
-        name: page_size
-        type: integer
       produces:
       - application/json
       responses:
