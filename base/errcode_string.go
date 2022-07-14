@@ -23,6 +23,7 @@ func _() {
 	_ = x[GenTokenError-1104]
 	_ = x[LackTokenError-1105]
 	_ = x[UserTokenError-1105]
+	_ = x[EnrollFail-1106]
 	_ = x[GetPersonError-1201]
 	_ = x[StoreEmailTokenError-1202]
 	_ = x[ActivateEmailError-1203]
@@ -33,21 +34,33 @@ func _() {
 	_ = x[TokenAlreadyActivated-1208]
 	_ = x[WrongVerifyCode-1301]
 	_ = x[ServerError-2000]
+	_ = x[UserIDNotExist-3000]
+	_ = x[UserProfileUpdateError-3001]
+	_ = x[BalanceNotEnough-3002]
+	_ = x[UpdateBalanceError-3003]
+	_ = x[EditItemError-4001]
+	_ = x[GetItemError-4002]
+	_ = x[EmptyInput-1401]
 }
 
 const (
 	_ErrCode_name_0 = "Operation succeed"
 	_ErrCode_name_1 = "Input ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failed"
-	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request header"
+	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failed"
 	_ErrCode_name_3 = "Can not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activated"
 	_ErrCode_name_4 = "The verify code is invalid or expired"
-	_ErrCode_name_5 = "Server Error"
+	_ErrCode_name_5 = "Invalid Input: one of the parameters is empty"
+	_ErrCode_name_6 = "Server Error"
+	_ErrCode_name_7 = "UserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failed"
+	_ErrCode_name_8 = "EditItemErrorGetItemError"
 )
 
 var (
 	_ErrCode_index_1 = [...]uint8{0, 11, 36, 68, 85, 99, 123, 152, 174}
-	_ErrCode_index_2 = [...]uint8{0, 29, 79, 145, 184, 212}
+	_ErrCode_index_2 = [...]uint8{0, 29, 79, 145, 184, 212, 237}
 	_ErrCode_index_3 = [...]uint16{0, 35, 58, 85, 127, 177, 200, 237, 269}
+	_ErrCode_index_7 = [...]uint8{0, 14, 35, 68, 83}
+	_ErrCode_index_8 = [...]uint8{0, 13, 25}
 )
 
 func (i ErrCode) String() string {
@@ -57,7 +70,7 @@ func (i ErrCode) String() string {
 	case 1000 <= i && i <= 1007:
 		i -= 1000
 		return _ErrCode_name_1[_ErrCode_index_1[i]:_ErrCode_index_1[i+1]]
-	case 1101 <= i && i <= 1105:
+	case 1101 <= i && i <= 1106:
 		i -= 1101
 		return _ErrCode_name_2[_ErrCode_index_2[i]:_ErrCode_index_2[i+1]]
 	case 1201 <= i && i <= 1208:
@@ -65,8 +78,16 @@ func (i ErrCode) String() string {
 		return _ErrCode_name_3[_ErrCode_index_3[i]:_ErrCode_index_3[i+1]]
 	case i == 1301:
 		return _ErrCode_name_4
-	case i == 2000:
+	case i == 1401:
 		return _ErrCode_name_5
+	case i == 2000:
+		return _ErrCode_name_6
+	case 3000 <= i && i <= 3003:
+		i -= 3000
+		return _ErrCode_name_7[_ErrCode_index_7[i]:_ErrCode_index_7[i+1]]
+	case 4001 <= i && i <= 4002:
+		i -= 4001
+		return _ErrCode_name_8[_ErrCode_index_8[i]:_ErrCode_index_8[i+1]]
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}

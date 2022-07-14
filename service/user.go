@@ -5,6 +5,7 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/sdk/service"
 	"NFT-BASE-BACK/utils"
+	"crypto/md5"
 	"fmt"
 	"log"
 	"strings"
@@ -60,12 +61,13 @@ func Register(p model.Person) base.ErrCode {
 	// TODO (@mingzhe): associate the certificate with user info
 
 	//p.ActivateEmailToken()
+	// check input
 	p1, _ := model.GetPerson(p.Email)
 	if p.Email == "" {
-		return base.InputError
+		return base.EmptyInput
 	}
 	if p.Passwd == "" {
-		return base.InputError
+		return base.EmptyInput
 	}
 
 	if p1.Email == p.Email {
@@ -75,32 +77,50 @@ func Register(p model.Person) base.ErrCode {
 		}
 	}
 
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte(p.Passwd))
+	Result := Md5Inst.Sum([]byte(""))
+
+	p.Passwd = fmt.Sprintf("%x", Result)
+
 	if err := p.Register(); err != base.Success {
-		log.Println(err.String())
+		log.Println(err)
 		return base.ErrCode(err)
 	}
 	name := "Sir/Madam"
 	if err := RegisterEmailToken(p, name); err != base.Success {
-		log.Println(err.String())
+		log.Println(err)
 		return base.ErrCode(err)
 	}
 
-	// TODO: store UserId and check if it's unique
 	t1 := strings.Replace(p.Email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
 
-	model.UpdateId(p.Email, UserId)
-	model.InsertAccount(p.Email, UserId)
-
+	e1 := model.UpdateId(p.Email, UserId)
+	if e1 != nil {
+		log.Println(e1)
+		return base.ServerError
+	}
+	e2 := model.InsertAccount(p.Email, UserId)
+	if e2 != nil {
+		log.Println(e2)
+		return base.ServerError
+	}
 	err := service.Enroll(UserId)
 	if err != nil {
-		return base.ServerError
+		return base.EnrollFail
 	}
 
 	return base.Success
 }
 
 func Login(p model.Person) (base.ErrCode, string, string) {
+
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte(p.Passwd))
+	Result := Md5Inst.Sum([]byte(""))
+
+	p.Passwd = fmt.Sprintf("%x", Result)
 
 	if err := p.Login(); err != base.Success {
 		return base.InputError, "", ""

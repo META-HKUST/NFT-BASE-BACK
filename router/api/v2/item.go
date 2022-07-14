@@ -7,6 +7,7 @@ import (
 	"NFT-BASE-BACK/sdk"
 	"NFT-BASE-BACK/sdk/pb"
 	"NFT-BASE-BACK/service"
+	"NFT-BASE-BACK/utils"
 	"context"
 	"fmt"
 	"log"
@@ -57,6 +58,13 @@ type CreateParamsResponse struct {
 	Data entity.Item `json:"data"`
 }
 
+type ItemRes struct {
+	Item            interface{} `json:"item" example:"0"`
+	Collection_name string      `json:"collection_Name" example:"0"`
+	Owner_name      string      `json:"owner_Name" example:"0"`
+	Creater_name    string      `json:"creater_Name" example:"0"`
+}
+
 // CreateItem @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
 // @Tags         item
 // @param 		 param_request  body  CreateParams   true   "info needed to upload"
@@ -72,6 +80,20 @@ func CreateItem(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	// check empty
+	ss := append([]string{}, req.ItemName, req.ItemDataCos, req.ItemDataIpfs, req.ItemDataSignature, req.Description, req.Category)
+	if utils.CheckAnyEmpty(ss) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+	// check empty
+	if utils.CheckIntEmpty(req.CollectionId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
 		return
 	}
 
@@ -141,31 +163,37 @@ func CreateItem(ctx *gin.Context) {
 	// 在URI里面写数据
 	// ？？
 
-	// 组装response
-	resp := CreateParamsResponse{
-		Code: 0,
-		Msg:  "Operation succeed",
-		Data: entity.Item{
-			ItemName:    ret.ItemName,
-			ItemID:      ret.ItemID,
-			ItemData:    ret.ItemData,
-			CreateTime:  ret.CreatedAt,
-			Description: ret.Description,
+	baseItem := entity.Item{
+		ItemName:    ret.ItemName,
+		ItemID:      ret.ItemID,
+		ItemData:    ret.ItemData,
+		CreateTime:  ret.CreatedAt,
+		Description: ret.Description,
 
-			CollectionId: ret.CollectionID,
-			// CollectionName: ,
-			Category: ret.Category,
-			Label:    req.Label,
+		CollectionId: ret.CollectionID,
+		// CollectionName: ,
+		Category: ret.Category,
+		Label:    req.Label,
 
-			CreaterId: ret.CreaterID,
-			OwnerId:   ret.OwnerID,
+		CreaterId: ret.CreaterID,
+		OwnerId:   ret.OwnerID,
 
-			FavoriteNum: 0,
-			Favorite:    false,
-		},
+		FavoriteNum: 0,
+		Favorite:    false,
 	}
-
-	model.AddMintHistory(ret.ItemID, ret.CreaterID)
+	collectionName, _ := model.GetCollectionName(baseItem.CollectionId)
+	ownerName, _ := model.GetUserName(baseItem.OwnerId)
+	createrName, _ := model.GetUserName(baseItem.CreaterId)
+	resData := ItemRes{
+		baseItem,
+		collectionName,
+		ownerName,
+		createrName,
+	}
+	// 组装response
+	resp := base.Response{}
+	resp.SetCode(base.Success)
+	resp.SetData(resData)
 
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -197,14 +225,29 @@ func EditItem(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err)
 		return
 	}
+	// check empty
+	if utils.CheckEmpty(req.ItemId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 
 	itemInfo, code := service.EditItem(req.ItemId, req.ItemName, req.Description, req.CollectionId, req.Label)
 	if code != base.Success {
 		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
 		return
 	}
+	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
+	ownerName, _ := model.GetUserName(itemInfo.OwnerID)
+	createrName, _ := model.GetUserName(itemInfo.CreaterID)
+	resData := ItemRes{
+		itemInfo,
+		collectionName,
+		ownerName,
+		createrName,
+	}
 	resp.SetCode(code)
-	resp.SetData(itemInfo)
+	resp.SetData(resData)
 	ctx.JSON(http.StatusOK, resp)
 }
 
@@ -234,6 +277,14 @@ func TransferItem(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	// check empty
+	ss := append([]string{}, req.ItemId, req.ToUserId)
+	if utils.CheckAnyEmpty(ss) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
 		return
 	}
 
@@ -274,29 +325,40 @@ func TransferItem(ctx *gin.Context) {
 		return
 	}
 
-	// 组装response
-	resp := CreateParamsResponse{
-		Code: 0,
-		Msg:  "Operation succeed",
-		Data: entity.Item{
-			ItemName:    ret.ItemName,
-			ItemID:      ret.ItemID,
-			ItemData:    ret.ItemData,
-			CreateTime:  ret.CreatedAt,
-			Description: ret.Description,
+	likeCount, _ := model.GetLikeCount(ret.ItemID)
+	baseItem := entity.Item{
+		ItemName:    ret.ItemName,
+		ItemID:      ret.ItemID,
+		ItemData:    ret.ItemData,
+		CreateTime:  ret.CreatedAt,
+		Description: ret.Description,
 
-			CollectionId: ret.CollectionID,
-			// CollectionName: ,
-			Category: ret.Category,
-			Label:    ret_label,
+		CollectionId: ret.CollectionID,
+		// CollectionName: ,
+		Category: ret.Category,
+		Label:    ret_label,
 
-			CreaterId: ret.CreaterID,
-			OwnerId:   ret.OwnerID,
+		CreaterId: ret.CreaterID,
+		OwnerId:   ret.OwnerID,
 
-			FavoriteNum: 0,
-			Favorite:    false,
-		},
+		FavoriteNum: likeCount,
+		Favorite:    false,
 	}
+
+	collectionName, _ := model.GetCollectionName(baseItem.CollectionId)
+	ownerName, _ := model.GetUserName(baseItem.OwnerId)
+	createrName, _ := model.GetUserName(baseItem.CreaterId)
+	resData := ItemRes{
+		baseItem,
+		collectionName,
+		ownerName,
+		createrName,
+	}
+	// 组装response
+	resp := base.Response{}
+	resp.SetCode(base.Success)
+	resp.SetData(resData)
+
 	model.AddTransferHistory(ret.ItemID, username, req.ToUserId)
 
 	ctx.JSON(http.StatusOK, resp)
@@ -319,7 +381,12 @@ type LikeRequest struct {
 func LikeItem(ctx *gin.Context) {
 	ch := PostActUploadItemRequest{}
 	ctx.BindJSON(&ch)
-
+	// check empty
+	if utils.CheckEmpty(ch.ItemID) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 	res := base.Response{}
 
 	s, _ := ctx.Get("email")

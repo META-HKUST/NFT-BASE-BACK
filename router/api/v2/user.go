@@ -40,15 +40,10 @@ type RegisterRequest struct {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/register [POST]
 func Register(ctx *gin.Context) {
-	// TODO (@mingzhe): associate the certificate with user info
 	p := model.Person{}
 	ctx.BindJSON(&p)
 	res := base.Response{}
 	code := service.Register(p)
-	if code != base.Success {
-		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
-		return
-	}
 	res.SetCode(code)
 	ctx.JSON(http.StatusOK, res)
 }
@@ -204,11 +199,11 @@ func Reset_Passwd(ctx *gin.Context) {
 }
 
 type Edit_ProfileRequest struct {
-	User_Name            string `json:"user_name" example:"Hunter" default:"Hunter"`
-	Organization         string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
-	Poison               string `json:"poison" example:"teacher" default:"teacher"`
-	LogoImage            string `json:"logo_image" example:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6" default:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"`
-	BannerImage          string `json:"banner_image" `
+	User_Name    string `json:"user_name" example:"Hunter" default:"Hunter"`
+	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
+	Poison       string `json:"poison" example:"teacher" default:"teacher"`
+	LogoImage    string `json:"logo_image" example:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6" default:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"`
+	BannerImage  string `json:"banner_image" `
 }
 
 type UserProfileInfo struct {

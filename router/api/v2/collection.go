@@ -4,6 +4,7 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
 	"NFT-BASE-BACK/service"
+	"NFT-BASE-BACK/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -36,8 +37,14 @@ type CreateCollectionRequest struct {
 func Create(ctx *gin.Context) {
 	ch := CreateCollectionRequest{}
 	ctx.BindJSON(&ch)
-
 	res := base.Response{}
+
+	// check empty
+	ss := append([]string{}, ch.Collection_name, ch.LogoImage, ch.FeatureImage, ch.BannerImage, ch.Description)
+	if utils.CheckAnyEmpty(ss) == false {
+		ctx.JSON(http.StatusOK, res.SetCode(base.EmptyInput))
+		return
+	}
 
 	s, _ := ctx.Get("email")
 
@@ -79,7 +86,12 @@ func Edit(ctx *gin.Context) {
 
 	ch := EditCollectionRequest{}
 	ctx.BindJSON(&ch)
-
+	// check empty
+	if utils.CheckIntEmpty(ch.Collection_id) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 	s, _ := ctx.Get("email")
 
 	email := fmt.Sprintf("%v", s)

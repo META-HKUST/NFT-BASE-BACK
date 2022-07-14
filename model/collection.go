@@ -18,6 +18,8 @@ var (
 	UpdateFeatureImage   = string("update collection set feature_image=? where collection_id=?;")
 	UpdateBannerImage    = string("update collection set banner_image=? where collection_id=?;")
 	UpdateDescription    = string("update collection set description=? where collection_id=?;")
+
+	getCollectionName = string("select collection_name from collection where collection_id = ?")
 )
 
 func CreatCollection(collection_name string, logo_image string, feature_image string, banner_image string, items_count int, description string, owner string, owner_name string, created_at string) error {
@@ -93,6 +95,16 @@ func GetCollection(collectionId interface{}) (entity.Collection, error) {
 	if err != nil {
 		log.Println(err)
 		return entity.Collection{}, err
+	}
+	return g, nil
+}
+
+func GetCollectionName(collectionId interface{}) (string, error) {
+	var g string
+	err := db.Get(&g, getCollectionName, collectionId)
+	if err != nil {
+		log.Println(err)
+		return "", err
 	}
 	return g, nil
 }

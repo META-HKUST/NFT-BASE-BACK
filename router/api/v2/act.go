@@ -3,6 +3,7 @@ package v2
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
+	"NFT-BASE-BACK/utils"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,11 +13,11 @@ import (
 )
 
 type PostActCreateRequest struct {
-	ActName     string `json:"act_name" example:"the first activity"`
+	ActName     string `json:"act_name" example:"the first activity" `
 	Description string `json:"description" example:"It is funny"`
 	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
-	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40"`
-	ActImage    string `json:"act_image" example:"abc.com"`
+	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40" `
+	ActImage    string `json:"act_image" example:"abc.com" `
 }
 
 // PostActCreate
@@ -33,8 +34,19 @@ type PostActCreateRequest struct {
 func PostActCreate(ctx *gin.Context) {
 	ch := PostActCreateRequest{}
 	ctx.BindJSON(&ch)
-
 	res := base.Response{}
+
+	//if utils.CheckEmptyStruct(ch) == false {
+	//	res.SetCode(base.EmptyInput)
+	//	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+	//	return
+	//}
+
+	ss := append([]string{}, ch.ActName, ch.StartTime, ch.EndTime, ch.ActImage, ch.Description)
+	if utils.CheckAnyEmpty(ss) == false {
+		ctx.JSON(http.StatusOK, res.SetCode(base.EmptyInput))
+		return
+	}
 
 	s, _ := ctx.Get("email")
 
@@ -73,6 +85,12 @@ type ActRequest struct {
 func PostActDelete(ctx *gin.Context) {
 	ch := ActRequest{}
 	ctx.BindJSON(&ch)
+
+	if utils.CheckIntEmpty(ch.ActId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 
 	res := base.Response{}
 
@@ -118,7 +136,11 @@ type PostActEditRequest struct {
 func PostActEdit(ctx *gin.Context) {
 	ch := PostActEditRequest{}
 	ctx.BindJSON(&ch)
-
+	if utils.CheckIntEmpty(ch.ActId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 	res := base.Response{}
 
 	s, _ := ctx.Get("email")
@@ -155,7 +177,11 @@ func GetActInfo(ctx *gin.Context) {
 	actId := ctx.Query("act_id")
 
 	res := base.Response{}
-
+	if utils.CheckEmpty(actId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 	data, err := model.GetAction(actId)
 
 	if err != nil {
@@ -187,6 +213,17 @@ type PostActUploadItemRequest struct {
 func PostActUploadItem(ctx *gin.Context) {
 	ch := PostActUploadItemRequest{}
 	ctx.BindJSON(&ch)
+
+	if utils.CheckIntEmpty(ch.ActID) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+	if utils.CheckEmpty(ch.ItemID) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 
 	res := base.Response{}
 
@@ -224,6 +261,15 @@ func PostActUploadItem(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /act/item-list [GET]
 func GetActItemList(ctx *gin.Context) {
+
+	ActId := ctx.Query("act_id")
+
+	if utils.CheckEmpty(ActId) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "Operation succeed",
@@ -290,6 +336,18 @@ type PostActVoteRequest struct {
 func PostActVote(ctx *gin.Context) {
 	ch := PostActUploadItemRequest{}
 	ctx.BindJSON(&ch)
+
+	// check empty
+	if utils.CheckIntEmpty(ch.ActID) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+	if utils.CheckEmpty(ch.ItemID) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 
 	res := base.Response{}
 

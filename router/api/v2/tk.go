@@ -3,6 +3,7 @@ package v2
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/service"
+	"NFT-BASE-BACK/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,6 @@ type PostTokenTransferRequest struct {
 	FromUserId string  `json:"from_user_id" example:"mazhengwang-ust-hk" binding:"required"`
 	ToUserId   string  `json:"to_user_id" example:"mzliu" binding:"required"`
 }
-
 
 // PostTokenTransfer
 // @Description  transfer token form one account to another account
@@ -34,8 +34,21 @@ func PostTokenTransfer(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
+	// check empty
+	ss := append([]string{}, req.FromUserId, req.ToUserId)
+	if utils.CheckAnyEmpty(ss) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+	// check empty
+	if req.TokenNum == 0 {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 
-	tokenInfo,errCode := service.Transfer(req.TokenNum,req.FromUserId,req.ToUserId)
+	tokenInfo, errCode := service.Transfer(req.TokenNum, req.FromUserId, req.ToUserId)
 	if errCode != base.Success {
 		ctx.JSON(http.StatusOK, res.SetCode(errCode))
 		return
@@ -43,7 +56,6 @@ func PostTokenTransfer(ctx *gin.Context) {
 	res.SetData(tokenInfo)
 	ctx.JSON(http.StatusOK, res.SetCode(errCode))
 }
-
 
 // GetTokenInfo
 // @Description get token balance
@@ -63,7 +75,7 @@ func GetTokenInfo(ctx *gin.Context) {
 		return
 	}
 
-	tokenInfo,code := service.GetTokenInfo(email.(string))
+	tokenInfo, code := service.GetTokenInfo(email.(string))
 	if code != base.Success {
 		ctx.JSON(http.StatusOK, res.SetCode(code))
 		return

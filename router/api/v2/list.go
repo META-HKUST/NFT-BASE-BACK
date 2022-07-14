@@ -4,6 +4,7 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
+	"NFT-BASE-BACK/utils"
 	"net/http"
 	"strconv"
 
@@ -11,7 +12,7 @@ import (
 )
 
 type UserInfo struct {
-	UserID            string `json:"user_id" example:"ingzheliu-ust-hk"`
+	UserID            string `json:"user_id" example:"mingzheliu-ust-hk"`
 	UserEmail         string `json:"user_email" example:"mingzheliu@ust.hk"`
 	UserName          string `json:"user_name" example:"LMZ"`
 	BannerImage       string `json:"banner_image" example:"https://img-ae.seadn.io/https%3A%2F%2Flh3.googleusercontent.com%2Fsvc_rQkHVGf3aMI14v3pN-ZTI7uDRwN-QayvixX-nHSMZBgb1L1LReSg1-rXj4gNLJgAB0-yD8ERoT-Q2Gu4cy5AuSg-RdHF9bOxFDw%3Ds10000?fit=max&h=2500&w=2500&auto=format&s=61a1f05fd1f4a891c9b8fc197befc0a9"`
@@ -122,7 +123,16 @@ func UserList(ctx *gin.Context) {
 func SingleColletction(ctx *gin.Context) {
 	res := base.Response{}
 	ch := ctx.Query("collection_id")
+
+	// check empty
+	if utils.CheckEmpty(ch) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
+
 	data, err := service.GetCollection(ch)
+
 	if err != nil {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return
@@ -185,14 +195,25 @@ func SingleItem(ctx *gin.Context) {
 	var resp base.Response
 	itemId := ctx.Query("item_id")
 
-	itemInfo, code := service.GetItem(itemId)
+	baseItem, code := service.GetItem(itemId)
 	if code != base.Success {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
 	}
 
-	resp.SetData(itemInfo)
-	resp.SetCode(code)
+	collectionName, _ := model.GetCollectionName(baseItem.CollectionID)
+	ownerName, _ := model.GetUserName(baseItem.OwnerID)
+	createrName, _ := model.GetUserName(baseItem.CreaterID)
+	resData := ItemRes{
+		baseItem,
+		collectionName,
+		ownerName,
+		createrName,
+	}
+	// 组装response
+	resp.SetCode(base.Success)
+	resp.SetData(resData)
+
 	ctx.JSON(http.StatusOK, resp)
 }
 
@@ -267,7 +288,12 @@ func ItemHistory(ctx *gin.Context) {
 	var resp base.Response
 
 	item_id := ctx.Query("item_id")
-
+	// check empty
+	if utils.CheckEmpty(item_id) == false {
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
+		return
+	}
 	data, err := model.GetItemHistory(item_id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, base.ServerError)

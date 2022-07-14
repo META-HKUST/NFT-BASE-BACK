@@ -21,6 +21,7 @@ const (
 	GenTokenError   ErrCode = 1104 // Generate token error: Sign Token Failed
 	LackTokenError  ErrCode = 1105 // Lack token in request header
 	UserTokenError  ErrCode = 1105 // Wrong account or password, maybe the password has been changed
+	EnrollFail      ErrCode = 1106 // Register to Fabric failed
 
 	GetPersonError        ErrCode = 1201 // Can not get user info from database
 	StoreEmailTokenError  ErrCode = 1202 // Store Email Token Error
@@ -35,13 +36,14 @@ const (
 
 	ServerError ErrCode = 2000 // Server Error
 
-	UserIDNotExist	ErrCode = 3000
+	UserIDNotExist         ErrCode = 3000
 	UserProfileUpdateError ErrCode = 3001 // Update profile failed
-	BalanceNotEnough		ErrCode = 3002// Sorry, your credit is running low
-	UpdateBalanceError		ErrCode = 3003//Transfer failed
+	BalanceNotEnough       ErrCode = 3002 // Sorry, your credit is running low
+	UpdateBalanceError     ErrCode = 3003 //Transfer failed
 
-	EditItemError		ErrCode = 4001
-	GetItemError		ErrCode = 4002
+	EditItemError ErrCode = 4001
+	GetItemError  ErrCode = 4002
 
+	EmptyInput ErrCode = 1401 // Invalid Input: one of the parameters is empty
 
 )

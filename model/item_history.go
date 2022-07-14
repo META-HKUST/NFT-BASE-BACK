@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -40,16 +39,38 @@ func AddTransferHistory(itemId string, from string, to string) error {
 	return nil
 }
 
-func GetItemHistory(item_id string) ([]ItemHistory, error) {
+type HistoryRes struct {
+	His      ItemHistory
+	FromName string
+	ToName   string
+}
+
+func GetItemHistory(item_id string) ([]HistoryRes, error) {
 	var ItemHistorys []ItemHistory
 
 	err := db.Select(&ItemHistorys, queryHistory, item_id)
 	if err != nil {
 		log.Println(err)
-		return []ItemHistory{}, err
+		return []HistoryRes{}, err
 	}
 
-	fmt.Println(len(ItemHistorys))
-	fmt.Println(ItemHistorys)
-	return ItemHistorys, nil
+	var hisres []HistoryRes
+
+	for _, v := range ItemHistorys {
+		from, e1 := GetUserName(v.From)
+		if e1 != nil {
+			log.Println(e1)
+		}
+		to, e2 := GetUserName(v.From)
+		if e2 != nil {
+			log.Println(e2)
+		}
+		hisres = append(hisres, HistoryRes{
+			v,
+			from,
+			to,
+		})
+	}
+
+	return hisres, nil
 }
