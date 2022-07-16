@@ -50,4 +50,8 @@ const (
 
 	FileTypeError ErrCode = 1501 // Not in format file type, recommended: jpg png jepg gif jfif webp mp3 flac mp4 avi
 	FileSizeError ErrCode = 1502 // File too large or could not parse and obtain file size
+
+	SigVerifyError ErrCode = 1601 // failed to verify signature
+	SigNotFound    ErrCode = 1601 // Lack signature in parameter field
+	SigCountError  ErrCode = 1601 // Not enough signature related to URL
 )

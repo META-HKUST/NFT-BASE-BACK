@@ -19,16 +19,16 @@ const (
 )
 
 type Item struct {
-	ItemID       string `db:"item_id"`
-	ItemName     string `db:"item_name"`
-	CollectionID int    `db:"collection_id"`
-	ItemData     string `db:"item_data"`
-	Description  string `db:"description"`
-	OwnerID      string `db:"owner_id"`
-	CreaterID    string `db:"creater_id"`
-	Category     string `db:"category"`
-	LikeCount    int    `db:"like_count"`
-	CreatedAt    string `db:"created_at"`
+	ItemID       string `json:"item_id" db:"item_id"`
+	ItemName     string `json:"item_name" db:"item_name"`
+	CollectionID int    `json:"collection_id" db:"collection_id"`
+	ItemData     string `json:"item_data" db:"item_data"`
+	Description  string `json:"description" db:"description"`
+	OwnerID      string `json:"owner_id" db:"owner_id"`
+	CreaterID    string `json:"creater_id" db:"creater_id"`
+	Category     string `json:"category" db:"category"`
+	LikeCount    int    `json:"like_count" db:"like_count"`
+	CreatedAt    string `json:"created_at" db:"created_at"`
 }
 
 type ItemInfo struct {

@@ -45,61 +45,56 @@ func _() {
 	_ = x[PasswdLengthError-1403]
 	_ = x[FileTypeError-1501]
 	_ = x[FileSizeError-1502]
+	_ = x[SigVerifyError-1601]
+	_ = x[SigNotFound-1601]
+	_ = x[SigCountError-1601]
 }
 
-const (
-	_ErrCode_name_0 = "Operation succeed"
-	_ErrCode_name_1 = "Input ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failed"
-	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failed"
-	_ErrCode_name_3 = "Can not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activated"
-	_ErrCode_name_4 = "The verify code is invalid or expired"
-	_ErrCode_name_5 = "Invalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid length"
-	_ErrCode_name_6 = "Not in format file type, recommended: jpg png jepg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file size"
-	_ErrCode_name_7 = "Server Error"
-	_ErrCode_name_8 = "UserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failed"
-	_ErrCode_name_9 = "EditItemErrorGetItemError"
-)
+const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jepg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
 
-var (
-	_ErrCode_index_1 = [...]uint8{0, 11, 36, 68, 85, 99, 123, 152, 174}
-	_ErrCode_index_2 = [...]uint8{0, 29, 79, 145, 184, 212, 237}
-	_ErrCode_index_3 = [...]uint16{0, 35, 58, 85, 127, 177, 200, 237, 269}
-	_ErrCode_index_5 = [...]uint8{0, 45, 93, 119}
-	_ErrCode_index_6 = [...]uint8{0, 81, 135}
-	_ErrCode_index_8 = [...]uint8{0, 14, 35, 68, 83}
-	_ErrCode_index_9 = [...]uint8{0, 13, 25}
-)
+var _ErrCode_map = map[ErrCode]string{
+	0:    _ErrCode_name[0:17],
+	1000: _ErrCode_name[17:28],
+	1001: _ErrCode_name[28:53],
+	1002: _ErrCode_name[53:85],
+	1003: _ErrCode_name[85:102],
+	1004: _ErrCode_name[102:116],
+	1005: _ErrCode_name[116:140],
+	1006: _ErrCode_name[140:169],
+	1007: _ErrCode_name[169:191],
+	1101: _ErrCode_name[191:220],
+	1102: _ErrCode_name[220:270],
+	1103: _ErrCode_name[270:336],
+	1104: _ErrCode_name[336:375],
+	1105: _ErrCode_name[375:403],
+	1106: _ErrCode_name[403:428],
+	1201: _ErrCode_name[428:463],
+	1202: _ErrCode_name[463:486],
+	1203: _ErrCode_name[486:513],
+	1204: _ErrCode_name[513:555],
+	1205: _ErrCode_name[555:605],
+	1206: _ErrCode_name[605:628],
+	1207: _ErrCode_name[628:665],
+	1208: _ErrCode_name[665:697],
+	1301: _ErrCode_name[697:734],
+	1401: _ErrCode_name[734:779],
+	1402: _ErrCode_name[779:827],
+	1403: _ErrCode_name[827:853],
+	1501: _ErrCode_name[853:934],
+	1502: _ErrCode_name[934:988],
+	1601: _ErrCode_name[988:1014],
+	2000: _ErrCode_name[1014:1026],
+	3000: _ErrCode_name[1026:1040],
+	3001: _ErrCode_name[1040:1061],
+	3002: _ErrCode_name[1061:1094],
+	3003: _ErrCode_name[1094:1109],
+	4001: _ErrCode_name[1109:1122],
+	4002: _ErrCode_name[1122:1134],
+}
 
 func (i ErrCode) String() string {
-	switch {
-	case i == 0:
-		return _ErrCode_name_0
-	case 1000 <= i && i <= 1007:
-		i -= 1000
-		return _ErrCode_name_1[_ErrCode_index_1[i]:_ErrCode_index_1[i+1]]
-	case 1101 <= i && i <= 1106:
-		i -= 1101
-		return _ErrCode_name_2[_ErrCode_index_2[i]:_ErrCode_index_2[i+1]]
-	case 1201 <= i && i <= 1208:
-		i -= 1201
-		return _ErrCode_name_3[_ErrCode_index_3[i]:_ErrCode_index_3[i+1]]
-	case i == 1301:
-		return _ErrCode_name_4
-	case 1401 <= i && i <= 1403:
-		i -= 1401
-		return _ErrCode_name_5[_ErrCode_index_5[i]:_ErrCode_index_5[i+1]]
-	case 1501 <= i && i <= 1502:
-		i -= 1501
-		return _ErrCode_name_6[_ErrCode_index_6[i]:_ErrCode_index_6[i+1]]
-	case i == 2000:
-		return _ErrCode_name_7
-	case 3000 <= i && i <= 3003:
-		i -= 3000
-		return _ErrCode_name_8[_ErrCode_index_8[i]:_ErrCode_index_8[i+1]]
-	case 4001 <= i && i <= 4002:
-		i -= 4001
-		return _ErrCode_name_9[_ErrCode_index_9[i]:_ErrCode_index_9[i+1]]
-	default:
-		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
+	if str, ok := _ErrCode_map[i]; ok {
+		return str
 	}
+	return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 }

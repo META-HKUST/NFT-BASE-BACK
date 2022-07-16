@@ -3,12 +3,10 @@ package utils
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"encoding/base64"
-	"fmt"
 )
 
-
 var commonIV = []byte{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}
+
 func Encrypt(plainText string, keyText string) (cipherByte []byte, err error) {
 	// 转换成字节数据, 方便加密
 	plainByte := []byte(plainText)
@@ -24,6 +22,7 @@ func Encrypt(plainText string, keyText string) (cipherByte []byte, err error) {
 	cfb.XORKeyStream(cipherByte, plainByte)
 	return
 }
+
 func Decrypt(cipherByte []byte, keyText string) (plainText string, err error) {
 	// 转换成字节数据, 方便加密
 	keyByte := []byte(keyText)
@@ -37,8 +36,17 @@ func Decrypt(cipherByte []byte, keyText string) (plainText string, err error) {
 	plainByte := make([]byte, len(cipherByte))
 	cfbdec.XORKeyStream(plainByte, cipherByte)
 	plainText = string(plainByte)
-	fmt.Println(base64.StdEncoding.EncodeToString(plainByte))
-
 
 	return
 }
+
+//func VerifySig(imgs []string, sigs []string) base.ErrCode {
+//	if len(imgs) != len(sigs) {
+//		return base.SigCountError
+//	}
+//
+//	for i := 1; i <= len(imgs); i++ {
+//
+//	}
+//
+//}
