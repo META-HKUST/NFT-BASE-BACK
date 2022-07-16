@@ -9,10 +9,11 @@ import (
 var (
 	FrontLink string = ("http://unifit.ust.hk:8889/api/v2/user/activate?token=")
 
-	SubjectName string = ("UniFiT Account Confirmation")
-	logo        string = ("https://thumbs.dreamstime.com/z/phoenix-fenix-fire-bird-cartoon-character-fantasy-magic-creature-red-burning-plumage-steaming-wings-fairytale-animal-182971826.jpg")
+	SubjectName  string = ("Activate your uNiFiT account!")
+	SubjectName2 string = ("Reset your password")
+	logo         string = ("https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1657880418%3B1657884018&q-key-time=1657880418%3B1657884018&q-header-list=host&q-url-param-list=&q-signature=9dc4019039f9a629f5ea070c2b6a27de3a8d55c7")
 
-	SenderName   string      = ("MetaUST Account Center")
+	SenderName   string      = ("uNiFiT Team")
 	Sender       string      = ("1721062927@qq.com")
 	SenderServer string      = ("smtp.qq.com")
 	SenderPort   int         = 465
@@ -37,18 +38,19 @@ func Email(ReceiverName string, ReceiverMail string, token string) error {
 		Body: hermes.Body{
 			Name: ReceiverName,
 			Intros: []string{
-				"Welcome to Fire Bird NFT! We're very excited to have you on board.",
+				"Welcome to uNiFiT! We're very excited to have you on board.",
 			},
 			Actions: []hermes.Action{
 				{
-					Instructions: "To get started with Fire Brid, please click here:",
+					Instructions: "To verify your email address, please click here:",
 					Button: hermes.Button{
-						Text: "Confirm your account",
+						Text: "Get Verified",
 						Link: FrontLink + token,
 					},
 				},
 			},
 			Outros: []string{
+				"Then you can sign in to your account at https://unifit.ust.hk/login. ",
 				"Need help, or have questions? Just reply to this email, we'd love to help.",
 			},
 		},
@@ -111,24 +113,25 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 		Body: hermes.Body{
 			Name: ReceiverName,
 			Intros: []string{
-				"Your reset password verify code: ",
-			},
-			Actions: []hermes.Action{
-				{
-					Instructions: code,
-				},
+				"Your verification code is: ",
+				code,
 			},
 			Outros: []string{
+				"The verification code is valid for 15 minutes, please do not disclose it to others!",
 				"Need help, or have questions? Just reply to this email, we'd love to help.",
 			},
 		},
 	}
-
 	// Generate an HTML email with the provided contents (for modern clients)
-
 	emailBody, err := h.GenerateHTML(email)
+	if err != nil {
+		return err
+	}
+	//-----------------------------------------------------------------------
+	//---------------------send email body-----------------------------------
+	//-----------------------------------------------------------------------
+	// Create a new mail message
 	m := mail.NewMsg()
-	m.SetBodyString(mail.TypeTextHTML, emailBody)
 
 	if err := m.FromFormat(SenderName, Sender); err != nil {
 		return err
@@ -138,10 +141,10 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 	}
 
 	// Set a subject line
-	m.Subject("Reset Password")
+	m.Subject(SubjectName)
 
 	// Add your mail message to body
-	m.SetBodyString(mail.TypeTextHTML, code)
+	m.SetBodyString(mail.TypeTextHTML, emailBody)
 
 	host := SenderServer
 	c, err := mail.NewClient(host,
@@ -157,6 +160,6 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 	if err := c.DialAndSend(m); err != nil {
 		return err
 	}
-	log.Println("Reset Password email successfully sent to", ReceiverName)
+	log.Println("Reset email successfully sent to", ReceiverName)
 	return nil
 }

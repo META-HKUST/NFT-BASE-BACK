@@ -7,11 +7,13 @@ import (
 
 var (
 	//edit user profile
-	getProfileByID    = string("select * from accounts where user_id=?;")
-	queryUserId       = string("select user_id from accounts where email=?;")
-	updateUserProfile = string("update accounts set user_name=?,banner_image=?,avatar_image=?,poison=?,organization=? where user_id=?;")
-	getProfileByKey   = string("select user_id,email,user_name,banner_image,avatar_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
-	queryUserName     = string("select user_name from accounts where user_id=?;")
+	getProfileByID     = string("select * from accounts where user_id=?;")
+	queryUserId        = string("select user_id from accounts where email=?;")
+	updateUserProfile  = string("update accounts set user_name=?,banner_image=?,avatar_image=?,poison=?,organization=? where user_id=?;")
+	getProfileByKey    = string("select user_id,email,user_name,banner_image,avatar_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
+	queryUserName      = string("select user_name from accounts where user_id=?;")
+	queryNameByEmail   = string("select user_name from accounts where email=?;")
+	updateAccountToken = string("update accounts set token=? where user_id=?;")
 )
 
 type UserID struct {
@@ -41,9 +43,28 @@ type UserProfileInfo struct {
 	RegistrationTime string `json:"registration_time" db:"created_at"`
 }
 
+// update user passwd
+func UpdateAccountToken(userId string) error {
+	_, e := db.Exec(updateAccountToken, 0, userId)
+	if e != nil {
+		log.Println(e)
+		return e
+	}
+	return nil
+}
+
 func GetUserName(UserId string) (string, error) {
 	var g string
 	err := db.Get(&g, queryUserName, UserId)
+	if err != nil {
+		return "", err
+	}
+	return g, nil
+}
+
+func GetNameByEmail(email string) (string, error) {
+	var g string
+	err := db.Get(&g, queryNameByEmail, email)
 	if err != nil {
 		return "", err
 	}

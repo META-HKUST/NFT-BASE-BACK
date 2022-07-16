@@ -7,11 +7,20 @@ import (
 	"NFT-BASE-BACK/utils"
 	"crypto/md5"
 	"fmt"
+	emailverifier "github.com/AfterShip/email-verifier"
 	"log"
 	"strings"
 )
 
+var (
+	verifier = emailverifier.NewVerifier()
+)
+
 func RegisterEmailToken(p model.Person, ReceiverName string) base.ErrCode {
+	// check input
+	if p.Email == "" {
+		return base.EmptyInput
+	}
 	p.Token = utils.GenEmailToken()
 	p.GenTime = utils.GetTimeNow()
 	if err := p.StoreEmailToken(); err != nil {
@@ -26,6 +35,10 @@ func RegisterEmailToken(p model.Person, ReceiverName string) base.ErrCode {
 }
 
 func ActivateToken(token string) base.ErrCode {
+	// check input
+	if token == "" {
+		return base.EmptyInput
+	}
 	_, genTime := model.GetGenTime(token)
 
 	if genTime == "" {
@@ -46,6 +59,10 @@ func ActivateToken(token string) base.ErrCode {
 }
 
 func CheckEmailToken(p model.Person) base.ErrCode {
+	// check input
+	if p.Email == "" {
+		return base.EmptyInput
+	}
 	p1, err := model.GetPerson(p.Email)
 	if err != nil {
 		log.Println(err)
@@ -58,17 +75,37 @@ func CheckEmailToken(p model.Person) base.ErrCode {
 }
 
 func Register(p model.Person) base.ErrCode {
-	// TODO (@mingzhe): associate the certificate with user info
 
-	//p.ActivateEmailToken()
 	// check input
-	p1, _ := model.GetPerson(p.Email)
 	if p.Email == "" {
 		return base.EmptyInput
 	}
 	if p.Passwd == "" {
 		return base.EmptyInput
 	}
+	//p.ActivateEmailToken()
+
+	// check email format
+	ret, err := verifier.Verify(p.Email)
+	if err != nil {
+		return base.EmailFormatError
+	}
+	if !ret.Syntax.Valid {
+		return base.EmailFormatError
+	}
+	//// check if using ust email
+	//b1 := strings.Contains(p.Email, "ust.hk")
+	//if b1 == false{
+	//	return base.EmailFormatError
+	//}
+
+	// check passwd length
+	//l3 := strings.Count(p.Passwd, "") - 1
+	//if l3 >= 24 || l3 < 8 {
+	//	return base.PasswdLengthError
+	//}
+
+	p1, _ := model.GetPerson(p.Email)
 
 	if p1.Email == p.Email {
 		if p1.Activated != "no" {
@@ -87,8 +124,7 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(err)
 		return base.ErrCode(err)
 	}
-	name := "Sir/Madam"
-	if err := RegisterEmailToken(p, name); err != base.Success {
+	if err := RegisterEmailToken(p, p.Email); err != base.Success {
 		log.Println(err)
 		return base.ErrCode(err)
 	}
@@ -106,8 +142,8 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(e2)
 		return base.ServerError
 	}
-	err := service.Enroll(UserId)
-	if err != nil {
+	err3 := service.Enroll(UserId)
+	if err3 != nil {
 		return base.EnrollFail
 	}
 
@@ -115,6 +151,13 @@ func Register(p model.Person) base.ErrCode {
 }
 
 func Login(p model.Person) (base.ErrCode, string, string) {
+	// check input
+	if p.Email == "" {
+		return base.EmptyInput, "", ""
+	}
+	if p.Passwd == "" {
+		return base.EmptyInput, "", ""
+	}
 
 	Md5Inst := md5.New()
 	Md5Inst.Write([]byte(p.Passwd))
@@ -137,17 +180,31 @@ func Login(p model.Person) (base.ErrCode, string, string) {
 	return base.Success, token, UserId
 }
 
-func ForgetPasswd(emial string) base.ErrCode {
+func ForgetPasswd(email string) base.ErrCode {
+	// check input
+	if email == "" {
+		return base.EmptyInput
+	}
+
 	c := utils.GenVerifyCode()
-	err := model.UpdateVerifyCode(emial, c)
+	err := model.UpdateVerifyCode(email, c)
 	if err != nil {
 		return base.ServerError
 	}
-	utils.ResetEmail("Sir/Madam", emial, c)
+	reName, _ := model.GetNameByEmail(email)
+	if reName == "" {
+		reName = "Sir/Madam"
+	}
+	fmt.Println("reName: ", reName)
+	utils.ResetEmail(reName, email, c)
 	return base.Success
 }
 
 func ResetPasswd(email string, code string, pd string) base.ErrCode {
+	// check input
+	if email == "" {
+		return base.EmptyInput
+	}
 	c1, err1 := model.GetVerifyCode(email)
 	if err1 != nil {
 		return base.InputError

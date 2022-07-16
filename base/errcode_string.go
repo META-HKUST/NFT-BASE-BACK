@@ -41,6 +41,10 @@ func _() {
 	_ = x[EditItemError-4001]
 	_ = x[GetItemError-4002]
 	_ = x[EmptyInput-1401]
+	_ = x[EmailFormatError-1402]
+	_ = x[PasswdLengthError-1403]
+	_ = x[FileTypeError-1501]
+	_ = x[FileSizeError-1502]
 }
 
 const (
@@ -49,18 +53,21 @@ const (
 	_ErrCode_name_2 = "Permission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failed"
 	_ErrCode_name_3 = "Can not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activated"
 	_ErrCode_name_4 = "The verify code is invalid or expired"
-	_ErrCode_name_5 = "Invalid Input: one of the parameters is empty"
-	_ErrCode_name_6 = "Server Error"
-	_ErrCode_name_7 = "UserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failed"
-	_ErrCode_name_8 = "EditItemErrorGetItemError"
+	_ErrCode_name_5 = "Invalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid length"
+	_ErrCode_name_6 = "Not in format file type, recommended: jpg png jepg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file size"
+	_ErrCode_name_7 = "Server Error"
+	_ErrCode_name_8 = "UserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failed"
+	_ErrCode_name_9 = "EditItemErrorGetItemError"
 )
 
 var (
 	_ErrCode_index_1 = [...]uint8{0, 11, 36, 68, 85, 99, 123, 152, 174}
 	_ErrCode_index_2 = [...]uint8{0, 29, 79, 145, 184, 212, 237}
 	_ErrCode_index_3 = [...]uint16{0, 35, 58, 85, 127, 177, 200, 237, 269}
-	_ErrCode_index_7 = [...]uint8{0, 14, 35, 68, 83}
-	_ErrCode_index_8 = [...]uint8{0, 13, 25}
+	_ErrCode_index_5 = [...]uint8{0, 45, 93, 119}
+	_ErrCode_index_6 = [...]uint8{0, 81, 135}
+	_ErrCode_index_8 = [...]uint8{0, 14, 35, 68, 83}
+	_ErrCode_index_9 = [...]uint8{0, 13, 25}
 )
 
 func (i ErrCode) String() string {
@@ -78,16 +85,20 @@ func (i ErrCode) String() string {
 		return _ErrCode_name_3[_ErrCode_index_3[i]:_ErrCode_index_3[i+1]]
 	case i == 1301:
 		return _ErrCode_name_4
-	case i == 1401:
-		return _ErrCode_name_5
+	case 1401 <= i && i <= 1403:
+		i -= 1401
+		return _ErrCode_name_5[_ErrCode_index_5[i]:_ErrCode_index_5[i+1]]
+	case 1501 <= i && i <= 1502:
+		i -= 1501
+		return _ErrCode_name_6[_ErrCode_index_6[i]:_ErrCode_index_6[i+1]]
 	case i == 2000:
-		return _ErrCode_name_6
+		return _ErrCode_name_7
 	case 3000 <= i && i <= 3003:
 		i -= 3000
-		return _ErrCode_name_7[_ErrCode_index_7[i]:_ErrCode_index_7[i+1]]
+		return _ErrCode_name_8[_ErrCode_index_8[i]:_ErrCode_index_8[i+1]]
 	case 4001 <= i && i <= 4002:
 		i -= 4001
-		return _ErrCode_name_8[_ErrCode_index_8[i]:_ErrCode_index_8[i+1]]
+		return _ErrCode_name_9[_ErrCode_index_9[i]:_ErrCode_index_9[i+1]]
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}

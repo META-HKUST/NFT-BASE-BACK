@@ -74,5 +74,4 @@ func main() {
 	} else if strings.ToLower(*serverType) == "grpc" {
 		startGRPCServer()
 	}
-
 }

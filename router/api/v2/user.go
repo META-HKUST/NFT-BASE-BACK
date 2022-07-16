@@ -65,8 +65,7 @@ func Rerun_Email(ctx *gin.Context) {
 	p := model.Person{}
 	ctx.BindJSON(&p)
 	res := base.Response{}
-	name := "Sir/Madam"
-	code := service.RegisterEmailToken(p, name)
+	code := service.RegisterEmailToken(p, p.Email)
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
 
@@ -80,10 +79,14 @@ func Rerun_Email(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /user/activate [GET]
 func Activate(ctx *gin.Context) {
-	res := base.Response{}
 	token := ctx.Query("token")
 	code := service.ActivateToken(token)
-	ctx.JSON(http.StatusOK, res.SetCode(code))
+	if code == base.Success {
+		ctx.Redirect(http.StatusMovedPermanently, "https://unifit.ust.hk/register/success")
+		return
+	} else {
+		ctx.Redirect(http.StatusMovedPermanently, "  - https://unifit.ust.hk/register/fail")
+	}
 }
 
 type LoginRequest struct {
@@ -203,7 +206,8 @@ type Edit_ProfileRequest struct {
 	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
 	Poison       string `json:"poison" example:"teacher" default:"teacher"`
 	LogoImage    string `json:"logo_image" example:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6" default:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"`
-	BannerImage  string `json:"banner_image" `
+	BannerImage  string `json:"banner_image" example:"https://unifit-1311571861.cos" default:"teacher"`
+	AvatarImage  string `json:"avatar_image" example:"https://unifit-1311571861.cos" default:"teacher" `
 }
 
 type UserProfileInfo struct {
