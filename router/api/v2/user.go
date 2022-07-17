@@ -274,6 +274,19 @@ func GetUserInfo(ctx *gin.Context) {
 	//	return
 	//}
 	code, userProfileInfo := model.GetUserInfoByID(userID)
+	if userProfileInfo.LogoImage == "default image" {
+		userProfileInfo.LogoImage = ""
+	}
+	if userProfileInfo.BannerImage == "default image" {
+		userProfileInfo.BannerImage = ""
+	}
+	if userProfileInfo.Poison == "not set up" {
+		userProfileInfo.Poison = ""
+	}
+	if userProfileInfo.Organization == "not set up" {
+		userProfileInfo.Organization = ""
+	}
+
 	if code != base.Success {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return
