@@ -47,7 +47,7 @@ var (
 	getVerifyCode     = string("select verify_code from login where email=?;")
 	updateResetPasswd = string("update login set passwd=? where email=?;")
 
-	insertAccount = string("insert into accounts(user_id,email,user_name,token) values(?,?,?,?);")
+	insertAccount = string("insert into accounts(user_id,email,user_name,banner_image,avatar_image,poison,organization,token) values(?,?,?,?,?,?,?,?);")
 )
 
 // 连接池设为最大100，空闲最大20，可以调整
@@ -68,7 +68,7 @@ func InitDB(config config.Config) {
 }
 
 func InsertAccount(email string, Id string) error {
-	r1, e1 := db.Exec(insertAccount, Id, email, email, 0)
+	r1, e1 := db.Exec(insertAccount, Id, email, email, "default image", "default image", "not set up", "not set up", 100)
 	if e1 != nil {
 		log.Println(e1)
 		return e1
