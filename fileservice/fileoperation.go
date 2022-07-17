@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	EXPIRETIME = time.Hour
+	EXPIRETIME = 24000*time.Hour
 	DIRECTORY = "unifit"
 )
 type CosConfig struct {
