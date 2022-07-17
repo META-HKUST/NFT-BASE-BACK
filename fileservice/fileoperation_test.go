@@ -10,12 +10,12 @@ import (
 
 func TestUpload (t *testing.T)  {
 
-	err := LoadConfig("/Users/hanallen/go/src/NFT-BASE-BACK/config",&COSCONFIG)
+	err := LoadConfig("/Users/hanallen/go/src/work/NFT-BASE-BACK/config",&COSCONFIG)
 	if err !=nil{
 		fmt.Println(err)
 	}
 	fmt.Println(COSCONFIG)
-	name := "unifit/文件名"
+	name := "unifit/test"
 
 	f := strings.NewReader("test")
 	resp,_,err := Upload(name,f)
