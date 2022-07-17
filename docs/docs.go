@@ -2063,13 +2063,35 @@ const docTemplate = `{
         "v2.Edit_ProfileRequest": {
             "type": "object",
             "properties": {
+                "avatar_image": {
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "https://unifit-1311571861.cos"
+                },
+                "avatar_image_signature": {
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "abc"
+                },
                 "banner_image": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "https://unifit-1311571861.cos"
+                },
+                "banner_image_signature": {
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "abc"
                 },
                 "logo_image": {
                     "type": "string",
                     "default": "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1\u0026q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5\u0026q-sign-time=1656428492%3B1656432092\u0026q-key-time=1656428492%3B1656432092\u0026q-header-list=host\u0026q-url-param-list=\u0026q-signature=949835db0f086df54adc09d6e53dde318a74c2b6",
                     "example": "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1\u0026q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5\u0026q-sign-time=1656428492%3B1656432092\u0026q-key-time=1656428492%3B1656432092\u0026q-header-list=host\u0026q-url-param-list=\u0026q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"
+                },
+                "logo_image_signature": {
+                    "type": "string",
+                    "default": "teacher",
+                    "example": "abc"
                 },
                 "organization": {
                     "type": "string",
@@ -2467,7 +2489,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8889",
+	Host:             "unifit.ust.hk:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

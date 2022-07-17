@@ -206,19 +206,22 @@ type Edit_ProfileRequest struct {
 	Organization string `json:"organization" example:"HKUST-GZ" default:"HKUST-GZ"`
 	Poison       string `json:"poison" example:"teacher" default:"teacher"`
 	LogoImage    string `json:"logo_image" example:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6" default:"https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6"`
+	LogoSig      string `json:"logo_image_signature" example:"abc" default:"teacher"`
 	BannerImage  string `json:"banner_image" example:"https://unifit-1311571861.cos" default:"teacher"`
+	BannerSig    string `json:"banner_image_signature" example:"abc" default:"teacher"`
 	AvatarImage  string `json:"avatar_image" example:"https://unifit-1311571861.cos" default:"teacher" `
+	AvatarSig    string `json:"avatar_image_signature" example:"abc" default:"teacher"`
 }
 
 type UserProfileInfo struct {
-	UserId           string `json:"user_id" `
-	UserEmail        string `json:"user_email" `
-	UserName         string `json:"user_name" `
-	BannerImage      string `json:"banner_image" `
-	LogoImage        string `json:"logo_image"`
-	Poison           string `json:"poison" `
-	Organization     string `json:"organization" `
-	RegistrationTime string `json:"registration_time" `
+	UserId           string `json:"user_id"  example:"user_id"`
+	UserEmail        string `json:"user_email"  example:"Hunter"`
+	UserName         string `json:"user_name"  example:"Hunter"`
+	BannerImage      string `json:"banner_image"  example:"Hunter"`
+	LogoImage        string `json:"logo_image"  example:"Hunter"`
+	Poison           string `json:"poison"  example:"Hunter"`
+	Organization     string `json:"organization"  example:"Hunter"`
+	RegistrationTime string `json:"registration_time"  example:"Hunter"`
 }
 
 // Edit_Profile @Description  edit-profile: 编辑用户的个人资料

@@ -207,11 +207,29 @@ definitions:
     type: object
   v2.Edit_ProfileRequest:
     properties:
+      avatar_image:
+        default: teacher
+        example: https://unifit-1311571861.cos
+        type: string
+      avatar_image_signature:
+        default: teacher
+        example: abc
+        type: string
       banner_image:
+        default: teacher
+        example: https://unifit-1311571861.cos
+        type: string
+      banner_image_signature:
+        default: teacher
+        example: abc
         type: string
       logo_image:
         default: https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6
         example: https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/nft.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1656428492%3B1656432092&q-key-time=1656428492%3B1656432092&q-header-list=host&q-url-param-list=&q-signature=949835db0f086df54adc09d6e53dde318a74c2b6
+        type: string
+      logo_image_signature:
+        default: teacher
+        example: abc
         type: string
       organization:
         default: HKUST-GZ
@@ -549,7 +567,7 @@ definitions:
         example: Abcd123456
         type: string
     type: object
-host: localhost:8889
+host: unifit.ust.hk:8889
 info:
   contact: {}
   description: HKUST-NFT Server API

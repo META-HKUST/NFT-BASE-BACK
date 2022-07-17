@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"NFT-BASE-BACK/base"
 	"crypto/aes"
 	"crypto/cipher"
 )
@@ -40,13 +41,18 @@ func Decrypt(cipherByte []byte, keyText string) (plainText string, err error) {
 	return
 }
 
-//func VerifySig(imgs []string, sigs []string) base.ErrCode {
-//	if len(imgs) != len(sigs) {
-//		return base.SigCountError
-//	}
-//
-//	for i := 1; i <= len(imgs); i++ {
-//
-//	}
-//
-//}
+func VerifySig(imgs []string, sigs []string) base.ErrCode {
+
+	if len(imgs) != len(sigs) {
+		return base.SigCountError
+	}
+
+	for i := 0; i < len(imgs); i++ {
+		plainText, _ := AesEcpt.AesBase64Decrypt(sigs[i])
+		if plainText != imgs[i] {
+			return base.SigVerifyError
+		}
+	}
+
+	return base.Success
+}
