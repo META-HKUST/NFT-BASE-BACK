@@ -136,8 +136,8 @@ func GetFileType(filename string) (string, string) {
 	if strings.Contains(filename, ".png") == true {
 		return "png", "picture"
 	}
-	if strings.Contains(filename, ".jepg") == true {
-		return "jepg", "picture"
+	if strings.Contains(filename, ".jpeg") == true {
+		return "jpeg", "picture"
 	}
 	if strings.Contains(filename, ".gif") == true {
 		return "gif", "picture"

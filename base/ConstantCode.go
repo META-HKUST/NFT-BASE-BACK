@@ -48,7 +48,7 @@ const (
 	EmailFormatError  ErrCode = 1402 // Email format invalid or not related to ust email
 	PasswdLengthError ErrCode = 1403 // Passwd not in valid length
 
-	FileTypeError ErrCode = 1501 // Not in format file type, recommended: jpg png jepg gif jfif webp mp3 flac mp4 avi
+	FileTypeError ErrCode = 1501 // Not in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 avi
 	FileSizeError ErrCode = 1502 // File too large or could not parse and obtain file size
 
 	SigVerifyError ErrCode = 1601 // failed to verify signature

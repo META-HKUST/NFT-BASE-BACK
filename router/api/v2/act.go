@@ -18,6 +18,7 @@ type PostActCreateRequest struct {
 	StartTime   string `json:"start_time" example:"2022-06-18 20:45:40"`
 	EndTime     string `json:"end_time" example:"2022-06-20 20:45:40" `
 	ActImage    string `json:"act_image" example:"abc.com" `
+	ActImage_S  string `json:"act_image_signature" example:"abc.com" `
 }
 
 // PostActCreate
