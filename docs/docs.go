@@ -2292,6 +2292,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "abc.com"
                 },
+                "act_image_signature": {
+                    "type": "string",
+                    "example": "abc.com"
+                },
                 "act_name": {
                     "type": "string",
                     "example": "the first activity"

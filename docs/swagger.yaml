@@ -435,6 +435,9 @@ definitions:
       act_image:
         example: abc.com
         type: string
+      act_image_signature:
+        example: abc.com
+        type: string
       act_name:
         example: the first activity
         type: string
