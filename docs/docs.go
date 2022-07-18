@@ -1907,9 +1907,14 @@ const docTemplate = `{
                     "default": "ABCDE"
                 },
                 "label": {
-                    "type": "string",
-                    "default": "Pear\u0026Pixel\u0026Wechat",
-                    "example": "Pear\u0026Pixel\u0026Wechat"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music",
+                        "Comics"
+                    ]
                 },
                 "log_image_signature": {
                     "type": "string",
@@ -2015,9 +2020,14 @@ const docTemplate = `{
                     "default": "ABCDE"
                 },
                 "label": {
-                    "type": "string",
-                    "default": "Pear\u0026Pixel\u0026Wechat",
-                    "example": "Pear,Pixel,Wechat"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "Music",
+                        "Comics"
+                    ]
                 },
                 "log_image_signature": {
                     "type": "string",

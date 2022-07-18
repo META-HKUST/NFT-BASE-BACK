@@ -153,9 +153,12 @@ definitions:
         default: ABCDE
         type: string
       label:
-        default: Pear&Pixel&Wechat
-        example: Pear&Pixel&Wechat
-        type: string
+        example:
+        - Music
+        - Comics
+        items:
+          type: string
+        type: array
       log_image_signature:
         default: ABCDE
         type: string
@@ -271,9 +274,12 @@ definitions:
         default: ABCDE
         type: string
       label:
-        default: Pear&Pixel&Wechat
-        example: Pear,Pixel,Wechat
-        type: string
+        example:
+        - Music
+        - Comics
+        items:
+          type: string
+        type: array
       log_image_signature:
         default: ABCDE
         type: string
