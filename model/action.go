@@ -138,10 +138,37 @@ func GetAllAct() ([]Action, error) {
 
 	err := db.Select(&Actions, getAllAct)
 	if err != nil {
+		fmt.Println(len(Actions))
+		if len(Actions) == 0 {
+			Actions = append(Actions, Action{
+				1,
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				"",
+				0,
+			})
+		}
 		log.Println(err)
-		return []Action{}, err
+		return Actions, err
 	}
-
+	log.Println(len(Actions))
+	if len(Actions) == 0 {
+		Actions = append(Actions, Action{
+			1,
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			0,
+		})
+	}
 	return Actions, nil
 }
 

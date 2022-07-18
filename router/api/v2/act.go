@@ -438,6 +438,7 @@ func GetAllAct(ctx *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
+		res.SetData(data)
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return
 	}

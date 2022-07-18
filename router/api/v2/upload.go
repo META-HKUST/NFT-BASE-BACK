@@ -44,18 +44,18 @@ func UploadToCos(ctx *gin.Context) {
 	resp := base.Response{}
 	file, header, _ := ctx.Request.FormFile("data")
 
-	// check file format
-	_, fileType := GetFileType(header.Filename)
-	if fileType == "" {
-		ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
-		return
-	}
+	//// check file format
+	//_, fileType := GetFileType(header.Filename)
+	//if fileType == "" {
+	//	ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
+	//	return
+	//}
 
-	// check file size
-	if CheckFileSize(file, fileType) == false {
-		ctx.JSON(http.StatusOK, resp.SetCode(base.FileSizeError))
-		return
-	}
+	//// check file size
+	//if CheckFileSize(file, fileType) == false {
+	//	ctx.JSON(http.StatusOK, resp.SetCode(base.FileSizeError))
+	//	return
+	//}
 
 	name := fileservice.DIRECTORY + "/" + header.Filename
 
@@ -93,16 +93,16 @@ func UploadToIpfs(ctx *gin.Context) {
 	resp := base.Response{}
 	file, header, _ := ctx.Request.FormFile("data")
 
-	// check file format
-	_, fileType := GetFileType(header.Filename)
-	if fileType == "" {
-		ctx.JSON(http.StatusOK, base.FileTypeError)
-	}
-
-	// check file size
-	if CheckFileSize(file, fileType) == false {
-		ctx.JSON(http.StatusOK, base.FileSizeError)
-	}
+	//// check file format
+	//_, fileType := GetFileType(header.Filename)
+	//if fileType == "" {
+	//	ctx.JSON(http.StatusOK, base.FileTypeError)
+	//}
+	//
+	//// check file size
+	//if CheckFileSize(file, fileType) == false {
+	//	ctx.JSON(http.StatusOK, base.FileSizeError)
+	//}
 
 	name := fileservice.DIRECTORY + "/" + header.Filename
 	Url, encryptUrl, _ := service.Upload(name, file)
@@ -175,9 +175,10 @@ func CheckFileSize(file multipart.File, filetype string) bool {
 	} else {
 		log.Println("Error: could not resolve file type")
 	}
-
+	filecp := new(multipart.File)
+	*filecp = file
 	var buf bytes.Buffer
-	n, err := io.CopyN(&buf, file, filesMax+1)
+	n, err := io.CopyN(&buf, *filecp, filesMax+1)
 	if err != nil && err != io.EOF {
 		log.Println(err)
 		return false

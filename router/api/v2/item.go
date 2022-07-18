@@ -146,6 +146,8 @@ func CreateItem(ctx *gin.Context) {
 		return
 	}
 
+	// TODO：根据tokenURI 去构造IPFS相关的json，存数据库里，之后暴露这个接口能让人查到
+
 	// 写item label
 	for _, v := range req.Label {
 		itemLabel := model.ItemLable{
