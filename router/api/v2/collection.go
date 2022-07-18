@@ -98,7 +98,14 @@ func Edit(ctx *gin.Context) {
 
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
-	// TODO: does the collection own to this UserId?
+
+	//// TODO: does the collection own to this UserId?
+	//col, _ := model.GetCollection(ch.Collection_id)
+	//if col.Owner != UserId {
+	//	ctx.JSON(http.StatusOK, res.SetCode(base.PermissionDenied))
+	//	return
+	//}
+
 	log.Println("Edit Collection UserId: ", UserId)
 
 	c := entity.Collection{

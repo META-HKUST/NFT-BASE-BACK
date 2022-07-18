@@ -6,3 +6,5 @@ use fabric_release_db;
 source mysql.sql;
 show tables;
 quit"
+rm -rf /home/fabric_release/03_End/NFT-BASE-BACK/wallet/*.id
+

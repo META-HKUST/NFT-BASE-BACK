@@ -46,11 +46,12 @@ func _() {
 	_ = x[FileTypeError-1501]
 	_ = x[FileSizeError-1502]
 	_ = x[SigVerifyError-1601]
-	_ = x[SigNotFound-1601]
-	_ = x[SigCountError-1601]
+	_ = x[SigNotFound-1602]
+	_ = x[SigCountError-1603]
+	_ = x[PermissionDenied-1701]
 }
 
-const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
+const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureLack signature in parameter fieldNot enough signature related to URLonly admin accounts could edit act and owner to edit his collection/item/profileServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
 
 var _ErrCode_map = map[ErrCode]string{
 	0:    _ErrCode_name[0:17],
@@ -83,13 +84,16 @@ var _ErrCode_map = map[ErrCode]string{
 	1501: _ErrCode_name[853:934],
 	1502: _ErrCode_name[934:988],
 	1601: _ErrCode_name[988:1014],
-	2000: _ErrCode_name[1014:1026],
-	3000: _ErrCode_name[1026:1040],
-	3001: _ErrCode_name[1040:1061],
-	3002: _ErrCode_name[1061:1094],
-	3003: _ErrCode_name[1094:1109],
-	4001: _ErrCode_name[1109:1122],
-	4002: _ErrCode_name[1122:1134],
+	1602: _ErrCode_name[1014:1047],
+	1603: _ErrCode_name[1047:1082],
+	1701: _ErrCode_name[1082:1162],
+	2000: _ErrCode_name[1162:1174],
+	3000: _ErrCode_name[1174:1188],
+	3001: _ErrCode_name[1188:1209],
+	3002: _ErrCode_name[1209:1242],
+	3003: _ErrCode_name[1242:1257],
+	4001: _ErrCode_name[1257:1270],
+	4002: _ErrCode_name[1270:1282],
 }
 
 func (i ErrCode) String() string {

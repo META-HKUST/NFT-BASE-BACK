@@ -11,7 +11,7 @@ var (
 
 	SubjectName  string = ("Activate your uNiFiT account!")
 	SubjectName2 string = ("Reset your password")
-	logo         string = ("https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1657880418%3B1657884018&q-key-time=1657880418%3B1657884018&q-header-list=host&q-url-param-list=&q-signature=9dc4019039f9a629f5ea070c2b6a27de3a8d55c7")
+	logo         string = ("https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658154336%3B1744554336&q-key-time=1658154336%3B1744554336&q-header-list=host&q-url-param-list=&q-signature=6ee6fd4ad26581c6a8aed508c0872d45b17fd133")
 
 	SenderName   string      = ("uNiFiT Team")
 	Sender       string      = ("1721062927@qq.com")

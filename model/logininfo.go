@@ -47,7 +47,7 @@ var (
 	getVerifyCode     = string("select verify_code from login where email=?;")
 	updateResetPasswd = string("update login set passwd=? where email=?;")
 
-	insertAccount = string("insert into accounts(user_id,email,user_name,banner_image,avatar_image,poison,organization,token) values(?,?,?,?,?,?,?,?);")
+	insertAccount = string("insert into accounts(user_id,email,user_name,banner_image,logo_image,poison,organization,token) values(?,?,?,?,?,?,?,?);")
 )
 
 // 连接池设为最大100，空闲最大20，可以调整
@@ -68,7 +68,7 @@ func InitDB(config config.Config) {
 }
 
 func InsertAccount(email string, Id string) error {
-	r1, e1 := db.Exec(insertAccount, Id, email, email, "default image", "default image", "not set up", "not set up", 100)
+	r1, e1 := db.Exec(insertAccount, Id, email, email, "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658150849%3B1744550849&q-key-time=1658150849%3B1744550849&q-header-list=host&q-url-param-list=&q-signature=c59b1cc8b2cb1c1997d5bf012496cb5a41ad4db9", "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658150849%3B1744550849&q-key-time=1658150849%3B1744550849&q-header-list=host&q-url-param-list=&q-signature=c59b1cc8b2cb1c1997d5bf012496cb5a41ad4db9", "not set up", "not set up", 100)
 	if e1 != nil {
 		log.Println(e1)
 		return e1

@@ -52,6 +52,8 @@ const (
 	FileSizeError ErrCode = 1502 // File too large or could not parse and obtain file size
 
 	SigVerifyError ErrCode = 1601 // failed to verify signature
-	SigNotFound    ErrCode = 1601 // Lack signature in parameter field
-	SigCountError  ErrCode = 1601 // Not enough signature related to URL
+	SigNotFound    ErrCode = 1602 // Lack signature in parameter field
+	SigCountError  ErrCode = 1603 // Not enough signature related to URL
+
+	PermissionDenied ErrCode = 1701 // only admin accounts could edit act and owner to edit his collection/nft/transfer
 )

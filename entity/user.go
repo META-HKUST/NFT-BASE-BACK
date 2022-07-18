@@ -1,12 +1,12 @@
 package entity
 
 type Account struct {
-	BannerImage string `json:"bannerimage" `
-	AvatarImage string `json:"avatarimage" `
-	UserId      string `json:"id"`
-	Poison      string `json:"poison"`
-	Campus      string `json:"campus"`
-	Token       uint64 `json:"token"`
+	BannerImage string `json:"banner_image" db:"banner_image"`
+	LogoImage   string `json:"logo_image" db:"logo_image"`
+	UserId      string `json:"user_id" db:"user_id"`
+	Poison      string `json:"poison" db:"poison"`
+	Campus      string `json:"campus" db:"campus"`
+	Token       uint64 `json:"token" db:"token"`
 }
 
 type Person struct {
