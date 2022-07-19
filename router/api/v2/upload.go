@@ -93,16 +93,16 @@ func UploadToIpfs(ctx *gin.Context) {
 	resp := base.Response{}
 	file, header, _ := ctx.Request.FormFile("data")
 
-	// check file format
-	_, fileType := GetFileType(header.Filename)
-	if fileType == "" {
-		ctx.JSON(http.StatusOK, base.FileTypeError)
-	}
-
-	// check file size
-	if CheckFileSize(file, fileType) == false {
-		ctx.JSON(http.StatusOK, base.FileSizeError)
-	}
+	//// check file format
+	//_, fileType := GetFileType(header.Filename)
+	//if fileType == "" {
+	//	ctx.JSON(http.StatusOK, base.FileTypeError)
+	//}
+	//
+	//// check file size
+	//if CheckFileSize(file, fileType) == false {
+	//	ctx.JSON(http.StatusOK, base.FileSizeError)
+	//}
 
 	name := fileservice.DIRECTORY + "/" + header.Filename
 	Url, encryptUrl, _ := service.Upload(name, file)
