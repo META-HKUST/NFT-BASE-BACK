@@ -57,7 +57,7 @@ func PostActCreate(ctx *gin.Context) {
 	//if email != "1721062927@qq.com" {
 	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
 	//}
-	
+
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
 
@@ -304,10 +304,11 @@ func GetActItemList(ctx *gin.Context) {
 						"Music",
 						"Comics",
 					},
-					"creater_id": "mingzheliu-ust-hk",
-					"owner_id":   "mingzheliu-ust-hk",
-					"vote_num":   100,
-					"vote":       false,
+					"creater_id":   "mingzheliu-ust-hk",
+					"creater_name": "Hunter",
+					"owner_id":     "mingzheliu-ust-hk",
+					"vote_num":     100,
+					"vote":         false,
 				},
 				{
 					"item_name":     "Pixel Bear With Hammer",
@@ -321,10 +322,11 @@ func GetActItemList(ctx *gin.Context) {
 						"Music",
 						"Comics",
 					},
-					"creater_id": "mingzheliu-ust-hk",
-					"owner_id":   "mingzheliu-ust-hk",
-					"vote_num":   100,
-					"vote":       false,
+					"creater_id":   "mingzheliu-ust-hk",
+					"owner_id":     "mingzheliu-ust-hk",
+					"vote_num":     100,
+					"creater_name": "Lisper",
+					"vote":         false,
 				},
 			},
 			"page":  1,

@@ -1,5 +1,7 @@
 package model
 
+import "log"
+
 var (
 	updateLikeCount = string("update items set like_count = ? where item_id = ?")
 	addItemLike     = string("insert into item_like(item_id,user_id) values(?,?)")
@@ -53,8 +55,10 @@ func DoesLike(itemId string, UserId string) (bool, error) {
 		return false, e
 	}
 	if g == "" {
+		log.Println("Does user like this item? ", UserId, " ", itemId, " ", false)
 		return false, nil
 	} else {
+		log.Println("Does user like this item? ", UserId, " ", itemId, " ", false)
 		return true, nil
 	}
 }

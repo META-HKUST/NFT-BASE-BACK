@@ -68,7 +68,7 @@ func InitDB(config config.Config) {
 }
 
 func InsertAccount(email string, Id string) error {
-	r1, e1 := db.Exec(insertAccount, Id, email, email, "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658150849%3B1744550849&q-key-time=1658150849%3B1744550849&q-header-list=host&q-url-param-list=&q-signature=c59b1cc8b2cb1c1997d5bf012496cb5a41ad4db9", "https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658150849%3B1744550849&q-key-time=1658150849%3B1744550849&q-header-list=host&q-url-param-list=&q-signature=c59b1cc8b2cb1c1997d5bf012496cb5a41ad4db9", "not set up", "not set up", 100)
+	r1, e1 := db.Exec(insertAccount, Id, email, email, "https://lh3.googleusercontent.com/khLUIXJ0H0HDHvbaMPg-yhHKnTHPS7TVg4q_sHj9YNaLci-6tEw5K8UElAwZ0ov7ABBpnj0eNw9S1I637mpLqcuSdxrZYGuAaXU_rg=s0", "https://lh3.googleusercontent.com/ydFS04Bvu6ek2JcqwEsiIavNCMfFhforiZ24EcBYMurNvj1QgCDj1Ol1V9tZuH8Kfomqd83Umtr7iFe_FQZ3ptF5_0uQwiG_nYbP1hQ=h600", "not set up", "not set up", 100)
 	if e1 != nil {
 		log.Println(e1)
 		return e1
