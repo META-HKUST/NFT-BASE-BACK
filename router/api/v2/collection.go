@@ -135,6 +135,14 @@ func Edit(ctx *gin.Context) {
 	}
 
 	code, data := service.EditCollection(c)
+
+	if ch.Label != nil {
+		err := model.EditCollectionLable(ch.Label, ch.Collection_id)
+		if err != nil {
+			ctx.JSON(http.StatusOK, base.ServerError)
+		}
+	}
+
 	res.SetData(data)
 
 	ctx.JSON(http.StatusOK, res.SetCode(code))

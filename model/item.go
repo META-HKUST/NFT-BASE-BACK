@@ -2,9 +2,7 @@ package model
 
 import (
 	"errors"
-	"fmt"
 	"log"
-	"strings"
 )
 
 const (
@@ -126,6 +124,30 @@ func SearchLable(itemID string) ([]string, error) {
 	return LableSlice, nil
 }
 
+func EditItemLable(label []string, itemID string) error {
+
+	labelss, _ := SearchLable(itemID)
+	for i := 0; i < len(label); i++ {
+		contain := false
+		for j := 0; j < len(labelss); j++ {
+			if labelss[j] == label[i] {
+				contain = true
+			}
+		}
+		if contain == false {
+			_, err := db.Exec(insertItemLable,
+				itemID,
+				label[i],
+			)
+			if err != nil {
+				log.Println(err)
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func EditItem(itemId, itemName, description, collectionId string, label []string) error {
 
 	if itemId == "" {
@@ -133,7 +155,7 @@ func EditItem(itemId, itemName, description, collectionId string, label []string
 	}
 
 	argsItem := []string{}
-	labelSlice := []string{}
+
 	updateItemInfo := "update items set "
 	if itemName != "" {
 		updateItemInfo = updateItemInfo + "item_name=?,"
@@ -149,12 +171,6 @@ func EditItem(itemId, itemName, description, collectionId string, label []string
 		argsItem = append(argsItem, collectionId)
 	}
 
-	if len(label) != 0 {
-		for _, value := range label {
-			labelSlice = append(labelSlice, value)
-		}
-	}
-
 	updateItemInfo = updateItemInfo[:len(updateItemInfo)-1]
 	updateItemInfo = updateItemInfo + " " + "where item_id=?;"
 	argsItem = append(argsItem, itemId)
@@ -164,19 +180,21 @@ func EditItem(itemId, itemName, description, collectionId string, label []string
 		paramItem[i] = v
 	}
 
-	fmt.Println(updateItemInfo)
-	fmt.Println(paramItem)
 	tx, err := db.Beginx()
 	if err != nil {
 		log.Println("Transaction start failed", err)
 		return err
 	}
-	fmt.Println(labelSlice)
-	ss := fmt.Sprintf(strings.Join(labelSlice, ","))
-	fmt.Println(ss)
+
 	tx.MustExec(updateItemInfo, paramItem...)
-	tx.MustExec(updateItemLabel, ss, itemId)
+
 	err = tx.Commit()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	err = EditItemLable(label, itemId)
 	if err != nil {
 		log.Println(err)
 		return err

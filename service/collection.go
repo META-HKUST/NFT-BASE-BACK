@@ -59,10 +59,12 @@ func EditCollection(c entity.Collection) (base.ErrCode, entity.Collection) {
 			return base.InsertError, entity.Collection{}
 		}
 	}
+
 	g, err := model.GetCollection(c.CollectionId)
 
 	if err != nil {
 		return base.ServerError, entity.Collection{}
 	}
+
 	return base.Success, g
 }

@@ -5,7 +5,6 @@ import (
 	"NFT-BASE-BACK/entity"
 	"fmt"
 	"log"
-	"strings"
 )
 
 var (
@@ -23,7 +22,7 @@ var (
 	getCollectionName = string("select collection_name from collection where collection_id = ?")
 
 	insertCollectionLable = string("insert into collection_label(collection_id, label) values(?,?);")
-	queryCollectionLable  = string("select collection_id, label from collection_label where collection_id=?")
+	queryCollectionLable  = string("select label from collection_label where collection_id=?")
 
 	updateCoLabel = string("update collection_label set label=? where collection_id=?;")
 )
@@ -42,19 +41,21 @@ func SearchCoLable(CoId interface{}) ([]string, error) {
 	return LableSlice, nil
 }
 
-func CreateCollectionLabel(label CollectionLabel) (CollectionLabel, error) {
+func CreateCollectionLabel(label CollectionLabel) ([]string, error) {
 	_, err := db.Exec(insertCollectionLable,
 		label.CollectionID,
 		label.CollectionLabel,
 	)
 	if err != nil {
-		return CollectionLabel{}, err
+		log.Println(err)
+		return []string{}, err
 	}
-	var ret CollectionLabel
-	err = db.Get(&ret, queryCollectionLable, label.CollectionID)
+	var ret []string
+	err = db.Select(&ret, queryCollectionLable, label.CollectionID)
 	if err != nil {
-		return CollectionLabel{}, err
+		return []string{}, err
 	}
+	log.Println("collection label: ", ret)
 	return ret, nil
 }
 
@@ -126,16 +127,25 @@ func EditDescription(Arg string, CollectionId int) error {
 }
 
 func EditCollectionLable(label []string, CollectionId int) error {
-	labelSlice := []string{}
-	if len(label) != 0 {
-		for _, value := range label {
-			labelSlice = append(labelSlice, value)
+
+	labelss, _ := SearchCoLable(CollectionId)
+	for i := 0; i < len(label); i++ {
+		contain := false
+		for j := 0; j < len(labelss); j++ {
+			if labelss[j] == label[i] {
+				contain = true
+			}
 		}
-	}
-	ss := fmt.Sprintf(strings.Join(labelSlice, ","))
-	_, e := db.Exec(updateItemLabel, ss, CollectionId)
-	if e != nil {
-		return e
+		if contain == false {
+			_, err := db.Exec(insertCollectionLable,
+				CollectionId,
+				label[i],
+			)
+			if err != nil {
+				log.Println(err)
+				return err
+			}
+		}
 	}
 	return nil
 }
@@ -154,6 +164,8 @@ func GetCoAndLabel(collectionId interface{}) (CoAndLabel, error) {
 		return CoAndLabel{}, err
 	}
 	Co.Label, err = SearchCoLable(collectionId)
+
+	log.Println("collection_id: ", collectionId, "labels: ", Co.Label)
 	if err != nil {
 		log.Println(err)
 		return CoAndLabel{}, err
