@@ -133,6 +133,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 	for i := 0; i < len(items); i++ {
 		ig := ItemAndLogo{}
 		ig.Item = items[i]
+		ig.Like, _ = DoesLike(items[i].ItemID, userId)
 		ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 		ItemAndLogos = append(ItemAndLogos, ig)
 	}

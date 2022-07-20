@@ -6,6 +6,7 @@ import (
 	"NFT-BASE-BACK/service"
 	"NFT-BASE-BACK/utils"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -209,6 +210,7 @@ func SingleItem(ctx *gin.Context) {
 
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
+	log.Println("user_id: ", UserId)
 
 	baseItem, code := service.GetItem(itemId, UserId)
 

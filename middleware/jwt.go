@@ -105,3 +105,50 @@ func CheckUserInfo(claims *utils.CustomClaims) error {
 	}
 	return errors.New("Wrong passwd or email")
 }
+
+// JWTAuth middleware
+func GetUserInfo() gin.HandlerFunc {
+
+	return func(ctx *gin.Context) {
+		authHeader := ctx.Request.Header.Get("Authorization")
+
+		if authHeader != "" {
+			//按空格拆分
+			parts := strings.SplitN(authHeader, " ", 2)
+
+			log.Println("-----------------Baearer Token-----------------------------------")
+			if !(len(parts) == 2 && parts[0] == "Bearer") {
+				ctx.JSON(http.StatusOK, gin.H{
+					"code": base.AuthFormatError,
+					"msg":  base.AuthFormatError.String(),
+				})
+				ctx.Abort()
+				return
+			}
+
+			//解析token包含的信息
+			claims, err := utils.ParseToken(parts[1])
+			if err != nil {
+				ctx.JSON(http.StatusOK, gin.H{
+					"code": base.InvalidToken,
+					"msg":  base.InvalidToken.String(),
+				})
+				ctx.Abort()
+				return
+			}
+
+			if err := CheckUserInfo(claims); err != nil {
+				ctx.JSON(http.StatusOK, gin.H{
+					"code": base.UserTokenError,
+					"msg":  base.UserTokenError.String(),
+				})
+				ctx.Abort()
+				return
+			}
+			// 将当前请求的claims信息保存到请求的上下文c上
+			ctx.Set("email", claims.Email)
+			ctx.Set("passwd", claims.Passwd)
+		}
+		ctx.Next() // 后续的处理函数可以用过ctx.Get("claims")来获取当前请求的用户信息
+	}
+}

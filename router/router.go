@@ -60,8 +60,8 @@ func InitRouter() *gin.Engine {
 		listsRouter.GET("/user-list", v2.UserList)
 		listsRouter.GET("/collection", v2.SingleColletction)
 		listsRouter.GET("/collection-list", v2.CollectionList)
-		listsRouter.GET("/item", v2.SingleItem)
-		listsRouter.GET("/item-list", v2.ItemList)
+		listsRouter.GET("/item", mw.GetUserInfo(), v2.SingleItem)
+		listsRouter.GET("/item-list", mw.GetUserInfo(), v2.ItemList)
 		listsRouter.GET("/item-history", v2.ItemHistory)
 
 	}

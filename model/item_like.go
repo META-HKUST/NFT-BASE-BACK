@@ -52,13 +52,14 @@ func DoesLike(itemId string, UserId string) (bool, error) {
 	var g string
 	e := db.Get(&g, doesLike, itemId, UserId)
 	if e != nil {
+		log.Println(e)
 		return false, e
 	}
 	if g == "" {
 		log.Println("Does user like this item? ", UserId, " ", itemId, " ", false)
 		return false, nil
 	} else {
-		log.Println("Does user like this item? ", UserId, " ", itemId, " ", false)
+		log.Println("Does user like this item? ", UserId, " ", itemId, " ", true)
 		return true, nil
 	}
 }
