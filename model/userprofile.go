@@ -8,6 +8,7 @@ import (
 var (
 	//edit user profile
 	getProfileByID     = string("select * from accounts where user_id=?;")
+	getLogoImageByID   = string("select logo_image from accounts where user_id=?;")
 	queryUserId        = string("select user_id from accounts where email=?;")
 	updateUserProfile  = string("update accounts set user_name=?,banner_image=?,logo_image=?,poison=?,organization=? where user_id=?;")
 	getProfileByKey    = string("select user_id,email,user_name,banner_image,logo_image,poison,organization,created_at from accounts where user_name like concat ('%',?,'%') limit ? offset ?;")
@@ -56,6 +57,15 @@ func UpdateAccountToken(userId string) error {
 func GetUserName(UserId string) (string, error) {
 	var g string
 	err := db.Get(&g, queryUserName, UserId)
+	if err != nil {
+		return "", err
+	}
+	return g, nil
+}
+
+func GetLogoImage(UserId string) (string, error) {
+	var g string
+	err := db.Get(&g, getLogoImageByID, UserId)
 	if err != nil {
 		return "", err
 	}

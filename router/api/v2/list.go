@@ -5,8 +5,10 @@ import (
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
 	"NFT-BASE-BACK/utils"
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -131,12 +133,13 @@ func SingleColletction(ctx *gin.Context) {
 		return
 	}
 
-	data, err := service.GetCollection(ch)
+	data, err := model.GetCoAndLabel(ch)
 
 	if err != nil {
 		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
 		return
 	}
+
 	res.SetData(data)
 
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
@@ -195,7 +198,20 @@ func SingleItem(ctx *gin.Context) {
 	var resp base.Response
 	itemId := ctx.Query("item_id")
 
-	baseItem, code := service.GetItem(itemId)
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	//// check if admin account
+	//if email != "1721062927@qq.com" {
+	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
+	//}
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
+	baseItem, code := service.GetItem(itemId, UserId)
+
 	if code != base.Success {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
@@ -240,6 +256,18 @@ func SingleItem(ctx *gin.Context) {
 func ItemList(ctx *gin.Context) {
 	var resp base.Response
 
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	//// check if admin account
+	//if email != "1721062927@qq.com" {
+	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
+	//}
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
 	pageNum := ctx.Query("page_num")
 	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
 	pageSize := ctx.Query("page_size")
@@ -259,6 +287,10 @@ func ItemList(ctx *gin.Context) {
 	rankTimeBool, _ := strconv.ParseBool(rankTime)
 	collectionId := ctx.Query("collection_id")
 	collectionIdInt, _ := strconv.Atoi(collectionId)
+
+	if UserId != "" {
+		userId = UserId
+	}
 
 	items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
 	if code != nil {

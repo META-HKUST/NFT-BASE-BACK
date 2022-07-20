@@ -131,22 +131,22 @@ func UploadToIpfs(ctx *gin.Context) {
 
 func GetFileType(filename string) (string, string) {
 	if strings.Contains(filename, ".jpg") == true {
-		return "jpg", "picture"
+		return "jpg", "image"
 	}
 	if strings.Contains(filename, ".png") == true {
-		return "png", "picture"
+		return "png", "image"
 	}
 	if strings.Contains(filename, ".jpeg") == true {
-		return "jpeg", "picture"
+		return "jpeg", "image"
 	}
 	if strings.Contains(filename, ".gif") == true {
-		return "gif", "picture"
+		return "gif", "image"
 	}
 	if strings.Contains(filename, ".jfif") == true {
-		return "jfif", "picture"
+		return "jfif", "image"
 	}
 	if strings.Contains(filename, ".webp") == true {
-		return "webp", "picture"
+		return "webp", "image"
 	}
 	if strings.Contains(filename, ".mp3") == true {
 		return "mp3", "music"
@@ -166,7 +166,7 @@ func GetFileType(filename string) (string, string) {
 func CheckFileSize(file multipart.File, filetype string) bool {
 
 	var filesMax int64
-	if filetype == "picture" {
+	if filetype == "image" {
 		filesMax = PictureMax
 	} else if filetype == "music" {
 		filesMax = MusicMax

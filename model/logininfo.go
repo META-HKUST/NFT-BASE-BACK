@@ -143,31 +143,29 @@ func GetPerson(email string) (Person, error) {
 
 // store token but do not acitvate it
 func (p Person) StoreEmailToken() error {
-	r1, e1 := db.Exec(updateToken, p.Token, p.Email)
+	_, e1 := db.Exec(updateToken, p.Token, p.Email)
 	if e1 != nil {
 		log.Println(e1)
 		return e1
 	}
-	r2, e2 := db.Exec(updateactivated, "no", p.Email)
+	_, e2 := db.Exec(updateactivated, "no", p.Email)
 	if e2 != nil {
 		log.Println(e2)
 		return e2
 	}
-	r3, e3 := db.Exec(updategenTime, p.GenTime, p.Email)
+	_, e3 := db.Exec(updategenTime, p.GenTime, p.Email)
 	if e3 != nil {
 		log.Println(e3)
 		return e3
 	}
-	log.Println("Store email token succeeded, rowsAffected: ", r1.RowsAffected, r2.RowsAffected, r3.RowsAffected)
 	return nil
 }
 
 func ActivateEmailToken(token string) error {
-	r1, e := db.Exec(activateToken, "yes", token)
+	_, e := db.Exec(activateToken, "yes", token)
 	if e != nil {
 		return e
 	}
-	log.Println("Activate email token succeeded, rowsAffected: ", r1.RowsAffected)
 	return nil
 }
 

@@ -5,6 +5,7 @@ import (
 	"NFT-BASE-BACK/entity"
 	"fmt"
 	"log"
+	"strings"
 )
 
 var (
@@ -20,7 +21,42 @@ var (
 	UpdateDescription    = string("update collection set description=? where collection_id=?;")
 
 	getCollectionName = string("select collection_name from collection where collection_id = ?")
+
+	insertCollectionLable = string("insert into collection_label(collection_id, label) values(?,?);")
+	queryCollectionLable  = string("select collection_id, label from collection_label where collection_id=?")
+
+	updateCoLabel = string("update collection_label set label=? where collection_id=?;")
 )
+
+type CollectionLabel struct {
+	CollectionID    int    `db:"collection_id"`
+	CollectionLabel string `db:"label"`
+}
+
+func SearchCoLable(CoId interface{}) ([]string, error) {
+	var LableSlice []string
+	err := db.Select(&LableSlice, queryCollectionLable, CoId)
+	if err != nil {
+		return []string{}, err
+	}
+	return LableSlice, nil
+}
+
+func CreateCollectionLabel(label CollectionLabel) (CollectionLabel, error) {
+	_, err := db.Exec(insertCollectionLable,
+		label.CollectionID,
+		label.CollectionLabel,
+	)
+	if err != nil {
+		return CollectionLabel{}, err
+	}
+	var ret CollectionLabel
+	err = db.Get(&ret, queryCollectionLable, label.CollectionID)
+	if err != nil {
+		return CollectionLabel{}, err
+	}
+	return ret, nil
+}
 
 func CreatCollection(collection_name string, logo_image string, feature_image string, banner_image string, items_count int, description string, owner string, owner_name string, created_at string) error {
 	owner_name, _ = GetUserName(owner)
@@ -87,6 +123,42 @@ func EditDescription(Arg string, CollectionId int) error {
 		return e
 	}
 	return nil
+}
+
+func EditCollectionLable(label []string, CollectionId int) error {
+	labelSlice := []string{}
+	if len(label) != 0 {
+		for _, value := range label {
+			labelSlice = append(labelSlice, value)
+		}
+	}
+	ss := fmt.Sprintf(strings.Join(labelSlice, ","))
+	_, e := db.Exec(updateItemLabel, ss, CollectionId)
+	if e != nil {
+		return e
+	}
+	return nil
+}
+
+type CoAndLabel struct {
+	entity.Collection
+	Label []string
+}
+
+func GetCoAndLabel(collectionId interface{}) (CoAndLabel, error) {
+	Co := CoAndLabel{}
+	var err error
+	Co.Collection, err = GetCollection(collectionId)
+	if err != nil {
+		log.Println(err)
+		return CoAndLabel{}, err
+	}
+	Co.Label, err = SearchCoLable(collectionId)
+	if err != nil {
+		log.Println(err)
+		return CoAndLabel{}, err
+	}
+	return Co, nil
 }
 
 func GetCollection(collectionId interface{}) (entity.Collection, error) {

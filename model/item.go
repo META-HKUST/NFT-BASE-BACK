@@ -45,6 +45,11 @@ type ItemInfo struct {
 	LikeCount    int      `json:"like_count" db:"like_count"`
 }
 
+type ItemInfoAndLike struct {
+	ItemInfo
+	Like bool `json:"like" db:"like"`
+}
+
 func CreateItem(item Item) (Item, error) {
 	_, err := db.Exec(insertItem,
 		item.ItemID,
@@ -211,4 +216,40 @@ func GetItemInfo(itemId string) (ItemInfo, error) {
 	}
 
 	return itemInfo, nil
+}
+
+func GetItemAndLikeInfo(itemId string, userId string) (ItemInfoAndLike, error) {
+	var item Item
+	var lableSlice []string
+	err := db.Get(&item, QueryItem, itemId)
+	if err != nil {
+		log.Println(err)
+		return ItemInfoAndLike{}, err
+	}
+
+	err = db.Select(&lableSlice, searchLabel, itemId)
+	if err != nil {
+		log.Println(err)
+		return ItemInfoAndLike{}, err
+	}
+
+	itemInfo := ItemInfo{
+		item.ItemName,
+		item.ItemID,
+		item.ItemData,
+		item.CreatedAt,
+		item.Description,
+		item.CollectionID,
+		item.Category,
+		lableSlice,
+		item.CreaterID,
+		item.OwnerID,
+		item.LikeCount,
+	}
+
+	itemAndLike := ItemInfoAndLike{}
+	itemAndLike.ItemInfo = itemInfo
+	itemAndLike.Like, _ = DoesLike(itemInfo.ItemID, userId)
+
+	return itemAndLike, nil
 }

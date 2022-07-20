@@ -309,21 +309,21 @@ func TransferItem(ctx *gin.Context) {
 		},
 	)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, base.ServerError)
 		return
 	}
 
 	// 查item
 	ret, err := model.UpdateItemOwner(req.ItemId, req.ToUserId)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, base.ServerError)
 		return
 	}
 
 	// 查label
 	ret_label, err := model.SearchLable(req.ItemId)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, err.Error())
+		ctx.JSON(http.StatusInternalServerError, base.ServerError)
 		return
 	}
 

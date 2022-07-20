@@ -18,6 +18,8 @@ var (
 	getActionCount = string("select count(*) from action")
 	getAllAct      = string("select * from action")
 	getMaxActionId = string("select max(act_id) from action")
+
+	getActionItemList = string("select item_id from action_item,action where action.act_id = action_item.act_id and action.act_id = ?;")
 )
 
 type Action struct {
@@ -30,6 +32,34 @@ type Action struct {
 	Act_image   string `json:"act_image" db:"act_image"`
 	Description string `json:"description" db:"description"`
 	Item_num    int    `json:"item_num" db:"item_num"`
+}
+
+type ActionItem struct {
+	ItemInfo
+	VoteCount int `json:"vote_count" db:"vote_count"`
+}
+
+func GetActionItemList(act_id int, rank_vote bool, rank_time bool) ([]ActionItem, error) {
+
+	var ActionItems []ActionItem
+	var itemIds []string
+
+	err := db.Select(&itemIds, getActionItemList, act_id)
+	if err != nil {
+		log.Println(err)
+		return ActionItems, err
+	}
+
+	log.Println("item ids: ", itemIds)
+
+	for i := 0; i < len(itemIds); i++ {
+		ai := ActionItem{}
+		ai.ItemInfo, _ = GetItemInfo(itemIds[i])
+		ai.VoteCount, _ = GetVoteCount(act_id, itemIds[i])
+		ActionItems = append(ActionItems, ai)
+	}
+
+	return ActionItems, nil
 }
 
 func GetMaxActionId() (int, error) {

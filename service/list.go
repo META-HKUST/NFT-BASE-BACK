@@ -6,27 +6,27 @@ import (
 	"log"
 )
 
-func GetItem(itemId string) (model.ItemInfo, base.ErrCode) {
-	itemInfo, err := model.GetItemInfo(itemId)
+func GetItem(itemId string, userId string) (model.ItemInfoAndLike, base.ErrCode) {
+	itemInfo, err := model.GetItemAndLikeInfo(itemId, userId)
 	if err != nil {
 		log.Println(err)
-		return model.ItemInfo{}, base.QueryError
+		return model.ItemInfoAndLike{}, base.QueryError
 	}
 	return itemInfo, base.Success
 
 }
 
-func GetItemList(page_num, page_size int64, userId string, userLike, userCollect, userCreate bool, category string, keyword string, rank_favorite, rank_time bool, collection_id int) ([]model.Item, error) {
+func GetItemList(page_num, page_size int64, userId string, userLike, userCollect, userCreate bool, category string, keyword string, rank_favorite, rank_time bool, collection_id int) ([]model.ItemAndLogo, error) {
 	items, err := model.GetItemList(page_num, page_size, userId, userLike, userCollect, userCreate, category, keyword, rank_favorite, rank_time, collection_id)
 	if err != nil {
 		log.Println(err)
-		return []model.Item{}, err
+		return []model.ItemAndLogo{}, err
 	}
 	return items, nil
 }
 
-func GetCollectionList(page_num,page_size int64,userId string,keyword string,rank_favorite,rank_time bool,label string) ([]model.Collection, error) {
-	collections, err := model.GetCollectionList(page_num,page_size,userId,keyword,rank_favorite,rank_time,label)
+func GetCollectionList(page_num, page_size int64, userId string, keyword string, rank_favorite, rank_time bool, label string) ([]model.Collection, error) {
+	collections, err := model.GetCollectionList(page_num, page_size, userId, keyword, rank_favorite, rank_time, label)
 	if err != nil {
 		log.Println(err)
 		return []model.Collection{}, err

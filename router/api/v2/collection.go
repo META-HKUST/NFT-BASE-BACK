@@ -3,6 +3,7 @@ package v2
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
+	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
 	"NFT-BASE-BACK/utils"
 	"fmt"
@@ -54,6 +55,22 @@ func Create(ctx *gin.Context) {
 	UserId := strings.Replace(t1, ".", "-", -1)
 
 	code, data := service.CreateCollectionByAccount(UserId, ch.Collection_name, ch.LogoImage, ch.FeatureImage, ch.BannerImage, ch.Description)
+
+	// 写item label
+	for _, v := range ch.Label {
+		CollectionLabel := model.CollectionLabel{
+			// change this to test
+			CollectionID:    data.CollectionId,
+			CollectionLabel: v,
+		}
+		_, err := model.CreateCollectionLabel(CollectionLabel)
+		if err != nil {
+			log.Println(err)
+			ctx.JSON(http.StatusInternalServerError, "database error")
+			return
+		}
+	}
+
 	res.SetData(data)
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }
