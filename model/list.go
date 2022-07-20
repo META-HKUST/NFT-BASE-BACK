@@ -31,6 +31,7 @@ type ItemAndLogo struct {
 	Item
 	LogoImage string `json:"logo_image" db:"logo_image"`
 	Like      bool   `json:"like" db:"like"`
+	CoName    string `json:"collection_name" db:"collection_name"`
 }
 
 func GetItemList(page_num, page_size int64, userId string, userLike, userCollect, userCreate bool, category string, keyword string, rank_favorite, rank_time bool, collection_id int) ([]ItemAndLogo, error) {
@@ -54,6 +55,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(ig.CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -72,6 +74,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(ig.CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -91,6 +94,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(ig.CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -109,6 +113,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(ig.CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -135,6 +140,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 		ig.Item = items[i]
 		ig.Like, _ = DoesLike(items[i].ItemID, userId)
 		ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+		ig.CoName, _ = GetCollectionName(ig.CollectionID)
 		ItemAndLogos = append(ItemAndLogos, ig)
 	}
 	return ItemAndLogos, nil

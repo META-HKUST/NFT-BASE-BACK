@@ -4,6 +4,7 @@ import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/model"
 	"NFT-BASE-BACK/service"
+	"crypto/md5"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -149,6 +150,13 @@ func Update_Passwd(ctx *gin.Context) {
 		Passwd: ch.Old_Passwd,
 	}
 	res := base.Response{}
+
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte(ch.New_Passwd))
+	Result := Md5Inst.Sum([]byte(""))
+
+	ch.New_Passwd = fmt.Sprintf("%x", Result)
+
 	code := P.Update(ch.New_Passwd)
 	ctx.JSON(http.StatusOK, res.SetCode(code))
 }

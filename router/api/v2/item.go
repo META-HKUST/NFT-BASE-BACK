@@ -113,6 +113,7 @@ func CreateItem(ctx *gin.Context) {
 	)
 
 	if err != nil {
+		log.Println(err)
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

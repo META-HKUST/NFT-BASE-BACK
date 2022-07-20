@@ -217,6 +217,13 @@ func ResetPasswd(email string, code string, pd string) base.ErrCode {
 	if c1 != code {
 		return base.WrongVerifyCode
 	}
+
+	Md5Inst := md5.New()
+	Md5Inst.Write([]byte(pd))
+	Result := Md5Inst.Sum([]byte(""))
+
+	pd = fmt.Sprintf("%x", Result)
+
 	err := model.ResetUpdate(email, pd)
 	if err != nil {
 		return base.InputError
