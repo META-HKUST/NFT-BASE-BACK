@@ -127,6 +127,15 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			log.Println(err)
 			return []ItemAndLogo{}, err
 		}
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.CoName, _ = GetCollectionName(ig.CollectionID)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		return ItemAndLogos, nil
 	}
 
 	err := db.Select(&items, queryByCondition, page_size, offset)

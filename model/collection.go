@@ -152,7 +152,7 @@ func EditCollectionLable(label []string, CollectionId int) error {
 
 type CoAndLabel struct {
 	entity.Collection
-	Label []string
+	Label []string `json:"label" db:"label"`
 }
 
 func GetCoAndLabel(collectionId interface{}) (CoAndLabel, error) {
