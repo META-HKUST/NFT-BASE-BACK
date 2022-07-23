@@ -292,6 +292,7 @@ func ItemList(ctx *gin.Context) {
 
 	if UserId != "" {
 		userId = UserId
+		log.Println("item-list using user_id: ", userId)
 	}
 
 	items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)

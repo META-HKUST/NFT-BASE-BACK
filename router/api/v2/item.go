@@ -60,9 +60,9 @@ type CreateParamsResponse struct {
 
 type ItemRes struct {
 	Item            interface{} `json:"item" example:"0"`
-	Collection_name string      `json:"collection_Name" example:"0"`
-	Owner_name      string      `json:"owner_Name" example:"0"`
-	Creater_name    string      `json:"creater_Name" example:"0"`
+	Collection_name string      `json:"collection_name" example:"0"`
+	Owner_name      string      `json:"owner_name" example:"0"`
+	Creater_name    string      `json:"creater_name" example:"0"`
 }
 
 // CreateItem @Description  create single item: parse UserId from token and create NFT(Creater and Owner are defined as UserId)
