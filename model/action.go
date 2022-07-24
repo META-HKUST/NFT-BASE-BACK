@@ -8,12 +8,12 @@ import (
 )
 
 var (
-	//edit user profile
+	//edit action
 	addAction    = string("insert into action(act_name,creater_id,start_time,end_time,act_image,description,item_num) values(?,?,?,?,?,?,?);")
 	deleteAction = string("delete from action where act_id = ?")
 	getAction    = string("select * from action where act_id=?;")
 	editAction   = string("update action set act_name=?,start_time=?,end_time=?,act_image=?,description=? where act_id=?;")
-	uploadNFT    = string("insert into action_item(act_id,item_id) values(?,?);")
+	uploadNFT    = string("insert into action_items(item_id, item_name, collection_id, item_data, description, owner_id, creater_id, category,like_count, act_id, vote_count) values(?,?,?,?,?,?,?,?,?,?,?);")
 	// getItemList    = string()
 	// vote           = string()
 	getActionCount = string("select count(*) from action")
@@ -21,6 +21,7 @@ var (
 	getMaxActionId = string("select max(act_id) from action")
 
 	getActionItemList = string("select item_id from action_item,action where action.act_id = action_item.act_id and action.act_id = ?;")
+	queActItems       = string("select * from action_items where act_id = ?")
 )
 
 type Action struct {
@@ -33,6 +34,87 @@ type Action struct {
 	Act_image   string `json:"act_image" db:"act_image"`
 	Description string `json:"description" db:"description"`
 	Item_num    int    `json:"item_num" db:"item_num"`
+}
+
+// this struction represents a single item details
+type ActItem struct {
+	ItemID       string `json:"item_id" db:"item_id"`
+	ItemName     string `json:"item_name" db:"item_name"`
+	CollectionID string `json:"collection_id" db:"collection_id"`
+	ItemData     string `json:"item_data" db:"item_data"`
+	Description  string `json:"description" db:"description"`
+	OwnerID      string `json:"owner_id" db:"owner_id"`
+	CreaterID    string `json:"creater_id" db:"creater_id"`
+	Category     string `json:"category" db:"category"`
+	LikeCount    int    `json:"like_count" db:"like_count"`
+	CreatedAt    string `json:"created_at" db:"created_at"`
+	ActID        int    `json:"act_id" db:"act_id"`
+	VoteCount    int    `json:"vote_count" db:"vote_count"`
+}
+
+type ActAndLike struct {
+	ActItem
+	Like bool `json:"like" db:"like"`
+}
+
+func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, rank_time bool, userId string) ([]ActAndLike, error) {
+	var actItems []ActItem
+	var ItemAndLikes []ActAndLike
+	offset := (page_num - 1) * page_size
+
+	if rank_time == true {
+		Condition := queActItems + "order by created_at desc limit ? offset ?;"
+		log.Println("query action items condition: ", Condition)
+		err := db.Select(&actItems, Condition, act_id, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ActAndLike{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(actItems); i++ {
+			ig := ActAndLike{}
+			ig.ActItem = actItems[i]
+			ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ItemAndLikes = append(ItemAndLikes, ig)
+		}
+		return ItemAndLikes, nil
+
+	}
+	if rank_vote == true {
+		Condition := queActItems + "order by vote_count desc limit ? offset ?;"
+		log.Println("query action items condition: ", Condition)
+		err := db.Select(&actItems, Condition, act_id, page_size, offset)
+
+		if err != nil {
+			log.Println(err)
+			return []ActAndLike{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(actItems); i++ {
+			ig := ActAndLike{}
+			ig.ActItem = actItems[i]
+			ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ItemAndLikes = append(ItemAndLikes, ig)
+		}
+		return ItemAndLikes, nil
+	}
+
+	Condition := queActItems + " limit ? offset ?;"
+	err := db.Select(&actItems, Condition, act_id, page_size, offset)
+	log.Println("query action items condition: ", Condition)
+	if err != nil {
+		log.Println(err)
+		return []ActAndLike{}, err
+	}
+	// add like and logoImage
+	for i := 0; i < len(actItems); i++ {
+		ig := ActAndLike{}
+		ig.ActItem = actItems[i]
+		ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+		ItemAndLikes = append(ItemAndLikes, ig)
+	}
+	return ItemAndLikes, nil
+
 }
 
 type ActionItem struct {
@@ -150,10 +232,12 @@ func UploadNFT(act_id int, item_id string) error {
 
 	act, _ := GetAction(act_id)
 	var act1 Action
+	item, _ := GetItemInfo(item_id)
 	if act == act1 {
 		return errors.New("can not find this action in database")
 	}
-	_, e := db.Exec(uploadNFT, act_id, item_id)
+
+	_, e := db.Exec(uploadNFT, item.ItemID, item.ItemName, item.CollectionID, item.ItemData, item.Description, item.OwnerID, item.CreaterID, item.Category, item.LikeCount, act_id, 0)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
 		return e

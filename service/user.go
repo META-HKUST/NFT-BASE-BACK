@@ -108,7 +108,7 @@ func Register(p model.Person) base.ErrCode {
 	p1, _ := model.GetPerson(p.Email)
 
 	if p1.Email == p.Email {
-		if p1.Activated != "no" {
+		if p1.Activated == "yes" {
 			log.Println(base.AccountExistError.String())
 			return base.AccountExistError
 		} else {

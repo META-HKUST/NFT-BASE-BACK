@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -263,79 +264,6 @@ func PostActUploadItem(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
-// GetActItemList
-// @Description  get activity item list
-// @Tags         act
-// @param        act_id 	query	string 		true 	"act id"
-// @param        page_num 	query 	int 		true 	"page num"
-// @param        page_size 	query 	int 		true 	"page size"
-// @param        rank_vote 	query 	boolean 	true 	"whether sorted by votes or not"
-// @param        rank_time 	query 	boolean 	true 	"whether sorted by time or not"
-// @Accept       json
-// @Produce      json
-// @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
-// @Failure 400  {object}   Err1000       "Input error"
-// @Failure 500  {object}   Err2000       "Server error"
-// @Router       /act/item-list [GET]
-func GetActItemList(ctx *gin.Context) {
-
-	ActId := ctx.Query("act_id")
-
-	if utils.CheckEmpty(ActId) == false {
-		resp := base.Response{}
-		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
-		return
-	}
-
-	ctx.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"msg":  "Operation succeed",
-		"data": gin.H{
-			"item_list": []gin.H{
-				{
-					"item_name":     "Pixel Bear With Hammer",
-					"item_id":       "1010",
-					"item_data":     "https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-					"create_time":   "2022-06-16 22:04:22",
-					"description":   "A very cute pixel bear with hammer",
-					"collection_id": "Pixel Bear",
-					"category":      "image",
-					"label": []string{
-						"Music",
-						"Comics",
-					},
-					"creater_id":   "mingzheliu-ust-hk",
-					"creater_name": "Hunter",
-					"owner_id":     "mingzheliu-ust-hk",
-					"vote_num":     100,
-					"vote":         false,
-				},
-				{
-					"item_name":     "Pixel Bear With Hammer",
-					"item_id":       "1010",
-					"item_data":     "https://img1.baidu.com/it/u=1783064339,1648739044&fm=253&fmt=auto&app=138&f=GIF?w=240&h=240",
-					"create_time":   "2022-06-16 22:04:22",
-					"description":   "A very cute pixel bear with hammer",
-					"collection_id": "Pixel Bear",
-					"category":      "image",
-					"label": []string{
-						"Music",
-						"Comics",
-					},
-					"creater_id":   "mingzheliu-ust-hk",
-					"owner_id":     "mingzheliu-ust-hk",
-					"vote_num":     100,
-					"creater_name": "Lisper",
-					"vote":         false,
-				},
-			},
-			"page":  1,
-			"size":  10,
-			"total": 1,
-		},
-	})
-}
-
 type PostActVoteRequest struct {
 	ActID  int    `json:"act_id" example:"1"`
 	ItemID string `json:"item_id" example:"2"`
@@ -450,9 +378,61 @@ func GetActCount(ctx *gin.Context) {
 // @Router       /act/all-action [GET]
 func GetAllAct(ctx *gin.Context) {
 
-	res := base.Response{}
+	var res base.Response
 
 	data, err := model.GetAllAct()
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+}
+
+// GetActItemList
+// @Description  get activity item list
+// @Tags         act
+// @param        act_id 	query	string 		true 	"act id"
+// @param        page_num 	query 	int 		true 	"page num"
+// @param        page_size 	query 	int 		true 	"page size"
+// @param        rank_vote 	query 	boolean 	true 	"whether sorted by votes or not"
+// @param        rank_time 	query 	boolean 	true 	"whether sorted by time or not"
+// @Accept       json
+// @Produce      json
+// @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Failure 400  {object}   Err1000       "Input error"
+// @Failure 500  {object}   Err2000       "Server error"
+// @Router       /act/item-list [GET]
+func GetActItemList(ctx *gin.Context) {
+
+	var res base.Response
+
+	s, _ := ctx.Get("email")
+
+	email := fmt.Sprintf("%v", s)
+
+	//// check if admin account
+	//if email != "1721062927@qq.com" {
+	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
+	//}
+
+	t1 := strings.Replace(email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
+	pageNum := ctx.Query("page_num")
+	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
+	pageSize := ctx.Query("page_size")
+	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
+	rankTime := ctx.Query("rank_favorite")
+	rankTimeBool, _ := strconv.ParseBool(rankTime)
+	rankVote := ctx.Query("rank_Vote")
+	rankVoteBool, _ := strconv.ParseBool(rankVote)
+	actId := ctx.Query("act_id")
+	actIdInt, _ := strconv.ParseInt(actId, 10, 64)
+
+	data, err := model.GetActItemList(pageNumInt, pageSizeInt, actIdInt, rankVoteBool, rankTimeBool, UserId)
 
 	if err != nil {
 		log.Println(err)

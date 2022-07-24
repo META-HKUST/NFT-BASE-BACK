@@ -305,11 +305,11 @@ func ItemList(ctx *gin.Context) {
 	collectionId := ctx.Query("collection_id")
 	collectionIdInt, _ := strconv.Atoi(collectionId)
 
-	if UserId != "" {
+	if userId != "" {
+		log.Println("item-list using user_id: ", userId)
+	} else if UserId != "" {
 		userId = UserId
 		log.Println("item-list using user_id: ", userId)
-	} else {
-		userId = ""
 	}
 
 	var ItemsRes ItemlistRes

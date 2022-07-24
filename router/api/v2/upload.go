@@ -44,13 +44,13 @@ func UploadToCos(ctx *gin.Context) {
 	resp := base.Response{}
 	file, header, _ := ctx.Request.FormFile("data")
 
-	// check file format
-	_, fileType := GetFileType(header.Filename)
-	log.Println("upload file type: ", fileType)
-	if fileType == "" {
-		ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
-		return
-	}
+	//// check file format
+	//_, fileType := GetFileType(header.Filename)
+	//log.Println("upload file type: ", fileType)
+	//if fileType == "" {
+	//	ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
+	//	return
+	//}
 
 	//// check file size
 	//if CheckFileSize(file, fileType) == false {
@@ -121,7 +121,7 @@ func UploadToIpfs(ctx *gin.Context) {
 	//}
 
 	fileResp := CosAndIpfsResponse{
-		"https://nftstorage.link/ipfs/"+ipfsResp.Value.Cid,
+		"https://nftstorage.link/ipfs/" + ipfsResp.Value.Cid,
 		Url,
 		encryptUrl,
 	}

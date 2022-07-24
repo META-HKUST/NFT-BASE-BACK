@@ -73,7 +73,7 @@ func InitRouter() *gin.Engine {
 		actRouter.POST("/edit", mw.JWTAuth(), v2.PostActEdit)
 		actRouter.GET("/info", v2.GetActInfo)
 		actRouter.POST("/upload-item", mw.JWTAuth(), v2.PostActUploadItem)
-		actRouter.GET("/item-list", v2.GetActItemList)
+		actRouter.GET("/item-list", mw.GetUserInfo(), v2.GetActItemList)
 		actRouter.POST("/vote", mw.JWTAuth(), v2.PostActVote)
 		actRouter.GET("/act-count", v2.GetActCount)
 		actRouter.GET("/all-action", v2.GetAllAct)

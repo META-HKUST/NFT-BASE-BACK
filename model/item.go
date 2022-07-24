@@ -29,6 +29,7 @@ type Item struct {
 	CreatedAt    string `json:"created_at" db:"created_at"`
 }
 
+// add label in except to Item
 type ItemInfo struct {
 	ItemName     string   `json:"item_name" db:"item_name"`
 	ItemID       string   `json:"item_id" db:"item_id"`
