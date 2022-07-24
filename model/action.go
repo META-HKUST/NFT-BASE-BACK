@@ -52,14 +52,16 @@ type ActItem struct {
 	VoteCount    int    `json:"vote_count" db:"vote_count"`
 }
 
-type ActAndLike struct {
+type ActAndVote struct {
 	ActItem
-	Like bool `json:"like" db:"like"`
+	Vote      bool   `json:"vote" db:"vote"`
+	LogoImage string `json:"logo_image" db:"logo_image"`
+	CoName    string `json:"collection_name" db:"collection_name"`
 }
 
-func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, rank_time bool, userId string) ([]ActAndLike, error) {
+func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, rank_time bool, userId string) ([]ActAndVote, error) {
 	var actItems []ActItem
-	var ItemAndLikes []ActAndLike
+	var ItemAndLikes []ActAndVote
 	offset := (page_num - 1) * page_size
 
 	if rank_time == true {
@@ -68,13 +70,15 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 		err := db.Select(&actItems, Condition, act_id, page_size, offset)
 		if err != nil {
 			log.Println(err)
-			return []ActAndLike{}, err
+			return []ActAndVote{}, err
 		}
 		// add like and logoImage
 		for i := 0; i < len(actItems); i++ {
-			ig := ActAndLike{}
+			ig := ActAndVote{}
 			ig.ActItem = actItems[i]
-			ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
+			ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
 			ItemAndLikes = append(ItemAndLikes, ig)
 		}
 		return ItemAndLikes, nil
@@ -87,13 +91,15 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 
 		if err != nil {
 			log.Println(err)
-			return []ActAndLike{}, err
+			return []ActAndVote{}, err
 		}
 		// add like and logoImage
 		for i := 0; i < len(actItems); i++ {
-			ig := ActAndLike{}
+			ig := ActAndVote{}
 			ig.ActItem = actItems[i]
-			ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
+			ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
 			ItemAndLikes = append(ItemAndLikes, ig)
 		}
 		return ItemAndLikes, nil
@@ -104,13 +110,15 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 	log.Println("query action items condition: ", Condition)
 	if err != nil {
 		log.Println(err)
-		return []ActAndLike{}, err
+		return []ActAndVote{}, err
 	}
 	// add like and logoImage
 	for i := 0; i < len(actItems); i++ {
-		ig := ActAndLike{}
+		ig := ActAndVote{}
 		ig.ActItem = actItems[i]
-		ig.Like, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+		ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+		ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
+		ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
 		ItemAndLikes = append(ItemAndLikes, ig)
 	}
 	return ItemAndLikes, nil
