@@ -148,6 +148,7 @@ func SingleColletction(ctx *gin.Context) {
 
 type ColistRes struct {
 	Colist []model.Collection
+	Count  int `json:"count"`
 }
 
 // CollectionList @Description  get all users in database
@@ -181,13 +182,18 @@ func CollectionList(ctx *gin.Context) {
 	rankTimeBool, _ := strconv.ParseBool(rankTime)
 	userId := ctx.Query("user_id")
 
-	collections, code := service.GetCollectionList(pageNumInt, pageSizeInt, userId, keyword, rankFavoriteBool, rankTimeBool, label)
-	if code != nil {
-		ctx.JSON(http.StatusInternalServerError, "Failed to get collections information")
-		return
+	var coRes ColistRes
+	var err error
+	//collections, code := service.GetCollectionList(pageNumInt, pageSizeInt, userId, keyword, rankFavoriteBool, rankTimeBool, label)
+	coRes.Colist, coRes.Count, err = model.GetCollectionList(pageNumInt, pageSizeInt, userId, keyword, rankFavoriteBool, rankTimeBool, label)
+
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
 	}
-	resp.SetData(collections)
-	ctx.JSON(http.StatusOK, resp.SetCode(0))
+
+	resp.SetData(coRes)
+	ctx.JSON(http.StatusOK, resp.SetCode(base.Success))
 }
 
 // SingleItem @Description  get all users in database
@@ -237,6 +243,11 @@ func SingleItem(ctx *gin.Context) {
 	resp.SetData(resData)
 
 	ctx.JSON(http.StatusOK, resp)
+}
+
+type ItemlistRes struct {
+	ItemALs []model.ItemAndLogo
+	Count   int `json:"count"`
 }
 
 // ItemList @Description  get all users in database
@@ -301,15 +312,17 @@ func ItemList(ctx *gin.Context) {
 		userId = ""
 	}
 
-	items, err := model.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
+	var ItemsRes ItemlistRes
+	var err error
+	ItemsRes.ItemALs, ItemsRes.Count, err = model.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
 
 	//items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
 	}
-	resp.SetData(items)
-	ctx.JSON(http.StatusOK, resp.SetCode(0))
+	resp.SetData(ItemsRes)
+	ctx.JSON(http.StatusOK, resp.SetCode(base.Success))
 }
 
 type ItemHistoryRequest struct {
