@@ -121,7 +121,7 @@ func UploadToIpfs(ctx *gin.Context) {
 	//}
 
 	fileResp := CosAndIpfsResponse{
-		ipfsResp.Value.Cid,
+		"https://nftstorage.link/"+ipfsResp.Value.Cid,
 		Url,
 		encryptUrl,
 	}
