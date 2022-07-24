@@ -10,18 +10,14 @@ import (
 )
 
 type Person struct {
-	Email  string `db:"email"`
-	Passwd string `db:"passwd"`
-	Activate
-}
-
-type Activate struct {
-	Token      string `db:"emailToken"`
-	GenTime    string `db:"genTime"`
-	Activated  string `db:"activated"`
-	VerifyCode string `db:"verify_code"`
-	CodeTime   string `db:"codeTime"`
-	UserId     string `db:"userId"`
+	Email      string `json:"email" db:"email"`
+	Passwd     string `json:"passwd" db:"passwd"`
+	Token      string `json:"emailToken" db:"emailToken"`
+	GenTime    string `json:"genTime" db:"genTime"`
+	Activated  string `json:"activated" db:"activated"`
+	VerifyCode string `json:"verify_code" db:"verify_code"`
+	CodeTime   string `json:"codeTime" db:"codeTime"`
+	UserId     string `json:"user_id" db:"user_id"`
 }
 
 // db variable
@@ -30,11 +26,12 @@ var db *sqlx.DB
 // mysql sentences
 var (
 	// these three are related to account email and passwd
-	insert       = string("insert into login(email,passwd) values(?,?);")
-	query        = string("select email,passwd from login where email=?;")
-	update       = string("update login set passwd=? where email=?;")
-	updateUserId = string("update login set user_id=? where email=?;")
-	delete       = string("DELETE FROM login WHERE email=?;")
+	insert        = string("insert into login(email,passwd) values(?,?);")
+	query         = string("select email,activated from login where email=?;")
+	update        = string("update login set passwd=? where email=?;")
+	updateUserId  = string("update login set user_id=? where email=?;")
+	deleteUser    = string("DELETE FROM login WHERE email=?;")
+	deleteProfile = string("DELETE FROM accounts WHERE email=?;")
 
 	// email activation
 	updateToken      = string("update login set emailToken=? where email=?;")
@@ -68,38 +65,40 @@ func InitDB(config config.Config) {
 	db.SetConnMaxIdleTime(20)
 }
 
-func DeleteAccount(email string) error {
-	r1, e1 := db.Exec(delete, email)
+func DeleteUser(email string) error {
+	_, e1 := db.Exec(deleteUser, email)
 	if e1 != nil {
 		log.Println(e1)
 		return e1
 	}
-	log.Println(r1)
+	return nil
+}
+func DeleteProfile(email string) error {
+	_, e1 := db.Exec(deleteProfile, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
 	return nil
 }
 
 func InsertAccount(email string, Id string) error {
-	r1, e1 := db.Exec(insertAccount, Id, email, email, "https://lh3.googleusercontent.com/khLUIXJ0H0HDHvbaMPg-yhHKnTHPS7TVg4q_sHj9YNaLci-6tEw5K8UElAwZ0ov7ABBpnj0eNw9S1I637mpLqcuSdxrZYGuAaXU_rg=s0", "https://lh3.googleusercontent.com/ydFS04Bvu6ek2JcqwEsiIavNCMfFhforiZ24EcBYMurNvj1QgCDj1Ol1V9tZuH8Kfomqd83Umtr7iFe_FQZ3ptF5_0uQwiG_nYbP1hQ=h600", "not set up", "not set up", 100)
+	_, e1 := db.Exec(insertAccount, Id, email, email, "https://lh3.googleusercontent.com/khLUIXJ0H0HDHvbaMPg-yhHKnTHPS7TVg4q_sHj9YNaLci-6tEw5K8UElAwZ0ov7ABBpnj0eNw9S1I637mpLqcuSdxrZYGuAaXU_rg=s0", "https://lh3.googleusercontent.com/ydFS04Bvu6ek2JcqwEsiIavNCMfFhforiZ24EcBYMurNvj1QgCDj1Ol1V9tZuH8Kfomqd83Umtr7iFe_FQZ3ptF5_0uQwiG_nYbP1hQ=h600", "not set up", "not set up", 100)
 	if e1 != nil {
-		log.Println(e1)
 		return e1
 	}
-	log.Println(r1)
 	return nil
 }
 
 // first examin if the account exists and then insert
 func (p Person) Register() base.ErrCode {
 
-	result, e := db.Exec(insert, p.Email, p.Passwd)
+	_, e := db.Exec(insert, p.Email, p.Passwd)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
 		return base.InsertError
 	}
 
-	rowsAffected, _ := result.RowsAffected()
-	lastInsertId, _ := result.LastInsertId()
-	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
 	return base.Success
 }
 
@@ -147,6 +146,7 @@ func GetPerson(email string) (Person, error) {
 	var a Person
 	err := db.Get(&a, query, email)
 	if err != nil {
+		log.Println(err)
 		return Person{}, err
 	}
 	return a, nil
@@ -229,11 +229,10 @@ func ResetUpdate(email string, passwd string) error {
 }
 
 func UpdateId(email string, Id string) error {
-	r1, e1 := db.Exec(updateUserId, Id, email)
+	_, e1 := db.Exec(updateUserId, Id, email)
 	if e1 != nil {
 		log.Println(e1)
 		return e1
 	}
-	log.Println(r1)
 	return nil
 }

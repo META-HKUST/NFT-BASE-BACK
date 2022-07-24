@@ -3,7 +3,6 @@ package model
 import (
 	"NFT-BASE-BACK/base"
 	"NFT-BASE-BACK/entity"
-	"fmt"
 	"log"
 )
 
@@ -24,12 +23,23 @@ var (
 	insertCollectionLable = string("insert into collection_label(collection_id, label) values(?,?);")
 	queryCollectionLable  = string("select label from collection_label where collection_id=?")
 
+	deleteCollection = string("DELETE FROM collection WHERE owner=?;")
+
 	updateCoLabel = string("update collection_label set label=? where collection_id=?;")
 )
 
 type CollectionLabel struct {
 	CollectionID    int    `db:"collection_id"`
 	CollectionLabel string `db:"label"`
+}
+
+func DeleteCollection(UserId string) error {
+	_, e1 := db.Exec(deleteCollection, UserId)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	return nil
 }
 
 func SearchCoLable(CoId interface{}) ([]string, error) {
@@ -61,19 +71,15 @@ func CreateCollectionLabel(label CollectionLabel) ([]string, error) {
 
 func CreatCollection(collection_name string, logo_image string, feature_image string, banner_image string, items_count int, description string, owner string, owner_name string, created_at string) error {
 	owner_name, _ = GetUserName(owner)
-	fmt.Println("owner_name: ", owner_name)
+	log.Println("create collection owner_name: ", owner_name)
 	if owner_name == "" {
-		owner_name = owner[0 : len(owner)-7]
+		owner_name = owner
 	}
-	result, e := db.Exec(insertCollection, collection_name, logo_image, feature_image, banner_image, items_count, description, owner, owner_name, created_at)
+	_, e := db.Exec(insertCollection, collection_name, logo_image, feature_image, banner_image, items_count, description, owner, owner_name, created_at)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
 		return e
 	}
-
-	rowsAffected, _ := result.RowsAffected()
-	lastInsertId, _ := result.LastInsertId()
-	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
 	return nil
 }
 

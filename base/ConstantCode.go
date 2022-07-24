@@ -6,14 +6,16 @@ type ErrCode int
 const (
 	Success ErrCode = 0 // Operation succeed
 
-	InputError        ErrCode = 1000 // Input Error
-	OpenSqlError      ErrCode = 1001 // Error open Mysql database
-	ConnectSqlError   ErrCode = 1002 // Cannot connect to mysql database
-	InsertError       ErrCode = 1003 // Insert data error
-	QueryError        ErrCode = 1004 // Query db error
-	WrongLoginError   ErrCode = 1005 // Wrong username or passwd
-	AccountExistError ErrCode = 1006 // Account is already registered
-	PasswdUpdateError ErrCode = 1007 // Update password failed
+	InputError            ErrCode = 1000 // Input Error
+	OpenSqlError          ErrCode = 1001 // Error open Mysql database
+	ConnectSqlError       ErrCode = 1002 // Cannot connect to mysql database
+	InsertError           ErrCode = 1003 // Insert data error
+	QueryError            ErrCode = 1004 // Query db error
+	WrongLoginError       ErrCode = 1005 // Wrong username or passwd
+	AccountExistError     ErrCode = 1006 // Account is already registered
+	PasswdUpdateError     ErrCode = 1007 // Update password failed
+	InsertProfileError    ErrCode = 1008 // insert into profile error: maybe account already registered
+	CreateCollectionError ErrCode = 1009 // Create collection error
 
 	AuthFailed      ErrCode = 1101 // Permission denied, lack token
 	AuthFormatError ErrCode = 1102 // The auth format in the request header is incorrect

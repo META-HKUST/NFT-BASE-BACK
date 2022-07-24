@@ -105,7 +105,21 @@ func Register(p model.Person) base.ErrCode {
 	//	return base.PasswdLengthError
 	//}
 
-	//p1, _ := model.GetPerson(p.Email)
+	// generate UserId
+	t1 := strings.Replace(p.Email, "@", "-", -1)
+	UserId := strings.Replace(t1, ".", "-", -1)
+
+	p1, _ := model.GetPerson(p.Email)
+	log.Println(p1)
+	if p1.Email == p.Email && p1.Activated == "no" {
+		log.Println("delete account,profile,collection of : ", p.Email)
+		_ = model.DeleteUser(p.Email)
+		_ = model.DeleteProfile(p.Email)
+		_ = model.DeleteCollection(UserId)
+	} else if p1.Email == p.Email && p1.Activated == "yes" {
+		return base.AccountExistError
+	}
+
 	//
 	//if p1.Email == p.Email {
 	//	if p1.Activated == "yes" {
@@ -124,15 +138,13 @@ func Register(p model.Person) base.ErrCode {
 
 	if err := p.Register(); err != base.Success {
 		log.Println(err)
-		return base.ErrCode(err)
+		return base.ServerError
 	}
+	log.Println("Register Succeed, email:", p.Email)
 	if err := RegisterEmailToken(p, p.Email); err != base.Success {
 		log.Println(err)
-		return base.ErrCode(err)
+		return base.InputError
 	}
-
-	t1 := strings.Replace(p.Email, "@", "-", -1)
-	UserId := strings.Replace(t1, ".", "-", -1)
 
 	e1 := model.UpdateId(p.Email, UserId)
 	if e1 != nil {
@@ -142,13 +154,19 @@ func Register(p model.Person) base.ErrCode {
 	e2 := model.InsertAccount(p.Email, UserId)
 	if e2 != nil {
 		log.Println(e2)
-		return base.ServerError
+		return base.InsertProfileError
 	}
-	model.CreatCollection("Default Collection", "", "", "", 0, "Default Collection", p.UserId, p.Email, utils.GetTimeNow())
+	
+	log.Println("Successfully insert into default profile: ", UserId)
+	e3 := model.CreatCollection("Default Collection", "https://cnpj.uju-gene.com/images/1.png", "https://cnpj.uju-gene.com/images/2.png", "https://cnpj.uju-gene.com/images/3.png", 0, "Default Collection", UserId, p.Email, utils.GetTimeNow())
+	if e3 != nil {
+		log.Println(e3)
+		return base.CreateCollectionError
+	}
 	err3 := service.Enroll(UserId)
 	if err3 != nil {
 		// TODO: check why this enroll error happens and if it influence transactions
-		log.Println(err3, UserId)
+		log.Println("Register to Fabric failed: ", err3, " ", UserId)
 		return base.Success
 	}
 
