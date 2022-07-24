@@ -46,7 +46,7 @@ type CreateParams struct {
 	ItemDataSignature string `json:"item_data_signature" example:"sfahelkgbekjbfbsauiehnv"`
 
 	Description  string   `json:"description" example:"A very cute pixel bear with hammer"`
-	CollectionId int      `json:"collection_id" example:"1"`
+	CollectionId string   `json:"collection_id" example:"1"`
 	Label        []string `json:"label" example:"Music,Comics"`
 
 	Category string `json:"category" example:"image"`
@@ -91,7 +91,7 @@ func CreateItem(ctx *gin.Context) {
 		return
 	}
 	// check empty
-	if utils.CheckIntEmpty(req.CollectionId) == false {
+	if utils.CheckEmpty(req.CollectionId) == false {
 		resp := base.Response{}
 		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
 		return
@@ -255,8 +255,8 @@ func EditItem(ctx *gin.Context) {
 }
 
 type TransferParams struct {
-	ItemId   string `json:"item_id" example:"1010"`
-	ToUserId string `json:"to_user_id" example:"zhengwang-ust-hk"`
+	ItemId  string `json:"item_id" example:"1010"`
+	ToEmail string `json:"email" example:"zhengwang@ust.hk"`
 }
 
 type TransferItemResponse struct {
@@ -283,8 +283,12 @@ func TransferItem(ctx *gin.Context) {
 		return
 	}
 
+	email2 := req.ToEmail
+	username2 := strings.Replace(email2, "@", "-", -1)
+	username2 = strings.Replace(username2, ".", "-", -1)
+
 	// check empty
-	ss := append([]string{}, req.ItemId, req.ToUserId)
+	ss := append([]string{}, req.ItemId, username2)
 	if utils.CheckAnyEmpty(ss) == false {
 		resp := base.Response{}
 		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
@@ -299,12 +303,13 @@ func TransferItem(ctx *gin.Context) {
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
 	username = strings.Replace(username, ".", "-", -1)
+
 	// 调用sdk
 	_, err = sdk.Client.TransferFrom(
 		context.Background(),
 		&pb.TransferFromRequest{
 			From:     username,
-			To:       req.ToUserId,
+			To:       username2,
 			TokenId:  req.ItemId,
 			Username: username,
 		},
@@ -315,7 +320,7 @@ func TransferItem(ctx *gin.Context) {
 	}
 
 	// 查item
-	ret, err := model.UpdateItemOwner(req.ItemId, req.ToUserId)
+	ret, err := model.UpdateItemOwner(req.ItemId, username2)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, base.ServerError)
 		return
@@ -362,7 +367,7 @@ func TransferItem(ctx *gin.Context) {
 	resp.SetCode(base.Success)
 	resp.SetData(resData)
 
-	model.AddTransferHistory(ret.ItemID, username, req.ToUserId)
+	model.AddTransferHistory(ret.ItemID, username, username2)
 
 	ctx.JSON(http.StatusOK, resp)
 }

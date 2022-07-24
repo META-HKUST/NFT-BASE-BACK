@@ -22,6 +22,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 		log.Println(err)
 		return []model.ItemAndLogo{}, err
 	}
+	log.Println("items: ", items)
 	return items, nil
 }
 

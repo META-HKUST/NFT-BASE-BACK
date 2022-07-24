@@ -19,7 +19,7 @@ const (
 type Item struct {
 	ItemID       string `json:"item_id" db:"item_id"`
 	ItemName     string `json:"item_name" db:"item_name"`
-	CollectionID int    `json:"collection_id" db:"collection_id"`
+	CollectionID string `json:"collection_id" db:"collection_id"`
 	ItemData     string `json:"item_data" db:"item_data"`
 	Description  string `json:"description" db:"description"`
 	OwnerID      string `json:"owner_id" db:"owner_id"`
@@ -35,7 +35,7 @@ type ItemInfo struct {
 	ItemData     string   `json:"item_data" db:"item_data"`
 	CreatedTime  string   `json:"created_time" db:"created_at"`
 	Description  string   `json:"description" db:"description"`
-	CollectionID int      `json:"collection_id" db:"collection_id"`
+	CollectionID string   `json:"collection_id" db:"collection_id"`
 	Category     string   `json:"category" db:"category"`
 	Label        []string `json:"label" db:"label"`
 	CreaterID    string   `json:"creater_id" db:"creater_id"`

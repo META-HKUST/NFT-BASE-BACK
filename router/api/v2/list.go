@@ -146,6 +146,10 @@ func SingleColletction(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
 
+type ColistRes struct {
+	Colist []model.Collection
+}
+
 // CollectionList @Description  get all users in database
 // @Tags         list
 // @param 		 page_num   query   int   true   "page num"
@@ -293,10 +297,14 @@ func ItemList(ctx *gin.Context) {
 	if UserId != "" {
 		userId = UserId
 		log.Println("item-list using user_id: ", userId)
+	} else {
+		userId = ""
 	}
 
-	items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
-	if code != nil {
+	items, err := model.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
+
+	//items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
+	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
 		return
 	}

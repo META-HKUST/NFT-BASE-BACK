@@ -111,6 +111,8 @@ func Register(p model.Person) base.ErrCode {
 		if p1.Activated != "no" {
 			log.Println(base.AccountExistError.String())
 			return base.AccountExistError
+		} else {
+			model.DeleteAccount(p1.Email)
 		}
 	}
 
@@ -142,6 +144,7 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(e2)
 		return base.ServerError
 	}
+	model.CreatCollection("Default Collection", "", "", "", 0, "Default Collection", p.UserId, p.Email, utils.GetTimeNow())
 	err3 := service.Enroll(UserId)
 	if err3 != nil {
 		// TODO: check why this enroll error happens and if it influence transactions

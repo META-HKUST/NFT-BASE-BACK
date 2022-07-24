@@ -9,7 +9,7 @@ type Item struct {
 	CreateTime  string `json:"create-time" example:"2022-06-16 22:04:22"`
 	Description string `json:"description" example:"A very cute pixel bear with hammer"`
 
-	CollectionId   int      `json:"collection_id" example:"1"`
+	CollectionId   string   `json:"collection_id" example:"1"`
 	CollectionName string   `json:"collection_name" example:"Pixel Bear"`
 	Category       string   `json:"category" example:"Pixel Bear"`
 	Label          []string `json:"lable" example:"Music,Comics"`

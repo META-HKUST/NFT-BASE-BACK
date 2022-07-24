@@ -1,6 +1,9 @@
 package model
 
-import "log"
+import (
+	"errors"
+	"log"
+)
 
 var (
 	addVote      = string("insert into item_vote(act_id,item_id,user_id) values(?,?,?)")
@@ -10,7 +13,11 @@ var (
 )
 
 func Vote(actId int, itemId string, UserId string) error {
-
+	act, _ := GetAction(actId)
+	var act1 Action
+	if act == act1 {
+		return errors.New("can not find this action in database")
+	}
 	_, e := db.Exec(addVote, actId, itemId, UserId)
 	if e != nil {
 		log.Println(e)

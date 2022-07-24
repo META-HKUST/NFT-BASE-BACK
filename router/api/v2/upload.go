@@ -44,12 +44,13 @@ func UploadToCos(ctx *gin.Context) {
 	resp := base.Response{}
 	file, header, _ := ctx.Request.FormFile("data")
 
-	//// check file format
-	//_, fileType := GetFileType(header.Filename)
-	//if fileType == "" {
-	//	ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
-	//	return
-	//}
+	// check file format
+	_, fileType := GetFileType(header.Filename)
+	log.Println("upload file type: ", fileType)
+	if fileType == "" {
+		ctx.JSON(http.StatusOK, resp.SetCode(base.FileTypeError))
+		return
+	}
 
 	//// check file size
 	//if CheckFileSize(file, fileType) == false {
@@ -61,17 +62,18 @@ func UploadToCos(ctx *gin.Context) {
 
 	//_, url, err := fileservice.Upload(name, file)
 	Url, encryptUrl, err := service.Upload(name, file)
+
 	if err != nil {
-		fmt.Println(err)
-		ctx.JSON(1000, resp)
+		log.Println(err)
+		resp.SetCode(base.ServerError)
+		ctx.JSON(200, resp)
 		return
 	}
 	//UrlSignature, err := utils.Encrypt(url.String(),fileservice.COSCONFIG.CryptoKey)
 	//if err != nil {
 	//	fmt.Println(err)
 	//}
-	resp.Code = 0
-	resp.Msg = "Operation Succeed"
+	resp.SetCode(base.Success)
 	resp.Data = CosResponse{
 		Url:          Url,
 		UrlSignature: encryptUrl,

@@ -34,6 +34,7 @@ var (
 	query        = string("select email,passwd from login where email=?;")
 	update       = string("update login set passwd=? where email=?;")
 	updateUserId = string("update login set user_id=? where email=?;")
+	delete       = string("DELETE FROM login WHERE email=?;")
 
 	// email activation
 	updateToken      = string("update login set emailToken=? where email=?;")
@@ -65,6 +66,16 @@ func InitDB(config config.Config) {
 	}
 	db.SetMaxOpenConns(100)
 	db.SetConnMaxIdleTime(20)
+}
+
+func DeleteAccount(email string) error {
+	r1, e1 := db.Exec(delete, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	log.Println(r1)
+	return nil
 }
 
 func InsertAccount(email string, Id string) error {

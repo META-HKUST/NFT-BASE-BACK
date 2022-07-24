@@ -2,7 +2,6 @@ package model
 
 import (
 	"log"
-	"strconv"
 )
 
 var (
@@ -55,84 +54,6 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
-			ItemAndLogos = append(ItemAndLogos, ig)
-		}
-		return ItemAndLogos, nil
-	}
-
-	if rank_favorite == true {
-		Condition = queryconditions + Condition + "order by like_count desc limit ? offset ?;"
-		err := db.Select(&items, Condition, page_size, offset)
-		if err != nil {
-			log.Println(err)
-			return []ItemAndLogo{}, err
-		}
-		// add like and logoImage
-		for i := 0; i < len(items); i++ {
-			ig := ItemAndLogo{}
-			ig.Item = items[i]
-			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
-			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
-			ItemAndLogos = append(ItemAndLogos, ig)
-		}
-		return ItemAndLogos, nil
-	}
-
-	if len(category) > 0 {
-		Condition = queryconditions + Condition + "and category = ? limit ? offset ?;"
-
-		err := db.Select(&items, Condition, category, page_size, offset)
-		if err != nil {
-			log.Println(err)
-			return []ItemAndLogo{}, err
-		}
-		// add like and logoImage
-		for i := 0; i < len(items); i++ {
-			ig := ItemAndLogo{}
-			ig.Item = items[i]
-			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
-			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
-			ItemAndLogos = append(ItemAndLogos, ig)
-		}
-		return ItemAndLogos, nil
-	}
-
-	if len(keyword) > 0 {
-		Condition = queryconditions + "where item_name like concat ('%',?,'%') limit ? offset ?;"
-		err := db.Select(&items, Condition, keyword, page_size, offset)
-		if err != nil {
-			log.Println(err)
-			return []ItemAndLogo{}, err
-		}
-		// add like and logoImage
-		for i := 0; i < len(items); i++ {
-			ig := ItemAndLogo{}
-			ig.Item = items[i]
-			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
-			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
-			ItemAndLogos = append(ItemAndLogos, ig)
-		}
-		return ItemAndLogos, nil
-	}
-
-	if len(strconv.Itoa(collection_id)) > 0 {
-		Condition = queryconditions + Condition + "and collection_id = ? limit ? offset ?;"
-
-		err := db.Select(&items, Condition, collection_id, page_size, offset)
-		if err != nil {
-			log.Println(err)
-			return []ItemAndLogo{}, err
-		}
-		for i := 0; i < len(items); i++ {
-			ig := ItemAndLogo{}
-			ig.Item = items[i]
-			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -152,7 +73,78 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(ig.CollectionID)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		return ItemAndLogos, nil
+	}
+
+	if rank_favorite == true {
+		Condition = queryconditions + Condition + "order by like_count desc limit ? offset ?;"
+		err := db.Select(&items, Condition, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ItemAndLogo{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		return ItemAndLogos, nil
+	}
+
+	if len(category) > 0 {
+		Condition = queryconditions + Condition + "and category = ? limit ? offset ?;"
+
+		err := db.Select(&items, Condition, category, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ItemAndLogo{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		return ItemAndLogos, nil
+	}
+
+	if len(keyword) > 0 {
+		Condition = queryconditions + "where item_name like concat ('%',?,'%') limit ? offset ?;"
+		err := db.Select(&items, Condition, keyword, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ItemAndLogo{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		return ItemAndLogos, nil
+	}
+
+	if collection_id > 0 {
+		Condition = queryconditions + Condition + "and collection_id = ? limit ? offset ?;"
+
+		err := db.Select(&items, Condition, collection_id, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ItemAndLogo{}, err
+		}
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		return ItemAndLogos, nil
@@ -167,9 +159,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 	for i := 0; i < len(items); i++ {
 		ig := ItemAndLogo{}
 		ig.Item = items[i]
-		ig.Like, _ = DoesLike(items[i].ItemID, userId)
 		ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
-		ig.CoName, _ = GetCollectionName(ig.CollectionID)
 		ItemAndLogos = append(ItemAndLogos, ig)
 	}
 	return ItemAndLogos, nil

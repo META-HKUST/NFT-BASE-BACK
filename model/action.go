@@ -2,6 +2,7 @@ package model
 
 import (
 	"NFT-BASE-BACK/base"
+	"errors"
 	"fmt"
 	"log"
 )
@@ -72,6 +73,7 @@ func GetMaxActionId() (int, error) {
 }
 
 func AddAction(act_name string, creater_id string, start_time string, end_time string, act_image string, description string, item_num int) (Action, error) {
+
 	_, err := db.Exec(addAction, act_name, creater_id, start_time, end_time, act_image, description, item_num)
 	if err != nil {
 		log.Println(err)
@@ -145,6 +147,12 @@ func GetAction(act_id interface{}) (Action, error) {
 }
 
 func UploadNFT(act_id int, item_id string) error {
+
+	act, _ := GetAction(act_id)
+	var act1 Action
+	if act == act1 {
+		return errors.New("can not find this action in database")
+	}
 	_, e := db.Exec(uploadNFT, act_id, item_id)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
