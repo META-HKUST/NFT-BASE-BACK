@@ -182,6 +182,18 @@ func GetCollectionList(page_num, page_size int64, userId string, keyword string,
 		return collections, nil
 	}
 
+	if len([]byte(userId)) > 0 {
+		log.Println(userId)
+		Condition = collectionByCondition + Condition + "and owner=? limit ? offset ?;"
+
+		err := db.Select(&collections, Condition, userId, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []Collection{}, err
+		}
+		return collections, nil
+	}
+
 	//if rank_favorite == true {
 	//	Condition = collectionByCondition + Condition + "order by like_count desc limit ? offset ?;"
 	//	err := db.Select(&collections, queryCollections,page_size,offset)
