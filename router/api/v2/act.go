@@ -397,8 +397,8 @@ func GetAllAct(ctx *gin.Context) {
 // @param        act_id 	query	string 		true 	"act id"
 // @param        page_num 	query 	int 		true 	"page num"
 // @param        page_size 	query 	int 		true 	"page size"
-// @param        rank_vote 	query 	boolean 	true 	"whether sorted by votes or not"
-// @param        rank_time 	query 	boolean 	true 	"whether sorted by time or not"
+// @param        rank_vote 	query 	boolean 	false 	"whether sorted by votes or not"
+// @param        rank_time 	query 	boolean 	false 	"whether sorted by time or not"
 // @Accept       json
 // @Produce      json
 // @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"

@@ -56,6 +56,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -82,6 +83,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -109,6 +111,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -135,6 +138,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -161,6 +165,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
 			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -186,6 +191,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig := ItemAndLogo{}
 			ig.Item = items[i]
 			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
@@ -210,6 +216,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 		ig := ItemAndLogo{}
 		ig.Item = items[i]
 		ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+		ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 		ItemAndLogos = append(ItemAndLogos, ig)
 	}
 	// select count
