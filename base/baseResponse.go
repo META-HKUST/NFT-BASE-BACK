@@ -8,6 +8,12 @@ type Response struct {
 	Data interface{} `json:"data" ` // 返回数据
 }
 
+type TokenUrlResponse struct {
+	Name  string	`json:"name"`
+	Image string	`json:"image"`
+}
+
+
 func (res *Response) SetData(data interface{}) Response {
 	res.Data = data
 	return Response{
