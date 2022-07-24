@@ -105,16 +105,16 @@ func Register(p model.Person) base.ErrCode {
 	//	return base.PasswdLengthError
 	//}
 
-	p1, _ := model.GetPerson(p.Email)
-
-	if p1.Email == p.Email {
-		if p1.Activated == "yes" {
-			log.Println(base.AccountExistError.String())
-			return base.AccountExistError
-		} else {
-			model.DeleteAccount(p1.Email)
-		}
-	}
+	//p1, _ := model.GetPerson(p.Email)
+	//
+	//if p1.Email == p.Email {
+	//	if p1.Activated == "yes" {
+	//		log.Println(base.AccountExistError.String())
+	//		return base.AccountExistError
+	//	} else {
+	//		model.DeleteAccount(p1.Email)
+	//	}
+	//}
 
 	Md5Inst := md5.New()
 	Md5Inst.Write([]byte(p.Passwd))
