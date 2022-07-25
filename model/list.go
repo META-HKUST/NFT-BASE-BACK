@@ -107,7 +107,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
-		queryC := queryItemCount + " where owner_id = ?"
+		queryC := queryItemCount + " where creater_id = ?"
 		var count []int
 		err1 := db.Select(&count, queryC, userId)
 		if err1 != nil {

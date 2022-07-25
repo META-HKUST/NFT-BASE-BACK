@@ -22,19 +22,39 @@ var (
 
 	getActionItemList = string("select item_id from action_item,action where action.act_id = action_item.act_id and action.act_id = ?;")
 	queActItems       = string("select * from action_items where 1=1 and act_id = ?")
-	queCanUpload      = string("select * from items where 1=1 and creater_id = ? and  item_id != (select item_id from action_items where creater_id = ? and act_id = ?) ")
+	queCanUpload      = string("select * from items where 1=1 and creater_id = ?")
+	queItemIds        = string("select item_id from action_items where creater_id = ? and act_id = ?")
 )
 
 func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]ItemAndLogo, error) {
 
+	// initiate
 	var items []Item
 	var ItemAndLogos []ItemAndLogo
 	offset := (page_num - 1) * page_size
 
-	Condition := queCanUpload + " limit ? offset ?;"
-	log.Println("query can upload action items condition: ", Condition)
+	Condition := queCanUpload
 
-	err := db.Select(&items, Condition, userId, userId, act_id, page_size, offset)
+	// construct query condition
+	// select item_id that the user could not upload
+	var ItemIds []string
+	err1 := db.Select(&ItemIds, queItemIds, userId, act_id)
+	if err1 != nil {
+		log.Println(err1)
+		return []ItemAndLogo{}, err1
+	}
+	log.Println("the id that user participated", ItemIds)
+
+	for i := 0; i < len(ItemIds); i++ {
+		Condition = Condition + " and item_id != " + ItemIds[i]
+	}
+
+	Condition = Condition + " limit ? offset ?;"
+
+	log.Println("can upload action items invoke sql: ", Condition)
+
+	// select items that a user could upload
+	err := db.Select(&items, Condition, userId, page_size, offset)
 	if err != nil {
 		log.Println(err)
 		return []ItemAndLogo{}, err
@@ -49,6 +69,7 @@ func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]Ite
 		ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 		ItemAndLogos = append(ItemAndLogos, ig)
 	}
+
 	return ItemAndLogos, nil
 }
 
