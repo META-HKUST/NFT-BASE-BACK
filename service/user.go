@@ -110,7 +110,7 @@ func Register(p model.Person) base.ErrCode {
 	UserId := strings.Replace(t1, ".", "-", -1)
 
 	p1, _ := model.GetPerson(p.Email)
-	log.Println(p1)
+	log.Println(p.Email, " registering, get sql info: ", p1)
 	if p1.Email == p.Email && p1.Activated == "no" {
 		log.Println("delete account,profile,collection of : ", p.Email)
 		_ = model.DeleteUser(p.Email)
@@ -155,6 +155,14 @@ func Register(p model.Person) base.ErrCode {
 	if e2 != nil {
 		log.Println(e2)
 		return base.InsertProfileError
+	}
+	if UserId != "contact-unifit-art" {
+		tokenInfo, errCode := Transfer(100, "contact-unifit-art", UserId)
+		if errCode != base.Success {
+			log.Println(string(errCode))
+			return errCode
+		}
+		log.Println("transfer to ", UserId, "Succeed", ", info:", tokenInfo)
 	}
 
 	log.Println("Successfully insert into default profile: ", UserId)

@@ -174,7 +174,6 @@ func GetUserInfoByID(userID string) (base.ErrCode, UserProfileInfo) {
 		log.Println(base.QueryError, base.QueryError.String(), e)
 		return base.QueryError, UserProfileInfo{}
 	}
-
 	return base.Success, p
 }
 
