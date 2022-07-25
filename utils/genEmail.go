@@ -11,7 +11,7 @@ var (
 
 	SubjectName  string = ("Activate your uNiFiT account!")
 	SubjectName2 string = ("Reset your password")
-	logo         string = ("https://unifit-1311571861.cos.ap-guangzhou.myqcloud.com/unifit/unifit.jpg?q-sign-algorithm=sha1&q-ak=AKIDRikVzB8oDKBm68tOcYDcka9RSDhurYx5&q-sign-time=1658154336%3B1744554336&q-key-time=1658154336%3B1744554336&q-header-list=host&q-url-param-list=&q-signature=6ee6fd4ad26581c6a8aed508c0872d45b17fd133")
+	logo         string = ("https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/logo_0725.png?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658731709%3B1745131709&q-key-time=1658731709%3B1745131709&q-header-list=host&q-url-param-list=&q-signature=596694ad14acc8698b0e1fe7d6d15ac1131c4019")
 
 	SenderName   string      = ("uNiFiT Team")
 	Sender       string      = ("contact@unifit.art")
@@ -149,7 +149,7 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 
 	host := SenderServer
 	c, err := mail.NewClient(host,
-		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithUsername(Sender),
+		mail.WithSMTPAuth(mail.SMTPAuthLogin), mail.WithUsername(Sender),
 		mail.WithPassword(SenderPasswd), mail.WithTLSPolicy(mail.TLSMandatory), mail.WithPort(SenderPort))
 
 	if err != nil {
