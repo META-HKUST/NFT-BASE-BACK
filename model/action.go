@@ -25,31 +25,31 @@ var (
 	queCanUpload      = string("select * from items where 1=1 and creater_id = ? and  item_id != (select item_id from action_items where creater_id = ? and act_id = ?) ")
 )
 
-func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]ActAndVote, error) {
+func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]ItemAndLogo, error) {
 
-	var actItems []ActItem
-	var ItemAndLikes []ActAndVote
-
+	var items []Item
+	var ItemAndLogos []ItemAndLogo
 	offset := (page_num - 1) * page_size
 
 	Condition := queCanUpload + " limit ? offset ?;"
 	log.Println("query can upload action items condition: ", Condition)
 
-	err := db.Select(&actItems, Condition, userId, userId, act_id, page_size, offset)
+	err := db.Select(&items, Condition, userId, userId, act_id, page_size, offset)
 	if err != nil {
 		log.Println(err)
-		return []ActAndVote{}, err
+		return []ItemAndLogo{}, err
 	}
+
 	// add like and logoImage
-	for i := 0; i < len(actItems); i++ {
-		ig := ActAndVote{}
-		ig.ActItem = actItems[i]
-		ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
-		ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
-		ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
-		ItemAndLikes = append(ItemAndLikes, ig)
+	for i := 0; i < len(items); i++ {
+		ig := ItemAndLogo{}
+		ig.Item = items[i]
+		ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+		ig.Like, _ = DoesLike(items[i].ItemID, userId)
+		ig.CoName, _ = GetCollectionName(items[i].CollectionID)
+		ItemAndLogos = append(ItemAndLogos, ig)
 	}
-	return ItemAndLikes, nil
+	return ItemAndLogos, nil
 }
 
 type Action struct {
