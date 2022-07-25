@@ -22,7 +22,7 @@ var (
 
 	getActionItemList = string("select item_id from action_item,action where action.act_id = action_item.act_id and action.act_id = ?;")
 	queActItems       = string("select * from action_items where 1=1 and act_id = ?")
-	queCanUpload      = string("select * from action_items where 1=1 and creater_id = ? and  act_id != ?")
+	queCanUpload      = string("select * from items where 1=1 and creater_id = ? and  item_id != (select item_id from action_items where creater_id = ? and act_id = ?) ")
 )
 
 func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]ActAndVote, error) {
@@ -35,7 +35,7 @@ func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]Act
 	Condition := queCanUpload + " limit ? offset ?;"
 	log.Println("query can upload action items condition: ", Condition)
 
-	err := db.Select(&actItems, Condition, userId, act_id, page_size, offset)
+	err := db.Select(&actItems, Condition, userId, userId, act_id, page_size, offset)
 	if err != nil {
 		log.Println(err)
 		return []ActAndVote{}, err
