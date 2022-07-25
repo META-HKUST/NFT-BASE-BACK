@@ -22,7 +22,7 @@ func GenToken(user model.Person) (string, error) {
 	claim := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: jwt.At(time.Now().Add(time.Minute * 15)),
+			ExpiresAt: jwt.At(time.Now().Add(time.Minute * 60 * 24)),
 			Issuer:    "Yezzi",
 		},
 	}

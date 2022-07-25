@@ -19,7 +19,7 @@ func IsTimeValid(t string) bool {
 	GivenTime, _ := time.ParseInLocation(timeLayout, t, loc)
 	timeLoss := timeNow.Sub(GivenTime)
 	log.Println("activate email token: time loss = ", timeLoss.Seconds())
-	if timeLoss.Seconds() > 9000 {
+	if timeLoss.Seconds() > 900 {
 		return false
 	} else {
 		return true
