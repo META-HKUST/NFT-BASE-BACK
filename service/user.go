@@ -156,7 +156,7 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(e2)
 		return base.InsertProfileError
 	}
-	
+
 	log.Println("Successfully insert into default profile: ", UserId)
 	e3 := model.CreatCollection("Default Collection", "https://cnpj.uju-gene.com/images/1.png", "https://cnpj.uju-gene.com/images/2.png", "https://cnpj.uju-gene.com/images/3.png", 0, "Default Collection", UserId, p.Email, utils.GetTimeNow())
 	if e3 != nil {
@@ -189,14 +189,14 @@ func Login(p model.Person) (base.ErrCode, string, string) {
 	p.Passwd = fmt.Sprintf("%x", Result)
 
 	if err := p.Login(); err != base.Success {
-		return base.InputError, "", ""
+		return err, "", ""
 	}
 	token, err := utils.GenToken(p)
 	if err != nil {
 		return base.ServerError, "", ""
 	}
 	if err := CheckEmailToken(p); err != base.Success {
-		return base.ServerError, "", ""
+		return err, "", ""
 	}
 	t1 := strings.Replace(p.Email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)

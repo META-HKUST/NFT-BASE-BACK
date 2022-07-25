@@ -28,6 +28,7 @@ var (
 	// these three are related to account email and passwd
 	insert        = string("insert into login(email,passwd) values(?,?);")
 	query         = string("select email,activated from login where email=?;")
+	queryPasswd   = string("select email,passwd from login where email = ?")
 	update        = string("update login set passwd=? where email=?;")
 	updateUserId  = string("update login set user_id=? where email=?;")
 	deleteUser    = string("DELETE FROM login WHERE email=?;")
@@ -107,7 +108,8 @@ func (p Person) Register() base.ErrCode {
 func (p Person) Login() base.ErrCode {
 
 	var p1 Person
-	e := db.Get(&p1, query, p.Email)
+	e := db.Get(&p1, queryPasswd, p.Email)
+
 	if e != nil {
 		log.Println(base.QueryError, base.QueryError.String(), e)
 		return base.QueryError

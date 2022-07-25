@@ -111,7 +111,7 @@ func Login(ctx *gin.Context) {
 	res := base.Response{}
 	code, token, UserId := service.Login(p)
 	if code != base.Success {
-		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		ctx.JSON(http.StatusOK, res.SetCode(code))
 		return
 	}
 	res.SetCode(code)
