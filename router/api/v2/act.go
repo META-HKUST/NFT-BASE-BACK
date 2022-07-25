@@ -428,7 +428,7 @@ func GetActItemList(ctx *gin.Context) {
 	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
 	rankTime := ctx.Query("rank_favorite")
 	rankTimeBool, _ := strconv.ParseBool(rankTime)
-	rankVote := ctx.Query("rank_Vote")
+	rankVote := ctx.Query("rank_vote")
 	rankVoteBool, _ := strconv.ParseBool(rankVote)
 	actId := ctx.Query("act_id")
 	actIdInt, _ := strconv.ParseInt(actId, 10, 64)

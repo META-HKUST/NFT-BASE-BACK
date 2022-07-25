@@ -140,27 +140,6 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 		return ItemAndLikes, nil
 
 	}
-
-	if rank_time == true {
-		Condition := queActItems + "order by created_at desc limit ? offset ?;"
-		log.Println("query action items condition: ", Condition)
-		err := db.Select(&actItems, Condition, act_id, page_size, offset)
-		if err != nil {
-			log.Println(err)
-			return []ActAndVote{}, err
-		}
-		// add like and logoImage
-		for i := 0; i < len(actItems); i++ {
-			ig := ActAndVote{}
-			ig.ActItem = actItems[i]
-			ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
-			ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
-			ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
-			ItemAndLikes = append(ItemAndLikes, ig)
-		}
-		return ItemAndLikes, nil
-
-	}
 	if rank_vote == true {
 		Condition := queActItems + "order by vote_count desc limit ? offset ?;"
 		log.Println("query action items condition: ", Condition)
@@ -180,6 +159,26 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 			ItemAndLikes = append(ItemAndLikes, ig)
 		}
 		return ItemAndLikes, nil
+	}
+	if rank_time == true {
+		Condition := queActItems + "order by created_at desc limit ? offset ?;"
+		log.Println("query action items condition: ", Condition)
+		err := db.Select(&actItems, Condition, act_id, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ActAndVote{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(actItems); i++ {
+			ig := ActAndVote{}
+			ig.ActItem = actItems[i]
+			ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
+			ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
+			ItemAndLikes = append(ItemAndLikes, ig)
+		}
+		return ItemAndLikes, nil
+
 	}
 
 	Condition := queActItems + " limit ? offset ?;"
