@@ -397,6 +397,7 @@ func GetAllAct(ctx *gin.Context) {
 // @param        act_id 	query	string 		true 	"act id"
 // @param        page_num 	query 	int 		true 	"page num"
 // @param        page_size 	query 	int 		true 	"page size"
+// @param        keyword 	query 	string 		false 	"keyword"
 // @param        rank_vote 	query 	boolean 	false 	"whether sorted by votes or not"
 // @param        rank_time 	query 	boolean 	false 	"whether sorted by time or not"
 // @Accept       json
@@ -431,8 +432,9 @@ func GetActItemList(ctx *gin.Context) {
 	rankVoteBool, _ := strconv.ParseBool(rankVote)
 	actId := ctx.Query("act_id")
 	actIdInt, _ := strconv.ParseInt(actId, 10, 64)
+	keyword := ctx.Query("keyword")
 
-	data, err := model.GetActItemList(pageNumInt, pageSizeInt, actIdInt, rankVoteBool, rankTimeBool, UserId)
+	data, err := model.GetActItemList(pageNumInt, pageSizeInt, actIdInt, rankVoteBool, rankTimeBool, UserId, keyword)
 
 	if err != nil {
 		log.Println(err)

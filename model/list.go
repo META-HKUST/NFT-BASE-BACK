@@ -119,7 +119,14 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 	}
 
 	if len(keyword) > 0 {
-		Condition = queryconditions + " where item_name like concat ('%',?,'%') limit ? offset ?;"
+		Condition = queryconditions + Condition + " and item_name like concat ('%',?,'%') "
+		if rank_time == true {
+			Condition = Condition + " order by created_at desc"
+		} else if rank_favorite == true {
+			Condition = Condition + " order by like_count desc"
+		}
+		Condition = Condition + " limit ? offset ?;"
+
 		err := db.Select(&items, Condition, keyword, page_size, offset)
 		if err != nil {
 			log.Println(err)

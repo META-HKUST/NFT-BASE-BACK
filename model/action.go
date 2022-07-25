@@ -21,7 +21,7 @@ var (
 	getMaxActionId = string("select max(act_id) from action")
 
 	getActionItemList = string("select item_id from action_item,action where action.act_id = action_item.act_id and action.act_id = ?;")
-	queActItems       = string("select * from action_items where act_id = ?")
+	queActItems       = string("select * from action_items where 1=1 and act_id = ?")
 )
 
 type Action struct {
@@ -59,10 +59,38 @@ type ActAndVote struct {
 	CoName    string `json:"collection_name" db:"collection_name"`
 }
 
-func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, rank_time bool, userId string) ([]ActAndVote, error) {
+func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, rank_time bool, userId string, keyword string) ([]ActAndVote, error) {
 	var actItems []ActItem
 	var ItemAndLikes []ActAndVote
 	offset := (page_num - 1) * page_size
+
+	if keyword != "" {
+		Condition := queActItems + " and item_name like concat ('%',?,'%') "
+		if rank_time == true {
+			Condition = Condition + " order by created_at desc"
+		} else if rank_vote == true {
+			Condition = Condition + " order by vote_count desc"
+		}
+		Condition = Condition + " limit ? offset ?;"
+
+		log.Println("query action items condition: ", Condition)
+		err := db.Select(&actItems, Condition, act_id, keyword, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ActAndVote{}, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(actItems); i++ {
+			ig := ActAndVote{}
+			ig.ActItem = actItems[i]
+			ig.Vote, _ = DoesVote(actItems[i].ActID, actItems[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(actItems[i].CollectionID)
+			ig.LogoImage, _ = GetLogoImage(actItems[i].OwnerID)
+			ItemAndLikes = append(ItemAndLikes, ig)
+		}
+		return ItemAndLikes, nil
+
+	}
 
 	if rank_time == true {
 		Condition := queActItems + "order by created_at desc limit ? offset ?;"

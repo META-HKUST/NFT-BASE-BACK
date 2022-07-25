@@ -316,6 +316,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "keyword",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
                         "type": "boolean",
                         "description": "whether sorted by votes or not",
                         "name": "rank_vote",

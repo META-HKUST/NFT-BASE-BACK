@@ -772,6 +772,10 @@ paths:
         name: page_size
         required: true
         type: integer
+      - description: keyword
+        in: query
+        name: keyword
+        type: string
       - description: whether sorted by votes or not
         in: query
         name: rank_vote
