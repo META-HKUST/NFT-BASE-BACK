@@ -10,6 +10,7 @@ require (
 	github.com/hyperledger/fabric-sdk-go v1.0.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/matcornic/hermes/v2 v2.1.0
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/nftstorage/go-client v0.0.0-20211129173848-be669a365634
 	github.com/spf13/viper v1.11.0
 	github.com/stretchr/testify v1.7.1
