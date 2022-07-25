@@ -141,7 +141,7 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 
 	}
 	if rank_vote == true {
-		Condition := queActItems + "order by vote_count desc limit ? offset ?;"
+		Condition := queActItems + " order by vote_count desc limit ? offset ?;"
 		log.Println("query action items condition: ", Condition)
 		err := db.Select(&actItems, Condition, act_id, page_size, offset)
 
@@ -161,7 +161,7 @@ func GetActItemList(page_num, page_size int64, act_id int64, rank_vote bool, ran
 		return ItemAndLikes, nil
 	}
 	if rank_time == true {
-		Condition := queActItems + "order by created_at desc limit ? offset ?;"
+		Condition := queActItems + " order by created_at desc limit ? offset ?;"
 		log.Println("query action items condition: ", Condition)
 		err := db.Select(&actItems, Condition, act_id, page_size, offset)
 		if err != nil {
