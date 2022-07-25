@@ -46,7 +46,7 @@ func GetCanUpload(page_num, page_size int64, act_id int64, userId string) ([]Ite
 	log.Println("the id that user participated", ItemIds)
 
 	for i := 0; i < len(ItemIds); i++ {
-		Condition = Condition + " and item_id != " + ItemIds[i]
+		Condition = Condition + " and item_id != '" + ItemIds[i] + "'"
 	}
 
 	Condition = Condition + " limit ? offset ?;"
