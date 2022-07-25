@@ -42,10 +42,19 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 
 	Condition := "where 1=1 "
 
-	if rank_time == true {
-		Condition = queryconditions + Condition + "order by created_at desc limit ? offset ?;"
+	if userCollect == true {
 
-		err := db.Select(&items, Condition, page_size, offset)
+		// select first and then rank
+		Condition = queryconditions + Condition + "and owner_id = ?  "
+
+		if rank_time == true {
+			Condition = Condition + " order by created_at desc"
+		} else if rank_favorite == true {
+			Condition = Condition + " order by like_count desc"
+		}
+		Condition = Condition + " limit ? offset ?;"
+
+		err := db.Select(&items, Condition, userId, page_size, offset)
 		if err != nil {
 			log.Println(err)
 			return []ItemAndLogo{}, 0, err
@@ -60,17 +69,28 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
 		// select count
+		queryC := queryItemCount + " where owner_id = ?"
 		var count []int
-		err1 := db.Select(&count, queryItemCount)
+		err1 := db.Select(&count, queryC, userId)
 		if err != nil {
 			log.Println(err1)
+			return []ItemAndLogo{}, 0, err1
 		}
 
 		return ItemAndLogos, count[0], nil
 	}
 
-	if userCollect == true {
-		Condition = queryconditions + Condition + "and owner_id = ? limit ? offset ?;"
+	if userCreate == true {
+
+		// select first and then rank
+		Condition = queryconditions + Condition + "and creater_id = ?  "
+
+		if rank_time == true {
+			Condition = Condition + " order by created_at desc"
+		} else if rank_favorite == true {
+			Condition = Condition + " order by like_count desc"
+		}
+		Condition = Condition + " limit ? offset ?;"
 
 		err := db.Select(&items, Condition, userId, page_size, offset)
 		if err != nil {
@@ -141,6 +161,34 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
 			ItemAndLogos = append(ItemAndLogos, ig)
 		}
+
+		if rank_time == true {
+			Condition = queryconditions + Condition + "order by created_at desc limit ? offset ?;"
+
+			err := db.Select(&items, Condition, page_size, offset)
+			if err != nil {
+				log.Println(err)
+				return []ItemAndLogo{}, 0, err
+			}
+			// add like and logoImage
+			for i := 0; i < len(items); i++ {
+				ig := ItemAndLogo{}
+				ig.Item = items[i]
+				ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+				ig.Like, _ = DoesLike(items[i].ItemID, userId)
+				ig.CoName, _ = GetCollectionName(items[i].CollectionID)
+				ItemAndLogos = append(ItemAndLogos, ig)
+			}
+			// select count
+			var count []int
+			err1 := db.Select(&count, queryItemCount)
+			if err != nil {
+				log.Println(err1)
+			}
+
+			return ItemAndLogos, count[0], nil
+		}
+
 		// select count
 		queryC := queryItemCount + " where category = ?"
 		var count []int
