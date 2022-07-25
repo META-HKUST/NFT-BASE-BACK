@@ -318,7 +318,7 @@ func ItemList(ctx *gin.Context) {
 
 	//items, code := service.GetItemList(pageNumInt, pageSizeInt, userId, userLikeBool, userCollectBool, userCreateBool, category, keyword, rankFavoriteBool, rankTimeBool, collectionIdInt)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, "Failed to get items information")
+		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
 		return
 	}
 	resp.SetData(ItemsRes)

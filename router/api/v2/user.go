@@ -86,7 +86,7 @@ func Activate(ctx *gin.Context) {
 		ctx.Redirect(http.StatusMovedPermanently, "https://unifit.ust.hk/register/success")
 		return
 	} else {
-		ctx.Redirect(http.StatusMovedPermanently, "  - https://unifit.ust.hk/register/fail")
+		ctx.Redirect(http.StatusMovedPermanently, "https://unifit.ust.hk/register/fail")
 	}
 }
 
