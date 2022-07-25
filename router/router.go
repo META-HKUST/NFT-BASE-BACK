@@ -84,5 +84,6 @@ func InitRouter() *gin.Engine {
 		uploadRouter.POST("/cos", v2.UploadToCos)
 		uploadRouter.POST("/ipfs-and-cos", v2.UploadToIpfs)
 	}
+	routerV2.GET("/metadata",v2.GetMetaInfo)
 	return router
 }

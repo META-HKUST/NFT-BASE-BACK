@@ -6,7 +6,7 @@ import (
 )
 
 var(
-	queryInfoByTokenID = string("select item_name,item_data,label from items,item_label where item_id=?;")
+	queryInfoByTokenID = string("select item_name,item_data,label from items,item_label where items.item_id = item_label.item_id and items.item_id=?;")
 )
 
 type MetaData struct {

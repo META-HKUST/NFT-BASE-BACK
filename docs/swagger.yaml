@@ -6,8 +6,8 @@ definitions:
         example: Pixel Bear
         type: string
       collection_id:
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       collection_name:
         example: Pixel Bear
         type: string
@@ -172,8 +172,8 @@ definitions:
         example: image
         type: string
       collection_id:
-        example: 1
-        type: integer
+        example: "1"
+        type: string
       description:
         example: A very cute pixel bear with hammer
         type: string
@@ -558,11 +558,11 @@ definitions:
     type: object
   v2.TransferParams:
     properties:
+      email:
+        example: zhengwang@ust.hk
+        type: string
       item_id:
         example: "1010"
-        type: string
-      to_user_id:
-        example: zhengwang-ust-hk
         type: string
     type: object
   v2.Update_PasswdRequest:
@@ -775,12 +775,10 @@ paths:
       - description: whether sorted by votes or not
         in: query
         name: rank_vote
-        required: true
         type: boolean
       - description: whether sorted by time or not
         in: query
         name: rank_time
-        required: true
         type: boolean
       produces:
       - application/json
@@ -1282,6 +1280,34 @@ paths:
             $ref: '#/definitions/v2.Err2000'
       tags:
       - list
+  /metadata:
+    get:
+      consumes:
+      - application/json
+      description: get meta data information
+      parameters:
+      - description: token_id
+        in: query
+        name: token_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ModelResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      tags:
+      - metadata
   /tk/info:
     get:
       consumes:

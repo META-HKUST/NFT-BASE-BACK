@@ -319,15 +319,13 @@ const docTemplate = `{
                         "type": "boolean",
                         "description": "whether sorted by votes or not",
                         "name": "rank_vote",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "type": "boolean",
                         "description": "whether sorted by time or not",
                         "name": "rank_time",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1115,6 +1113,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/metadata": {
+            "get": {
+                "description": "get meta data information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metadata"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token_id",
+                        "name": "token_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
         "/tk/info": {
             "get": {
                 "security": [
@@ -1709,8 +1750,8 @@ const docTemplate = `{
                     "example": "Pixel Bear"
                 },
                 "collection_id": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "collection_name": {
                     "type": "string",
@@ -1934,8 +1975,8 @@ const docTemplate = `{
                     "example": "image"
                 },
                 "collection_id": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "string",
+                    "example": "1"
                 },
                 "description": {
                     "type": "string",
@@ -2465,13 +2506,13 @@ const docTemplate = `{
         "v2.TransferParams": {
             "type": "object",
             "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "zhengwang@ust.hk"
+                },
                 "item_id": {
                     "type": "string",
                     "example": "1010"
-                },
-                "to_user_id": {
-                    "type": "string",
-                    "example": "zhengwang-ust-hk"
                 }
             }
         },

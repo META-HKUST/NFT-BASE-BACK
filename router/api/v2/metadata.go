@@ -20,7 +20,6 @@ import (
 func GetMetaInfo(ctx *gin.Context) {
 	var SuccessResp base.TokenUrlResponse
 	token_id := ctx.Query("token_id")
-
 	metaInfo,err := service.GetMetaInfo(token_id)
 	if err != nil {
 		ctx.JSON(http.StatusOK, base.ServerError)
