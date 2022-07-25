@@ -446,3 +446,40 @@ func GetActItemList(ctx *gin.Context) {
 	res.SetData(data)
 	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 }
+
+// CanUpload
+// @Description  get the items that this user could upload to this act
+// @Tags         act
+// @param        page_num 	query 	int 		true 	"page num"
+// @param        page_size 	query 	int 		true 	"page size"
+// @param        act_id 	query	string 		true 	"act id"
+// @param        user_id 	query 	string		true 	"user id"
+// @Accept       json
+// @Produce      json
+// @Success 200  {object}   ModelResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Failure 400  {object}   Err1000       "Input error"
+// @Failure 500  {object}   Err2000       "Server error"
+// @Router       /act/can-upload [GET]
+func CanUpload(ctx *gin.Context) {
+
+	var res base.Response
+
+	actId := ctx.Query("act_id")
+	actIdInt, _ := strconv.ParseInt(actId, 10, 64)
+	userId := ctx.Query("user_id")
+	pageNum := ctx.Query("page_num")
+	pageNumInt, _ := strconv.ParseInt(pageNum, 10, 64)
+	pageSize := ctx.Query("page_size")
+	pageSizeInt, _ := strconv.ParseInt(pageSize, 10, 64)
+
+	data, err := model.GetCanUpload(pageNumInt, pageSizeInt, actIdInt, userId)
+	if err != nil {
+		log.Println(err)
+		res.SetData(data)
+		ctx.JSON(http.StatusOK, res.SetCode(base.ServerError))
+		return
+	}
+
+	res.SetData(data)
+	ctx.JSON(http.StatusOK, res.SetCode(base.Success))
+}

@@ -77,6 +77,7 @@ func InitRouter() *gin.Engine {
 		actRouter.POST("/vote", mw.JWTAuth(), v2.PostActVote)
 		actRouter.GET("/act-count", v2.GetActCount)
 		actRouter.GET("/all-action", v2.GetAllAct)
+		actRouter.GET("/can-upload", v2.CanUpload)
 	}
 
 	uploadRouter := routerV2.Group("/upload")
@@ -84,6 +85,6 @@ func InitRouter() *gin.Engine {
 		uploadRouter.POST("/cos", v2.UploadToCos)
 		uploadRouter.POST("/ipfs-and-cos", v2.UploadToIpfs)
 	}
-	routerV2.GET("/metadata",v2.GetMetaInfo)
+	routerV2.GET("/metadata", v2.GetMetaInfo)
 	return router
 }
