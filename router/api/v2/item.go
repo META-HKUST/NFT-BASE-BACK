@@ -100,7 +100,8 @@ func CreateItem(ctx *gin.Context) {
 	// 通过jwt  email
 	email, ok := ctx.Get("email")
 	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		res := base.Response{}
+		ctx.JSON(http.StatusOK, res.SetCode(base.FabricInvokeError))
 		return
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
@@ -279,7 +280,7 @@ func TransferItem(ctx *gin.Context) {
 	var req TransferParams
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err)
+		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.InputError))
 		return
 	}
 
@@ -298,7 +299,7 @@ func TransferItem(ctx *gin.Context) {
 	// 通过jwt，拿到email
 	email, ok := ctx.Get("email")
 	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.AuthFailed))
 		return
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
@@ -315,21 +316,21 @@ func TransferItem(ctx *gin.Context) {
 		},
 	)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, base.ServerError)
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.FabricInvokeError))
 		return
 	}
 
 	// 查item
 	ret, err := model.UpdateItemOwner(req.ItemId, username2)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, base.ServerError)
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.ServerError))
 		return
 	}
 
 	// 查label
 	ret_label, err := model.SearchLable(req.ItemId)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, base.ServerError)
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.ServerError))
 		return
 	}
 

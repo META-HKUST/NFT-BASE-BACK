@@ -58,4 +58,6 @@ const (
 	SigCountError  ErrCode = 1603 // Not enough signature related to URL
 
 	PermissionDenied ErrCode = 1701 // only admin accounts could edit act and owner to edit his collection/nft/transfer
+
+	FabricInvokeError ErrCode = 1801 // invoke fabric failed: check backend log or fabric status
 )

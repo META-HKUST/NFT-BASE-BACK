@@ -51,9 +51,10 @@ func _() {
 	_ = x[SigNotFound-1602]
 	_ = x[SigCountError-1603]
 	_ = x[PermissionDenied-1701]
+	_ = x[FabricInvokeError-1801]
 }
 
-const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedinsert into profile error: maybe account already registeredCreate collection errorPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureLack signature in parameter fieldNot enough signature related to URLonly admin accounts could edit act and owner to edit his collection/nft/transferServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
+const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedinsert into profile error: maybe account already registeredCreate collection errorPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureLack signature in parameter fieldNot enough signature related to URLonly admin accounts could edit act and owner to edit his collection/nft/transferinvoke fabric failed: check backend log or fabric statusServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
 
 var _ErrCode_map = map[ErrCode]string{
 	0:    _ErrCode_name[0:17],
@@ -91,13 +92,14 @@ var _ErrCode_map = map[ErrCode]string{
 	1602: _ErrCode_name[1096:1129],
 	1603: _ErrCode_name[1129:1164],
 	1701: _ErrCode_name[1164:1244],
-	2000: _ErrCode_name[1244:1256],
-	3000: _ErrCode_name[1256:1270],
-	3001: _ErrCode_name[1270:1291],
-	3002: _ErrCode_name[1291:1324],
-	3003: _ErrCode_name[1324:1339],
-	4001: _ErrCode_name[1339:1352],
-	4002: _ErrCode_name[1352:1364],
+	1801: _ErrCode_name[1244:1300],
+	2000: _ErrCode_name[1300:1312],
+	3000: _ErrCode_name[1312:1326],
+	3001: _ErrCode_name[1326:1347],
+	3002: _ErrCode_name[1347:1380],
+	3003: _ErrCode_name[1380:1395],
+	4001: _ErrCode_name[1395:1408],
+	4002: _ErrCode_name[1408:1420],
 }
 
 func (i ErrCode) String() string {

@@ -84,7 +84,7 @@ func DeleteProfile(email string) error {
 }
 
 func InsertAccount(email string, Id string) error {
-	_, e1 := db.Exec(insertAccount, Id, email, email, "https://lh3.googleusercontent.com/khLUIXJ0H0HDHvbaMPg-yhHKnTHPS7TVg4q_sHj9YNaLci-6tEw5K8UElAwZ0ov7ABBpnj0eNw9S1I637mpLqcuSdxrZYGuAaXU_rg=s0", "https://lh3.googleusercontent.com/ydFS04Bvu6ek2JcqwEsiIavNCMfFhforiZ24EcBYMurNvj1QgCDj1Ol1V9tZuH8Kfomqd83Umtr7iFe_FQZ3ptF5_0uQwiG_nYbP1hQ=h600", "not set up", "not set up", 100)
+	_, e1 := db.Exec(insertAccount, Id, email, email, "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/logo1.png?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658715727%3B1745115727&q-key-time=1658715727%3B1745115727&q-header-list=host&q-url-param-list=&q-signature=6b4d8689ae688bf1fb1bb8026dee9f41e1df2745", "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/banner1.jpg?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658715754%3B1745115754&q-key-time=1658715754%3B1745115754&q-header-list=host&q-url-param-list=&q-signature=05114b83871312c7a76a621ffcfc3f1bfa6e4bdd", "not set up", "not set up", 100)
 	if e1 != nil {
 		return e1
 	}

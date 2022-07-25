@@ -158,7 +158,7 @@ func Register(p model.Person) base.ErrCode {
 	}
 
 	log.Println("Successfully insert into default profile: ", UserId)
-	e3 := model.CreatCollection("Default Collection", "https://cnpj.uju-gene.com/images/1.png", "https://cnpj.uju-gene.com/images/2.png", "https://cnpj.uju-gene.com/images/3.png", 0, "Default Collection", UserId, p.Email, utils.GetTimeNow())
+	e3 := model.CreatCollection("Default Collection", "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/logo2.jpg?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658715913%3B1745115913&q-key-time=1658715913%3B1745115913&q-header-list=host&q-url-param-list=&q-signature=8021ba72ac3722d61da3ed551e60db7c13831cb3", "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/feature2.jpg?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658715943%3B1745115943&q-key-time=1658715943%3B1745115943&q-header-list=host&q-url-param-list=&q-signature=0b05784204c0b84b1c216f90565253f8fb909a43", "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/banner2.png?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658715986%3B1745115986&q-key-time=1658715986%3B1745115986&q-header-list=host&q-url-param-list=&q-signature=f4c8637dada6ffd079ceb66481aa7cb3022d71a0", 0, "Default Collection", UserId, p.Email, utils.GetTimeNow())
 	if e3 != nil {
 		log.Println(e3)
 		return base.CreateCollectionError
