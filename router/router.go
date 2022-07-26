@@ -48,6 +48,7 @@ func InitRouter() *gin.Engine {
 		itemsRouter.POST("/edit", v2.EditItem)
 		itemsRouter.POST("/transfer", v2.TransferItem)
 		itemsRouter.POST("/like", v2.LikeItem)
+		itemsRouter.POST("/update",v2.UpdateItem)
 	}
 	tkRouter := routerV2.Group("/tk").Use(mw.JWTAuth())
 	{

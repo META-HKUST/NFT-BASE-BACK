@@ -1,6 +1,7 @@
 package model
 
 import (
+	"NFT-BASE-BACK/base"
 	"errors"
 	"log"
 )
@@ -14,6 +15,7 @@ const (
 	searchLabel     = string("select label from item_label where item_id=?;")
 	updateItemLabel = string("update item_label set label=? where item_id=?;")
 	QueryItem       = string("select * from items where item_id=?;")
+	UpdateBlindBox  = string("update items set item_data=? where item_id=?;")
 )
 
 type Item struct {
@@ -204,6 +206,25 @@ func EditItem(itemId, itemName, description, collectionId string, label []string
 	return nil
 
 }
+
+func UpdateItem(token_id,ipfs_url string) error {
+
+	paramItem := make([]interface{},0)
+	paramItem = append(paramItem, ipfs_url)
+	paramItem = append(paramItem,token_id)
+
+	result, err := db.Exec(UpdateBlindBox,ipfs_url,token_id)
+	if err != nil {
+		log.Println(base.UpdateBlindBoxError, base.UpdateBlindBoxError.String(), err)
+		return err
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	lastInsertId, _ := result.LastInsertId()
+	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
+	return nil
+}
+
 
 func GetItemInfo(itemId string) (ItemInfo, error) {
 	var item Item

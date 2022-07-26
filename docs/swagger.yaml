@@ -576,6 +576,15 @@ definitions:
         example: Abcd123456
         type: string
     type: object
+  v2.UpdateParams:
+    properties:
+      ipfs_url:
+        example: http://ipfs/xmaedhkdhfrfndj
+        type: string
+      token_id:
+        example: "1001"
+        type: string
+    type: object
 host: localhost:8889
 info:
   contact: {}
@@ -1001,12 +1010,12 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: info needed to upload
+      - description: info needed to update
         in: body
         name: param_request
         required: true
         schema:
-          $ref: '#/definitions/v2.EditParams'
+          $ref: '#/definitions/v2.UpdateParams'
       produces:
       - application/json
       responses:

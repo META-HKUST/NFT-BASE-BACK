@@ -685,12 +685,12 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "description": "info needed to upload",
+                        "description": "info needed to update",
                         "name": "param_request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v2.EditParams"
+                            "$ref": "#/definitions/v2.UpdateParams"
                         }
                     }
                 ],
@@ -2583,6 +2583,19 @@ const docTemplate = `{
                 "item_id": {
                     "type": "string",
                     "example": "1010"
+                }
+            }
+        },
+        "v2.UpdateParams": {
+            "type": "object",
+            "properties": {
+                "ipfs_url": {
+                    "type": "string",
+                    "example": "http://ipfs/xmaedhkdhfrfndj"
+                },
+                "token_id": {
+                    "type": "string",
+                    "example": "1001"
                 }
             }
         },

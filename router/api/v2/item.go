@@ -210,6 +210,11 @@ type EditParams struct {
 	Label        []string `json:"label" example:"Music ,Comics"`
 }
 
+type UpdateParams struct {
+	TokenId       string   `json:"token_id" example:"1001"`
+	IpfsUrl	      string   `json:"ipfs_url" example:"http://ipfs/xmaedhkdhfrfndj"`
+}
+
 // EditItem @Description  edit single item
 // @Tags         item
 // @param 		 param_request  body  EditParams  true   "info needed to upload"
@@ -241,6 +246,56 @@ func EditItem(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
 		return
 	}
+	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
+	ownerName, _ := model.GetUserName(itemInfo.OwnerID)
+	createrName, _ := model.GetUserName(itemInfo.CreaterID)
+	resData := ItemRes{
+		itemInfo,
+		collectionName,
+		ownerName,
+		createrName,
+	}
+	resp.SetCode(code)
+	resp.SetData(resData)
+	ctx.JSON(http.StatusOK, resp)
+}
+// UpdateItem @Description  edit single item
+// @Tags         item
+// @param 		 param_request  body  UpdateParams  true   "info needed to update"
+// @Accept       json
+// @Produce      json
+// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Failure 400  {object}   Err1000       "Input error"
+// @Failure 500  {object}   Err2000       "Server error"
+// @Router       /item/edit [POST]
+// @Security ApiKeyAuth
+func UpdateItem(ctx *gin.Context){
+	var resp base.Response
+	var req UpdateParams
+
+	email, ok := ctx.Get("email")
+	if !ok {
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.AuthFailed))
+		return
+	}
+	if email != "admin@unifit.art" {
+
+		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.AuthFailed))
+		return
+	}
+
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	itemInfo, code := service.UpdateItem(req.TokenId, req.IpfsUrl)
+	if code != base.Success {
+		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
+		return
+	}
+
 	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
 	ownerName, _ := model.GetUserName(itemInfo.OwnerID)
 	createrName, _ := model.GetUserName(itemInfo.CreaterID)

@@ -42,6 +42,7 @@ const (
 	UserProfileUpdateError ErrCode = 3001 // Update profile failed
 	BalanceNotEnough       ErrCode = 3002 // Sorry, your credit is running low
 	UpdateBalanceError     ErrCode = 3003 //Transfer failed
+	UpdateBlindBoxError    ErrCode = 3004 //Transfer failed
 
 	EditItemError ErrCode = 4001
 	GetItemError  ErrCode = 4002

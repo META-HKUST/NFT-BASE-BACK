@@ -8,6 +8,7 @@ import (
 )
 
 func Upload(key string,content io.Reader) (string,string,error){
+
 	//img,err := utils.CompressImg(content,key,500)
 	//if err != nil {
 	//	log.Println(err)

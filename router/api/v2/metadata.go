@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// GetMetaData
+// GetMetaInfo
 // @Description  get meta data information
 // @Tags         metadata
 // @param 		 token_id   query   string   true   "token_id"
