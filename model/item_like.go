@@ -13,6 +13,7 @@ var (
 func Like(itemId string, UserId string) error {
 	c, err := GetLikeCount(itemId)
 	if err != nil {
+		log.Println("Get like count error, user: ", UserId, "item: ", itemId)
 		return err
 	}
 
@@ -52,7 +53,7 @@ func DoesLike(itemId string, UserId string) (bool, error) {
 	var g string
 	e := db.Get(&g, doesLike, itemId, UserId)
 	if e != nil {
-		log.Println(e)
+		log.Println(e, ", item id: ", itemId)
 		return false, e
 	}
 	if g == "" {

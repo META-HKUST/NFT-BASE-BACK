@@ -211,8 +211,8 @@ type EditParams struct {
 }
 
 type UpdateParams struct {
-	TokenId       string   `json:"token_id" example:"1001"`
-	IpfsUrl	      string   `json:"ipfs_url" example:"http://ipfs/xmaedhkdhfrfndj"`
+	TokenId string `json:"token_id" example:"1001"`
+	IpfsUrl string `json:"ipfs_url" example:"http://ipfs/xmaedhkdhfrfndj"`
 }
 
 // EditItem @Description  edit single item
@@ -259,6 +259,7 @@ func EditItem(ctx *gin.Context) {
 	resp.SetData(resData)
 	ctx.JSON(http.StatusOK, resp)
 }
+
 // UpdateItem @Description  edit single item
 // @Tags         item
 // @param 		 param_request  body  UpdateParams  true   "info needed to update"
@@ -269,7 +270,7 @@ func EditItem(ctx *gin.Context) {
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /item/edit [POST]
 // @Security ApiKeyAuth
-func UpdateItem(ctx *gin.Context){
+func UpdateItem(ctx *gin.Context) {
 	var resp base.Response
 	var req UpdateParams
 
@@ -462,7 +463,7 @@ func LikeItem(ctx *gin.Context) {
 	fmt.Println(UserId)
 
 	bo, _ := model.DoesLike(ch.ItemID, UserId)
-	fmt.Println("bool: ", bo)
+	log.Println("Invoke like item, status: ", UserId, " ", ch.ItemID, " ", bo)
 	if bo == false {
 		err := model.Like(ch.ItemID, UserId)
 		if err != nil {
