@@ -110,7 +110,7 @@ func Register(p model.Person) base.ErrCode {
 	UserId := strings.Replace(t1, ".", "-", -1)
 
 	p1, _ := model.GetPerson(p.Email)
-	log.Println(p.Email, " registering, get sql info: ", p1)
+	log.Println(p.Email, " registering, get sql info: ", p1, " ", UserId)
 	if p1.Email == p.Email && p1.Activated == "no" {
 		log.Println("delete account,profile,collection of : ", p.Email)
 		_ = model.DeleteUser(p.Email)
@@ -136,7 +136,7 @@ func Register(p model.Person) base.ErrCode {
 
 	p.Passwd = fmt.Sprintf("%x", Result)
 
-	if err := p.Register(); err != base.Success {
+	if err := p.Register(UserId); err != base.Success {
 		log.Println(err)
 		return base.ServerError
 	}
@@ -146,11 +146,11 @@ func Register(p model.Person) base.ErrCode {
 		return base.InputError
 	}
 
-	e1 := model.UpdateId(p.Email, UserId)
-	if e1 != nil {
-		log.Println(e1)
-		return base.ServerError
-	}
+	//e1 := model.UpdateId(p.Email, UserId)
+	//if e1 != nil {
+	//	log.Println(e1)
+	//	return base.ServerError
+	//}
 	e2 := model.InsertAccount(p.Email, UserId)
 	if e2 != nil {
 		log.Println(e2)

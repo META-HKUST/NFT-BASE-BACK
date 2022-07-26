@@ -26,7 +26,7 @@ var db *sqlx.DB
 // mysql sentences
 var (
 	// these three are related to account email and passwd
-	insert        = string("insert into login(email,passwd) values(?,?);")
+	insert        = string("insert into login(email,passwd,user_id) values(?,?,?);")
 	query         = string("select email,activated from login where email=?;")
 	queryPasswd   = string("select email,passwd from login where email = ?")
 	update        = string("update login set passwd=? where email=?;")
@@ -97,9 +97,9 @@ func InsertAccount(email string, Id string) error {
 }
 
 // first examin if the account exists and then insert
-func (p Person) Register() base.ErrCode {
+func (p Person) Register(UserId string) base.ErrCode {
 
-	_, e := db.Exec(insert, p.Email, p.Passwd)
+	_, e := db.Exec(insert, p.Email, p.Passwd, UserId)
 	if e != nil {
 		log.Println(base.InsertError, base.InsertError.String(), e)
 		return base.InsertError
