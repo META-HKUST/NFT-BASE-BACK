@@ -19,11 +19,13 @@ func Like(itemId string, UserId string) error {
 
 	_, e := db.Exec(updateLikeCount, c+1, itemId)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 
 	_, e = db.Exec(addItemLike, itemId, UserId)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 
@@ -33,16 +35,19 @@ func Like(itemId string, UserId string) error {
 func UnLike(itemId string, UserId string) error {
 	c, err := GetLikeCount(itemId)
 	if err != nil {
+		log.Println("Get like count error, user: ", UserId, "item: ", itemId)
 		return err
 	}
 
 	_, e := db.Exec(updateLikeCount, c-1, itemId)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 
 	_, e = db.Exec(deleteItemLike, itemId)
 	if e != nil {
+		log.Println(e)
 		return e
 	}
 
@@ -53,14 +58,12 @@ func DoesLike(itemId string, UserId string) (bool, error) {
 	var g string
 	e := db.Get(&g, doesLike, itemId, UserId)
 	if e != nil {
-		log.Println(e, ", item id: ", itemId)
+		log.Println("invoke item_like does like", e, ", item id: ", itemId)
 		return false, e
 	}
 	if g == "" {
-		log.Println("Does user like this item? ", UserId, " ", itemId, " ", false)
 		return false, nil
 	} else {
-		log.Println("Does user like this item? ", UserId, " ", itemId, " ", true)
 		return true, nil
 	}
 }

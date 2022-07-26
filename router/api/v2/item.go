@@ -465,6 +465,7 @@ func LikeItem(ctx *gin.Context) {
 	bo, _ := model.DoesLike(ch.ItemID, UserId)
 	log.Println("Invoke like item, status: ", UserId, " ", ch.ItemID, " ", bo)
 	if bo == false {
+		log.Println("User ", UserId, " will like this item:", ch.ItemID)
 		err := model.Like(ch.ItemID, UserId)
 		if err != nil {
 			log.Println(err)
@@ -473,6 +474,7 @@ func LikeItem(ctx *gin.Context) {
 		}
 		ctx.JSON(http.StatusOK, res.SetCode(base.Success))
 	} else {
+		log.Println("User ", UserId, " will unlike this item:", ch.ItemID)
 		err := model.UnLike(ch.ItemID, UserId)
 		if err != nil {
 			log.Println(err)
