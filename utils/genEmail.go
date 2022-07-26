@@ -142,14 +142,14 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 	}
 
 	// Set a subject line
-	m.Subject(SubjectName)
+	m.Subject(SubjectName2)
 
 	// Add your mail message to body
 	m.SetBodyString(mail.TypeTextHTML, emailBody)
 
 	host := SenderServer
 	c, err := mail.NewClient(host,
-		mail.WithSMTPAuth(mail.SMTPAuthLogin), mail.WithUsername(Sender),
+		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithUsername(Sender),
 		mail.WithPassword(SenderPasswd), mail.WithTLSPolicy(mail.TLSMandatory), mail.WithPort(SenderPort))
 
 	if err != nil {

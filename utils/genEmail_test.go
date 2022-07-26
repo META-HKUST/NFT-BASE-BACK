@@ -6,7 +6,12 @@ import (
 )
 
 func TestGenEmail(t *testing.T) {
-	err := Email("Mingzhe", "mingzheliu@ust.hk", "123")
+	//err := Email("Mingzhe", "mingzheliu@ust.hk", "123")
+	//if err != nil {
+	//	log.Println(err)
+	//}
+
+	err := ResetEmail("Mingzhe", "mingzheliu@ust.hk", "123")
 	if err != nil {
 		log.Println(err)
 	}
