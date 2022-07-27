@@ -101,7 +101,7 @@ func CreateItem(ctx *gin.Context) {
 	email, ok := ctx.Get("email")
 	if !ok {
 		res := base.Response{}
-		ctx.JSON(http.StatusOK, res.SetCode(base.FabricInvokeError))
+		ctx.JSON(http.StatusOK, res.SetCode(base.InputError))
 		return
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
@@ -115,7 +115,8 @@ func CreateItem(ctx *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-		ctx.JSON(http.StatusInternalServerError, err.Error())
+		res := base.Response{}
+		ctx.JSON(http.StatusOK, res.SetCode(base.FabricInvokeError))
 		return
 	}
 
@@ -194,6 +195,14 @@ func CreateItem(ctx *gin.Context) {
 		ownerName,
 		createrName,
 	}
+
+	err = model.AddTransferHistory(ret.ItemID, "Create", username)
+	if err != nil {
+		log.Println(err)
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
+	}
+
 	// 组装response
 	resp := base.Response{}
 	resp.SetCode(base.Success)
@@ -268,7 +277,7 @@ func EditItem(ctx *gin.Context) {
 // @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
-// @Router       /item/edit [POST]
+// @Router       /item/update [POST]
 // @Security ApiKeyAuth
 func UpdateItem(ctx *gin.Context) {
 	var resp base.Response
@@ -372,6 +381,7 @@ func TransferItem(ctx *gin.Context) {
 		},
 	)
 	if err != nil {
+		log.Println(err)
 		ctx.JSON(http.StatusOK, new(base.Response).SetCode(base.FabricInvokeError))
 		return
 	}
@@ -424,7 +434,12 @@ func TransferItem(ctx *gin.Context) {
 	resp.SetCode(base.Success)
 	resp.SetData(resData)
 
-	model.AddTransferHistory(ret.ItemID, username, username2)
+	// add item history
+	err = model.AddTransferHistory(ret.ItemID, username, username2)
+	if err != nil {
+		log.Println(err)
+		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
+	}
 
 	ctx.JSON(http.StatusOK, resp)
 }

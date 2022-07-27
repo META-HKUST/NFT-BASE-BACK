@@ -196,12 +196,22 @@ func CollectionList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, resp.SetCode(base.Success))
 }
 
+type SingleItemRes struct {
+	ItemRes
+	CoLogo   string `json:"collection_logo"`
+	CrLogo   string `json:"creater_logo"`
+	OwLogo   string `json:"owner_logo"`
+	CoUserId string `json:"collection_user_id"`
+	CrUserId string `json:"creater_user_id"`
+	OwUserId string `json:"owner_user_id"`
+}
+
 // SingleItem @Description  get all users in database
 // @Tags         list
 // @param 		 item_id   query   string   true   "item id"
 // @Accept       json
 // @Produce      json
-// @Success 200 {object} ItemResponse "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
+// @Success 200 {object} SingleItemRes "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf"
 // @Failure 400  {object}   Err1000       "Input error"
 // @Failure 500  {object}   Err2000       "Server error"
 // @Router       /list/item [GET]
@@ -238,9 +248,24 @@ func SingleItem(ctx *gin.Context) {
 		ownerName,
 		createrName,
 	}
+
+	collection, _ := model.GetCollection(baseItem.CollectionID)
+	_, owner := model.GetUserInfoByID(baseItem.OwnerID)
+	_, creater := model.GetUserInfoByID(baseItem.CreaterID)
+
+	finalRes := SingleItemRes{
+		ItemRes:  resData,
+		CoLogo:   collection.LogoImage,
+		CrLogo:   creater.LogoImage,
+		OwLogo:   owner.LogoImage,
+		CoUserId: collection.Owner,
+		CrUserId: creater.UserID,
+		OwUserId: owner.UserID,
+	}
+
 	// 组装response
 	resp.SetCode(base.Success)
-	resp.SetData(resData)
+	resp.SetData(finalRes)
 
 	ctx.JSON(http.StatusOK, resp)
 }

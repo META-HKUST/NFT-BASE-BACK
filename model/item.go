@@ -64,11 +64,13 @@ func CreateItem(item Item) (Item, error) {
 		0,
 	)
 	if err != nil {
+		log.Println(err)
 		return Item{}, err
 	}
 	var ret Item
 	err = db.Get(&ret, queryItem, item.ItemID)
 	if err != nil {
+		log.Println(err)
 		return Item{}, err
 	}
 	return ret, nil
@@ -207,13 +209,13 @@ func EditItem(itemId, itemName, description, collectionId string, label []string
 
 }
 
-func UpdateItem(token_id,ipfs_url string) error {
+func UpdateItem(token_id, ipfs_url string) error {
 
-	paramItem := make([]interface{},0)
+	paramItem := make([]interface{}, 0)
 	paramItem = append(paramItem, ipfs_url)
-	paramItem = append(paramItem,token_id)
+	paramItem = append(paramItem, token_id)
 
-	result, err := db.Exec(UpdateBlindBox,ipfs_url,token_id)
+	result, err := db.Exec(UpdateBlindBox, ipfs_url, token_id)
 	if err != nil {
 		log.Println(base.UpdateBlindBoxError, base.UpdateBlindBoxError.String(), err)
 		return err
@@ -224,7 +226,6 @@ func UpdateItem(token_id,ipfs_url string) error {
 	log.Println("rowsAffected: ", rowsAffected, "lastInsertId: ", lastInsertId)
 	return nil
 }
-
 
 func GetItemInfo(itemId string) (ItemInfo, error) {
 	var item Item
