@@ -13,6 +13,9 @@ var (
 	collectionByCondition = string("select * from collection ")
 	queryCoCount          = string("select count(*) from collection")
 	queryItemCount        = string("select count(*) from items")
+	selectLike            = string("select items.item_id,item_name,collection_id,item_data,description,owner_id,creater_id,category,like_count,created_at" +
+		" from items,item_like where items.item_id = item_like.item_id ")
+	queryLikeCount = string("select count(*) from item_like where user_id = ?")
 )
 
 type Collection struct {
@@ -40,8 +43,48 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 	var ItemAndLogos []ItemAndLogo
 	offset := (page_num - 1) * page_size
 
-	Condition := "where 1=1 "
+	Condition := " where 1=1 "
 
+	// if user like this item
+	if userLike == true {
+
+		// select first and then rank
+		Condition = selectLike + " and user_id = ?  "
+
+		if rank_time == true {
+			Condition = Condition + " order by created_at desc"
+		} else if rank_favorite == true {
+			Condition = Condition + " order by like_count desc"
+		}
+		Condition = Condition + " limit ? offset ?;"
+
+		err := db.Select(&items, Condition, userId, page_size, offset)
+		if err != nil {
+			log.Println(err)
+			return []ItemAndLogo{}, 0, err
+		}
+		// add like and logoImage
+		for i := 0; i < len(items); i++ {
+			ig := ItemAndLogo{}
+			ig.Item = items[i]
+			ig.LogoImage, _ = GetLogoImage(items[i].CreaterID)
+			ig.Like, _ = DoesLike(items[i].ItemID, userId)
+			ig.CoName, _ = GetCollectionName(items[i].CollectionID)
+			ItemAndLogos = append(ItemAndLogos, ig)
+		}
+		// select count
+		queryC := queryLikeCount
+		var count []int
+		err1 := db.Select(&count, queryC, userId)
+		if err1 != nil {
+			log.Println(err1)
+			return []ItemAndLogo{}, 0, err1
+		}
+
+		return ItemAndLogos, count[0], nil
+	}
+
+	// if user own this item
 	if userCollect == true {
 
 		// select first and then rank
@@ -80,6 +123,7 @@ func GetItemList(page_num, page_size int64, userId string, userLike, userCollect
 		return ItemAndLogos, count[0], nil
 	}
 
+	// if user create this item
 	if userCreate == true {
 
 		// select first and then rank
