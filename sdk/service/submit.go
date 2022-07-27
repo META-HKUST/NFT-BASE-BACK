@@ -53,6 +53,7 @@ func populateWallet(wallet *gateway.Wallet, username string) error {
 }
 
 func Submit(username string, contractName string, args ...string) (string, error) {
+
 	wallet, err := gateway.NewFileSystemWallet(config_local.CONFIG.WalletPath)
 	if err != nil {
 		log.Println(err)
@@ -71,6 +72,7 @@ func Submit(username string, contractName string, args ...string) (string, error
 		gateway.WithConfig(config.FromFile(config_local.CONFIG.CcpPath)),
 		gateway.WithIdentity(wallet, username),
 	)
+
 	if err != nil {
 		log.Println(err)
 		return "", err
@@ -83,7 +85,9 @@ func Submit(username string, contractName string, args ...string) (string, error
 	}
 
 	contract := network.GetContract(config_local.CONFIG.ChaincodeName)
+
 	log.Println("args: ", args)
+
 	result, err := contract.SubmitTransaction(contractName, args...)
 	if err != nil {
 		log.Println(err)

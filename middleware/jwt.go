@@ -33,7 +33,7 @@ func JWTAuth() gin.HandlerFunc {
 			//解析token包含的信息
 			claims, err := utils.ParseToken(parts[0])
 			if err != nil {
-				ctx.JSON(http.StatusOK, gin.H{
+				ctx.JSON(http.StatusUnauthorized, gin.H{
 					"code": base.InvalidToken,
 					"msg":  base.InvalidToken.String(),
 				})
@@ -42,7 +42,7 @@ func JWTAuth() gin.HandlerFunc {
 			}
 
 			if err := CheckUserInfo(claims); err != nil {
-				ctx.JSON(http.StatusOK, gin.H{
+				ctx.JSON(http.StatusUnauthorized, gin.H{
 					"code": base.UserTokenError,
 					"msg":  base.UserTokenError.String(),
 				})
@@ -58,7 +58,7 @@ func JWTAuth() gin.HandlerFunc {
 
 		log.Println("-----------------Baearer Token-----------------------------------")
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
-			ctx.JSON(http.StatusOK, gin.H{
+			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code": base.AuthFormatError,
 				"msg":  base.AuthFormatError.String(),
 			})
@@ -69,7 +69,7 @@ func JWTAuth() gin.HandlerFunc {
 		//解析token包含的信息
 		claims, err := utils.ParseToken(parts[1])
 		if err != nil {
-			ctx.JSON(http.StatusOK, gin.H{
+			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code": base.InvalidToken,
 				"msg":  base.InvalidToken.String(),
 			})
@@ -78,7 +78,7 @@ func JWTAuth() gin.HandlerFunc {
 		}
 
 		if err := CheckUserInfo(claims); err != nil {
-			ctx.JSON(http.StatusOK, gin.H{
+			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code": base.UserTokenError,
 				"msg":  base.UserTokenError.String(),
 			})
