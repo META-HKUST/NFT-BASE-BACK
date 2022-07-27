@@ -19,6 +19,7 @@ func _() {
 	_ = x[PasswdUpdateError-1007]
 	_ = x[InsertProfileError-1008]
 	_ = x[CreateCollectionError-1009]
+	_ = x[UserDoNotExist-1010]
 	_ = x[AuthFailed-1101]
 	_ = x[AuthFormatError-1102]
 	_ = x[InvalidToken-1103]
@@ -26,6 +27,7 @@ func _() {
 	_ = x[LackTokenError-1105]
 	_ = x[UserTokenError-1105]
 	_ = x[EnrollFail-1106]
+	_ = x[ResetEmailError-1107]
 	_ = x[GetPersonError-1201]
 	_ = x[StoreEmailTokenError-1202]
 	_ = x[ActivateEmailError-1203]
@@ -40,6 +42,7 @@ func _() {
 	_ = x[UserProfileUpdateError-3001]
 	_ = x[BalanceNotEnough-3002]
 	_ = x[UpdateBalanceError-3003]
+	_ = x[UpdateBlindBoxError-3004]
 	_ = x[EditItemError-4001]
 	_ = x[GetItemError-4002]
 	_ = x[EmptyInput-1401]
@@ -54,7 +57,7 @@ func _() {
 	_ = x[FabricInvokeError-1801]
 }
 
-const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedinsert into profile error: maybe account already registeredCreate collection errorPermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureLack signature in parameter fieldNot enough signature related to URLonly admin accounts could edit act and owner to edit his collection/nft/transferinvoke fabric failed: check backend log or fabric statusServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedEditItemErrorGetItemError"
+const _ErrCode_name = "Operation succeedInput ErrorError open Mysql databaseCannot connect to mysql databaseInsert data errorQuery db errorWrong username or passwdAccount is already registeredUpdate password failedinsert into profile error: maybe account already registeredCreate collection erroruser do not exist : could not get this user in databasePermission denied, lack tokenThe auth format in the request header is incorrectThe token has expired or is invalid or could not parse with claimsGenerate token error: Sign Token FailedLack token in request headerRegister to Fabric failedsending reset email errorCan not get user info from databaseStore Email Token ErrorActivate email token failedError sending activation email to the userToken not activated, please rerun activation emailToken invalid: OvertimeCould not find this token in databaseToken has already been activatedThe verify code is invalid or expiredInvalid Input: one of the parameters is emptyEmail format invalid or not related to ust emailPasswd not in valid lengthNot in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 aviFile too large or could not parse and obtain file sizefailed to verify signatureLack signature in parameter fieldNot enough signature related to URLonly admin accounts could edit act and owner to edit his collection/nft/transferinvoke fabric failed: check backend log or fabric statusServer ErrorUserIDNotExistUpdate profile failedSorry, your credit is running lowTransfer failedTransfer failedEditItemErrorGetItemError"
 
 var _ErrCode_map = map[ErrCode]string{
 	0:    _ErrCode_name[0:17],
@@ -68,38 +71,41 @@ var _ErrCode_map = map[ErrCode]string{
 	1007: _ErrCode_name[169:191],
 	1008: _ErrCode_name[191:250],
 	1009: _ErrCode_name[250:273],
-	1101: _ErrCode_name[273:302],
-	1102: _ErrCode_name[302:352],
-	1103: _ErrCode_name[352:418],
-	1104: _ErrCode_name[418:457],
-	1105: _ErrCode_name[457:485],
-	1106: _ErrCode_name[485:510],
-	1201: _ErrCode_name[510:545],
-	1202: _ErrCode_name[545:568],
-	1203: _ErrCode_name[568:595],
-	1204: _ErrCode_name[595:637],
-	1205: _ErrCode_name[637:687],
-	1206: _ErrCode_name[687:710],
-	1207: _ErrCode_name[710:747],
-	1208: _ErrCode_name[747:779],
-	1301: _ErrCode_name[779:816],
-	1401: _ErrCode_name[816:861],
-	1402: _ErrCode_name[861:909],
-	1403: _ErrCode_name[909:935],
-	1501: _ErrCode_name[935:1016],
-	1502: _ErrCode_name[1016:1070],
-	1601: _ErrCode_name[1070:1096],
-	1602: _ErrCode_name[1096:1129],
-	1603: _ErrCode_name[1129:1164],
-	1701: _ErrCode_name[1164:1244],
-	1801: _ErrCode_name[1244:1300],
-	2000: _ErrCode_name[1300:1312],
-	3000: _ErrCode_name[1312:1326],
-	3001: _ErrCode_name[1326:1347],
-	3002: _ErrCode_name[1347:1380],
-	3003: _ErrCode_name[1380:1395],
-	4001: _ErrCode_name[1395:1408],
-	4002: _ErrCode_name[1408:1420],
+	1010: _ErrCode_name[273:328],
+	1101: _ErrCode_name[328:357],
+	1102: _ErrCode_name[357:407],
+	1103: _ErrCode_name[407:473],
+	1104: _ErrCode_name[473:512],
+	1105: _ErrCode_name[512:540],
+	1106: _ErrCode_name[540:565],
+	1107: _ErrCode_name[565:590],
+	1201: _ErrCode_name[590:625],
+	1202: _ErrCode_name[625:648],
+	1203: _ErrCode_name[648:675],
+	1204: _ErrCode_name[675:717],
+	1205: _ErrCode_name[717:767],
+	1206: _ErrCode_name[767:790],
+	1207: _ErrCode_name[790:827],
+	1208: _ErrCode_name[827:859],
+	1301: _ErrCode_name[859:896],
+	1401: _ErrCode_name[896:941],
+	1402: _ErrCode_name[941:989],
+	1403: _ErrCode_name[989:1015],
+	1501: _ErrCode_name[1015:1096],
+	1502: _ErrCode_name[1096:1150],
+	1601: _ErrCode_name[1150:1176],
+	1602: _ErrCode_name[1176:1209],
+	1603: _ErrCode_name[1209:1244],
+	1701: _ErrCode_name[1244:1324],
+	1801: _ErrCode_name[1324:1380],
+	2000: _ErrCode_name[1380:1392],
+	3000: _ErrCode_name[1392:1406],
+	3001: _ErrCode_name[1406:1427],
+	3002: _ErrCode_name[1427:1460],
+	3003: _ErrCode_name[1460:1475],
+	3004: _ErrCode_name[1475:1490],
+	4001: _ErrCode_name[1490:1503],
+	4002: _ErrCode_name[1503:1515],
 }
 
 func (i ErrCode) String() string {

@@ -38,8 +38,15 @@ func startGinServer() {
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 	model.InitDB(config.CONFIG)
 	sdk.InitClient()
-	router := router.InitRouter()
-	router.Run(":" + config.CONFIG.GinPort)
+	httprouter := router.InitRouter()
+	//err = router.RunTLS("unifit.ust.hk:"+config.CONFIG.GinPort, "config/ssl.pem", "config/ssl.key")
+	//if err != nil {
+	//	return
+	//}
+	err = httprouter.Run(":" + config.CONFIG.GinPort)
+	if err != nil {
+		return
+	}
 }
 
 func startGRPCServer() {

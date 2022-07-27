@@ -369,6 +369,7 @@ func TransferItem(ctx *gin.Context) {
 	}
 	username := strings.Replace(email.(string), "@", "-", -1)
 	username = strings.Replace(username, ".", "-", -1)
+	log.Println("transfer NFT: ", "from: ", username, ",to: ", username2)
 
 	// 调用sdk
 	_, err = sdk.Client.TransferFrom(

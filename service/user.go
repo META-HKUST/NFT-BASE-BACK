@@ -216,9 +216,23 @@ func ForgetPasswd(email string) base.ErrCode {
 	if email == "" {
 		return base.EmptyInput
 	}
+	p := model.Person{
+		Email: email,
+	}
+	if err := CheckEmailToken(p); err != base.Success {
+		return base.TokenNotActivated
+	}
+	p, err1 := model.GetPerson(email)
+	if err1 != nil {
+		return base.GetPersonError
+	}
+	if p.Activated == "no" {
+		return base.TokenNotActivated
+	}
 
 	c := utils.GenVerifyCode()
-	err := model.UpdateVerifyCode(email, c)
+	time := utils.GetTimeNow()
+	err := model.UpdateVerifyCode(email, c, time)
 	if err != nil {
 		return base.ServerError
 	}
@@ -226,8 +240,11 @@ func ForgetPasswd(email string) base.ErrCode {
 	if reName == "" {
 		reName = "Sir/Madam"
 	}
-	fmt.Println("reName: ", reName)
-	utils.ResetEmail(reName, email, c)
+	log.Println(" sending reset email to: ", reName)
+	err = utils.ResetEmail(reName, email, c)
+	if err != nil {
+		return base.ResetEmailError
+	}
 	return base.Success
 }
 
@@ -240,7 +257,14 @@ func ResetPasswd(email string, code string, pd string) base.ErrCode {
 	if err1 != nil {
 		return base.InputError
 	}
-	fmt.Println("Get verify code: ", c1)
+	log.Println("Reset Passwd: Get verify code: ", c1)
+	err2, cdTime := model.GetCodeTime(email)
+	if err2 != nil {
+		return base.ServerError
+	}
+	if utils.IsTimeValid(cdTime) == false {
+		return base.WrongVerifyCode
+	}
 
 	// TODO: Set the expire time of verify code
 	if c1 != code {

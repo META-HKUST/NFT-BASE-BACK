@@ -17,6 +17,7 @@ require (
 	github.com/swaggo/gin-swagger v1.4.3
 	github.com/swaggo/swag v1.8.1
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.35
+	github.com/unrolled/secure v1.12.0
 	github.com/wneessen/go-mail v0.1.8
 	github.com/ybbus/httpretry v1.0.1
 	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4

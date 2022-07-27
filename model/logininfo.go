@@ -40,9 +40,10 @@ var (
 	updategenTime    = string("update login set genTime=? where email=?;")
 	activateToken    = string("update login set activated=? where emailToken=?;")
 	queryGentime     = string("select genTime from login where emailToken=?;")
+	queryCodetime    = string("select codeTime from login where email=?;")
 	queryTokenStatus = string("select activated from login where email=?;")
 
-	updateVerifyCode  = string("update login set verify_code=? where email=?;")
+	updateVerifyCode  = string("update login set verify_code=? , codeTime=? where email=?;")
 	getVerifyCode     = string("select verify_code from login where email=?;")
 	updateResetPasswd = string("update login set passwd=? where email=?;")
 
@@ -116,8 +117,8 @@ func (p Person) Login() base.ErrCode {
 	e := db.Get(&p1, queryPasswd, p.Email)
 
 	if e != nil {
-		log.Println(base.QueryError, base.QueryError.String(), e)
-		return base.QueryError
+		log.Println(base.UserDoNotExist, base.UserDoNotExist.String(), e)
+		return base.UserDoNotExist
 	}
 
 	if p1.Passwd != p.Passwd {
@@ -196,6 +197,15 @@ func GetGenTime(token string) (error, string) {
 	}
 	return nil, g
 }
+func GetCodeTime(email string) (error, string) {
+	var g string
+	err := db.Get(&g, queryCodetime, email)
+
+	if err != nil {
+		return err, ""
+	}
+	return nil, g
+}
 
 func GetTokenStatus(token string) (error, string) {
 	var g string
@@ -206,8 +216,9 @@ func GetTokenStatus(token string) (error, string) {
 	return nil, g
 }
 
-func UpdateVerifyCode(email string, code string) error {
-	r1, e1 := db.Exec(updateVerifyCode, code, email)
+func UpdateVerifyCode(email string, code string, time string) error {
+
+	r1, e1 := db.Exec(updateVerifyCode, code, time, email)
 	if e1 != nil {
 		log.Println(e1)
 		return e1

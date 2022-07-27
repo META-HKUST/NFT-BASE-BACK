@@ -16,7 +16,7 @@ func TestCreateItem(t *testing.T) {
 	item := Item{
 		ItemID:       "1",
 		ItemName:     "jahha",
-		CollectionID: 1,
+		CollectionID: "1",
 		ItemData:     "ssfa",
 		Description:  "1111",
 		OwnerID:      "sdswe",
@@ -84,4 +84,3 @@ func TestSearchLabel(t *testing.T) {
 	}
 	log.Println(ret2)
 }
-

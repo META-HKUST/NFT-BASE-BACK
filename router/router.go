@@ -16,6 +16,7 @@ import (
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(mw.Cors())
+	router.Use(mw.TlsHandler())
 	docs.SwaggerInfo.BasePath = "/api/v2"
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -48,7 +49,7 @@ func InitRouter() *gin.Engine {
 		itemsRouter.POST("/edit", v2.EditItem)
 		itemsRouter.POST("/transfer", v2.TransferItem)
 		itemsRouter.POST("/like", v2.LikeItem)
-		itemsRouter.POST("/update",v2.UpdateItem)
+		itemsRouter.POST("/update", v2.UpdateItem)
 	}
 	tkRouter := routerV2.Group("/tk").Use(mw.JWTAuth())
 	{

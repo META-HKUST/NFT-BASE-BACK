@@ -16,6 +16,7 @@ const (
 	PasswdUpdateError     ErrCode = 1007 // Update password failed
 	InsertProfileError    ErrCode = 1008 // insert into profile error: maybe account already registered
 	CreateCollectionError ErrCode = 1009 // Create collection error
+	UserDoNotExist        ErrCode = 1010 // user do not exist : could not get this user in database
 
 	AuthFailed      ErrCode = 1101 // Permission denied, lack token
 	AuthFormatError ErrCode = 1102 // The auth format in the request header is incorrect
@@ -24,6 +25,7 @@ const (
 	LackTokenError  ErrCode = 1105 // Lack token in request header
 	UserTokenError  ErrCode = 1105 // Wrong account or password, maybe the password has been changed
 	EnrollFail      ErrCode = 1106 // Register to Fabric failed
+	ResetEmailError ErrCode = 1107 // sending reset email error
 
 	GetPersonError        ErrCode = 1201 // Can not get user info from database
 	StoreEmailTokenError  ErrCode = 1202 // Store Email Token Error
