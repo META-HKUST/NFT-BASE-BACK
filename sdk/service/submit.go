@@ -73,6 +73,10 @@ func Submit(username string, contractName string, args ...string) (string, error
 		gateway.WithIdentity(wallet, username),
 	)
 
+	creds, err := wallet.Get(username)
+	crt := creds.(*gateway.X509Identity).Certificate()
+	log.Println("certificate: ", crt)
+
 	if err != nil {
 		log.Println(err)
 		return "", err
