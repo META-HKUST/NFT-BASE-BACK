@@ -16,7 +16,7 @@ import (
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(mw.Cors())
-	router.Use(mw.TlsHandler())
+	//router.Use(mw.TlsHandler())
 	docs.SwaggerInfo.BasePath = "/api/v2"
 	// swagger
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
