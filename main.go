@@ -43,7 +43,7 @@ func startGinServer() {
 	//if err != nil {
 	//	return
 	//}
-	err = httprouter.Run(":" + config.CONFIG.GinPort)
+	err = httprouter.Run(":8889")
 	if err != nil {
 		return
 	}

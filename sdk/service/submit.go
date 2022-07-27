@@ -78,6 +78,7 @@ func Submit(username string, contractName string, args ...string) (string, error
 		return "", err
 	}
 	defer gw.Close()
+
 	network, err := gw.GetNetwork(config_local.CONFIG.ChannelName)
 	if err != nil {
 		log.Println(err)
