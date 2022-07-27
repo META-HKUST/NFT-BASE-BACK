@@ -61,7 +61,7 @@ func GetItemHistory(item_id string) ([]HistoryRes, error) {
 		if e1 != nil {
 			log.Println(e1)
 		}
-		to, e2 := GetUserName(v.From)
+		to, e2 := GetUserName(v.To)
 		if e2 != nil {
 			log.Println(e2)
 		}

@@ -196,7 +196,7 @@ func CreateItem(ctx *gin.Context) {
 		createrName,
 	}
 
-	err = model.AddTransferHistory(ret.ItemID, "Create", username)
+	err = model.AddMintHistory(ret.ItemID, username)
 	if err != nil {
 		log.Println(err)
 		resp := base.Response{}
