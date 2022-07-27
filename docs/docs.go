@@ -685,12 +685,12 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "description": "info needed to update",
+                        "description": "info needed to upload",
                         "name": "param_request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/v2.UpdateParams"
+                            "$ref": "#/definitions/v2.EditParams"
                         }
                     }
                 ],
@@ -797,6 +797,55 @@ const docTemplate = `{
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
                             "$ref": "#/definitions/v2.TransferItemResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/item/update": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "item"
+                ],
+                "parameters": [
+                    {
+                        "description": "info needed to update",
+                        "name": "param_request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v2.UpdateParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ItemResponse"
                         }
                     },
                     "400": {
@@ -959,7 +1008,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
                         "schema": {
-                            "$ref": "#/definitions/v2.ItemResponse"
+                            "$ref": "#/definitions/v2.SingleItemRes"
                         }
                     },
                     "400": {
@@ -2359,8 +2408,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "code": {
-                    "type": "integer",
-                    "example": 0
+                    "type": "integer"
                 },
                 "data": {},
                 "msg": {
@@ -2557,6 +2605,39 @@ const docTemplate = `{
                 }
             }
         },
+        "v2.SingleItemRes": {
+            "type": "object",
+            "properties": {
+                "collection_logo": {
+                    "type": "string"
+                },
+                "collection_name": {
+                    "type": "string"
+                },
+                "collection_user_id": {
+                    "type": "string"
+                },
+                "creater_logo": {
+                    "type": "string"
+                },
+                "creater_name": {
+                    "type": "string"
+                },
+                "creater_user_id": {
+                    "type": "string"
+                },
+                "item": {},
+                "owner_logo": {
+                    "type": "string"
+                },
+                "owner_name": {
+                    "type": "string"
+                },
+                "owner_user_id": {
+                    "type": "string"
+                }
+            }
+        },
         "v2.TransferItemResponse": {
             "type": "object",
             "properties": {
@@ -2627,7 +2708,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8889",
+	Host:             "unifit.ust.hk:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

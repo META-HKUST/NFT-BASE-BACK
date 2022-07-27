@@ -401,7 +401,6 @@ definitions:
   v2.ListResponse:
     properties:
       code:
-        example: 0
         type: integer
       data: {}
       msg:
@@ -545,6 +544,28 @@ definitions:
         example: Abcd12345
         type: string
     type: object
+  v2.SingleItemRes:
+    properties:
+      collection_logo:
+        type: string
+      collection_name:
+        type: string
+      collection_user_id:
+        type: string
+      creater_logo:
+        type: string
+      creater_name:
+        type: string
+      creater_user_id:
+        type: string
+      item: {}
+      owner_logo:
+        type: string
+      owner_name:
+        type: string
+      owner_user_id:
+        type: string
+    type: object
   v2.TransferItemResponse:
     properties:
       code:
@@ -585,7 +606,7 @@ definitions:
         example: "1001"
         type: string
     type: object
-host: localhost:8889
+host: unifit.ust.hk:8889
 info:
   contact: {}
   description: HKUST-NFT Server API
@@ -1010,12 +1031,12 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: info needed to update
+      - description: info needed to upload
         in: body
         name: param_request
         required: true
         schema:
-          $ref: '#/definitions/v2.UpdateParams'
+          $ref: '#/definitions/v2.EditParams'
       produces:
       - application/json
       responses:
@@ -1083,6 +1104,36 @@ paths:
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
             $ref: '#/definitions/v2.TransferItemResponse'
+        "400":
+          description: Input error
+          schema:
+            $ref: '#/definitions/v2.Err1000'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/v2.Err2000'
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - item
+  /item/update:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: info needed to update
+        in: body
+        name: param_request
+        required: true
+        schema:
+          $ref: '#/definitions/v2.UpdateParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
+          schema:
+            $ref: '#/definitions/v2.ItemResponse'
         "400":
           description: Input error
           schema:
@@ -1190,7 +1241,7 @@ paths:
         "200":
           description: 'Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf'
           schema:
-            $ref: '#/definitions/v2.ItemResponse'
+            $ref: '#/definitions/v2.SingleItemRes'
         "400":
           description: Input error
           schema:

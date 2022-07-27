@@ -26,7 +26,7 @@ type UserInfo struct {
 }
 
 type ListResponse struct {
-	Code int         `json:"code" example:"0"`
+	Code int         `json:"code"`
 	Msg  string      `json:"msg" example:"Operation succeed"`
 	Data interface{} `json:"data"`
 }
