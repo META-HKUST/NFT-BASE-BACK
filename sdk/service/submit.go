@@ -78,10 +78,6 @@ func Submit(username string, contractName string, args ...string) (string, error
 	log.Println("Key: ", key)
 	cert := creds.(*gateway.X509Identity).Certificate()
 	log.Println("cert: ", cert)
-	MspID := creds.(*gateway.X509Identity).MspID
-	log.Println("MspID: ", MspID)
-	Credentials := creds.(*gateway.X509Identity).Credentials
-	log.Println("MspID: ", Credentials)
 
 	if err != nil {
 		log.Println(err)

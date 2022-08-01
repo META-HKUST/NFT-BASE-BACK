@@ -17,7 +17,7 @@ func JWTAuth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.Request.Header.Get("Authorization")
 		if authHeader == "" {
-			ctx.JSON(http.StatusOK, gin.H{
+			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code": base.LackTokenError,
 				"msg":  base.LackTokenError.String(),
 			})

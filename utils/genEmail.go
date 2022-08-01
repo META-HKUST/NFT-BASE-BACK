@@ -14,10 +14,10 @@ var (
 	logo         string = ("https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/logo_0725.png?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658731709%3B1745131709&q-key-time=1658731709%3B1745131709&q-header-list=host&q-url-param-list=&q-signature=596694ad14acc8698b0e1fe7d6d15ac1131c4019")
 
 	SenderName   string      = ("uNiFiT Team")
-	Sender       string      = ("contact@unifit.art")
-	SenderServer string      = ("smtp.feishu.cn")
+	Sender       string      = ("unifit@hkust-gz.edu.cn")
+	SenderServer string      = ("smtp.office365.com")
 	SenderPort   int         = 587
-	SenderPasswd string      = ("eWwBcBBqeQIHCft0")
+	SenderPasswd string      = ("$Hkustunifit2022")
 	WithSSL      mail.Option = mail.WithSSL()
 )
 
@@ -82,7 +82,7 @@ func Email(ReceiverName string, ReceiverMail string, token string) error {
 
 	host := SenderServer
 	c, err := mail.NewClient(host,
-		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithUsername(Sender),
+		mail.WithSMTPAuth(mail.SMTPAuthLogin), mail.WithUsername(Sender),
 		mail.WithPassword(SenderPasswd), mail.WithTLSPolicy(mail.TLSMandatory), mail.WithPort(SenderPort))
 
 	if err != nil {

@@ -11,7 +11,7 @@ func TestGenEmail(t *testing.T) {
 	//	log.Println(err)
 	//}
 
-	err := ResetEmail("Mingzhe", "mingzheliu@ust.hk", "123")
+	err := Email("Mingzhe", "1721062927@qq.com", "123")
 	if err != nil {
 		log.Println(err)
 	}
