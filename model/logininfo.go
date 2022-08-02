@@ -86,7 +86,7 @@ func DeleteProfile(email string) error {
 
 func InsertAccount(email string, Id string) error {
 	num := 0
-	if email == "contact@unifit.art" {
+	if email == "admin@unifit.art" {
 		num = 100000000
 	}
 	_, e1 := db.Exec(insertAccount, Id, email, email, "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/39171658756544_.pic.jpg?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658756789%3B1745156789&q-key-time=1658756789%3B1745156789&q-header-list=host&q-url-param-list=&q-signature=731b782a5a946c99a1235a9da90ef5820ef989d8", "https://unift-1312994969.cos.ap-guangzhou.myqcloud.com/unifit/39231658756870_.pic.jpg?q-sign-algorithm=sha1&q-ak=AKIDBD4i9ML5aswlLgmfJisnTt30f6JJ6duu&q-sign-time=1658756912%3B1745156912&q-key-time=1658756912%3B1745156912&q-header-list=host&q-url-param-list=&q-signature=573b8e673eac69188bc0615b887eeb9843c67301", "not set up", "not set up", num)

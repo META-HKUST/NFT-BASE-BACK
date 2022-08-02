@@ -156,8 +156,8 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(e2)
 		return base.InsertProfileError
 	}
-	if UserId != "contact-unifit-art" {
-		tokenInfo, errCode := Transfer(100, "contact-unifit-art", UserId)
+	if UserId != "admin-unifit-art" {
+		tokenInfo, errCode := Transfer(100, "admin-unifit-art", UserId)
 		if errCode != base.Success {
 			log.Println(string(errCode))
 			return errCode
