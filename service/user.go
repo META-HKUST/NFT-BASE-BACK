@@ -140,11 +140,6 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(err)
 		return base.ServerError
 	}
-	log.Println("Register Succeed, email:", p.Email)
-	if err := RegisterEmailToken(p, p.Email); err != base.Success {
-		log.Println(err)
-		return base.InputError
-	}
 
 	//e1 := model.UpdateId(p.Email, UserId)
 	//if e1 != nil {
@@ -178,6 +173,12 @@ func Register(p model.Person) base.ErrCode {
 		return base.Success
 	}
 
+	if err := RegisterEmailToken(p, p.Email); err != base.Success {
+		log.Println(err)
+		return base.InputError
+	}
+
+	log.Println("Register Succeed, email:", p.Email)
 	return base.Success
 }
 

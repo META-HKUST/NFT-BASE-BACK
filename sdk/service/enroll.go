@@ -3,6 +3,7 @@ package service
 import (
 	config_local "NFT-BASE-BACK/config"
 	"errors"
+	"log"
 	"os"
 	"os/exec"
 )
@@ -24,6 +25,7 @@ func Enroll(username string) error {
 		cmd := exec.Command("/bin/bash", "-c", command)
 		_, err = cmd.CombinedOutput()
 		if err != nil {
+			log.Println("enroll user err: ", err)
 			return err
 		}
 		return nil
