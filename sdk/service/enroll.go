@@ -20,7 +20,7 @@ func Enroll(username string) error {
 		return err1
 
 	} else {
-		command := "/home/fabric_release/01_Fabric/NFT-BASE-FABRIC/tools/03_enroll_user.sh "
+		command := "/home/fabric_release/01_Fabric/NFT-BASE-FABRIC/tools_1/03_enroll_user.sh "
 		command += username
 		cmd := exec.Command("/bin/bash", "-c", command)
 		_, err = cmd.CombinedOutput()
