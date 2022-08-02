@@ -166,16 +166,17 @@ func Register(p model.Person) base.ErrCode {
 		log.Println(e3)
 		return base.CreateCollectionError
 	}
+
+	if err := RegisterEmailToken(p, p.Email); err != base.Success {
+		log.Println(err)
+		return base.InputError
+	}
+
 	err3 := service.Enroll(UserId)
 	if err3 != nil {
 		// TODO: check why this enroll error happens and if it influence transactions
 		log.Println("Register to Fabric failed: ", err3, " ", UserId)
 		return base.Success
-	}
-
-	if err := RegisterEmailToken(p, p.Email); err != base.Success {
-		log.Println(err)
-		return base.InputError
 	}
 
 	log.Println("Register Succeed, email:", p.Email)
