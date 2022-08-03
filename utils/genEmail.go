@@ -149,7 +149,7 @@ func ResetEmail(ReceiverName string, ReceiverMail string, code string) error {
 
 	host := SenderServer
 	c, err := mail.NewClient(host,
-		mail.WithSMTPAuth(mail.SMTPAuthPlain), mail.WithUsername(Sender),
+		mail.WithSMTPAuth(mail.SMTPAuthLogin), mail.WithUsername(Sender),
 		mail.WithPassword(SenderPasswd), mail.WithTLSPolicy(mail.TLSMandatory), mail.WithPort(SenderPort))
 
 	if err != nil {
