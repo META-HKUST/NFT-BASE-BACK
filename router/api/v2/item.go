@@ -145,7 +145,8 @@ func CreateItem(ctx *gin.Context) {
 	ret, err := model.CreateItem(item)
 	if err != nil {
 		log.Println(err)
-		ctx.JSON(http.StatusInternalServerError, "database error")
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
 		return
 	}
 
@@ -161,7 +162,8 @@ func CreateItem(ctx *gin.Context) {
 		_, err = model.CreateItemLabel(itemLabel)
 		if err != nil {
 			log.Println(err)
-			ctx.JSON(http.StatusInternalServerError, "database error")
+			resp := base.Response{}
+			ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
 			return
 		}
 	}

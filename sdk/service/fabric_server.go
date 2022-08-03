@@ -3,6 +3,7 @@ package service
 import (
 	"NFT-BASE-BACK/sdk/pb"
 	"context"
+	"fmt"
 )
 
 // Copy code from fabricsdk_service_grpc.pb.go
@@ -69,13 +70,18 @@ func (server *FabricServer) GetApproved(ctx context.Context, req *pb.GetApproved
 	// return nil, status.Errorf(codes.Unimplemented, "method GetApproved not implemented")
 }
 func (server *FabricServer) TransferFrom(ctx context.Context, req *pb.TransferFromRequest) (*pb.TransferFromResponse, error) {
-	result, err := Submit(req.Username, "TransferFrom", req.From, req.To, req.TokenId)
+	fmt.Printf("========= %s %s %s", req.From, req.To, req.TokenId)
+	req_From := "x509::CN=" + req.From + ".org1.unifit.com,OU=client,O=Hyperledger,ST=North Carolina,C=US::CN=ca-org1,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US"
+	req_To := "x509::CN=" + req.To + ".org1.unifit.com,OU=client,O=Hyperledger,ST=North Carolina,C=US::CN=ca-org1,OU=Fabric,O=Hyperledger,ST=North Carolina,C=US"
+	fmt.Printf("========= %s %s %s", req_From, req_To, req.TokenId)
+	result, err := Submit(req.Username, "TransferFrom", req_From, req_To, req.TokenId)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.TransferFromResponse{Ok: result}, nil
 	// return nil, status.Errorf(codes.Unimplemented, "method TransferFrom not implemented")
 }
+
 func (server *FabricServer) ClientAccountBalance(ctx context.Context, req *pb.ClientAccountBalanceRequest) (*pb.ClientAccountBalanceResponse, error) {
 	result, err := Evaluate(req.Username, "ClientAccountBalance")
 	if err != nil {
