@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	FrontLink string = ("http://unifit.ust.hk:8889/api/v2/user/activate?token=")
+	FrontLink string = ("https://unifit.ust.hk:8889/api/v2/user/activate?token=")
 
 	SubjectName  string = ("Activate your uNiFiT account!")
 	SubjectName2 string = ("Reset your password")
