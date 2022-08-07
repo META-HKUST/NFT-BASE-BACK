@@ -84,6 +84,11 @@ func Register(p model.Person) base.ErrCode {
 		return base.EmptyInput
 	}
 	//p.ActivateEmailToken()
+	
+	errCode := utils.Check(6, 20, 3, p.Passwd)
+	if errCode != base.Success {
+		return errCode
+	}
 
 	// check email format
 	ret, err := verifier.Verify(p.Email)

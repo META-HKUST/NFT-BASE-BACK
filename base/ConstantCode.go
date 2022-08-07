@@ -40,7 +40,7 @@ const (
 
 	ServerError ErrCode = 2000 // Server Error
 
-	UserIDNotExist         ErrCode = 3000
+	UserIDNotExist         ErrCode = 3000 // user do not exist
 	UserProfileUpdateError ErrCode = 3001 // Update profile failed
 	BalanceNotEnough       ErrCode = 3002 // Sorry, your credit is running low
 	UpdateBalanceError     ErrCode = 3003 //Transfer failed
@@ -51,7 +51,8 @@ const (
 
 	EmptyInput        ErrCode = 1401 // Invalid Input: one of the parameters is empty
 	EmailFormatError  ErrCode = 1402 // Email format invalid or not related to ust email
-	PasswdLengthError ErrCode = 1403 // Passwd not in valid length
+	PasswdLengthError ErrCode = 1403 // Passwd not in valid length: must be 8-20
+	PasswdFormatError ErrCode = 1404 // Passwd not in valid format: must have at least three types of special characters, upper case letters, lower case letters and numbers
 
 	FileTypeError ErrCode = 1501 // Not in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 avi
 	FileSizeError ErrCode = 1502 // File too large or could not parse and obtain file size
@@ -63,4 +64,9 @@ const (
 	PermissionDenied ErrCode = 1701 // only admin accounts could edit act and owner to edit his collection/nft/transfer
 
 	FabricInvokeError ErrCode = 1801 // invoke fabric failed: check backend log or fabric status
+
+	TransferToError     ErrCode = 1901 // User in transfer to field doesn't exist
+	TransferAuthError   ErrCode = 1902 // User in transfer from field doesn't match the item creater
+	TransferOwnerChange ErrCode = 1902 // Only the item with the same owner and creater could be used transfer
+
 )

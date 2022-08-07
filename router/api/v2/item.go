@@ -260,6 +260,22 @@ func EditItem(ctx *gin.Context) {
 	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
 	ownerName, _ := model.GetUserName(itemInfo.OwnerID)
 	createrName, _ := model.GetUserName(itemInfo.CreaterID)
+
+	// check the user and item owner
+	// 通过jwt  email
+	email, ok := ctx.Get("email")
+	if !ok {
+		res := base.Response{}
+		ctx.JSON(http.StatusOK, res.SetCode(base.InputError))
+		return
+	}
+	username := strings.Replace(email.(string), "@", "-", -1)
+	username = strings.Replace(username, ".", "-", -1)
+	if ownerName != username {
+		ctx.JSON(http.StatusBadRequest, resp.SetCode(base.PermissionDenied))
+		return
+	}
+
 	resData := ItemRes{
 		itemInfo,
 		collectionName,
@@ -372,6 +388,25 @@ func TransferItem(ctx *gin.Context) {
 	username := strings.Replace(email.(string), "@", "-", -1)
 	username = strings.Replace(username, ".", "-", -1)
 	log.Println("transfer NFT: ", "from: ", username, ",to: ", username2)
+
+	_, userTo := model.GetUserInfoByID(username2)
+	// 检查传送NFT的username2是否存在
+	if userTo.UserID == "" {
+		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferToError))
+		return
+	}
+	// 检查这个NFT是否是username的
+	item, _ := model.GetItemInfo(req.ItemId)
+	if item.CreaterID != username {
+		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferAuthError))
+		return
+	}
+
+	// 检查NFT的creater和owner是否是一个人
+	if item.CreaterID != item.OwnerID {
+		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferOwnerChange))
+		return
+	}
 
 	// 调用sdk
 	_, err = sdk.Client.TransferFrom(

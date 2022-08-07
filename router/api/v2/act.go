@@ -54,10 +54,10 @@ func PostActCreate(ctx *gin.Context) {
 
 	email := fmt.Sprintf("%v", s)
 
-	//// check if admin account
-	//if email != "1721062927@qq.com" {
-	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
-	//}
+	// check if admin account
+	if email != "admin@unifit.art" {
+		ctx.JSON(http.StatusOK, base.PermissionDenied)
+	}
 
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
@@ -105,10 +105,10 @@ func PostActDelete(ctx *gin.Context) {
 
 	email := fmt.Sprintf("%v", s)
 
-	//// check if admin account
-	//if email != "1721062927@qq.com" {
-	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
-	//}
+	// check if admin account
+	if email != "admin@unifit.art" {
+		ctx.JSON(http.StatusOK, base.PermissionDenied)
+	}
 
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
@@ -160,10 +160,10 @@ func PostActEdit(ctx *gin.Context) {
 
 	email := fmt.Sprintf("%v", s)
 
-	//// check if admin account
-	//if email != "1721062927@qq.com" {
-	//	ctx.JSON(http.StatusOK, base.PermissionDenied)
-	//}
+	// check if admin account
+	if email != "admin@unifit.art" {
+		ctx.JSON(http.StatusOK, base.PermissionDenied)
+	}
 
 	t1 := strings.Replace(email, "@", "-", -1)
 	UserId := strings.Replace(t1, ".", "-", -1)
