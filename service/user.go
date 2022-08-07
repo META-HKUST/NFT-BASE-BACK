@@ -84,7 +84,7 @@ func Register(p model.Person) base.ErrCode {
 		return base.EmptyInput
 	}
 	//p.ActivateEmailToken()
-	
+
 	errCode := utils.Check(6, 20, 3, p.Passwd)
 	if errCode != base.Success {
 		return errCode
@@ -98,11 +98,13 @@ func Register(p model.Person) base.ErrCode {
 	if !ret.Syntax.Valid {
 		return base.EmailFormatError
 	}
-	//// check if using ust email
-	//b1 := strings.Contains(p.Email, "ust.hk")
-	//if b1 == false{
-	//	return base.EmailFormatError
-	//}
+
+	// check if using ust email
+	b1 := strings.Contains(p.Email, "ust.hk")
+	b2 := strings.Contains(p.Email, "ust-gz.edu.cn")
+	if b1 == false && b2 == false {
+		return base.EmailFormatError
+	}
 
 	// check passwd length
 	//l3 := strings.Count(p.Passwd, "") - 1
