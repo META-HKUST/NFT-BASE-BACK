@@ -1,13 +1,13 @@
 CREATE TABLE `login`(
     `email` VARCHAR(255) NOT NULL unique,
     `passwd` VARCHAR(255) NOT NULL,
-    
+
     `emailToken` VARCHAR(255),
     `genTime` DATETIME,
     `activated` VARCHAR(20),
     `verify_code` VARCHAR(255),
     `codeTime` DATETIME,
-    
+
     `user_id` VARCHAR(255) unique,
     PRIMARY KEY (`email`)
 );
@@ -102,7 +102,7 @@ CREATE TABLE `action_item` (
 );
 
 CREATE TABLE `action_items` (
-  `item_id` varchar(255) PRIMARY KEY,
+  `item_id` varchar(255),
   `item_name` varchar(255) NOT NULL,
   `collection_id` bigint NOT NULL,
   `item_data` text NOT NULL,

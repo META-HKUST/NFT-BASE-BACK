@@ -51,7 +51,7 @@ const (
 
 	EmptyInput        ErrCode = 1401 // Invalid Input: one of the parameters is empty
 	EmailFormatError  ErrCode = 1402 // Email format invalid or not related to ust email
-	PasswdLengthError ErrCode = 1403 // Passwd not in valid length: must be 8-20
+	PasswdLengthError ErrCode = 1403 // Passwd not in valid length: must be 6-20
 	PasswdFormatError ErrCode = 1404 // Passwd not in valid format: must have at least three types of special characters, upper case letters, lower case letters and numbers
 
 	FileTypeError ErrCode = 1501 // Not in format file type, recommended: jpg png jpeg gif jfif webp mp3 flac mp4 avi
