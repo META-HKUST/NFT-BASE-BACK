@@ -38,12 +38,18 @@ func startGinServer() {
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 	model.InitDB(config.CONFIG)
 	sdk.InitClient()
-	httprouter := router.InitRouter()
-	//err = router.RunTLS("unifit.ust.hk:"+config.CONFIG.GinPort, "config/ssl.pem", "config/ssl.key")
-	//if err != nil {
-	//	return
-	//}
-	err = httprouter.Run(":8889")
+
+	//// use http
+	//err = httprouter.Run(":8889")
+	//httprouter := router.InitRouter()
+
+	// use https
+	router := router.InitRouter()
+	err = router.RunTLS("unifit.ust.hk:"+config.CONFIG.GinPort, "config/ssl.pem", "config/ssl.key")
+	if err != nil {
+		return
+	}
+
 	if err != nil {
 		return
 	}
@@ -81,4 +87,17 @@ func main() {
 	} else if strings.ToLower(*serverType) == "grpc" {
 		startGRPCServer()
 	}
+
+	//r := gin.Default()
+	//r.GET("/test", func(c *gin.Context) {
+	//	c.String(200, "test for 【%s】", "https")
+	//})
+	//
+	//if isHttps {
+	//	r.Use(TlsHandler(8000))
+	//
+	//	return r.RunTLS(":"+strconv.Itoa(8000), "/path/to/test.pem", "/path/to/test.key")
+	//}
+	//
+	//return r.Run(":" + strconv.Itoa(8000))
 }
