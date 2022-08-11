@@ -47,7 +47,15 @@ var (
 	getVerifyCode     = string("select verify_code from login where email=?;")
 	updateResetPasswd = string("update login set passwd=? where email=?;")
 
-	insertAccount = string("insert into accounts(user_id,email,user_name,banner_image,logo_image,poison,organization,token) values(?,?,?,?,?,?,?,?);")
+	insertAccount   = string("insert into accounts(user_id,email,user_name,banner_image,logo_image,poison,organization,token) values(?,?,?,?,?,?,?,?);")
+	insertWhiteList = string("insert into white_list(email) values(?);")
+	insertBlackList = string("insert into black_list(email) values(?);")
+	queryWhite      = string("select email from white_list where email=?;")
+	queryBlack      = string("select email from black_list where email=?;")
+	deleteWhite     = string("DELETE FROM white_list WHERE email=?;")
+	deleteBlack     = string("DELETE FROM black_list WHERE email=?;")
+	getWhiteList    = string("select email FROM white_list;")
+	getBlackList    = string("select email FROM black_list;")
 )
 
 // 连接池设为最大100，空闲最大20，可以调整
@@ -65,6 +73,91 @@ func InitDB(config config.Config) {
 	}
 	db.SetMaxOpenConns(100)
 	db.SetConnMaxIdleTime(20)
+}
+
+func QueryWhite(email string) (error, bool) {
+	var g string
+	err := db.Get(&g, queryWhite, email)
+
+	if err != nil {
+		log.Println(err)
+		return err, false
+	}
+
+	if g == email {
+		return nil, true
+	}
+
+	return nil, false
+}
+
+func QueryBlack(email string) (error, bool) {
+	var g string
+	err := db.Get(&g, queryBlack, email)
+
+	if err != nil {
+		log.Println(err)
+		return err, false
+	}
+
+	if g == email {
+		return nil, true
+	}
+
+	return nil, false
+}
+
+func AddWhiteList(email string) error {
+	_, e1 := db.Exec(insertWhiteList, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	return nil
+}
+
+func AddBlackList(email string) error {
+	_, e1 := db.Exec(insertBlackList, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	return nil
+}
+
+func DeleteWhite(email string) error {
+	_, e1 := db.Exec(deleteWhite, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	return nil
+}
+func DeleteBlack(email string) error {
+	_, e1 := db.Exec(deleteBlack, email)
+	if e1 != nil {
+		log.Println(e1)
+		return e1
+	}
+	return nil
+}
+
+func GetWhiteList() ([]string, error) {
+	var EmailSlice []string
+	err := db.Select(&EmailSlice, getWhiteList)
+	if err != nil {
+		return []string{}, err
+	}
+	return EmailSlice, nil
+}
+
+func GetBlackList() ([]string, error) {
+	var EmailSlice []string
+	err := db.Select(&EmailSlice, getBlackList)
+	if err != nil {
+		return []string{}, err
+	}
+	return EmailSlice, nil
 }
 
 func DeleteUser(email string) error {
@@ -197,6 +290,7 @@ func GetGenTime(token string) (error, string) {
 	}
 	return nil, g
 }
+
 func GetCodeTime(email string) (error, string) {
 	var g string
 	err := db.Get(&g, queryCodetime, email)

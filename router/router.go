@@ -87,6 +87,15 @@ func InitRouter() *gin.Engine {
 		uploadRouter.POST("/cos", v2.UploadToCos)
 		uploadRouter.POST("/ipfs-and-cos", v2.UploadToIpfs)
 	}
+	UserListRouter := routerV2.Group("/userList")
+	{
+		UserListRouter.POST("/add_white", mw.JWTAuth(), v2.AddWhiteList)
+		UserListRouter.POST("/add_black", mw.JWTAuth(), v2.AddBlackList)
+		UserListRouter.POST("/delete_white", mw.JWTAuth(), v2.DeleteWhiteList)
+		UserListRouter.POST("/delete_black", mw.JWTAuth(), v2.DeleteBlackList)
+		UserListRouter.GET("/search_white", mw.JWTAuth(), v2.SearchWhiteList)
+		UserListRouter.GET("/search_black", mw.JWTAuth(), v2.SearchBlackList)
+	}
 	routerV2.GET("/metadata", v2.GetMetaInfo)
 	return router
 }

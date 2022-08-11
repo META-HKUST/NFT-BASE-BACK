@@ -40,8 +40,8 @@ func startGinServer() {
 	sdk.InitClient()
 
 	//// use http
-	//err = httprouter.Run(":8889")
 	//httprouter := router.InitRouter()
+	//err = httprouter.Run(":8889")
 
 	// use https
 	router := router.InitRouter()

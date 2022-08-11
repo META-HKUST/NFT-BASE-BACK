@@ -99,10 +99,11 @@ func Register(p model.Person) base.ErrCode {
 		return base.EmailFormatError
 	}
 
-	// check if using ust email
+	// check if using ust email and if whitelist/blacklist
 	b1 := strings.Contains(p.Email, "ust.hk")
 	b2 := strings.Contains(p.Email, "ust-gz.edu.cn")
-	if b1 == false && b2 == false {
+	_, b3 := model.QueryWhite(p.Email)
+	if b1 == false && b2 == false && b3 == false {
 		return base.EmailFormatError
 	}
 
@@ -118,7 +119,7 @@ func Register(p model.Person) base.ErrCode {
 
 	p1, _ := model.GetPerson(p.Email)
 	log.Println(p.Email, " registering, get sql info: ", p1, " ", UserId)
-	if p1.Email == p.Email && p1.Activated == "no" {
+	if (p1.Email == p.Email && p1.Activated == "no") || p1.Email == "" {
 		log.Println("delete account,profile,collection of : ", p.Email)
 		_ = model.DeleteUser(p.Email)
 		_ = model.DeleteProfile(p.Email)
@@ -153,6 +154,7 @@ func Register(p model.Person) base.ErrCode {
 	//	log.Println(e1)
 	//	return base.ServerError
 	//}
+
 	e2 := model.InsertAccount(p.Email, UserId)
 	if e2 != nil {
 		log.Println(e2)

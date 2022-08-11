@@ -1858,6 +1858,274 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/userList/add_black": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/v2.UserListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/userList/add_white": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/v2.UserListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/userList/delete_black": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/v2.UserListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/userList/delete_white": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "parameters": [
+                    {
+                        "description": "邮箱",
+                        "name": "RequestParam",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/v2.UserListReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/userList/search_black": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
+        },
+        "/userList/search_white": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userList"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operation Succeed, code: 0 More details please refer to https://elliptic.larksuite.com/wiki/wikusjnG1KzGnrpQdmzjlqxDQVf",
+                        "schema": {
+                            "$ref": "#/definitions/v2.ModelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Input error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err1000"
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "schema": {
+                            "$ref": "#/definitions/v2.Err2000"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2694,6 +2962,15 @@ const docTemplate = `{
                     "example": "Abcd123456"
                 }
             }
+        },
+        "v2.UserListReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "mingzheliu@ust.hk"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -2708,7 +2985,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "unifit.ust.hk:8889",
+	Host:             "localhost:8889",
 	BasePath:         "/api/v2",
 	Schemes:          []string{},
 	Title:            "HKUST-NFT",

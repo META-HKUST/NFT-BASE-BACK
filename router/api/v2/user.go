@@ -248,19 +248,19 @@ func Edit_Profile(ctx *gin.Context) {
 
 	email, ok := ctx.Get("email")
 	if !ok {
-		ctx.JSON(http.StatusInternalServerError, "auth email error")
+		ctx.JSON(http.StatusInternalServerError, res.SetCode(base.InputError))
 		return
 	}
 
 	ctx.BindJSON(&req)
-	fmt.Println(req)
+
 	userinfo, code := model.EditProfile(email.(string), req.User_Name, req.Organization, req.Poison, req.LogoImage, req.BannerImage)
 	if code != base.Success {
-		ctx.JSON(http.StatusInternalServerError, "Failed to edit information")
+		ctx.JSON(http.StatusInternalServerError, res.SetCode(base.ServerError))
 		return
 	}
 	res.Data = userinfo
-	res.Code = 0
+	res.SetCode(base.Success)
 	ctx.JSON(http.StatusOK, res)
 }
 
