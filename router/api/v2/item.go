@@ -397,16 +397,16 @@ func TransferItem(ctx *gin.Context) {
 	}
 	// 检查这个NFT是否是username的
 	item, _ := model.GetItemInfo(req.ItemId)
-	if item.CreaterID != username {
+	if item.OwnerID != username {
 		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferAuthError))
 		return
 	}
-
-	// 检查NFT的creater和owner是否是一个人
-	if item.CreaterID != item.OwnerID {
-		ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferOwnerChange))
-		return
-	}
+	//
+	//// 检查NFT的creater和owner是否是一个人
+	//if item.CreaterID != item.OwnerID {
+	//	ctx.JSON(http.StatusBadRequest, new(base.Response).SetCode(base.TransferOwnerChange))
+	//	return
+	//}
 
 	// 调用sdk
 	_, err = sdk.Client.TransferFrom(
