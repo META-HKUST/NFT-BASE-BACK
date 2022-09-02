@@ -203,7 +203,17 @@ func CreateItem(ctx *gin.Context) {
 		log.Println(err)
 		resp := base.Response{}
 		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
+		return
 	}
+
+	tokenInfo, errCode := service.Transfer(1, username, "admin-unifit-art")
+	if errCode != base.Success {
+		log.Println(string(errCode))
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(errCode))
+		return
+	}
+	log.Println("transfer to ", "admin-unifit-art", "Succeed", ", info:", tokenInfo, " from: ", username)
 
 	// 组装response
 	resp := base.Response{}
@@ -237,6 +247,7 @@ type UpdateParams struct {
 // @Router       /item/edit [POST]
 // @Security ApiKeyAuth
 func EditItem(ctx *gin.Context) {
+
 	var resp base.Response
 	var req EditParams
 
@@ -251,17 +262,10 @@ func EditItem(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, resp.SetCode(base.EmptyInput))
 		return
 	}
+	item1, _ := model.GetItemInfo(req.ItemId)
+	ownerName, _ := model.GetUserName(item1.OwnerID)
 
-	itemInfo, code := service.EditItem(req.ItemId, req.ItemName, req.Description, req.CollectionId, req.Label)
-	if code != base.Success {
-		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
-		return
-	}
-	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
-	ownerName, _ := model.GetUserName(itemInfo.OwnerID)
-	createrName, _ := model.GetUserName(itemInfo.CreaterID)
-
-	// check the user and item owner
+	// check if the user is item owner
 	// 通过jwt  email
 	email, ok := ctx.Get("email")
 	if !ok {
@@ -275,6 +279,15 @@ func EditItem(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, resp.SetCode(base.PermissionDenied))
 		return
 	}
+
+	// modify item info
+	itemInfo, code := service.EditItem(req.ItemId, req.ItemName, req.Description, req.CollectionId, req.Label)
+	if code != base.Success {
+		ctx.JSON(http.StatusBadRequest, resp.SetCode(code))
+		return
+	}
+	collectionName, _ := model.GetCollectionName(itemInfo.CollectionID)
+	createrName, _ := model.GetUserName(itemInfo.CreaterID)
 
 	resData := ItemRes{
 		itemInfo,
@@ -367,6 +380,7 @@ func TransferItem(ctx *gin.Context) {
 		return
 	}
 
+	// username2 是 transfer to的对象
 	email2 := req.ToEmail
 	username2 := strings.Replace(email2, "@", "-", -1)
 	username2 = strings.Replace(username2, ".", "-", -1)
@@ -467,18 +481,30 @@ func TransferItem(ctx *gin.Context) {
 		ownerName,
 		createrName,
 	}
-	// 组装response
+
 	resp := base.Response{}
-	resp.SetCode(base.Success)
-	resp.SetData(resData)
 
 	// add item history
 	err = model.AddTransferHistory(ret.ItemID, username, username2)
 	if err != nil {
 		log.Println(err)
 		ctx.JSON(http.StatusOK, resp.SetCode(base.ServerError))
+		return
 	}
 
+	// token set
+	tokenInfo, errCode := service.Transfer(1, username, "admin-unifit-art")
+	if errCode != base.Success {
+		log.Println(string(errCode))
+		resp := base.Response{}
+		ctx.JSON(http.StatusOK, resp.SetCode(errCode))
+		return
+	}
+	log.Println("transfer to ", "admin-unifit-art", "Succeed", ", info:", tokenInfo, " from: ", username)
+
+	// 组装response
+	resp.SetCode(base.Success)
+	resp.SetData(resData)
 	ctx.JSON(http.StatusOK, resp)
 }
 
